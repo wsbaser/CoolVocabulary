@@ -176,9 +176,14 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\app-vocabulary\app.html" />
+    <Content Include="Scripts\app-vocabulary\vocabulary.js" />
     <Content Include="Scripts\vendor\bootstrap.js" />
     <Content Include="Scripts\vendor\bootstrap.min.js" />
     <None Include="Scripts\vendor\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\vendor\ember\ember-data.js" />
+    <Content Include="Scripts\vendor\ember\ember.js" />
+    <Content Include="Scripts\vendor\ember\handlebars.js" />
     <Content Include="Scripts\vendor\jquery-1.10.2.js" />
     <Content Include="Scripts\vendor\jquery-1.10.2.min.js" />
     <None Include="Scripts\vendor\jquery.validate-vsdoc.js" />
@@ -186,7 +191,6 @@
     <Content Include="Scripts\vendor\jquery.validate.min.js" />
     <Content Include="Scripts\vendor\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\vendor\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\vendor\modernizr-2.6.2.js" />
     <Content Include="Scripts\vendor\respond.js" />
     <Content Include="Scripts\vendor\respond.min.js" />
     <Content Include="Scripts\vendor\_references.js" />
@@ -220,8 +224,15 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Scripts\app-exam\" />
     <Folder Include="Scripts\app-learn\" />
-    <Folder Include="Scripts\app-vocabulary\" />
+    <Folder Include="Scripts\app-vocabulary\components\" />
+    <Folder Include="Scripts\app-vocabulary\controllers\" />
+    <Folder Include="Scripts\app-vocabulary\helpers\" />
+    <Folder Include="Scripts\app-vocabulary\models\" />
+    <Folder Include="Scripts\app-vocabulary\routes\" />
+    <Folder Include="Scripts\app-vocabulary\templates\" />
+    <Folder Include="Scripts\app-vocabulary\views\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
