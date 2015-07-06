@@ -15,6 +15,7 @@
 			border:0;
 			border-bottom: solid 1px #e5e5e5;
 			text-transform: uppercase;
+			background: rgb(235,248,253);
 		}
 		.sp-block td{
 			font-size: 11px;
@@ -33,7 +34,7 @@
 			padding: 0 5px;
 		}
 		.word-translation:hover{
-			background: #eee;
+			background: #f0f0f0;
 		}
 
 		.word,.translation{
@@ -48,7 +49,7 @@
 			cursor: pointer;
 		}
 		.show-details:hover{
-			background: #ddd;
+			background: rgb(240,173,78);
 		}
 
 	</style>
@@ -58,9 +59,29 @@
 			<div class="row">
 				<div class="col-xs-4">
 					<ol class="breadcrumb">
-					  <li><a href="#">{{userName}}</a></li>
-					  <li><a href="#">{{language}}</a></li>
-					  <li class="active">{{coll}}</li>
+					  	<li>{{userName}}</li>
+					  	<li class="dropdown">
+						  <a class="dropdown-toggle" role="button" id="langugesDropdown" data-toggle="dropdown" href="#">
+						    {{language}}
+						    <span class="caret"></span>
+						  </a>
+						  <ul class="dropdown-menu">
+						    <li><a href="#">Es</a></li>
+						    <li><a href="#">Fr</a></li>
+						    <li><a href="#">Pt</a></li>
+						  </ul>
+					  	</li>
+					  	<li class="active dropdown">
+						  	<a class="dropdown-toggle" role="button" id="booksDropdown" data-toggle="dropdown" href="#">
+						    	{{book}}
+						    	<span class="caret"></span>
+						  	</a>
+						  	<ul class="dropdown-menu">
+						    	<li><a href="#">Poliglot</a></li>
+						    	<li><a href="#">Martin Eden</a></li>
+						    	<li><a href="#">1984</a></li>
+						  	</ul>
+					  	</li>
 					</ol>
 				</div>
 				<div class="col-xs-6">
@@ -76,7 +97,7 @@
 				    </div>
 				</div>
 				<div class="col-xs-2">
-					<button class="btn btn-primary" type="button">Learn</button>
+					<button class="btn btn-warning" type="button">Learn</button>
 					<button class="btn btn-primary" type="button">Examenate</button>
 				</div>
 			</div>
@@ -155,7 +176,7 @@
 	Vocabulary.ApplicationController = Ember.Controller.extend({
 		userName:'wsbaser',
 		language:'en',
-		coll:'1984'
+		book:'Stranger in a strange lang'
 	});
 
 	Vocabulary.WordsRoute = Ember.Route.extend({
