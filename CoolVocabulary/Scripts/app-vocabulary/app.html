@@ -3,20 +3,209 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Test Ember 'vocabulary' app</title>
+	<link rel='stylesheet' href='../../Content/bootstrap.min.css' />
 </head>
 <body>
+	<style>
+		.full-height{
+			height:100%;
+		}
+		.sp-header{
+			font-size:14px;
+			border:0;
+			border-bottom: solid 1px #e5e5e5;
+			text-transform: uppercase;
+		}
+		.sp-block td{
+			font-size: 11px;
+		}
+		.words-col{
+			border: 0;
+			border-right: solid 1px #e5e5e5;
+		}
+		.words-col:last-child{
+			border: 0;
+		}
+		.word-translation{
+			display:flex;
+			justify-content:space-between;
+			align-items:center;
+			padding: 0 5px;
+		}
+		.word-translation:hover{
+			background: #eee;
+		}
+
+		.word,.translation{
+			width: 45%;
+			overflow: hidden;
+			text-wrap: nowrap;
+			text-overflow: ellipsis;
+		}
+
+		.show-details{
+			width: 10%;
+			cursor: pointer;
+		}
+		.show-details:hover{
+			background: #ddd;
+		}
+
+	</style>
+
 	<script type='text/x-handlebars' id='application'>
-		My first ember app
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-4">
+					<ol class="breadcrumb">
+					  <li><a href="#">{{userName}}</a></li>
+					  <li><a href="#">{{language}}</a></li>
+					  <li class="active">{{coll}}</li>
+					</ol>
+				</div>
+				<div class="col-xs-6">
+					<div class="input-group">
+				      	<input type="text" class="form-control" placeholder="Word...">
+				      	<span class="input-group-btn">
+				        	<button class="btn btn-info" type="button">Search</button>
+				        	<button class="btn btn-info" type="button">
+				        		<span class="glyphicon glyphicon-add" aria-hidden="true"></span>
+				        		Add
+				        	</button>
+				      	</span>
+				    </div>
+				</div>
+				<div class="col-xs-2">
+					<button class="btn btn-primary" type="button">Learn</button>
+					<button class="btn btn-primary" type="button">Examenate</button>
+				</div>
+			</div>
+		</div>
 		{{outlet}}
 	</script>
-    
-</body>
 
+	<script type='text/x-handlebars' id="components/speachpart-block">
+		<div class="sp-block">
+			<div class="sp-header">{{title}}</div>
+			<table class="table table-striped">
+				{{#each words as |pair|}}
+					<tr class='word-translation'>
+						<td class="word" title='{{word}}'>{{pair.word}}</td>
+						<td class="show-details text-center">...</td>
+						<td class="translation text-right" title='{{translation}}'>{{pair.translation}}</td>
+					</tr>
+				{{/each}}
+			</table>
+		</div>
+	</script>
+
+	<script type='text/x-handlebars' id='words'>
+		<div id="words_container" class="container">
+			<div class="row full-height">
+				<div class="words-col  col-xs-2 full-height">
+					{{speachpart-block title="Pronouns" words=pronouns }}
+					{{speachpart-block title="Prepositions" words=prepositions }}
+					{{speachpart-block title="Conjunctions" words=conjunctions }}
+				</div>
+				<div class="words-col  col-xs-2 full-height">
+					{{speachpart-block title="Nouns" words=nouns }}
+				</div>
+				<div class="words-col  col-xs-2 full-height">
+					{{speachpart-block title="Verbs" words=verbs }}
+				</div>
+				<div class="words-col  col-xs-2 full-height">
+					{{speachpart-block title="Adjectives" words=adjectives }}
+				</div>
+				<div class="words-col  col-xs-2 full-height">
+					{{speachpart-block title="Adverbs" words=adverbs }}
+				</div>
+				<div class="words-col  col-xs-2 full-height">
+					{{speachpart-block title="Articles" words=articles }}
+					{{speachpart-block title="Interjections" words=interjections }}
+				</div>
+			</div>
+		</div>
+	</script>
+
+</body>
 <script src="../vendor/jquery-1.10.2.js"></script>
 <script src="../vendor/ember/ember-template-compiler.js"></script>
 <script src="../vendor/ember/ember.debug.js"></script>
 <script src="../vendor/ember/ember-data.prod.js"></script>
+<script src="../vendor/bootstrap.min.js"></script>
 
 <script src="vocabulary.js"></script>
+
+<script>
+	$(document).ready(function(){
+		function setWordsContainerHeight(){
+			console.log('set height');
+			$('#words_container').css('height',$(window).height()+'px');
+		};
+		$(window).resize(function(){
+			setWordsContainerHeight();
+		});
+		setWordsContainerHeight();
+	});
+
+	Vocabulary.Router.map(function(){
+		this.resource('words',{path:'/'});
+	});
+
+	Vocabulary.ApplicationController = Ember.Controller.extend({
+		userName:'wsbaser',
+		language:'en',
+		coll:'1984'
+	});
+
+	Vocabulary.WordsRoute = Ember.Route.extend({
+		model: function(params){
+			return {
+				pronouns:[
+					{word:'kindergarten', translation:'перевод'},
+					{word:'doppelganger',translation:'перевод'},
+					{word:'I',translation:'Я'},
+					{word:'You',translation:'Ты'},
+					{word:'He',translation:'Он'}],
+				prepositions:[
+					{word:'To',translation:'в'},
+					{word:'At',translation:'на'},
+					{word:'On',translation:'на'}],
+				conjunctions:[
+					{word:'And',translation:'и'},
+					{word:'Or',translation:'или'},
+					{word:'But',translation:'но'}],
+				nouns:[
+					{word:'Dog',translation:'Собака'},
+					{word:'Cat',translation:'Кошка'},
+					{word:'Garden',translation:'Сад'}],
+				verbs:[
+					{word:'Run',translation:'Бежать'},
+					{word:'Go',translation:'Идти'},
+					{word:'Have',translation:'Иметь'}],
+				adjectives:[
+					{word:'Angry',translation:'Сердитый'},
+					{word:'Brave',translation:'Храбрый'},
+					{word:'Healthy',translation:'Здоровый'}],
+				adverbs:[
+					{word:'Badly',translation:'Плохо'},
+					{word:'Fully',translation:'Полностью'},
+					{word:'Hardly',translation:'Едва'}],
+				articles:[
+					{word:'A',translation:''},
+					{word:'The',translation:''},
+					{word:'An',translation:''}],
+				interjections:[
+					{word:'aha!',translation:''},
+					{word:'gosh!',translation:''},
+					{word:'hi!',translation:''}]
+			};
+		}
+	});
+
+	Vocabulary.SpechPartBlock = Ember.Component.extend({
+		words:[]
+	});
+</script>
 
 </html>

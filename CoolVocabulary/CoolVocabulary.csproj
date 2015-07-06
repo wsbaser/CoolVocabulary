@@ -181,9 +181,10 @@
     <Content Include="Scripts\vendor\bootstrap.js" />
     <Content Include="Scripts\vendor\bootstrap.min.js" />
     <None Include="Scripts\vendor\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\vendor\ember\ember-data.js" />
-    <Content Include="Scripts\vendor\ember\ember.js" />
-    <Content Include="Scripts\vendor\ember\handlebars.js" />
+    <Content Include="Scripts\vendor\ember\ember-data.prod.js" />
+    <Content Include="Scripts\vendor\ember\ember-template-compiler.js" />
+    <Content Include="Scripts\vendor\ember\ember.debug.js" />
+    <Content Include="Scripts\vendor\ember\ember.prod.js" />
     <Content Include="Scripts\vendor\jquery-1.10.2.js" />
     <Content Include="Scripts\vendor\jquery-1.10.2.min.js" />
     <None Include="Scripts\vendor\jquery.validate-vsdoc.js" />
