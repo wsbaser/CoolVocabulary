@@ -10,12 +10,19 @@
 		.full-height{
 			height:100%;
 		}
+		.fill-absolute{
+			width:100%;
+			height:100%;
+			position:absolute;
+		}
 		.sp-header{
+			padding-left: 5px;
 			font-size:14px;
 			border:0;
 			border-bottom: solid 1px #e5e5e5;
 			text-transform: uppercase;
 			background: rgb(235,248,253);
+			margin-bottom: 5px;
 		}
 		.sp-block td{
 			font-size: 11px;
@@ -52,10 +59,46 @@
 			background: rgb(240,173,78);
 		}
 
+		/* LEARNING */
+		
+		.flex-centered{
+			display: flex;
+			justify-content:center;
+			align-items:center;
+		}
+
+		.learning-col{
+			position: relative;
+		}
+
+		.stencil{
+		    background:transparent;
+		    display: flex;
+		    z-index: 1989;	/* should overlay learning cards */
+		    flex-direction:column;
+		}
+		.top-block, .bottom-block{
+			opacity:0.2;
+		    flex-grow:1;
+		    background: #000;
+		}
+		.magnifier-block{
+		    background:transparent;
+		    height:150px;
+		    border:solid 2px #999;
+		}
+		  
+		.learning-cards{
+		    z-index: 1988;
+		    background:blue;
+			overflow: hidden;
+		}
+
+
 	</style>
 
 	<script type='text/x-handlebars' id='application'>
-		<div class="container">
+		<div id='toolbox' class="container">
 			<div class="row">
 				<div class="col-xs-4">
 					<ol class="breadcrumb">
@@ -86,9 +129,8 @@
 				</div>
 				<div class="col-xs-6">
 					<div class="input-group">
-				      	<input type="text" class="form-control" placeholder="Word...">
+				      	<input type="text" class="form-control" placeholder="Type word...">
 				      	<span class="input-group-btn">
-				        	<button class="btn btn-info" type="button">Search</button>
 				        	<button class="btn btn-info" type="button">
 				        		<span class="glyphicon glyphicon-add" aria-hidden="true"></span>
 				        		Add
@@ -97,12 +139,16 @@
 				    </div>
 				</div>
 				<div class="col-xs-2">
-					<button class="btn btn-warning" type="button">Learn</button>
-					<button class="btn btn-primary" type="button">Examenate</button>
+					{{#link-to "learn"}}<button class="btn btn-warning" type="button">Learn</button>{{/link-to}}
+					{{#link-to "exam"}}<button class="btn btn-primary" type="button">Examenate</button>{{/link-to}}
 				</div>
 			</div>
 		</div>
-		{{outlet}}
+		<div id="content" class="container">
+			<div class="row full-height">
+			{{outlet}}
+			</div>
+		</div>
 	</script>
 
 	<script type='text/x-handlebars' id="components/speachpart-block">
@@ -121,32 +167,55 @@
 	</script>
 
 	<script type='text/x-handlebars' id='words'>
-		<div id="words_container" class="container">
-			<div class="row full-height">
-				<div class="words-col  col-xs-2 full-height">
-					{{speachpart-block title="Pronouns" words=pronouns }}
-					{{speachpart-block title="Prepositions" words=prepositions }}
-					{{speachpart-block title="Conjunctions" words=conjunctions }}
-				</div>
-				<div class="words-col  col-xs-2 full-height">
-					{{speachpart-block title="Nouns" words=nouns }}
-				</div>
-				<div class="words-col  col-xs-2 full-height">
-					{{speachpart-block title="Verbs" words=verbs }}
-				</div>
-				<div class="words-col  col-xs-2 full-height">
-					{{speachpart-block title="Adjectives" words=adjectives }}
-				</div>
-				<div class="words-col  col-xs-2 full-height">
-					{{speachpart-block title="Adverbs" words=adverbs }}
-				</div>
-				<div class="words-col  col-xs-2 full-height">
-					{{speachpart-block title="Articles" words=articles }}
-					{{speachpart-block title="Interjections" words=interjections }}
-				</div>
-			</div>
+		<div class="words-col  col-xs-2 full-height">
+			{{speachpart-block title="Pronouns" words=pronouns }}
+			{{speachpart-block title="Prepositions" words=prepositions }}
+			{{speachpart-block title="Conjunctions" words=conjunctions }}
+		</div>
+		<div class="words-col  col-xs-2 full-height">
+			{{speachpart-block title="Nouns" words=nouns }}
+		</div>
+		<div class="words-col  col-xs-2 full-height">
+			{{speachpart-block title="Verbs" words=verbs }}
+		</div>
+		<div class="words-col  col-xs-2 full-height">
+			{{speachpart-block title="Adjectives" words=adjectives }}
+		</div>
+		<div class="words-col  col-xs-2 full-height">
+			{{speachpart-block title="Adverbs" words=adverbs }}
+		</div>
+		<div class="words-col  col-xs-2 full-height">
+			{{speachpart-block title="Articles" words=articles }}
+			{{speachpart-block title="Interjections" words=interjections }}
 		</div>
 	</script>
+
+	<script type='text/x-handlebars' id='learn'>
+		<div class="col-xs-2 full-height flex-centered">
+			<button class="btn btn-primary">Previous word</button>
+		</div>
+		<div class="learning-col  col-xs-8 full-height">
+		    <div class="stencil fill-absolute">
+		      <div class="top-block"></div>
+		      <div class="magnifier-block">
+				<div class="learn-toolbox">
+					<button class="btn btn-primary btn-xs">More</button>
+					<button class="btn btn-primary btn-xs">Next</button>
+				</div>
+		      </div>
+		      <div class="bottom-block"></div>
+		    </div>
+		    <div class="learning-cards fill-absolute"></div>
+		</div>
+		<div class="col-xs-2 full-height flex-centered">
+			<button class="btn btn-primary">Next word</button>
+		</div>
+	</script>
+
+	<script type='text/x-handlebars' id='exam'>
+		<h1>Hello from EXAM Route</h1>
+	</script>
+
 
 </body>
 <script src="../vendor/jquery-1.10.2.js"></script>
@@ -159,18 +228,20 @@
 
 <script>
 	$(document).ready(function(){
-		function setWordsContainerHeight(){
+		function setContentHeight(){
 			console.log('set height');
-			$('#words_container').css('height',$(window).height()+'px');
+			$('#content').css('height',$(window).height()-$('#toolbox').height()+'px');
 		};
 		$(window).resize(function(){
-			setWordsContainerHeight();
+			setContentHeight();
 		});
-		setWordsContainerHeight();
+		setContentHeight();
 	});
 
 	Vocabulary.Router.map(function(){
 		this.resource('words',{path:'/'});
+		this.resource('learn');
+		this.resource('exam');
 	});
 
 	Vocabulary.ApplicationController = Ember.Controller.extend({
