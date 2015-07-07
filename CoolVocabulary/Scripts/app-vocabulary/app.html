@@ -7,6 +7,7 @@
 </head>
 <body>
 	<style>
+		/* COMMON */
 		.full-height{
 			height:100%;
 		}
@@ -15,6 +16,17 @@
 			height:100%;
 			position:absolute;
 		}
+
+		.flex-centered{
+			display: flex;
+			justify-content:center;
+			align-items:center;
+		}
+
+		#content{
+			position: relative;
+		}
+
 		.sp-header{
 			padding-left: 5px;
 			font-size:14px;
@@ -60,15 +72,11 @@
 		}
 
 		/* LEARNING */
-		
-		.flex-centered{
-			display: flex;
-			justify-content:center;
-			align-items:center;
-		}
-
 		.learning-col{
 			position: relative;
+			border: solid 1px #e5e5e5;
+			padding:0;
+			width:600px;
 		}
 
 		.stencil{
@@ -78,22 +86,45 @@
 		    flex-direction:column;
 		}
 		.top-block, .bottom-block{
-			opacity:0.2;
 		    flex-grow:1;
-		    background: #000;
 		}
 		.magnifier-block{
-		    background:transparent;
-		    height:150px;
-		    border:solid 2px #999;
+		    height:300px;
+		    position:relative;
+		    border-top: solid 1px #e5e5e5;
+		    background: #FFF;
+		    box-sizing: border-box;
+		    overflow:hidden;
 		}
 		  
 		.learning-cards{
-		    z-index: 1988;
-		    background:blue;
 			overflow: hidden;
 		}
 
+		.learning-cards-shadow{
+			z-index: 1988;
+			opacity: 0.2;
+			overflow: hidden;
+		}
+
+		.learning-card{
+			padding:5px;
+			height: 300px;	/* same size as mignifier window */
+		}
+
+		.learn-toolbox{
+			display:flex;
+		}
+		.learn-toolbox>.btn{
+			flex-grow:1;
+		}
+		.bottom{
+			bottom:0;
+		}
+		.absolute-full-width{
+			position: absolute;
+			width:100%;
+		}
 
 	</style>
 
@@ -145,9 +176,7 @@
 			</div>
 		</div>
 		<div id="content" class="container">
-			<div class="row full-height">
 			{{outlet}}
-			</div>
 		</div>
 	</script>
 
@@ -167,50 +196,74 @@
 	</script>
 
 	<script type='text/x-handlebars' id='words'>
-		<div class="words-col  col-xs-2 full-height">
-			{{speachpart-block title="Pronouns" words=pronouns }}
-			{{speachpart-block title="Prepositions" words=prepositions }}
-			{{speachpart-block title="Conjunctions" words=conjunctions }}
-		</div>
-		<div class="words-col  col-xs-2 full-height">
-			{{speachpart-block title="Nouns" words=nouns }}
-		</div>
-		<div class="words-col  col-xs-2 full-height">
-			{{speachpart-block title="Verbs" words=verbs }}
-		</div>
-		<div class="words-col  col-xs-2 full-height">
-			{{speachpart-block title="Adjectives" words=adjectives }}
-		</div>
-		<div class="words-col  col-xs-2 full-height">
-			{{speachpart-block title="Adverbs" words=adverbs }}
-		</div>
-		<div class="words-col  col-xs-2 full-height">
-			{{speachpart-block title="Articles" words=articles }}
-			{{speachpart-block title="Interjections" words=interjections }}
+		<div class="row full-height">
+			<div class="words-col  col-xs-2 full-height">
+				{{speachpart-block title="Pronouns" words=pronouns }}
+				{{speachpart-block title="Prepositions" words=prepositions }}
+				{{speachpart-block title="Conjunctions" words=conjunctions }}
+			</div>
+			<div class="words-col  col-xs-2 full-height">
+				{{speachpart-block title="Nouns" words=nouns }}
+			</div>
+			<div class="words-col  col-xs-2 full-height">
+				{{speachpart-block title="Verbs" words=verbs }}
+			</div>
+			<div class="words-col  col-xs-2 full-height">
+				{{speachpart-block title="Adjectives" words=adjectives }}
+			</div>
+			<div class="words-col  col-xs-2 full-height">
+				{{speachpart-block title="Adverbs" words=adverbs }}
+			</div>
+			<div class="words-col  col-xs-2 full-height">
+				{{speachpart-block title="Articles" words=articles }}
+				{{speachpart-block title="Interjections" words=interjections }}
+			</div>
 		</div>
 	</script>
 
 	<script type='text/x-handlebars' id='learn'>
-		<div class="col-xs-2 full-height flex-centered">
-			<button class="btn btn-primary">Previous word</button>
-		</div>
-		<div class="learning-col  col-xs-8 full-height">
-		    <div class="stencil fill-absolute">
-		      <div class="top-block"></div>
-		      <div class="magnifier-block">
-				<div class="learn-toolbox">
-					<button class="btn btn-primary btn-xs">More</button>
-					<button class="btn btn-primary btn-xs">Next</button>
+		<div class="flex-centered fill-absolute">
+			<div class="learning-col full-height">
+			    <div class="stencil fill-absolute">
+			      <div class="top-block"></div>
+			      <div class="magnifier-block">
+			      <div class="learning-cards fill-absolute">
+			      <div class="learning-card">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero error repudiandae, quas veritatis cupiditate a architecto eos obcaecati nulla voluptatibus unde quos, vitae reprehenderit illum iure expedita nam quibusdam, praesentium perferendis saepe facilis impedit tempore dignissimos. Debitis eum suscipit totam in, vel nostrum atque dicta, soluta, repellat, cum dignissimos veniam nisi! Tempora voluptatem necessitatibus eum rerum ratione, nihil doloremque doloribus optio inventore aliquam accusamus voluptates suscipit adipisci nulla repellendus quos cupiditate eius odit ex quaerat maiores, distinctio reiciendis blanditiis molestiae sit. Quam, distinctio provident, iure officiis excepturi ab porro sint deleniti, ratione dolorum repudiandae voluptate. Dolore fugiat, officiis libero alias.</div>
+		<div class="learning-card">Voluptates ut totam doloribus, voluptas, beatae dolor possimus rem, quae numquam ipsum recusandae, exercitationem eaque? Porro numquam eius velit! Natus, veniam architecto, vero fugit accusantium ipsum laborum quis cumque minima error reprehenderit quae deleniti nisi veritatis tempore. Ut, nisi eveniet eaque iste beatae facilis, ab libero. Voluptas nobis aliquam repellat placeat impedit quis, et eum sequi temporibus perspiciatis nostrum nulla expedita odio rerum. Assumenda esse nemo, odio reiciendis, nisi a in quo fugit dicta dolorem? Consequatur iusto voluptatum id error, et, eaque eveniet iste nemo fugit, voluptatem dignissimos voluptatibus eligendi repudiandae atque expedita sunt delectus explicabo. Modi beatae eum dolorem.</div>
+		<div class="learning-card">Corporis ullam corrupti, earum aliquid similique sapiente beatae, id inventore amet, architecto ducimus esse repellat magnam, quia quaerat neque. Nihil cumque nesciunt at odio totam, dignissimos velit atque, iure voluptate, architecto aliquid quasi voluptas quisquam dolore dolores, ipsum laborum sed iusto. Pariatur officia nulla tenetur cumque modi maxime ducimus odit obcaecati, vero harum maiores quisquam placeat est minima molestiae temporibus nostrum! Consectetur tenetur illo accusamus officiis quos, doloremque ut sit deserunt, ducimus enim nobis minus tempore qui. Architecto dolore eaque aspernatur, reiciendis sed officia magnam at, necessitatibus, voluptatibus delectus consectetur quidem voluptas repudiandae. Repudiandae, officiis fugit quia distinctio, sequi totam.</div>
+		<div class="learning-card">Consectetur obcaecati laboriosam ut, sit aliquam, praesentium. Rem neque, cumque quibusdam fugiat praesentium fugit quidem, iure corrupti aperiam eum accusamus, expedita quis nam maiores, aliquid eos aut. Iure praesentium ratione quaerat, dolores officia voluptate. Dolore delectus eos molestiae et repellat, pariatur velit error inventore nam praesentium nostrum, iusto mollitia ducimus itaque natus ea recusandae dolorem, corporis illo. Repudiandae ex dolor dolores laudantium sit modi praesentium earum non, omnis nemo nihil aperiam blanditiis, in iure veritatis. Nulla perspiciatis dolor minima incidunt tempore earum iusto repudiandae laudantium quas ullam, illum sunt non vero sint possimus repellendus illo exercitationem voluptas quo, autem recusandae.</div>
+		<div class="learning-card">Vero ducimus dolorem numquam, doloremque neque voluptatum earum harum voluptate, odit excepturi illum saepe iste quisquam voluptates non et possimus impedit expedita atque doloribus nisi repellat sunt quidem. Nulla ratione hic assumenda officia laudantium. Esse et recusandae excepturi voluptates, provident, accusamus, tempore porro libero cumque similique, velit unde expedita iusto nesciunt minima maiores! Rem doloremque reprehenderit aut vel odio, quasi corporis id placeat accusantium quod, accusamus tempora dolorem. Aspernatur veniam cumque inventore repellat qui sapiente dolore molestias fugit esse ut unde ducimus labore quasi quod amet, saepe incidunt vitae maxime totam, voluptatem suscipit. Culpa, error exercitationem dolorum voluptatum quibusdam suscipit!</div>
+		<div class="learning-card">Neque esse doloremque nesciunt minima atque dolorem sapiente commodi expedita eius sed quis consectetur inventore, eum, optio nisi fuga voluptate nostrum itaque officia recusandae delectus eos voluptas rem? Esse ex inventore dolore sunt recusandae animi nemo modi cum, iusto quae architecto nisi sequi adipisci, eveniet, possimus illum voluptatibus. Enim voluptates vitae sunt illo nostrum eius perferendis porro perspiciatis qui iure similique in, reiciendis rem deserunt tempora officia quod ullam error assumenda fugiat cum ad dolores. Libero provident, reprehenderit voluptatem aliquam. Dolor aspernatur modi, inventore unde reiciendis doloremque cum ducimus, labore, quos libero illo dolorem voluptate ab debitis dolorum iusto! Sunt.</div>
+		<div class="learning-card">Optio nesciunt officiis quo quia perspiciatis dolores, incidunt deserunt maxime dignissimos accusantium architecto voluptatem facilis illo, suscipit voluptates fugit quam sit magni laudantium autem quasi, nisi, fugiat odit modi culpa. Aspernatur sapiente voluptate vero reiciendis ea deleniti dolores, sed commodi incidunt. Quo beatae rerum a id eveniet nostrum, tempore dolores officia modi dignissimos sapiente cumque ipsum repellendus vitae voluptatum, incidunt ducimus dicta adipisci hic, voluptate atque nulla maiores quod suscipit. Optio odio, labore harum in facilis maxime molestias asperiores adipisci. Quod id ipsa assumenda praesentium provident cumque, unde hic molestias quam reprehenderit commodi, perspiciatis minus, facere suscipit saepe deleniti numquam.</div>
+		<div class="learning-card">Doloremque nesciunt facilis, ducimus, esse repudiandae tenetur sit placeat dolorum reprehenderit cupiditate inventore. Voluptas facere nulla eum earum voluptates amet, quia assumenda officiis soluta dolorum dolores! Ut ab dolor error, accusamus consequatur alias natus minima earum, mollitia soluta, dolores sint tenetur at fugit. Maiores quaerat, necessitatibus modi neque mollitia totam quae fugit ea dicta aut vel quidem omnis natus porro labore? Nulla laudantium dicta nostrum quam doloremque vel et quos autem inventore esse. Sed iste odio magni cum beatae impedit laboriosam alias optio vero ducimus, voluptatibus, facilis hic. Blanditiis quos pariatur dignissimos, ut, consectetur modi nisi. Possimus labore consequatur blanditiis.</div>
+		<div class="learning-card">Quidem fugit tenetur tempore sint nobis illo. Illum deleniti quaerat rem! Ipsa reiciendis minus, distinctio pariatur fuga sapiente atque aspernatur labore dolor aperiam animi blanditiis in, molestiae illo, similique. Maxime enim officiis iure ex! Optio, saepe? Odio provident distinctio non hic velit, natus dolore, atque fugit expedita beatae quo sint adipisci quisquam repellendus ullam veniam impedit minus doloremque labore quaerat porro libero sequi corporis quos cum? Placeat earum reiciendis nostrum maiores, sint accusamus animi mollitia aut corporis quaerat dolorem et quo maxime consectetur soluta! Asperiores fugiat sequi, deserunt minima veniam tempore temporibus, dolorum possimus magni aliquid suscipit officia. Officia, et?</div>
+		<div class="learning-card">Laudantium numquam voluptatum voluptatem aliquam, saepe quisquam expedita qui ratione quos pariatur. Aperiam vitae, fugiat deleniti impedit atque laborum aliquam nemo qui ullam consectetur architecto alias sequi, suscipit quae pariatur porro optio laboriosam amet commodi, fugit esse distinctio consequatur ad. Veniam qui in deserunt, odit debitis, recusandae! Quia numquam expedita, deleniti suscipit delectus maiores perferendis, illum eum ullam corrupti possimus beatae nesciunt atque et ducimus labore eaque accusantium nisi omnis consequatur hic neque! Officiis nihil earum debitis iste, sapiente voluptatibus optio magnam, provident amet, deserunt fugiat. Quod quibusdam nihil consequuntur, sapiente error obcaecati quaerat culpa nisi beatae expedita voluptatum consectetur?</div>
+					</div>
+			      	<div class="fill-absolute">
+						<div class="learn-toolbox absolute-full-width bottom">
+							<button class="btn btn-info btn-xs">More</button>
+							<button class="btn btn-success btn-xs">Next card</button>
+						</div>
+					</div>
+			      </div>
+			      <div class="bottom-block"></div>
+			    </div>
+			    <div class="learning-cards-shadow fill-absolute">
+	<div class="learning-card">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero error repudiandae, quas veritatis cupiditate a architecto eos obcaecati nulla voluptatibus unde quos, vitae reprehenderit illum iure expedita nam quibusdam, praesentium perferendis saepe facilis impedit tempore dignissimos. Debitis eum suscipit totam in, vel nostrum atque dicta, soluta, repellat, cum dignissimos veniam nisi! Tempora voluptatem necessitatibus eum rerum ratione, nihil doloremque doloribus optio inventore aliquam accusamus voluptates suscipit adipisci nulla repellendus quos cupiditate eius odit ex quaerat maiores, distinctio reiciendis blanditiis molestiae sit. Quam, distinctio provident, iure officiis excepturi ab porro sint deleniti, ratione dolorum repudiandae voluptate. Dolore fugiat, officiis libero alias.</div>
+		<div class="learning-card">Voluptates ut totam doloribus, voluptas, beatae dolor possimus rem, quae numquam ipsum recusandae, exercitationem eaque? Porro numquam eius velit! Natus, veniam architecto, vero fugit accusantium ipsum laborum quis cumque minima error reprehenderit quae deleniti nisi veritatis tempore. Ut, nisi eveniet eaque iste beatae facilis, ab libero. Voluptas nobis aliquam repellat placeat impedit quis, et eum sequi temporibus perspiciatis nostrum nulla expedita odio rerum. Assumenda esse nemo, odio reiciendis, nisi a in quo fugit dicta dolorem? Consequatur iusto voluptatum id error, et, eaque eveniet iste nemo fugit, voluptatem dignissimos voluptatibus eligendi repudiandae atque expedita sunt delectus explicabo. Modi beatae eum dolorem.</div>
+		<div class="learning-card">Corporis ullam corrupti, earum aliquid similique sapiente beatae, id inventore amet, architecto ducimus esse repellat magnam, quia quaerat neque. Nihil cumque nesciunt at odio totam, dignissimos velit atque, iure voluptate, architecto aliquid quasi voluptas quisquam dolore dolores, ipsum laborum sed iusto. Pariatur officia nulla tenetur cumque modi maxime ducimus odit obcaecati, vero harum maiores quisquam placeat est minima molestiae temporibus nostrum! Consectetur tenetur illo accusamus officiis quos, doloremque ut sit deserunt, ducimus enim nobis minus tempore qui. Architecto dolore eaque aspernatur, reiciendis sed officia magnam at, necessitatibus, voluptatibus delectus consectetur quidem voluptas repudiandae. Repudiandae, officiis fugit quia distinctio, sequi totam.</div>
+		<div class="learning-card">Consectetur obcaecati laboriosam ut, sit aliquam, praesentium. Rem neque, cumque quibusdam fugiat praesentium fugit quidem, iure corrupti aperiam eum accusamus, expedita quis nam maiores, aliquid eos aut. Iure praesentium ratione quaerat, dolores officia voluptate. Dolore delectus eos molestiae et repellat, pariatur velit error inventore nam praesentium nostrum, iusto mollitia ducimus itaque natus ea recusandae dolorem, corporis illo. Repudiandae ex dolor dolores laudantium sit modi praesentium earum non, omnis nemo nihil aperiam blanditiis, in iure veritatis. Nulla perspiciatis dolor minima incidunt tempore earum iusto repudiandae laudantium quas ullam, illum sunt non vero sint possimus repellendus illo exercitationem voluptas quo, autem recusandae.</div>
+		<div class="learning-card">Vero ducimus dolorem numquam, doloremque neque voluptatum earum harum voluptate, odit excepturi illum saepe iste quisquam voluptates non et possimus impedit expedita atque doloribus nisi repellat sunt quidem. Nulla ratione hic assumenda officia laudantium. Esse et recusandae excepturi voluptates, provident, accusamus, tempore porro libero cumque similique, velit unde expedita iusto nesciunt minima maiores! Rem doloremque reprehenderit aut vel odio, quasi corporis id placeat accusantium quod, accusamus tempora dolorem. Aspernatur veniam cumque inventore repellat qui sapiente dolore molestias fugit esse ut unde ducimus labore quasi quod amet, saepe incidunt vitae maxime totam, voluptatem suscipit. Culpa, error exercitationem dolorum voluptatum quibusdam suscipit!</div>
+		<div class="learning-card">Neque esse doloremque nesciunt minima atque dolorem sapiente commodi expedita eius sed quis consectetur inventore, eum, optio nisi fuga voluptate nostrum itaque officia recusandae delectus eos voluptas rem? Esse ex inventore dolore sunt recusandae animi nemo modi cum, iusto quae architecto nisi sequi adipisci, eveniet, possimus illum voluptatibus. Enim voluptates vitae sunt illo nostrum eius perferendis porro perspiciatis qui iure similique in, reiciendis rem deserunt tempora officia quod ullam error assumenda fugiat cum ad dolores. Libero provident, reprehenderit voluptatem aliquam. Dolor aspernatur modi, inventore unde reiciendis doloremque cum ducimus, labore, quos libero illo dolorem voluptate ab debitis dolorum iusto! Sunt.</div>
+		<div class="learning-card">Optio nesciunt officiis quo quia perspiciatis dolores, incidunt deserunt maxime dignissimos accusantium architecto voluptatem facilis illo, suscipit voluptates fugit quam sit magni laudantium autem quasi, nisi, fugiat odit modi culpa. Aspernatur sapiente voluptate vero reiciendis ea deleniti dolores, sed commodi incidunt. Quo beatae rerum a id eveniet nostrum, tempore dolores officia modi dignissimos sapiente cumque ipsum repellendus vitae voluptatum, incidunt ducimus dicta adipisci hic, voluptate atque nulla maiores quod suscipit. Optio odio, labore harum in facilis maxime molestias asperiores adipisci. Quod id ipsa assumenda praesentium provident cumque, unde hic molestias quam reprehenderit commodi, perspiciatis minus, facere suscipit saepe deleniti numquam.</div>
+		<div class="learning-card">Doloremque nesciunt facilis, ducimus, esse repudiandae tenetur sit placeat dolorum reprehenderit cupiditate inventore. Voluptas facere nulla eum earum voluptates amet, quia assumenda officiis soluta dolorum dolores! Ut ab dolor error, accusamus consequatur alias natus minima earum, mollitia soluta, dolores sint tenetur at fugit. Maiores quaerat, necessitatibus modi neque mollitia totam quae fugit ea dicta aut vel quidem omnis natus porro labore? Nulla laudantium dicta nostrum quam doloremque vel et quos autem inventore esse. Sed iste odio magni cum beatae impedit laboriosam alias optio vero ducimus, voluptatibus, facilis hic. Blanditiis quos pariatur dignissimos, ut, consectetur modi nisi. Possimus labore consequatur blanditiis.</div>
+		<div class="learning-card">Quidem fugit tenetur tempore sint nobis illo. Illum deleniti quaerat rem! Ipsa reiciendis minus, distinctio pariatur fuga sapiente atque aspernatur labore dolor aperiam animi blanditiis in, molestiae illo, similique. Maxime enim officiis iure ex! Optio, saepe? Odio provident distinctio non hic velit, natus dolore, atque fugit expedita beatae quo sint adipisci quisquam repellendus ullam veniam impedit minus doloremque labore quaerat porro libero sequi corporis quos cum? Placeat earum reiciendis nostrum maiores, sint accusamus animi mollitia aut corporis quaerat dolorem et quo maxime consectetur soluta! Asperiores fugiat sequi, deserunt minima veniam tempore temporibus, dolorum possimus magni aliquid suscipit officia. Officia, et?</div>
+		<div class="learning-card">Laudantium numquam voluptatum voluptatem aliquam, saepe quisquam expedita qui ratione quos pariatur. Aperiam vitae, fugiat deleniti impedit atque laborum aliquam nemo qui ullam consectetur architecto alias sequi, suscipit quae pariatur porro optio laboriosam amet commodi, fugit esse distinctio consequatur ad. Veniam qui in deserunt, odit debitis, recusandae! Quia numquam expedita, deleniti suscipit delectus maiores perferendis, illum eum ullam corrupti possimus beatae nesciunt atque et ducimus labore eaque accusantium nisi omnis consequatur hic neque! Officiis nihil earum debitis iste, sapiente voluptatibus optio magnam, provident amet, deserunt fugiat. Quod quibusdam nihil consequuntur, sapiente error obcaecati quaerat culpa nisi beatae expedita voluptatum consectetur?</div>
 				</div>
-		      </div>
-		      <div class="bottom-block"></div>
-		    </div>
-		    <div class="learning-cards fill-absolute"></div>
-		</div>
-		<div class="col-xs-2 full-height flex-centered">
-			<button class="btn btn-primary">Next word</button>
+			</div>
 		</div>
 	</script>
+
 
 	<script type='text/x-handlebars' id='exam'>
 		<h1>Hello from EXAM Route</h1>
@@ -223,19 +276,15 @@
 <script src="../vendor/ember/ember.debug.js"></script>
 <script src="../vendor/ember/ember-data.prod.js"></script>
 <script src="../vendor/bootstrap.min.js"></script>
+<script src="../vendor/jquery.scrollTo.min.js"></script>
 
 <script src="vocabulary.js"></script>
 
 <script>
 	$(document).ready(function(){
-		function setContentHeight(){
-			console.log('set height');
-			$('#content').css('height',$(window).height()-$('#toolbox').height()+'px');
-		};
 		$(window).resize(function(){
-			setContentHeight();
+			Vocabulary.ApplicationView.setContentHeight();
 		});
-		setContentHeight();
 	});
 
 	Vocabulary.Router.map(function(){
@@ -298,6 +347,55 @@
 	Vocabulary.SpechPartBlock = Ember.Component.extend({
 		words:[]
 	});
+
+	Vocabulary.LearnController = Ember.Controller.extend({
+		cardIndex:0,
+		cards:[],
+		scrollToCard:function(index){
+			if(index<0 || index>(this.get('cards').length-1))
+				return;
+			this.set('cardIndex',index);
+			console.log('scoll to card index: '+index);
+		}
+	});
+
+	Vocabulary.ApplicationView = Ember.View.extend({
+		didInsertElement:function(){
+			this.setContentHeight();
+			$('.learning-cards-shadow').scrollTop(300-$('.stencil>.top-block').height());
+		},
+		setContentHeight:function(){
+			console.log('set height');
+			$('#content').css('height',$(window).height()-$('#toolbox').height()+'px');
+		}
+	});
+
+	Vocabulary.LearnView = Ember.View.extend({
+		didInsertElement: function(){
+			var self = this;
+			$('.learning-col').on('mousewheel', function(event) {
+				//var controller = self.get('controller');
+				//var cardIndex = controller.get('cardIndex');
+				//controller.scrollToCard(event.originalEvent.wheelDeltaY>0?cardIndex+1:cardIndex-1);
+				if(event.originalEvent.wheelDeltaY<0){
+					$('.learning-cards-shadow').scrollTo('+=300px',300);
+					$('.learning-cards').scrollTo('+=300px',300);
+				}else{
+					$('.learning-cards-shadow').scrollTo('-=300px',300);
+					$('.learning-cards').scrollTo('-=300px',300);					
+				}
+ 			// 	var scroll = $('.learning-cards-shadow').scrollTop();
+    //     		$('.learning-cards-shadow').scrollTop(scroll - event.originalEvent.wheelDeltaY);
+				// scroll = $('.learning-cards').scrollTop();
+    //     		$('.learning-cards').scrollTop(scroll - event.originalEvent.wheelDeltaY);
+
+				return true;
+			});
+		},
+		willDesctroyElement: function(){
+			console.log('Learn View is gonna be destroyed');
+		}
+	});	
 </script>
 
 </html>
