@@ -242,7 +242,7 @@
 			      	<div class="fill-absolute">
 						<div class="learn-toolbox absolute-full-width bottom">
 							<button class="btn btn-info btn-xs">More</button>
-							<button class="btn btn-success btn-xs">Next card</button>
+							<button class="btn btn-success btn-xs">Ok, I got it</button>
 						</div>
 					</div>
 			      </div>
@@ -363,10 +363,24 @@
 	window.CARD_HEIGHT = 300;
 
 	Vocabulary.LearnController = Ember.Controller.extend({
-		cardIndex:0,
 		cards:[],
-		cardsOffset:0,
-		scrollToCard: function(index){
+		curCardIndex:0,
+		showNeighbourCard:function(dir){
+			var cardsCount = 10;// this.get('cards').length;
+			var index = this.get('curCardIndex')+dir;
+			console.log('nextCardIndex: '+index);
+			if(index<0||index>=cardsCount)
+				return;
+			this.set('curCardIndex', index);
+			var scrollOffset =
+				(dir>0?
+				'+='+CARD_HEIGHT:
+				'-='+CARD_HEIGHT)+'px';
+			var SCROLL_TIME = 300;	// мс.
+			$('.learning-cards-shadow').scrollTo(scrollOffset, SCROLL_TIME);
+			$('.learning-cards').scrollTo(scrollOffset, SCROLL_TIME);
+		},
+		function(index){
 			if(index<0 || index>(this.get('cards').length-1))
 				return;
 			this.set('cardIndex',index);
@@ -378,27 +392,12 @@
 		didInsertElement: function(){
 			var self = this;
 			$('#content')[0].addEventListener('heightChanged', function(){
-				var newOffset = CARD_HEIGHT-$('.stencil>.top-block').height();
-				var oldOffset = self.get('controller.cardsOffset');
-				console.log('newOffset: ' + newOffset);
-				console.log('oldOffset: ' + oldOffset);
-				if(newOffset!=oldOffset){
-					console.log('scroll cards shadow on '+(newOffset-oldOffset));
-					$('.learning-cards-shadow').scrollTop(newOffset-oldOffset);
-					self.set('controller.cardsOffset', newOffset);
-				}
+				var offset = CARD_HEIGHT-$('.stencil>.top-block').height();
+				console.log('scroll cards shadow to ' + offset);
+				$('.learning-cards-shadow').scrollTop(offset);
 			});
 			$('.learning-col').bind('mousewheel', function(event) {
-				//var controller = self.get('controller');
-				//var cardIndex = controller.get('cardIndex');
-				//controller.scrollToCard(event.originalEvent.wheelDeltaY>0?cardIndex+1:cardIndex-1);
-				if(event.originalEvent.wheelDeltaY<0){
-					$('.learning-cards-shadow').scrollTo('+=300px',300);
-					$('.learning-cards').scrollTo('+=300px',300);
-				}else{
-					$('.learning-cards-shadow').scrollTo('-=300px',300);
-					$('.learning-cards').scrollTo('-=300px',300);					
-				}
+				self.get('controller').showNeighbourCard(event.originalEvent.wheelDeltaY>0?-1:1);
 				return true;
 			});
 		},
