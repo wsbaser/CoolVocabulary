@@ -19,8 +19,8 @@
 
 		.flex-centered{
 			display: flex;
-			justify-content:center;
-			align-items:center;
+			justify-content: center;
+			align-items: center;
 		}
 
 		#content{
@@ -119,13 +119,21 @@
 			flex-grow:1;
 		}
 		.bottom{
-			bottom:0;
+			bottom: 0;
 		}
 		.absolute-full-width{
 			position: absolute;
 			width:100%;
 		}
+		.words-progress{
+			font-size: 16px;
+			padding: 0 20px;
+			vertical-align: middle;
+		}
 
+		.words-nav{
+			line-height:36px;
+		}
 	</style>
 
 	<script type='text/x-handlebars' id='application'>
@@ -158,25 +166,11 @@
 					  	</li>
 					</ol>
 				</div>
-				<div class="col-xs-6">
-					<div class="input-group">
-				      	<input type="text" class="form-control" placeholder="Type word...">
-				      	<span class="input-group-btn">
-				        	<button class="btn btn-info" type="button">
-				        		<span class="glyphicon glyphicon-add" aria-hidden="true"></span>
-				        		Add
-				        	</button>
-				      	</span>
-				    </div>
-				</div>
-				<div class="col-xs-2">
-					{{#link-to "learn"}}<button class="btn btn-success" type="button">Learn</button>{{/link-to}}
-					{{#link-to "exam"}}<button class="btn btn-warning" type="button">Examenate</button>{{/link-to}}
-				</div>
+				{{outlet "toolbox"}}
 			</div>
 		</div>
 		<div id="content" class="container">
-			{{outlet}}
+			{{outlet "content"}}
 		</div>
 	</script>
 
@@ -198,26 +192,45 @@
 	<script type='text/x-handlebars' id='words'>
 		<div class="row full-height">
 			<div class="words-col  col-xs-2 full-height">
-				{{speachpart-block title="Pronouns" words=pronouns }}
-				{{speachpart-block title="Prepositions" words=prepositions }}
-				{{speachpart-block title="Conjunctions" words=conjunctions }}
+				{{speachpart-block title="Pronouns" words=model.pronouns }}
+				{{speachpart-block title="Prepositions" words=model.prepositions }}
+				{{speachpart-block title="Conjunctions" words=model.conjunctions }}
 			</div>
 			<div class="words-col  col-xs-2 full-height">
-				{{speachpart-block title="Nouns" words=nouns }}
+				{{speachpart-block title="Nouns" words=model.nouns }}
 			</div>
 			<div class="words-col  col-xs-2 full-height">
-				{{speachpart-block title="Verbs" words=verbs }}
+				{{speachpart-block title="Verbs" words=model.verbs }}
 			</div>
 			<div class="words-col  col-xs-2 full-height">
-				{{speachpart-block title="Adjectives" words=adjectives }}
+				{{speachpart-block title="Adjectives" words=model.adjectives }}
 			</div>
 			<div class="words-col  col-xs-2 full-height">
-				{{speachpart-block title="Adverbs" words=adverbs }}
+				{{speachpart-block title="Adverbs" words=model.adverbs }}
 			</div>
 			<div class="words-col  col-xs-2 full-height">
-				{{speachpart-block title="Articles" words=articles }}
-				{{speachpart-block title="Interjections" words=interjections }}
+				{{speachpart-block title="Articles" words=model.articles }}
+				{{speachpart-block title="Interjections" words=model.interjections }}
 			</div>
+		</div>
+	</script>
+
+		
+	<script type='text/x-handlebars' id='wordsToolbox'>
+		<div class="col-xs-6">
+			<div class="input-group">
+		      	<input type="text" class="form-control" placeholder="Type word...">
+		      	<span class="input-group-btn">
+		        	<button class="btn btn-info" type="button">
+		        		<span class="glyphicon glyphicon-add" aria-hidden="true"></span>
+		        		Add
+		        	</button>
+		      	</span>
+		    </div>
+		</div>
+		<div class="col-xs-2">
+			{{#link-to "learn"}}<button class="btn btn-success" type="button">Learn</button>{{/link-to}}
+			{{#link-to "exam"}}<button class="btn btn-warning" type="button">Examenate</button>{{/link-to}}
 		</div>
 	</script>
 
@@ -266,6 +279,15 @@
 		</div>
 	</script>
 
+	<script type='text/x-handlebars' id='learnToolbox'>
+		<div class="col-xs-8 text-right">
+			<nav class="words-nav">
+				<button class="btn btn-primary btn-sm" type="button">Previous word</button>
+				<span class="words-progress"><b>8</b> of <b>20</b></span>
+				<button class="btn btn-primary btn-sm" type="button">Next word</button>
+			</nav>
+		</div>
+	</script>
 
 	<script type='text/x-handlebars' id='exam'>
 		<h1>Hello from EXAM Route</h1>
@@ -312,6 +334,10 @@
 	});
 
 	Vocabulary.WordsRoute = Ember.Route.extend({
+		renderTemplate: function() {
+    		this.render('wordsToolbox', { outlet: 'toolbox' });
+    		this.render('words', { outlet: 'content' });
+  		},
 		model: function(params){
 			return {
 				pronouns:[
@@ -361,6 +387,13 @@
 	});
 
 	window.CARD_HEIGHT = 300;
+
+	Vocabulary.LearnRoute = Ember.Route.extend({
+		renderTemplate: function(){
+			this.render('learnToolbox', {outlet:'toolbox'});
+			this.render('learn',{outlet:'content'});
+		}
+	});
 
 	Vocabulary.LearnController = Ember.Controller.extend({
 		cards:[],
