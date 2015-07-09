@@ -155,12 +155,22 @@
 		.speach-part{
 			color: #2d8d17;
   			font-style: italic;
-  			margin-right:2px;
+  			margin-right:4px;
   			font-size: 0.9em;
 		}
 		.word-translations{
 			margin-left: 10px;
 		}
+
+		.word-audio{
+			width:24px;
+			height:24px;
+			display: inline-block;
+			background: url('../../Content/images/sound.png');
+			background-size: contain;
+			vertical-align: -7px;
+		}  
+
 	</style>
 
 	<script type='text/x-handlebars' id='application'>
@@ -276,7 +286,7 @@
 				<div class="word-original-wrap">
 					<span class="word-original">vigil</span>
 					<span class="word-transctiption">[vˈɪdʒɪl]</span>
-					<img class="word-audio" width=24 height=24 src="../../Content/images/sound.png">
+					<span class="word-audio"/>
 				</div>
 				<ul class="word-translations list-unstyled">
 					<li><span class='speach-part'>cущ.</span>дежурство</li>
