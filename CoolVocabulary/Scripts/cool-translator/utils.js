@@ -89,6 +89,10 @@ var strHelper= (function() {
         return text.replace(/^[ \t\r\n]+|[ \t\r\n]+$/, '');
     };
 
+    strHelper.capitalizeFirstLetter=function(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
     return strHelper;
 })();
 

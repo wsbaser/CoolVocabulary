@@ -1,6 +1,6 @@
 var LingualeoServer = function(baseURL) {
 
-    this.loadTranslations = function (originalText, port, callbackSuccess, callbackError) {
+    this.loadTranslationsArticle = function (originalText, port, callbackSuccess, callbackError) {
         var self = this;
         var translateUrl = baseURL + lleo.config.ajax.getTranslations;
         serverHelper.sendPostRequest(translateUrl, {

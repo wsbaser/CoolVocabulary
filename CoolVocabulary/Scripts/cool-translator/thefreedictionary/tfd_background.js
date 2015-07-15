@@ -9,7 +9,7 @@ tfd.init = function(){
 };
 
 tfd.getTranslations = function(data, callback) {
-    tfd.server.loadTranslations(data.word, data.sourceLang, data.targetLang,
+    tfd.server.loadTranslationsArticle(data.word, data.sourceLang, data.targetLang,
         function (response) {
             callback({inputData: data, response: response});
         },

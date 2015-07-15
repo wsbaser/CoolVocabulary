@@ -8,9 +8,21 @@ var serverHelper = (function(){
         var details = {
             'method': method,
             'url': url,
-            'headers': {'Content-Type': 'application/x-www-form-urlencoded'},
             'params': options.params
         };
+        var deferred = $.deferred();
+        
+        $.ajax(url,{
+            'method': method,
+            data: options.params
+        })
+        .done(function(data){
+            deferred.resolve(data);
+        })
+        .fail(function(){
+            
+        })
+        .always();
 
         kango.xhr.send(details, function (data) {
             // . Analyze response
@@ -40,6 +52,8 @@ var serverHelper = (function(){
             if (options.onComplete)
                 options.onComplete(response);
         });
+
+        return deferred.promise();
     }
 
     serverHelper.sendPostRequest = function(url, options) {

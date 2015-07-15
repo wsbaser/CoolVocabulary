@@ -158,7 +158,7 @@ TranslationDialog.prototype.updateSourcesList = function() {
    this.sources = $(ctrContent.sources).grep(function (i, source) {
         return source.supportsLanguagePair(sourceLang, targetLang);
     }).toArray();
-   this.sourceWithActiveLink =this.activeSource =this.sources[0];
+   this.sourceWithActiveLink = this.activeSource = this.sources[0];
     var HTML = $(this.sources).map(function (source) {
         var linkHTML = strHelper.format(TranslationDialog.SOURCE_LINK_TMPL, {'sourceLinkId': source.linkId()});
         linkHTML = strHelper.format(linkHTML,

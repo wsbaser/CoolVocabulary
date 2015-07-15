@@ -15,7 +15,7 @@ lleo.getTranslations = function(data, callback) {
     if (lleo._isTextTooLong(data.word)) {
         callback({inputData: data, 'error': true, 'error_msg': 'Text too long.'});
     } else {
-        lleo.server.loadTranslations(
+        lleo.server.loadTranslationsArticle(
             data.word,
             lleo.serverPort,
             function(result) {

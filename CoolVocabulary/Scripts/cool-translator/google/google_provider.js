@@ -58,7 +58,7 @@ var GoogleServer = function(){
         }
         return jsonObject;
     };
-    this.loadTranslations = function(word, sourceLang,targetLang, callbackSuccess, callbackError) {
+    this.loadTranslationsArticle = function(word, sourceLang,targetLang, callbackSuccess, callbackError) {
         var self = this;
         var translateUrl = google.config.ajax.translate
             .replace('{sourceLang}', sourceLang)

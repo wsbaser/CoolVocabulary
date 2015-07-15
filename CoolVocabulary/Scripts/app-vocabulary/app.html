@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
@@ -173,6 +173,8 @@
 
 	</style>
 
+	div#myid.myclass>(ul>li#myid$$*5)+div
+
 	<script type='text/x-handlebars' id='application'>
 		<div id='toolbox' class="container">
 			<div class="row">
@@ -338,9 +340,9 @@
 
 </body>
 <script src="../vendor/jquery-1.10.2.js"></script>
-<script src="../vendor/ember/ember-template-compiler.js"></script>
-<script src="../vendor/ember/ember.debug.js"></script>
-<script src="../vendor/ember/ember-data.prod.js"></script>
+<script src="http://builds.emberjs.com/release/ember-template-compiler.js"></script>
+<script src="http://builds.emberjs.com/release/ember.debug.js"></script>
+<script src="http://builds.emberjs.com/release/ember-data.prod.js"></script>
 <script src="../vendor/bootstrap.min.js"></script>
 <script src="../vendor/jquery.scrollTo.min.js"></script>
 
@@ -427,8 +429,8 @@
 	Vocabulary.WordsController = Ember.Controller.extend({
 		translator:{},
 		init: function(){
-			this.set('translator', new CoolTranslator());
-		}.on('init');
+			//			this.set('translator', new CoolTranslator());
+		}.on('init'),
 		actions:{
 			addTranslation:function(){
 				this.get('translator').show();

@@ -11,7 +11,7 @@ google.init = function(){
 
 
 google.getTranslations = function(data, callback) {
-    google.server.loadTranslations(data.word, data.sourceLang, data.targetLang,
+    google.server.loadTranslationsArticle(data.word, data.sourceLang, data.targetLang,
         function (response) {
             callback({inputData: data, response: response});
         },
