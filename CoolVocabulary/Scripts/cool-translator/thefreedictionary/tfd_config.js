@@ -25,6 +25,7 @@ var TfdConfig = function() {
         },
         ajax: {
             translate: "http://www.thefreedictionary.com/{word}"
-        }
+        },
+        contentTypes: [ContentTypes.Thesaurus,ContentTypes.Definitions,ContentTypes.VerbTable]
     };
 };

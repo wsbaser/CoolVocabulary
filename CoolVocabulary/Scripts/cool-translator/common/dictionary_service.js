@@ -1,17 +1,17 @@
-function CachedSource(provider, contentTypes){
+function DicionaryService(config, provider, contentTypes){
 	this.provider = provider;
 	this.contentTypes = contentTypes;
 	this.cache = {};
 }
 
-CachedSource.prototype.getRequestDataHash = function(requestName, requestData) {
+DicionaryService.prototype.getRequestDataHash = function(requestName, requestData) {
     var hash = '';
     for (var key in requestData)
         hash += key + ':' + requestData[key] + ',';
     return requestName + ':' + hash.substr(0, hash.length - 1);
 };
 
-CachedSource.prototype.getFromCache = function(requestName, requestData){
+DicionaryService.prototype.getFromCache = function(requestName, requestData){
 	var requestHash = this.getRequestDataHash(requestName, requestData);
 	var data = this.cache[requestHash];
 	if (Object.keys(this.cache).indexOf(requestHash)!=-1) {
@@ -22,7 +22,7 @@ CachedSource.prototype.getFromCache = function(requestName, requestData){
 	return null;
 };
 
-CachedSource.prototype.generateCard = function(contentType, data){
+DicionaryService.prototype.generateCard = function(contentType, data){
     var methodName = 'generate'+ strHelper.capitalizeFirstLetter(contentType) + 'Card';
     var method = this[methodName];
     if(method==null)
@@ -30,7 +30,7 @@ CachedSource.prototype.generateCard = function(contentType, data){
     return this[methodName](data);
 };
 
-AbbySource.prototype.getCards = function(requestData){
+DicionaryService.prototype.getCards = function(requestData){
 	var data = this.getData();
 	var cards = {};
 	for (var contentType in this.contentTypes) {
@@ -46,7 +46,7 @@ AbbySource.prototype.getCards = function(requestData){
 	return cards;
 };
 
-AbbySource.prototype.getData = function(contentType, requestData){
+DicionaryService.prototype.getData = function(contentType, requestData){
 	var data = {};
 	var requestName = this.provider.getRequestName(contentType);
 	data[contentType] = this.getFromCache(requestName, requestData);
@@ -54,4 +54,23 @@ AbbySource.prototype.getData = function(contentType, requestData){
 		data[contentType] = this.provider[requestName](requestData);
 	return data;
 };
+
+/* HELPERS */
+
+DicionaryService.prototype.deactivateLinks = function(rootEl, className) {
+    rootEl.find('.' + className).each(function (i, itemEl) {
+        itemEl.attr('href', 'javascript:void(0)');
+        // itemEl.bind('click', function (e) {
+        //     ctrContent.showDialog(e.target.textContent.trim());
+        // });
+    });
+};
+
+DicionaryService.prototype.set1pxAsSrc = function(rootEl,className) {
+    rootEl.find('.' + className).each(function (i, el) {
+        el.attr('src', "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABBJREFUeNpi+P//PwNAgAEACPwC/tuiTRYAAAAASUVORK5CYII=");
+    }.bind(this));
+}
+
+
 

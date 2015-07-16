@@ -4,15 +4,17 @@
 /**
  * Created by wsbaser on 25.03.2015.
  */
-var TfdServer = function(){
-    this.loadTranslationsArticle = function(word, sourceLang,targetLang, callbackSuccess, callbackError) {
-        var self = this;
-        var translateUrl = tfd.config.ajax.translate
-            .replace('{word}', word);
-        serverHelper.sendGetRequest(translateUrl, {
-            isSilentError: true,
-            onSuccess: callbackSuccess,
-            onError: callbackError
-        });
-    };
+var TfdProvider = function(config){
+    ServiceBase.call(this, config);
+};
+
+TfdProvider.prototype = Object.create(ServiceBase.prototype);
+
+TfdProvider.prototype.getRequestName = function(contentType){
+    this.checkIfContentTypeSupported(contentType);
+    return 'loadWordPage';
+};
+
+TfdProvider.prototype.loadWordPage = function(requestData) {
+    return this.requestPage(this.config.ajax.translate,requestData,'#MainTxt');
 };

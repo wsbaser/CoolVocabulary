@@ -22,6 +22,7 @@ var LinguaLeoConfig = function() {
         targetLanguages: ['ru'],
         priority: 10,
         api: apiHost,
+        serverPort: 1002,
         ajax: {
             isAuthenticated: '/isauthorized',
             getTranslations: '/gettranslates',

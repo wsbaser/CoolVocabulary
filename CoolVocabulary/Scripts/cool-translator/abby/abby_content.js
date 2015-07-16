@@ -32,49 +32,49 @@ extend(AbbySource,SourceWithTabs,(function() {
         }.bind(this));
     }
 
-    function set1pxAsSrc(rootEl,className) {
-        rootEl.find('.' + className).each(function (i, el) {
-            el.setAttribute('src', "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABBJREFUeNpi+P//PwNAgAEACPwC/tuiTRYAAAAASUVORK5CYII=");
-        }.bind(this));
-    }
+    // function set1pxAsSrc(rootEl,className) {
+    //     rootEl.find('.' + className).each(function (i, el) {
+    //         el.setAttribute('src', "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABBJREFUeNpi+P//PwNAgAEACPwC/tuiTRYAAAAASUVORK5CYII=");
+    //     }.bind(this));
+    // }
 
-    function bindLinkTranslation(rootEl, className) {
-        rootEl.find('.' + className).each(function (i, itemEl) {
-            itemEl.attr('href', 'javascript:void(0)');
-            itemEl.bind('click', function (e) {
-                ctrContent.showDialog(e.target.textContent.trim());
-            });
-        });
-    }
+    // function bindLinkTranslation(rootEl, className) {
+    //     rootEl.find('.' + className).each(function (i, itemEl) {
+    //         itemEl.attr('href', 'javascript:void(0)');
+    //         itemEl.bind('click', function (e) {
+    //             ctrContent.showDialog(e.target.textContent.trim());
+    //         });
+    //     });
+    // }
 
     function prepareTranslationsTab(result) {
         var tab = this.tabs.Translations;
 
-        // .create element from response html
-        var responseEl = $(result.response);
+        // // .create element from response html
+        // var responseEl = $(result.response);
 
-        // . retrieve actual subtree
-        var contentEl = responseEl.getElementsByClassName('l-article')[0];
-        if(!contentEl)
-            tab.init(result.inputData, createWarningEl('Translations not found'))
-        else {
-            // . correct transcription image "src" attribute
-            contentEl.find('.l-article__transcription').each(function (i, el) {
-                var transcriptionSrc = this.config.domain + el.getAttribute('src');
-                el.setAttribute('src', transcriptionSrc);
-            }.bind(this));
+        // // . retrieve actual subtree
+        // var contentEl = responseEl.getElementsByClassName('l-article')[0];
+        // if(!contentEl)
+        //     tab.init(result.inputData, createWarningEl('Translations not found'))
+        // else {
+        //     // . correct transcription image "src" attribute
+        //     contentEl.find('.l-article__transcription').each(function (i, el) {
+        //         var transcriptionSrc = this.config.domain + el.getAttribute('src');
+        //         el.setAttribute('src', transcriptionSrc);
+        //     }.bind(this));
 
-            // . Remove navigation panel
-            contentEl.find('.l-article__navpanel').remove();
+        //     // . Remove navigation panel
+        //     contentEl.find('.l-article__navpanel').remove();
 
-            // . Remove title from translations
-            contentEl.find('.l-article__showExamp').each(function (i, itemEl) {
-                itemEl.setAttribute('title', '');
-                itemEl.setAttribute('href', 'javascript:void(0)');
-            });
+        //     // . Remove title from translations
+        //     contentEl.find('.l-article__showExamp').each(function (i, itemEl) {
+        //         itemEl.setAttribute('title', '');
+        //         itemEl.setAttribute('href', 'javascript:void(0)');
+        //     });
 
-            // . Show translation for word
-            bindLinkTranslation(contentEl,'l-article__commentlink');
+        //     // . Show translation for word
+        //     bindLinkTranslation(contentEl,'l-article__commentlink');
 
             // . append new tab content to article element
             tab.init(result.inputData, contentEl,this._addTranslation.createElement());
@@ -88,40 +88,40 @@ extend(AbbySource,SourceWithTabs,(function() {
         var responseEl = $(result.response);
         // . retrieve actual subtree
         var contentEl = responseEl.getElementsByClassName('l-phrases__tblphrase')[0];
-        if (!contentEl)
-            tab.init(result.inputData, createWarningEl('Examples not found'));
-        else {
-            // . correct images "src" attribute
-            set1pxAsSrc.call(this, contentEl, 'g-tblresult__pointer');
-            // . remove last column
-            contentEl.find('.l-phrases__tblphrase__td').remove();
-            // . remove duplicate rows
-            var rows = contentEl.querySelectorAll('.js-phrases-table tr');
-            var prevTransl, prevSrcword;
-            for (var i = 0; i < rows.length; i++) {
-                var srcwordEl = rows[i].querySelector('.srcwords');
-                var translEl = rows[i].querySelector('.transl');
-                if (!srcwordEl || !translEl)
-                    continue;
-                var srcword = srcwordEl.textContent.trim();
-                var transl = translEl.textContent.trim();
-                if (prevTransl === transl && prevSrcword === srcword)
-                    rows[i].remove();
-                prevTransl = transl;
-                prevSrcword = srcword;
-            }
-            bindLinkTranslation(contentEl, 'l-phrases__link');
-            var containerEl = $('<div/>', {'class': 'ctr-phrases-container'});
-            containerEl.appendChild(contentEl);
+        // if (!contentEl)
+        //     tab.init(result.inputData, createWarningEl('Examples not found'));
+        // else {
+        //     // . correct images "src" attribute
+        //     set1pxAsSrc.call(this, contentEl, 'g-tblresult__pointer');
+        //     // . remove last column
+        //     contentEl.find('.l-phrases__tblphrase__td').remove();
+        //     // . remove duplicate rows
+        //     var rows = contentEl.querySelectorAll('.js-phrases-table tr');
+        //     var prevTransl, prevSrcword;
+        //     for (var i = 0; i < rows.length; i++) {
+        //         var srcwordEl = rows[i].querySelector('.srcwords');
+        //         var translEl = rows[i].querySelector('.transl');
+        //         if (!srcwordEl || !translEl)
+        //             continue;
+        //         var srcword = srcwordEl.textContent.trim();
+        //         var transl = translEl.textContent.trim();
+        //         if (prevTransl === transl && prevSrcword === srcword)
+        //             rows[i].remove();
+        //         prevTransl = transl;
+        //         prevSrcword = srcword;
+        //     }
+        //     bindLinkTranslation(contentEl, 'l-phrases__link');
+        //     var containerEl = $('<div/>', {'class': 'ctr-phrases-container'});
+        //     containerEl.appendChild(contentEl);
             // . init tab
             tab.init(result.inputData, containerEl);
         }
     }
-    function createWarningEl(text) {
-        var el = $('<div/>', {'class': 'ctr-tab-warning'});
-        el.innerHTML = text;
-        return el;
-    }
+    // function createWarningEl(text) {
+    //     var el = $('<div/>', {'class': 'ctr-tab-warning'});
+    //     el.innerHTML = text;
+    //     return el;
+    // }
 
     function prepareExamplesTab(result) {
         var tab = this.tabs.Examples;
@@ -129,32 +129,32 @@ extend(AbbySource,SourceWithTabs,(function() {
         var responseEl = $(result.response);
         // . retrieve necessary subtree
         var contentEl = responseEl.getElementsByClassName('l-examples__tblExamp')[0];
-        if (!contentEl)
-            tab.init(result.inputData, createWarningEl('Phrases not found'));
-        else {
-            // . remove 'bad example' button
-            contentEl.find('.l-examples__badexamp').remove();
-            // . correct images "src" attribute
-            set1pxAsSrc.call(this, contentEl, 'l-examples__switchbtn');
-            // . configure
-            contentEl.find('.js-examples-table-switchbtn').each(function (i, btnEl) {
-                btnEl.click(function () {
-                    this.toggleClass('expanded');
-                    var row = this.closest('.js-examples-table-trans');
-                    var sourceEl = row.nextElementSibling.getElementsByClassName('js-examples-table-slidebox')[0];
-                    if (this.hasClass('expanded')) {
-                        this.setAttribute("title", "Hide source");
-                        sourceEl.show();
-                    }
-                    else {
-                        this.setAttribute("title", "Show source");
-                        sourceEl.hide();
-                    }
-                    return false;
-                });
-            });
-            var containerEl = $('<div/>',{'class':'ctr-examples-container'});
-            containerEl.appendChild(contentEl);
+        // if (!contentEl)
+        //     tab.init(result.inputData, createWarningEl('Phrases not found'));
+        // else {
+        //     // . remove 'bad example' button
+        //     contentEl.find('.l-examples__badexamp').remove();
+        //     // . correct images "src" attribute
+        //     set1pxAsSrc.call(this, contentEl, 'l-examples__switchbtn');
+        //     // . configure
+        //     contentEl.find('.js-examples-table-switchbtn').each(function (i, btnEl) {
+        //         btnEl.click(function () {
+        //             this.toggleClass('expanded');
+        //             var row = this.closest('.js-examples-table-trans');
+        //             var sourceEl = row.nextElementSibling.getElementsByClassName('js-examples-table-slidebox')[0];
+        //             if (this.hasClass('expanded')) {
+        //                 this.setAttribute("title", "Hide source");
+        //                 sourceEl.show();
+        //             }
+        //             else {
+        //                 this.setAttribute("title", "Show source");
+        //                 sourceEl.hide();
+        //             }
+        //             return false;
+        //         });
+        //     });
+        //     var containerEl = $('<div/>',{'class':'ctr-examples-container'});
+        //     containerEl.appendChild(contentEl);
             // . init tab
             tab.init(result.inputData, containerEl);
         }

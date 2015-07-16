@@ -173,8 +173,6 @@
 
 	</style>
 
-	div#myid.myclass>(ul>li#myid$$*5)+div
-
 	<script type='text/x-handlebars' id='application'>
 		<div id='toolbox' class="container">
 			<div class="row">
@@ -257,7 +255,7 @@
 		
 	<script type='text/x-handlebars' id='wordsToolbox'>
 		<div class="col-xs-6">
-			<div class="input-group">
+			<div id="word_input_block" class="input-group">
 		      	<input type="text" class="form-control" placeholder="Type word...">
 		      	<span class="input-group-btn">
 		        	<button class="btn btn-info" type="button" {{action "addTranslation"}}>
@@ -280,31 +278,30 @@
 			    	<div class="top-block"></div>
 			    	<div class="magnifier-block">
 			    		<div class="learning-cards fill-absolute">
-		<div class="learning-card">
-			{{word-description}}
-		</div>
-		<div class="learning-card">Voluptates ut totam doloribus, voluptas, beatae dolor possimus rem, quae numquam ipsum recusandae, exercitationem eaque? Porro numquam eius velit! Natus, veniam architecto, vero fugit accusantium ipsum laborum quis cumque minima error reprehenderit quae deleniti nisi veritatis tempore. Ut, nisi eveniet eaque iste beatae facilis, ab libero. Voluptas nobis aliquam repellat placeat impedit quis, et eum sequi temporibus perspiciatis nostrum nulla expedita odio rerum. Assumenda esse nemo, odio reiciendis, nisi a in quo fugit dicta dolorem? Consequatur iusto voluptatum id error, et, eaque eveniet iste nemo fugit, voluptatem dignissimos voluptatibus eligendi repudiandae atque expedita sunt delectus explicabo. Modi beatae eum dolorem.</div>
-		<div class="learning-card">Corporis ullam corrupti, earum aliquid similique sapiente beatae, id inventore amet, architecto ducimus esse repellat magnam, quia quaerat neque. Nihil cumque nesciunt at odio totam, dignissimos velit atque, iure voluptate, architecto aliquid quasi voluptas quisquam dolore dolores, ipsum laborum sed iusto. Pariatur officia nulla tenetur cumque modi maxime ducimus odit obcaecati, vero harum maiores quisquam placeat est minima molestiae temporibus nostrum! Consectetur tenetur illo accusamus officiis quos, doloremque ut sit deserunt, ducimus enim nobis minus tempore qui. Architecto dolore eaque aspernatur, reiciendis sed officia magnam at, necessitatibus, voluptatibus delectus consectetur quidem voluptas repudiandae. Repudiandae, officiis fugit quia distinctio, sequi totam.</div>
-		<div class="learning-card">Consectetur obcaecati laboriosam ut, sit aliquam, praesentium. Rem neque, cumque quibusdam fugiat praesentium fugit quidem, iure corrupti aperiam eum accusamus, expedita quis nam maiores, aliquid eos aut. Iure praesentium ratione quaerat, dolores officia voluptate. Dolore delectus eos molestiae et repellat, pariatur velit error inventore nam praesentium nostrum, iusto mollitia ducimus itaque natus ea recusandae dolorem, corporis illo. Repudiandae ex dolor dolores laudantium sit modi praesentium earum non, omnis nemo nihil aperiam blanditiis, in iure veritatis. Nulla perspiciatis dolor minima incidunt tempore earum iusto repudiandae laudantium quas ullam, illum sunt non vero sint possimus repellendus illo exercitationem voluptas quo, autem recusandae.</div>
-			      	<div class="fill-absolute">
-						<div class="learn-toolbox absolute-full-width bottom">
-							<button class="btn btn-info btn-xs">More</button>
-							<button class="btn btn-success btn-xs">I got it, next...</button>
+							<div class="learning-card">{{word-description}}</div>
+							<div class="learning-card">Voluptates ut totam doloribus, voluptas, beatae dolor possimus rem, quae numquam ipsum recusandae, exercitationem eaque? Porro numquam eius velit! Natus, veniam architecto, vero fugit accusantium ipsum laborum quis cumque minima error reprehenderit quae deleniti nisi veritatis tempore. Ut, nisi eveniet eaque iste beatae facilis, ab libero. Voluptas nobis aliquam repellat placeat impedit quis, et eum sequi temporibus perspiciatis nostrum nulla expedita odio rerum. Assumenda esse nemo, odio reiciendis, nisi a in quo fugit dicta dolorem? Consequatur iusto voluptatum id error, et, eaque eveniet iste nemo fugit, voluptatem dignissimos voluptatibus eligendi repudiandae atque expedita sunt delectus explicabo. Modi beatae eum dolorem.</div>
+							<div class="learning-card">Corporis ullam corrupti, earum aliquid similique sapiente beatae, id inventore amet, architecto ducimus esse repellat magnam, quia quaerat neque. Nihil cumque nesciunt at odio totam, dignissimos velit atque, iure voluptate, architecto aliquid quasi voluptas quisquam dolore dolores, ipsum laborum sed iusto. Pariatur officia nulla tenetur cumque modi maxime ducimus odit obcaecati, vero harum maiores quisquam placeat est minima molestiae temporibus nostrum! Consectetur tenetur illo accusamus officiis quos, doloremque ut sit deserunt, ducimus enim nobis minus tempore qui. Architecto dolore eaque aspernatur, reiciendis sed officia magnam at, necessitatibus, voluptatibus delectus consectetur quidem voluptas repudiandae. Repudiandae, officiis fugit quia distinctio, sequi totam.</div>
+							<div class="learning-card">Consectetur obcaecati laboriosam ut, sit aliquam, praesentium. Rem neque, cumque quibusdam fugiat praesentium fugit quidem, iure corrupti aperiam eum accusamus, expedita quis nam maiores, aliquid eos aut. Iure praesentium ratione quaerat, dolores officia voluptate. Dolore delectus eos molestiae et repellat, pariatur velit error inventore nam praesentium nostrum, iusto mollitia ducimus itaque natus ea recusandae dolorem, corporis illo. Repudiandae ex dolor dolores laudantium sit modi praesentium earum non, omnis nemo nihil aperiam blanditiis, in iure veritatis. Nulla perspiciatis dolor minima incidunt tempore earum iusto repudiandae laudantium quas ullam, illum sunt non vero sint possimus repellendus illo exercitationem voluptas quo, autem recusandae.</div>
+						</div>
+						<div class="fill-absolute">
+							<div class="learn-toolbox absolute-full-width bottom">
+								<button class="btn btn-info btn-xs">More</button>
+								<button class="btn btn-success btn-xs">I got it, next...</button>
+							</div>
 						</div>
 					</div>
-			      </div>
-			      <div class="bottom-block"></div>
+					<div class="bottom-block"></div>
 			    </div>
-			    <div class="learning-cards-shadow fill-absolute">
-		<div class="learning-card">
-		</div>
-		<div class="learning-card">Voluptates ut totam doloribus, voluptas, beatae dolor possimus rem, quae numquam ipsum recusandae, exercitationem eaque? Porro numquam eius velit! Natus, veniam architecto, vero fugit accusantium ipsum laborum quis cumque minima error reprehenderit quae deleniti nisi veritatis tempore. Ut, nisi eveniet eaque iste beatae facilis, ab libero. Voluptas nobis aliquam repellat placeat impedit quis, et eum sequi temporibus perspiciatis nostrum nulla expedita odio rerum. Assumenda esse nemo, odio reiciendis, nisi a in quo fugit dicta dolorem? Consequatur iusto voluptatum id error, et, eaque eveniet iste nemo fugit, voluptatem dignissimos voluptatibus eligendi repudiandae atque expedita sunt delectus explicabo. Modi beatae eum dolorem.</div>
-		<div class="learning-card">Corporis ullam corrupti, earum aliquid similique sapiente beatae, id inventore amet, architecto ducimus esse repellat magnam, quia quaerat neque. Nihil cumque nesciunt at odio totam, dignissimos velit atque, iure voluptate, architecto aliquid quasi voluptas quisquam dolore dolores, ipsum laborum sed iusto. Pariatur officia nulla tenetur cumque modi maxime ducimus odit obcaecati, vero harum maiores quisquam placeat est minima molestiae temporibus nostrum! Consectetur tenetur illo accusamus officiis quos, doloremque ut sit deserunt, ducimus enim nobis minus tempore qui. Architecto dolore eaque aspernatur, reiciendis sed officia magnam at, necessitatibus, voluptatibus delectus consectetur quidem voluptas repudiandae. Repudiandae, officiis fugit quia distinctio, sequi totam.</div>
-		<div class="learning-card">Consectetur obcaecati laboriosam ut, sit aliquam, praesentium. Rem neque, cumque quibusdam fugiat praesentium fugit quidem, iure corrupti aperiam eum accusamus, expedita quis nam maiores, aliquid eos aut. Iure praesentium ratione quaerat, dolores officia voluptate. Dolore delectus eos molestiae et repellat, pariatur velit error inventore nam praesentium nostrum, iusto mollitia ducimus itaque natus ea recusandae dolorem, corporis illo. Repudiandae ex dolor dolores laudantium sit modi praesentium earum non, omnis nemo nihil aperiam blanditiis, in iure veritatis. Nulla perspiciatis dolor minima incidunt tempore earum iusto repudiandae laudantium quas ullam, illum sunt non vero sint possimus repellendus illo exercitationem voluptas quo, autem recusandae.</div>
-		<div class="learning-card"></div>
+	
+		
+				<div class="learning-cards-shadow fill-absolute">
+					<div class="learning-card"></div>
+					<div class="learning-card">Voluptates ut totam doloribus, voluptas, beatae dolor possimus rem, quae numquam ipsum recusandae, exercitationem eaque? Porro numquam eius velit! Natus, veniam architecto, vero fugit accusantium ipsum laborum quis cumque minima error reprehenderit quae deleniti nisi veritatis tempore. Ut, nisi eveniet eaque iste beatae facilis, ab libero. Voluptas nobis aliquam repellat placeat impedit quis, et eum sequi temporibus perspiciatis nostrum nulla expedita odio rerum. Assumenda esse nemo, odio reiciendis, nisi a in quo fugit dicta dolorem? Consequatur iusto voluptatum id error, et, eaque eveniet iste nemo fugit, voluptatem dignissimos voluptatibus eligendi repudiandae atque expedita sunt delectus explicabo. Modi beatae eum dolorem.</div>
+					<div class="learning-card">Corporis ullam corrupti, earum aliquid similique sapiente beatae, id inventore amet, architecto ducimus esse repellat magnam, quia quaerat neque. Nihil cumque nesciunt at odio totam, dignissimos velit atque, iure voluptate, architecto aliquid quasi voluptas quisquam dolore dolores, ipsum laborum sed iusto. Pariatur officia nulla tenetur cumque modi maxime ducimus odit obcaecati, vero harum maiores quisquam placeat est minima molestiae temporibus nostrum! Consectetur tenetur illo accusamus officiis quos, doloremque ut sit deserunt, ducimus enim nobis minus tempore qui. Architecto dolore eaque aspernatur, reiciendis sed officia magnam at, necessitatibus, voluptatibus delectus consectetur quidem voluptas repudiandae. Repudiandae, officiis fugit quia distinctio, sequi totam.</div>
+					<div class="learning-card">Consectetur obcaecati laboriosam ut, sit aliquam, praesentium. Rem neque, cumque quibusdam fugiat praesentium fugit quidem, iure corrupti aperiam eum accusamus, expedita quis nam maiores, aliquid eos aut. Iure praesentium ratione quaerat, dolores officia voluptate. Dolore delectus eos molestiae et repellat, pariatur velit error inventore nam praesentium nostrum, iusto mollitia ducimus itaque natus ea recusandae dolorem, corporis illo. Repudiandae ex dolor dolores laudantium sit modi praesentium earum non, omnis nemo nihil aperiam blanditiis, in iure veritatis. Nulla perspiciatis dolor minima incidunt tempore earum iusto repudiandae laudantium quas ullam, illum sunt non vero sint possimus repellendus illo exercitationem voluptas quo, autem recusandae.</div>
+					<div class="learning-card"></div>
 				</div>
 			</div>
-		</div>
 		</div>
 	</script>
 
@@ -429,7 +426,7 @@
 	Vocabulary.WordsController = Ember.Controller.extend({
 		translator:{},
 		init: function(){
-			//			this.set('translator', new CoolTranslator());
+			this.set('translator', new TranslationDialog('#word_input_block'));
 		}.on('init'),
 		actions:{
 			addTranslation:function(){
@@ -455,7 +452,7 @@
 		cards:[],
 		curCardIndex:0,
 		showNeighbourCard:function(dir){
-			var cardsCount = 10;// this.get('cards').length;
+			var cardsCount = 3;// this.get('cards').length;
 			var index = this.get('curCardIndex')+dir;
 			console.log('nextCardIndex: '+index);
 			if(index<0||index>=cardsCount)

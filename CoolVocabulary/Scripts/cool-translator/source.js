@@ -193,9 +193,9 @@ Source.prototype = (function() {
         isDataEqualTo: function (data) {
             return Dialog.isInputDataEqual(this.data, data);
         },
-        supportsLanguagePair: function (sourceLang, targetLang) {
-            return this.config.sourceLanguages.indexOf(sourceLang) != -1 &&
-                this.config.targetLanguages.indexOf(targetLang) != -1;
+        supportsLanguagePair: function (lp) {
+            return this.config.sourceLanguages.indexOf(lp.sourceLang) != -1 &&
+                this.config.targetLanguages.indexOf(lp.targetLang) != -1;
         },
         linkId: function () {
             return 'ctr_sourcelink_' + this.config.id;

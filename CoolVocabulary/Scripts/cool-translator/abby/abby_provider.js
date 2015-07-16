@@ -9,32 +9,19 @@ function AbbyProvider(config){
 
 AbbyProvider.prototype = Object.create(SourceProvider.prototype);
 
-AbbyProvider.prototype.makeRequest = function(urlTemplate, requestData, responseSelector) {
-    var deferred = $.Deferred();
-    var translateUrl = this.formatRequestUrl(urlTemplate, requestData);
-    $.get(translateUrl).when(function (data) {
-        this.resolveWithJQueryElement(deferred, data, responseSelector);
-    }, function (jqXHR) {
-        this.rejectWithStatusCode(deferred, jqXHR);
-    });
-    return deferred.promise();
-};
-
 AbbyProvider.prototype.getRequestName = function(contentType){
-    var requestName  = 'load'+ strHelper.capitalizeFirstLetter(contentType);
-    if(!this[requestName])
-        throw new Error('Content type ' + contentType + ' not supported');
-    return requestName;
+    this.checkIfContentTypeSupported(contentType);
+    return 'load'+ strHelper.capitalizeFirstLetter(contentType);
 };
 
 AbbyProvider.prototype.loadTranslations = function(requestData) {
-    return this.makeRequest(this.config.ajax.translate, requestData, '.l-article');
+    return this.requestPage(this.config.ajax.translate, requestData, '.l-article');
 };
 
 AbbyProvider.prototype.loadExamples = function(requestData) {
-    return this.makeRequest(this.config.ajax.examples, requestData, '.l-examples__tblExamp');
+    return this.requestPage(this.config.ajax.examples, requestData, '.l-examples__tblExamp');
 };
 
 AbbyProvider.prototype.loadPhrases = function(requestData) {
-    return this.makeRequest(this.config.ajax.phrases, requestData, '.l-phrases__tblphrase');
+    return this.requestPage(this.config.ajax.phrases, requestData, '.l-phrases__tblphrase');
 };

@@ -24,60 +24,51 @@ function TfdSource(config,tabsArr,defaultTabId) {
 
 extend(TfdSource,SourceWithTabs,(function(){
     function configureContent(contentEl) {
-        // . configure pronunciation click event
-        contentEl.find('.pron').each(function (i, pronEl) {
-            var onclickValue = pronEl.attributes['onclick'].value;
-            pronEl.attr('onclick', "");
-            var matchGroups = /pron_key\((\d*)\)/.exec(onclickValue);
-            if (matchGroups) {
-                pronEl.bind('click', function () {
-                    TfdHandlers.pron_key(matchGroups[1] == 1);
-                });
-            }
-        }.bind(this));
+        // // . configure pronunciation click event
+        // contentEl.find('.pron').each(function (i, pronEl) {
+        //     var onclickValue = pronEl.attributes['onclick'].value;
+        //     pronEl.attr('onclick', "");
+        //     var matchGroups = /pron_key\((\d*)\)/.exec(onclickValue);
+        //     if (matchGroups) {
+        //         pronEl.bind('click', function () {
+        //             TfdHandlers.pron_key(matchGroups[1] == 1);
+        //         });
+        //     }
+        // }.bind(this));
 
-        // . configure verb table
-        contentEl.find('.verbtables').each(function (i, verbtableEl) {
-            verbtableEl.attr('onchange', "");
-            verbtableEl.bind('change', function () {
-                TfdHandlers.selectVT(this);
-            });
-        }.bind(this));
+        // // . configure verb table
+        // contentEl.find('.verbtables').each(function (i, verbtableEl) {
+        //     verbtableEl.attr('onchange', "");
+        //     verbtableEl.bind('change', function () {
+        //         TfdHandlers.selectVT(this);
+        //     });
+        // }.bind(this));
 
-        // . collect verb tables and remove them from content
-        var verbtableSectionElems = [];
-        var sectionElems = contentEl.getElementsByTagName('section');
-        for (var i = 0; i < sectionElems.length; i++) {
-            var sectionEl = sectionElems[i];
-            if (sectionEl.attributes['data-src'] &&
-                sectionEl.attributes['data-src'].value.indexOf('VerbTbl') != -1) {
-                sectionEl.remove();
-                verbtableSectionElems.push(sectionEl);
-            }
-        }
+        // // . collect verb tables and remove them from content
+        // var verbtableSectionElems = [];
+        // var sectionElems = contentEl.getElementsByTagName('section');
+        // for (var i = 0; i < sectionElems.length; i++) {
+        //     var sectionEl = sectionElems[i];
+        //     if (sectionEl.attributes['data-src'] &&
+        //         sectionEl.attributes['data-src'].value.indexOf('VerbTbl') != -1) {
+        //         sectionEl.remove();
+        //         verbtableSectionElems.push(sectionEl);
+        //     }
+        // }
 
-        // . move verb tables to its own block
-        if (verbtableSectionElems.length > 0) {
-            var verbTablesEl = $('<div/>',{id:this.tabs.Verbtables.id});
-            contentEl.appendChild(verbTablesEl);
-            for (var i = 0; i < verbtableSectionElems.length; i++)
-                verbTablesEl.appendChild(verbtableSectionElems[i]);
-        }
+        // // . move verb tables to its own block
+        // if (verbtableSectionElems.length > 0) {
+        //     var verbTablesEl = $('<div/>',{id:this.tabs.Verbtables.id});
+        //     contentEl.appendChild(verbTablesEl);
+        //     for (var i = 0; i < verbtableSectionElems.length; i++)
+        //         verbTablesEl.appendChild(verbtableSectionElems[i]);
+        // }
 
-        var translationsEl = contentEl.querySelector('#Translations');
-        if (translationsEl)
-            translationsEl.remove();
+        // var translationsEl = contentEl.querySelector('#Translations');
+        // if (translationsEl)
+        //     translationsEl.remove();
 
-        configureWordLinks(contentEl, 'a');
-    }
-
-    function configureWordLinks(rootEl, selector) {
-        rootEl.find(selector).each(function (i, linkEl) {
-            linkEl.attr('href', 'javascript:void(0)');
-            linkEl.bind('click', function (e) {
-                ctrContent.showDialog(e.target.textContent);
-            });
-        });
+        // configureWordLinks(contentEl, 'a');
     }
 
     function configureNoResultsWarning(responseEl) {
@@ -128,28 +119,6 @@ extend(TfdSource,SourceWithTabs,(function(){
         }
     };
 })());
-
-//===== Content Handlers ===============================================================================================
-
-TfdHandlers={};
-TfdHandlers.pron_key = function(isIPA){
-    var pkw = open('http://www.thefreedictionary.com/_/pk' + (isIPA? '_ipa' : '') + '.htm', 'pk', 'width=' + (isIPA? '800' : '630') + ',height=' + (isIPA == 1 ? '865' : '710') + ',statusbar=0,menubar=0');
-    if (pkw.focus)
-        pkw.focus();
-    return false;
-};
-
-TfdHandlers.selectVT = function(sel) {
-    var v = sel.options[sel.selectedIndex].value;
-    if (v == "0")
-        return;
-    var i = 1, tbl;
-    while ((tbl = document.getElementById("VerbTableN" + v.split("_")[0] + "_" + i)) != undefined) {
-        tbl.className = "prettytable hiddenStructure";
-        i++;
-    }
-    document.getElementById("VerbTableN" + v).className = "prettytable";
-};
 
 //======================================================================================================================
 
