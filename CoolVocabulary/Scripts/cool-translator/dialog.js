@@ -1,4 +1,72 @@
-/***** Dialog *********************************************************************************************************/
+/***** TranslationDialogFactory **********************************************************************************************/
+function TranslationDialogFactory(){
+}
+
+TranslationDialogFactory.prototype.initSources = function(isExtension){
+  var arr = 
+    [this.createLLSource(isExtension),
+    this.createAbbySource(isExtension),
+    this.createGoogleSource(isExtension),
+    this.createTfdSource(isExtension)];
+  arr.sort(function (a, b) {
+      return a.config.priority > b.config.priority ? -1 : 1;
+  });
+  var allSources = {};
+  $(all).each(function(i, source) {
+    source.init();
+    allSources[source.config.id] = source;
+  });
+  return allSources;
+};
+
+TranslationDialogFactory.prototype.createAbbySource = function(isExtension){
+  var tabs = [];
+  tabs.push(new Tab(ContentTypes.TRANSLATIONS, { translationSelector:'.l-article__showExamp' }));
+  tabs.push(new Tab(ContentTypes.EXAMPLES));
+  tabs.push(new Tab(ContentTypes.PHRASES));
+  return new Source(AbbyConfig(),tabs,isExtension);
+};
+
+TranslationDialogFactory.prototype.createGoogleSource = function(isExtension){
+  var tabs = [];
+  tabs.push(new Tab(ContentTypes.TRANSLATIONS, { translationSelector:'.gt-baf-word-clickable' }));
+  tabs.push(new Tab(ContentTypes.DEFINITIONS));
+  tabs.push(new Tab(ContentTypes.EXAMPLES));  
+  return new Source(GoogleConfig(), tabs, isExtension);
+};
+
+TranslationDialogFactory.prototype.createTfdSource = function(isExtension){
+  var tabs = [];
+  tabs.push(new Tab(ContentTypes.THESAURUS));
+  tabs.push(new Tab(ContentTypes.DEFINITIONS));
+  tabs.push(new Tab(ContentTypes.VERBTABLE));  
+  return new Source(TfdConfig(), tabs, isExtension);
+};
+
+TranslationDialogFactory.prototype.createLLSource = function(isExtension){
+  var tabs = [];
+  tabs.push(new Tab(ContentTypes.TRANSLATIONS,
+  {
+    translationItemSelector:'.ll-translation-item',
+    translationWordSelector: '.ll-translation-text'
+  }));
+  return new Source(LLConfig(), tabs, isExtension);
+};
+
+TranslationDialogFactory.prototype.createSiteDialog = function(attachBlockSelector, langPair){
+  return new TranslationDialog(this.initSources(false),
+    false,
+    {
+      attachBlockSelector:attachBlockSelector,
+      langPair:langPair
+    });
+};
+
+TranslationDialogFactory.prototype.createExtensionDialog = function(){
+  return new TranslationDialog(this.initSources(true),true);
+};
+
+/***** TranslationDialog *****************************************************************************************************/
 
 function TranslationDialog(allSources, isExtension, options){
     this.allSources = allSources;
@@ -131,7 +199,7 @@ TranslationDialog.prototype.updateSourcesContent = function(force) {
    this.hideLoginForm();
    this.lastRequestData = inputData;
     // . load data for all sources simultaneously
-    dictionaryHelper.each(ctrContent.sources, function (key, source) {
+    $.each(this.allSources, function (key, source) {
         source.loadAndShow(inputData);
     });
     // . but show only active
@@ -141,9 +209,9 @@ TranslationDialog.prototype.updateSourcesContent = function(force) {
 
 TranslationDialog.prototype.showSourceContent = function(source) {
     // . clean up dialog
-   this.sourceContentEl.empty();
+    this.sourceContentEl.empty();
     // . append source elements in dialog
-   this.sourceContentEl.appendChild(source.rootEl);
+    this.sourceContentEl.appendChild(source.rootEl);
     source.adjustArticleHeight();
 };
 

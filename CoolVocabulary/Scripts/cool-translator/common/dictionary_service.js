@@ -30,28 +30,42 @@ DicionaryService.prototype.generateCard = function(contentType, data){
     return this[methodName](data);
 };
 
+/* If service did not recognized word it can provide prompts with similar words */
+DicionaryService.prototype.generatePrompts = function(contentType, data){
+    var methodName = 'generate'+ strHelper.capitalizeFirstLetter(contentType) + 'Prompts';
+    var method = this[methodName];
+    if(this[methodName]==null){
+    	methodName ='generatePrompts'; 
+    	if(this[methodName]==null)
+    		return null;
+    }
+	return this[methodName](data);
+};
+
 DicionaryService.prototype.getCards = function(requestData){
-	var data = this.getData();
 	var cards = {};
 	for (var contentType in this.contentTypes) {
 		var deferred = $.Deferred();
-		cards[contentType] = $.Deferred();
-		data[contentType].done(function(data){
-			deferred.resolve(this.generateCard(contentType,data));
+		cards[contentType] = deferred;
+		var data = this.getData(contentType, requestData);
+		data.done(function(data){
+			deferred.resolve({
+				inputData:requestData,
+				cards: this.generateCard(contentType,data),
+				prompts: this.generatePrompts(contentType,data)});
 		})
-		.fail(function(data){
-			deferred.resolve(generateError(data));
+		.fail(function(error){
+			deferred.resolve(error);
 		});
 	};
 	return cards;
 };
 
 DicionaryService.prototype.getData = function(contentType, requestData){
-	var data = {};
 	var requestName = this.provider.getRequestName(contentType);
-	data[contentType] = this.getFromCache(requestName, requestData);
-	if(data[contentType]==null)
-		data[contentType] = this.provider[requestName](requestData);
+	var data = this.getFromCache(requestName, requestData);
+	if(data==null)
+		data = this.provider[requestName](requestData);
 	return data;
 };
 

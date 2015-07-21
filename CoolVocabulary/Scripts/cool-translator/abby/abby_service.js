@@ -4,24 +4,20 @@
 
 function AbbyService(config, provider){
 	ServiceBase.call(this, config, provider,
-		[ContentTypes.Translations,
-		ContentTypes.Examples,
-		ContentTypes.Phrases]);
+		[ContentTypes.TRANSLATIONS,
+		ContentTypes.EXAMPLES,
+		ContentTypes.PHRASES]);
 };
 
 AbbyService.prototype = Object.create(ServiceBase.prototype);
 
-AbbyService.prototype.createWarningEl = function(text) {
-    var el = $('<div/>', {'class': 'ctr-tab-warning'});
-    el.innerHTML = text;
-    return el;
-};
-
+AbbyService.prototype.generateTranslationsPrompts = function(contentEl){
+    console.error('AbbyService.prototype.generateTranslationsPrompts not implemented');
+    return null;
+}
 
 AbbyService.prototype.generateTranslationsCard = function(contentEl){
-    if(!contentEl)
-    	return this.createWarningEl('Translations not found'));
-    else {
+    if(contentEl){
         // . correct transcription image "src" attribute
         contentEl.find('.l-article__transcription').each(function (i, el) {
             var transcriptionSrc = this.config.domain + el.getAttribute('src');
@@ -39,15 +35,12 @@ AbbyService.prototype.generateTranslationsCard = function(contentEl){
 
         // . deactivate links
         this.deactivateLinks(contentEl,'l-article__commentlink');
-
-        return contentEl;
     }
+    return contentEl;
 };
 
 AbbyService.prototype.generateExamplesCard = function(){
-	if (!contentEl)
-        return this.createWarningEl('Phrases not found');
-    else {
+	if (contentEl){
         // . remove 'bad example' button
         contentEl.find('.l-examples__badexamp').remove();
         // . correct images "src" attribute
@@ -71,14 +64,12 @@ AbbyService.prototype.generateExamplesCard = function(){
         });
         var containerEl = $('<div/>',{'class':'ctr-examples-container'});
         containerEl.append(contentEl);
-        return containerEl;
     }
+    return containerEl;
 };
 
 AbbyService.prototype.generatePhrasesCard = function(contentEl){
-	if (!contentEl)
-		return this.createWarningEl('Examples not found')
-    else {
+	if (contentEl){
         // . correct images "src" attribute
         this.set1pxAsSrc(contentEl, 'g-tblresult__pointer');
         // . remove last column
@@ -101,6 +92,6 @@ AbbyService.prototype.generatePhrasesCard = function(contentEl){
         this.deactivateLink(contentEl, 'l-phrases__link');
         var containerEl = $('<div/>', {'class': 'ctr-phrases-container'});
         containerEl.appendChild(contentEl);
-        return contentEl;
     }
+    return contentEl;
 };

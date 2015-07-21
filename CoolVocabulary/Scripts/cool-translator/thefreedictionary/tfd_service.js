@@ -2,10 +2,38 @@
  * Created by wsbaser on 25.04.2015.
  */
 function TfdService(config, provider){
-	DictionaryService.call(config, provider);
+	DictionaryService.call(this, config, provider,[ContentTypes.THESAURUS,ContentTypes.DEFINITIONS,ContentTypes.VERBTABLE]);
 };
 
 TfdService.prototype = Object.create(DictionaryService.prototype);
+
+TfdService.prototype.generatePrompts = function(contentEl){
+    if (contentEl.textContent.indexOf('Word not found')!=-1) {
+        this._configureNoResultsWarning(contentEl);
+        return contentEl;
+    }
+    else if(contentEl.textContent.indexOf('is not available')!=-1){
+        this._configureNotAvailableWarning(contentEl);
+        return contentEl;
+    }
+    return null;
+};
+
+TfdService.prototype._configureNoResultsWarning = function(responseEl) {
+    var el = responseEl.getElementsByTagName('div')[0];
+    if (el)
+        el.style.setProperty('margin', '6px 0 3px 0', 'important');
+    configureWordLinks(responseEl, 'a');
+};
+
+TfdService.prototype._configureNotAvailableWarning = function(responseEl) {
+    responseEl.find('.br').remove();
+    var el = responseEl.getElementsByTagName('div')[0];
+    el.style.setProperty('margin', '10px 0', 'important');
+    el.find('a').each(function (i, linkEl) {
+        linkEl.setAttribute('target', '_blank');
+    });
+};
 
 TfdService.prototype.generateThesaurusCard = function(contentEl){
 	var thesaurusEl = contentEl.find('#Thesaurus');

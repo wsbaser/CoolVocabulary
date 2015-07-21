@@ -10,7 +10,7 @@
 // @exclude http*://*twitter.com/widgets/*
 // @exclude http*://plusone.google.com/*
 // ==/UserScript==
-var LinguaLeoConfig = function() {
+var LLConfig = function() {
     var cdnHost = 'https://d144fqpiyasmrr.cloudfront.net',
         apiHost = 'https://api.lingualeo.com',
         siteHost = 'https://lingualeo.com';

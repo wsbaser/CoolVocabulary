@@ -12,40 +12,40 @@
  * Created by wsbaser on 20.04.2015.
  */
 
-var dictionaryHelper = (function() {
-    var dictionaryHelper = {};
+// var dictionaryHelper = (function() {
+//     var dictionaryHelper = {};
 
-    // excecute action for each item of dictionary
-    dictionaryHelper.each = function(dict,action) {
-        var keys = Object.keys(dict);
-        for (var i = 0; i < keys.length; i++)
-            action(keys[i], dict[keys[i]]);
-    };
+//     // excecute action for each item of dictionary
+//     dictionaryHelper.each = function(dict,action) {
+//         var keys = Object.keys(dict);
+//         for (var i = 0; i < keys.length; i++)
+//             action(keys[i], dict[keys[i]]);
+//     };
 
-    dictionaryHelper.len = function(dict){
-        return Object.keys(dict).length;
-    };
+//     dictionaryHelper.len = function(dict){
+//         return Object.keys(dict).length;
+//     };
 
-    dictionaryHelper.first = function(dict){
-        var keys = Object.keys(dict);
-        if(keys.length===0)
-            throw new Error('dictionaryHelper.first: Dictionary is empty');
-        return dict[keys[0]];
-    };
+//     dictionaryHelper.first = function(dict){
+//         var keys = Object.keys(dict);
+//         if(keys.length===0)
+//             throw new Error('dictionaryHelper.first: Dictionary is empty');
+//         return dict[keys[0]];
+//     };
 
-    dictionaryHelper.searchFirst = function(dict,isValid) {
-        var keys = Object.keys(dict);
-        for (var i = 0; i < keys.length; i++) {
-            var key = keys[i];
-            var item = dict[key];
-            if (isValid(key, item))
-                return item;
-        }
-        return null;
-    };
+//     dictionaryHelper.searchFirst = function(dict,isValid) {
+//         var keys = Object.keys(dict);
+//         for (var i = 0; i < keys.length; i++) {
+//             var key = keys[i];
+//             var item = dict[key];
+//             if (isValid(key, item))
+//                 return item;
+//         }
+//         return null;
+//     };
 
-    return dictionaryHelper;
-})();
+//     return dictionaryHelper;
+// })();
 
 /***** BROWSER DETECTOR ***********************************************************************************************/
 
@@ -107,17 +107,3 @@ function extend(Child, Parent, additional) {
     for (var x in additional)
         Child.prototype[x] = additional[x];
 };
-
-function notEmpty(obj){
-    return !isEmpty(obj);
-}
-
-function isEmpty(obj) {
-    return length(obj)===0;
-}
-
-function length(obj){
-    if (obj == null) return 0;
-    if (obj.length!=undefined) return obj.length;
-    return Object.keys(obj);
-}

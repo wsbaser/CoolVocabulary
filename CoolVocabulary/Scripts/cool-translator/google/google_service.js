@@ -4,9 +4,9 @@
 
 function GoogleService(config, provider){
     ServiceBase.call(this,config,provider,
-        [ContentTypes.Translations,
-        ContentTypes.Definitions,
-        ContentTypes.Examples]);
+        [ContentTypes.TRANSLATIONS,
+        ContentTypes.DEFINITIONS,
+        ContentTypes.EXAMPLES]);
 };
 
 GoogleService.prototype = Object.create(ServiceBase.prototype);

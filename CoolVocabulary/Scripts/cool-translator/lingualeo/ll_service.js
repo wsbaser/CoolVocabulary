@@ -1,5 +1,5 @@
 function LleoService(config, provider){
-    ServiceBase.call(this,config,provider,[ContentType.Translations]);
+    ServiceBase.call(this,config,provider,[ContentType.TRANSLATIONS]);
 }
 
 LleoService.prototype = Object.create(ServiceBase.prototype);
@@ -75,13 +75,38 @@ LleoService.prototype.getArticleTemplateData = function(response) {
 LleoService.prototype.generateTranslationsCard = function(responseData) {
     // . create content from template
     var html = strHelper.format(LleoService.CARD_TEMPLATE, this.getArticleTemplateData(responseData));
-    return $(html);
+    var cardEl = $(html);
     // . bind events
-    // cardEl.find('#lleo_sound').bind('click', this._playSound);
+    // cardEl.find('#lleo_sound').bind('click', function(){ 
+    //     this.playSound(responseData);
+    // });
     // contentEl.find('#lleo_baseForm').bind('click', LleoHandlers.baseFormClick.bind(this));
     // //Event.add(contentEl.querySelector('#lleo_trans'), 'click', LleoHandlers.clickTranslationsList.bind(this));
     // return contentEl;
 };
+
+
+// LleoHandlers.baseFormClick=function() {
+//     var baseForm = this.responseData.word_forms && this.responseData.word_forms.length ?
+//         this.responseData.word_forms[0].word :
+//         null;
+//     if (baseForm)
+//         ctrContent.showDialog(baseForm);
+//     return false;
+// };
+
+// LleoService.playSound = function(responseData) {
+//     if (ctrContent.canPlayMp3()) {
+//         $('#lleo_player').play();
+//     } else {
+
+//         var url = this.config.path.audio_player + this.responseData.soundUrl;
+//         var htmlFrame = '<iframe src="' + url + '" width="0" height="0" style="width:0 !important; height:0 !important; visibility:hidden !important; border:0 !important; overflow:hidden !important; margin:0 !important; padding:0 !important;" marginwidth="0" marginheight="0" hspace="0" vspace="0" frameborder="0" scrolling="no"></iframe>';
+//         $('#lleo_sound').append(htmlFrame);
+//     }
+//     return false;
+// };
+
 
 LleoService.CARD_TEMPLATE =
 '<div class="{soundUrl?lleo_has_sound:} {hasPic?lleo_has_pic:} {context?lleo_has_context:}">
@@ -121,3 +146,17 @@ LleoService.CARD_TEMPLATE =
         </div>
     </div>
 </div>';
+
+function notEmpty(obj){
+    return !isEmpty(obj);
+}
+
+function isEmpty(obj) {
+    return length(obj)===0;
+}
+
+function length(obj){
+    if (obj == null) return 0;
+    if (obj.length!=undefined) return obj.length;
+    return Object.keys(obj);
+}
