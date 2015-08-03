@@ -8,22 +8,22 @@ function GoogleService(provider){
 
 GoogleService.prototype = Object.create(DictionaryService.prototype);
 
-GoogleService.prototype.generateTranslationsTab = function(data){
-    var translationsListHtml = $(data.entry).map(function (entry) {
-        var reverseTranslationsHtml = $(entry.reverse_translation).map(function (word) {
+GoogleService.prototype.generateTranslationsCard = function(data){
+    var translationsListHtml = $.map(data.entry, function (entry) {
+        var reverseTranslationsHtml = $.map(entry.reverse_translation, function (word) {
             return strHelper.format(GoogleTemplates.REVERSE_TRANSLATION,{word: word});
-        }).toArray().join(', ');
+        }).join(', ');
         return strHelper.format(GoogleTemplates.TRANSLATIONS_ITEM, {
             word: entry.word,
             reverseTranslations: reverseTranslationsHtml
         });
-    }).toArray().join('');
+    }).join('');
     var translationsHtml = strHelper.format(GoogleTemplates.TRANSLATIONS, {
         word: data.word,
         pos: data.pos,
         translationsListHtml: translationsListHtml
     });
-    return $('<section/>',{html:translationsHtml}).html();
+    return $('<section/>',{html:translationsHtml}).outerHTML();
     // translationsListEl.find('.gt-baf-back').each(function(i,linkEl) {
     //     $(linkEl).bind('click', function (e) {
     //         ctrContent.showDialog(e.target.textContent);
@@ -31,18 +31,18 @@ GoogleService.prototype.generateTranslationsTab = function(data){
     // });
 };
 
-GoogleService.prototype.generateDefinitionsTab = function(data){
+GoogleService.prototype.generateDefinitionsCard = function(data){
     var contentEl = null;
     if (data.definitions.length > 0) {
-        var definitionsListHtml = $(data.definitions).map(function (item) {
+        var definitionsListHtml = $.map(data.definitions, function (item) {
             return strHelper.format(GoogleTemplates.DEFINITION_ITEM, {
                 definition: item.definition,
                 example: item.example
             });
-        }).toArray().join('');
+        }).join('');
         var definitionsHtml = strHelper.format(GoogleTemplates.DEFINITIONS, {
-            word: result.response.word,
-            pos: result.response.pos,
+            word: data.word,
+            pos: data.pos,
             definitionsListHtml: definitionsListHtml
         });
         contentEl = $('<section/>', {html: definitionsHtml});
@@ -50,19 +50,19 @@ GoogleService.prototype.generateDefinitionsTab = function(data){
     return contentEl.outerHTML();
 };
 
-GoogleService.prototype.generateExamplesTab = function(data){
+GoogleService.prototype.generateExamplesCard = function(data){
     if (data.examples.length > 0) {
-        var examplesListHtml = $(data.examples).map(function (example) {
+        var examplesListHtml = $.map(data.examples, function (example) {
             return strHelper.format(GoogleTemplates.EXAMPLE_ITEM, {
                 example: example
             });
-        }).toArray().join('');
+        }).join('');
         var examplesHtml = strHelper.format(GoogleTemplates.EXAMPLES, {
             examplesListHtml: examplesListHtml
         });
         contentEl = $('<section/>', {html: examplesHtml});
     }
-    return contentEl.html();
+    return contentEl.outerHTML();
 };
 
 //===== GoogleTemplates ================================================================================================

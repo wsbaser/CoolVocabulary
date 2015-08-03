@@ -21,18 +21,18 @@ LLService.prototype.getTranslationsHtml = function(translations, inDictionary) {
         if (length(translations) > 5)
             translations = translations.slice(0, 5);
 
-        items = $(translations).map(function(item) {
+        items = $.map(translations, function(item) {
             var linkMarker = chrome.extension.getURL('/images/ll/marker.png');
             var indexAttr = ' ind="'+(ind++)+'" ';
-            return '<div class="ll-translation-item" '+indexAttr+'><div class="ll-translation-text" '+indexAttr+'><img class="ll-translation-marker" src="'+linkMarker+'"/><a href="javascript:void 0" '+indexAttr+' >'+htmlHelper.escapeHTML(item.value)+'</a></div><div class="ll-translation-counter">'+item.votes+'</div></div>';
-        }).toArray();
+            return '<div class="ll-translation-item" '+indexAttr+'><div class="ll-translation-text" '+indexAttr+'><img class="ll-translation-marker" src="'+linkMarker+'"/><a href="javascript:void 0" '+indexAttr+' >'+item.value+'</a></div><div class="ll-translation-counter">'+item.votes+'</div></div>';
+        });
     }
     return items.join('');
 };
 
 LLService.prototype.getArticleTemplateData = function(response) {
     var inDict = response.inDictionary;
-    var hasTranslation = notEmpty(response.translations);
+    var hasTranslation = notEmpty(response.translate);
     var originalWord = response.inputData.word;
     var baseForm = null;
     if (notEmpty(response.word_forms)) {
@@ -44,7 +44,7 @@ LLService.prototype.getArticleTemplateData = function(response) {
     if(baseForm)
         resultHint += 'dictionary form:';
     else if(inDict)
-        resultHint += response.translations[0].value;
+        resultHint += response.translate[0].value;
     else if(hasTranslation)
         resultHint='';
     else
@@ -53,14 +53,14 @@ LLService.prototype.getArticleTemplateData = function(response) {
     return {
         imagesUrl:  chrome.extension.getURL('/images'),
         inDict: response.inDictionary,
-        transItems: this.getTranslationsHtml.call(this,response.translations, inDict), //already escaped
+        transItems: this.getTranslationsHtml.call(this,response.translate, inDict), //already escaped
         transcription: response.transcription || '---',
         originalWord: originalWord,
         wordHint: inDict ? 'Open word card on LinguaLeo' : '',
-        soundUrl: response.soundUrl || '',
+        soundUrl: response.sound_url || '',
         soundHint: 'Listen',
-        hasPic: !!response.picUrl,
-        picUrl: response.picUrl || chrome.extension.getURL('/images/blank.gif'),
+        hasPic: !!response.pic_url,
+        picUrl: response.pic_url || chrome.extension.getURL('/images/blank.gif'),
         context: null,
         wordLink: inDict
             ? this.config.domain + templatesHelper.formatStr(this.config.path.wordArticle, {originalWord: originalWord.toLocaleLowerCase()})

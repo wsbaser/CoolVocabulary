@@ -13,13 +13,12 @@ DictionaryService.prototype.getRequestDataHash = function(requestName, requestDa
 
 DictionaryService.prototype.getFromCache = function(requestName, requestData){
 	var requestHash = this.getRequestDataHash(requestName, requestData);
-	var data = this.cache[requestHash];
-	if (Object.keys(this.cache).indexOf(requestHash)!=-1) {
-	    var deferred = $.Deferred();
-	    deferred.resolve(data);
-	    return deferred.promise();
-	}
-	return null;
+	return this.cache[requestHash];
+};
+
+DictionaryService.prototype.saveToCache = function(requestName, requestData, data){
+	var requestHash = this.getRequestDataHash(requestName, requestData);
+	this.cache[requestHash] = data;
 };
 
 DictionaryService.prototype.generateCard = function(contentType, data){
@@ -65,8 +64,10 @@ DictionaryService.prototype.getCards = function(requestData){
 DictionaryService.prototype.getData = function(contentType, requestData){
 	var requestName = this.provider.getRequestName(contentType);
 	var data = this.getFromCache(requestName, requestData);
-	if(data==null)
+	if(data==null){
 		data = this.provider[requestName](requestData);
+		this.saveToCache(requestName, requestData, data);
+	}
 	return data;
 };
 

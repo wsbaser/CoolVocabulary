@@ -4,9 +4,7 @@
     font: 13px/16px Arial,Verdana,Geneva,sans-serif !important;
 }
 
-#abby_article .l-article a,
-#abby_article .ctr-phrases-container a,
-#abby_article .ctr-examples-container a{
+#abby_article a {
     color: #1b75bc !important;
     background: none repeat scroll 0 0 transparent !important;
     font-size: 100% !important;
@@ -15,9 +13,7 @@
     vertical-align: baseline !important;
 }
 
-#abby_article .l-article h2,
-#abby_article .ctr-phrases-container h2,
-#abby_article .ctr-examples-container h2{
+#abby_article h2{
     font-size: 100% !important;
 }
 
@@ -49,6 +45,10 @@
     padding: 6px 12px !important;
     font-weight: bold !important;
     margin: 20px !important;
+}
+
+#abby_article .g-icons {
+    background-image: url('chrome-extension://__MSG_@@extension_id__/images/abby_icons.png') !important;
 }
 
 /***** Translation ****************************************************************************************************/

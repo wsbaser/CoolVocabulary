@@ -30,32 +30,32 @@ GoogleProvider.prototype.processResponse = function(response) {
         return null;
     }
     try {
-        jsonObject.entry = $(arr[1][0][2]).map(function (entry) {
+        jsonObject.entry = $.map(arr[1][0][2], function (entry) {
             return {
                 word: entry[0],
                 reverse_translation: entry[1],
                 score: entry[3] || 0
             }
-        }).toArray();
+        });
     }
     catch (e) {
         jsonObject.entry = [];
     }
     try {
-        jsonObject.definitions = $(arr[10][0][1]).map(function (item) {
+        jsonObject.definitions = $.map(arr[10][0][1], function (item) {
             return {
                 definition: item[0],
                 example: item[2]
             };
-        }).toArray();
+        });
     }
     catch (e) {
         jsonObject.definitions = [];
     }
     try {
-        jsonObject.examples = $(arr[11][0]).map(function (item) {
+        jsonObject.examples = $.map(arr[11][0], function (item) {
             return item[0];
-        }).toArray();
+        });
     }
     catch (e) {
         jsonObject.examples = [];
@@ -75,14 +75,14 @@ GoogleProvider.prototype.loadWordArticle = function(requestData) {
     var self = this;
     var deferred = $.Deferred();
     var translateUrl = this.formatRequestUrl(this.config.ajax.translate, requestData);
-    $.get(translateUrl).then(function (data) {
+    $.ajax(translateUrl,{dataType:'text'}).done(function (data) {
         try{
             deferred.resolve(self.processResponse(data));
         }
         catch(e){
             deferred.reject(e.message);
         }
-    }, function (jqXHR) {
+    }).fail(function (jqXHR) {
         self.rejectWithStatusCode(deferred, jqXHR);
     });
     return deferred.promise();

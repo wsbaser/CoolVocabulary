@@ -57,7 +57,10 @@ SourceTab.prototype.createNoResultsErrorEl = function(contentType, word){
 };
 
 SourceTab.prototype.createErrorEl = function(error){
-    return $('<div/>',{html:error});
+    return $('<div/>', {
+            html: error,
+            'class': 'ctr-error-result'
+        });
 };
 
 SourceTab.prototype.createLoadingEl = function() {

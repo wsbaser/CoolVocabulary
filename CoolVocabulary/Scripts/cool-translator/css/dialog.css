@@ -319,8 +319,8 @@
     overflow-y:auto !important; /* article needs scrolling */
 }
 
-#ctr_dialog .ctr-source-warning {
-    padding: 20px !important;
+#ctr_dialog .ctr-error-result{
+  padding: 20px !important; 
 }
 
 /***** LOADING ********************************************************************************************************/
