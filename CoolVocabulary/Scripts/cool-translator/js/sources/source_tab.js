@@ -27,6 +27,7 @@ SourceTab.prototype.init = function(data,content,error) {
     this.data = data;
     this.contentEl = $(content);
     this.hasContent = !!content;
+    bindDataEvents(this.contentEl);
     this.hideLoading();
     this.rootEl.empty();
     if (this.hasContent) {
@@ -124,3 +125,22 @@ SourceTab.prototype.createNavigationEl = function(width){
     this.navigationEl = li;
     return this.navigationEl;
 };
+
+
+function bindDataEvents(el){
+    el.find('[data-event]').each(function(i, elWithEvent){
+        elWithEvent = $(elWithEvent);
+        var eventParams = elWithEvent.data('event').split(':');
+        var eventType = eventParams[0];
+        var method = eventParams[1];
+        var methodParams = eventParams.slice(2, eventParams.length);
+        methodParams.forEach(function(param, index){
+            if(param=='this')
+                methodParams[index] = elWithEvent[0];
+        });
+        elWithEvent.on(eventType, function(e){
+            window[method].apply(this,methodParams);
+        });
+    });
+}
+

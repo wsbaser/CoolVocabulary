@@ -86,7 +86,10 @@ DictionaryService.prototype.set1pxAsSrc = function(rootEl,className) {
     rootEl.find('.' + className).each(function (i, el) {
         $(el).attr('src', "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABBJREFUeNpi+P//PwNAgAEACPwC/tuiTRYAAAAASUVORK5CYII=");
     });
-}
+};
 
-
+DictionaryService.prototype.addEventData = function(el, event, method, params){
+	var eventParams = Array.prototype.slice.call(arguments, 1, arguments.length);
+	el.attr('data-event', eventParams.join(':'))
+};
 

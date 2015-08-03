@@ -1,18 +1,24 @@
-#abby_article *{
+#abby_article .l-article *,
+#abby_article .ctr-phrases-container *,
+#abby_article .ctr-examples-container *{
     font: 13px/16px Arial,Verdana,Geneva,sans-serif !important;
 }
 
-#abby_article h2 {
-    font-size: 100% !important;
-}
-
-#abby_article a {
+#abby_article .l-article a,
+#abby_article .ctr-phrases-container a,
+#abby_article .ctr-examples-container a{
     color: #1b75bc !important;
     background: none repeat scroll 0 0 transparent !important;
     font-size: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
     vertical-align: baseline !important;
+}
+
+#abby_article .l-article h2,
+#abby_article .ctr-phrases-container h2,
+#abby_article .ctr-examples-container h2{
+    font-size: 100% !important;
 }
 
 #abby_article .l-article,

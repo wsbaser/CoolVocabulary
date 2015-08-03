@@ -27,6 +27,7 @@
       "js/sources/google/google_config.js",
       "js/sources/ll/ll_config.js",
       "js/sources/tfd/tfd_config.js",
+      "js/sources/tfd/tfd_handlers.js",
       "js/sources/source_tab.js",
       "js/sources/source.js",
       "js/sources/services_connection.js",

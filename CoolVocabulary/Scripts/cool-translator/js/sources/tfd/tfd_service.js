@@ -42,9 +42,20 @@ TfdService.prototype.generateThesaurusCard = function(contentEl){
 };
 
 TfdService.prototype.generateDefinitionsCard = function(contentEl){
-	var thesaurusEl = contentEl.find('#Definitions');
-	this.deactivateLinks(thesaurusEl, 'a');
-	return thesaurusEl.outerHTML();
+    var self = this;
+	var definitionEl = contentEl.find('#Definition');
+	this.deactivateLinks(definitionEl, 'a');
+    // . configure pronunciation click event
+    definitionEl.find('.pron').each(function (i, pronEl) {
+        pronEl = $(pronEl);
+        var onclickValue = pronEl.attr('onclick');
+        pronEl.removeAttr('onclick');
+        var matchGroups = /pron_key\((\d*)\)/.exec(onclickValue);
+        if (matchGroups)
+            this.addEventData(pronEl,'click','pron_key', matchGroups[1])
+    }.bind(this));
+
+	return definitionEl.outerHTML();
 };
 
 TfdService.prototype.generateVerbtableCard = function(contentEl){
@@ -60,51 +71,23 @@ TfdService.prototype.generateVerbtableCard = function(contentEl){
     });
 
     // . move verb tables to its own block
-    var verbTablesEl = $('<div/>', { id: 'Verbtables' });
-    for (var i = 0; i < verbtableSectionElems.length; i++)
-        verbTablesEl.append(verbtableSectionElems[i]);
+    if( verbtableSectionElems.length){
+        var verbTablesEl = $('<div/>', { id: 'Verbtables' });
+        for (var i = 0; i < verbtableSectionElems.length; i++)
+            verbTablesEl.append(verbtableSectionElems[i]);
 
-	// . configure pronunciation click event
-	var self = this;
-    verbTablesEl.find('.pron').each(function (i, pronEl) {
-        pronEl = $(pronEl);
-        var onclickValue = pronEl.attr('onclick');
-        pronEl.attr('onclick', '');
-        var matchGroups = /pron_key\((\d*)\)/.exec(onclickValue);
-        if (matchGroups) {
-            pronEl.bind('click', function () {
-                self.pron_key(matchGroups[1] == 1);
-            });
-        }
-    });
-
-	// . configure verb table
-    $.each(verbTablesEl.find('.verbtables'), function (i, verbtableEl) {
-        verbtableEl = $(verbtableEl);
-        verbtableEl.attr('onchange', "");
-        verbtableEl.bind('change', function () { self.selectVT(); });
-    });
-
-	return verbTablesEl.outerHTML();
+    	// . configure verb table
+        $.each(verbTablesEl.find('.verbtables'), function(i, verbtableEl) {
+            verbtableEl = $(verbtableEl);
+            verbtableEl.removeAttr('onchange');
+            this.addEventData(verbtableEl, 'change', 'SelectVT', 'this');
+            console.log(verbtableEl.outerHTML());
+        }.bind(this));
+        
+    	return verbTablesEl.outerHTML();
+    }
+    else
+        return null;
 };
 
 //===== Handlers ===============================================================================================
-
-TfdService.prototype.pron_key = function(isIPA){
-    var pkw = open('http://www.thefreedictionary.com/_/pk' + (isIPA? '_ipa' : '') + '.htm', 'pk', 'width=' + (isIPA? '800' : '630') + ',height=' + (isIPA == 1 ? '865' : '710') + ',statusbar=0,menubar=0');
-    if (pkw.focus)
-        pkw.focus();
-    return false;
-};
-
-TfdService.prototype.selectVT = function(sel) {
-    var v = sel.options[sel.selectedIndex].value;
-    if (v == "0")
-        return;
-    var i = 1, tbl;
-    while ((tbl = $("#VerbTableN" + v.split("_")[0] + "_" + i)) != undefined) {
-        tbl.attr('class','prettytable hiddenStructure');
-        i++;
-    }
-    $("#VerbTableN" + v).attr('class','prettytable');
-};
