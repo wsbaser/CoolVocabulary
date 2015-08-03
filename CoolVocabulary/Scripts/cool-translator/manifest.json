@@ -1,0 +1,56 @@
+{
+  "manifest_version": 2,
+
+  "name": "Cool Translator",
+  "version": "1.0",
+  "description": "Get every background-color from the current tab.",
+   "content_security_policy": "script-src 'self' ; object-src 'self'",
+  "browser_action": {
+    "default_icon": "icon19.png"
+  },
+  "background": {
+    "page": "background.html",
+    "persistent": false
+  },
+  "content_scripts": [{
+    "all_frames": false,
+    "js": [
+      "js/lib/jquery-1.10.2.min.js",
+      "js/utils.js",
+      "js/content_utils.js",
+      "js/controls/add_translation.js",
+      "js/controls/content_langselector.js",
+      "js/controls/login_form.js",
+      "js/controls/notification_popup.js",
+      "js/sources/common/content_types.js",
+      "js/sources/abby/abby_config.js",
+      "js/sources/google/google_config.js",
+      "js/sources/ll/ll_config.js",
+      "js/sources/tfd/tfd_config.js",
+      "js/sources/source_tab.js",
+      "js/sources/source.js",
+      "js/sources/services_connection.js",
+      "js/dialog.js",
+      "js/messagetypes.js",
+      "js/content.js"
+      ],
+    "css": [
+      "css/dialog.css",
+      "js/sources/abby/abby_style.css",
+      "js/sources/google/google_style.css",
+      "js/sources/ll/ll_style.css",
+      "js/sources/tfd/tfd_style.css"
+      ],
+    "matches": [ "*://*/*" ],
+    "run_at": "document_end"
+  }],
+  "permissions": ["tabs", "<all_urls>"],
+  "web_accessible_resources": [ 
+    "images/abby_icons.png",
+    "images/add.png",
+    "images/flags.png",
+    "images/sound.png",
+    "images/sprites.png",
+    "images/ll/marker.png",
+    "images/blank.gif"]
+}

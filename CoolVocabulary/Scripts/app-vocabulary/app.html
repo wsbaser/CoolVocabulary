@@ -251,19 +251,18 @@
 			</div>
 		</div>
 	</script>
-
 		
 	<script type='text/x-handlebars' id='wordsToolbox'>
 		<div class="col-xs-6">
-			<div id="word_input_block" class="input-group">
-		      	<input type="text" class="form-control" placeholder="Type word...">
+			<form id="word_input_block" class="input-group" {{action "addTranslation"}}>
+				{{input value=inputWord class="form-control"  placeholder="Type word..."}}
 		      	<span class="input-group-btn">
-		        	<button class="btn btn-info" type="button" {{action "addTranslation"}}>
+		        	<button {{bind-attr class=":btn inputWord:btn-info"}} type="submit" >
 		        		<span class="glyphicon glyphicon-add" aria-hidden="true"></span>
 		        		Add
 		        	</button>
 		      	</span>
-		    </div>
+		    </form>
 		</div>
 		<div class="col-xs-2">
 			{{#link-to "learn"}}<button class="btn btn-success" type="button">Learn</button>{{/link-to}}
@@ -344,7 +343,43 @@
 <script src="../vendor/bootstrap.min.js"></script>
 <script src="../vendor/jquery.scrollTo.min.js"></script>
 
+<!-- Cool Translator -->
+
+<script src='../cool-translator/scripts/utils.js'></script>
+<script src='../cool-translator/scripts/config.js'></script>
+
+<script src='../cool-translator/scripts/controls/add_translation.js'></script>
+<script src='../cool-translator/scripts/controls/login_form.js'></script>
+<script src='../cool-translator/scripts/controls/notification_popup.js'></script>
+
+<script src='../cool-translator/scripts/sources/source_tab.js'></script>
+<script src='../cool-translator/scripts/sources/source.js'></script>
+
+<script src='../cool-translator/scripts/sources/common/content_types.js'></script>
+<script src='../cool-translator/scripts/sources/common/dictionary_provider.js'></script>
+<script src='../cool-translator/scripts/sources/common/dictionary_service.js'></script>
+
+<script src='../cool-translator/scripts/sources/abby/abby_config.js'></script>
+<script src='../cool-translator/scripts/sources/abby/abby_provider.js'></script>
+<script src='../cool-translator/scripts/sources/abby/abby_service.js'></script>
+
+<script src='../cool-translator/scripts/sources/google/google_config.js'></script>
+<script src='../cool-translator/scripts/sources/google/google_provider.js'></script>
+<script src='../cool-translator/scripts/sources/google/google_service.js'></script>
+
+<script src='../cool-translator/scripts/sources/lingualeo/ll_config.js'></script>
+<script src='../cool-translator/scripts/sources/lingualeo/ll_provider.js'></script>
+<script src='../cool-translator/scripts/sources/lingualeo/ll_service.js'></script>
+
+<script src='../cool-translator/scripts/sources/thefreedictionary/tfd_config.js'></script>
+<script src='../cool-translator/scripts/sources/thefreedictionary/tfd_provider.js'></script>
+<script src='../cool-translator/scripts/sources/thefreedictionary/tfd_service.js'></script>
+
+<script src='../cool-translator/scripts/dialog.js'></script>
+
 <script src="vocabulary.js"></script>
+
+<link rel='stylesheet' href='../cool-translator/styles/dialog.css'>
 
 <script>
 	Vocabulary.Router.map(function(){
@@ -354,9 +389,9 @@
 	});
 
 	Vocabulary.ApplicationController = Ember.Controller.extend({
-		userName:'wsbaser',
-		language:'en',
-		book:'Stranger in a strange land',
+		userName: 'wsbaser',
+		langPair: { sourceLang:'en', targetLang:'ru' },
+		book: 'Stranger in a strange land',
 		init: function(){
 			var self = this;
 			$(document).ready(function(){
@@ -425,26 +460,28 @@
 	});
 
 	Vocabulary.WordsController = Ember.Controller.extend({
-		translator:{},
-		needs:['application'],
+		inputWord: "",
+		translator: {},
+		applicationCtrl: Ember.inject.controller('application'),
 		init: function(){
-			// Подключить файлы:
-			// 		dialog.js
-			// 		все файлы в папках:
-			//			common
-			//			abby
-			//			google
-			//			lingualeo
-			//			thefreedictionary
-			//			content_controls.js
-			//			source.js
-			//			utils.js
-			var langPair = this.get('controllers.application.langPair');
-			this.set('translator', TranslationDialogFactory.createSiteDialog('#word_input_block', langPair);
+			var self = this;
+			$(document).ready(function(){
+				$('body').mousedown(function(e){
+					if(self.get('translator').hide()){
+						e.stopPropagation();
+						e.preventDefault();
+					}
+				});
+			});
+			var langPair = this.get('applicationCtrl').langPair;
+			var translationDialog = TranslationDialogFactory.createSiteDialog('#word_input_block', langPair);
+			this.set('translator', translationDialog);
 		}.on('init'),
 		actions:{
-			addTranslation:function(){
-				this.get('translator').show();
+			addTranslation: function(){
+				var inputWord = this.get('inputWord');
+				if(inputWord)
+					this.get('translator').show(inputWord);
 			}
 		}
 	});
@@ -465,7 +502,7 @@
 	Vocabulary.LearnController = Ember.Controller.extend({
 		cards:[],
 		curCardIndex:0,
-		showNeighbourCard:function(dir){
+		showNeighbourCard: function(dir){
 			var cardsCount = 3;// this.get('cards').length;
 			var index = this.get('curCardIndex')+dir;
 			console.log('nextCardIndex: '+index);
