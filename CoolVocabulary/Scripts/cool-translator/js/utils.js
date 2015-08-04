@@ -80,3 +80,9 @@ jQuery.fn.outerHTML = function(s) {
         ? this.before(s).remove()
         : jQuery("<p>").append(this.eq(0).clone()).html();
 };
+
+jQuery.fn.showImportant = function() {
+    this.show();
+    var displayValue = this[0].style['display'];
+    this[0].style.setProperty('display',displayValue,'important');
+};

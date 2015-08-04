@@ -36,22 +36,31 @@ ServicesConnection.prototype.listener = function(message){
 };
 
 ServicesConnection.prototype.resolveRequest = function(result){
-  var requestPromises = {};
-  $.each(result.promiseGuids, function(type, promiseGuid){
-    var deferred = $.Deferred();
-    this.pendingPromises[promiseGuid] = deferred;
-    requestPromises[type] = deferred.promise();    
-  }.bind(this));
   var callback = this.pendingRequests[result.requestGuid];
-  callback(requestPromises);
+  if(result.promiseGuid){
+    var deferred = $.Deferred();
+    this.pendingPromises[result.promiseGuid] = deferred;
+    callback(deferred.promise());
+  }
+  else if(result.promiseGuids){
+    var requestPromises = {};
+    $.each(result.promiseGuids, function(type, promiseGuid){
+      var deferred = $.Deferred();
+      this.pendingPromises[promiseGuid] = deferred;
+      requestPromises[type] = deferred.promise();    
+    }.bind(this));
+    callback(requestPromises);
+  }
+  else
+    throw new Error('invalid request result');
   delete this.pendingRequests[result.requestGuid];
 };
 
 ServicesConnection.prototype.resolvePromise = function(result){
   var deferred = this.pendingPromises[result.promiseGuid];
-  if(result.resolveData)
+  if(result.resolveData!=undefined)
     deferred.resolve(result.resolveData);
-  else if(result.rejectData)
+  else if(result.rejectData!=undefined)
     deferred.reject(result.rejectData);
   else
     throw new Error('invalid promise data');

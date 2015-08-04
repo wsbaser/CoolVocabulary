@@ -9,31 +9,31 @@ function GoogleService(provider){
 GoogleService.prototype = Object.create(DictionaryService.prototype);
 
 GoogleService.prototype.generateTranslationsCard = function(data){
-    var translationsListHtml = $.map(data.entry, function (entry) {
-        var reverseTranslationsHtml = $.map(entry.reverse_translation, function (word) {
-            return strHelper.format(GoogleTemplates.REVERSE_TRANSLATION,{word: word});
-        }).join(', ');
-        return strHelper.format(GoogleTemplates.TRANSLATIONS_ITEM, {
-            word: entry.word,
-            reverseTranslations: reverseTranslationsHtml
+    if(data && data.entry){
+        var translationsListHtml = $.map(data.entry, function (entry) {
+            var reverseTranslationsHtml = $.map(entry.reverse_translation, function (word) {
+                return strHelper.format(GoogleTemplates.REVERSE_TRANSLATION,{word: word});
+            }).join(', ');
+            return strHelper.format(GoogleTemplates.TRANSLATIONS_ITEM, {
+                word: entry.word,
+                reverseTranslations: reverseTranslationsHtml
+            });
+        }).join('');
+        var translationsHtml = strHelper.format(GoogleTemplates.TRANSLATIONS, {
+            word: data.word,
+            pos: data.pos,
+            translationsListHtml: translationsListHtml
         });
-    }).join('');
-    var translationsHtml = strHelper.format(GoogleTemplates.TRANSLATIONS, {
-        word: data.word,
-        pos: data.pos,
-        translationsListHtml: translationsListHtml
-    });
-    return $('<section/>',{html:translationsHtml}).outerHTML();
-    // translationsListEl.find('.gt-baf-back').each(function(i,linkEl) {
-    //     $(linkEl).bind('click', function (e) {
-    //         ctrContent.showDialog(e.target.textContent);
-    //     });
-    // });
+        var contentEl = $('<section/>', { html:translationsHtml });
+        this.addTranslateContentEvent(contentEl, '.gt-baf-back');
+
+        return contentEl.outerHTML();
+    }
+    return null;
 };
 
 GoogleService.prototype.generateDefinitionsCard = function(data){
-    var contentEl = null;
-    if (data.definitions.length > 0) {
+    if (data && data.definitions.length > 0) {
         var definitionsListHtml = $.map(data.definitions, function (item) {
             return strHelper.format(GoogleTemplates.DEFINITION_ITEM, {
                 definition: item.definition,
@@ -45,13 +45,13 @@ GoogleService.prototype.generateDefinitionsCard = function(data){
             pos: data.pos,
             definitionsListHtml: definitionsListHtml
         });
-        contentEl = $('<section/>', {html: definitionsHtml});
+        return $('<section/>', {html: definitionsHtml}).outerHTML();
     }
-    return contentEl.outerHTML();
+    return null;
 };
 
 GoogleService.prototype.generateExamplesCard = function(data){
-    if (data.examples.length > 0) {
+    if (data && data.examples.length > 0) {
         var examplesListHtml = $.map(data.examples, function (example) {
             return strHelper.format(GoogleTemplates.EXAMPLE_ITEM, {
                 example: example
@@ -60,9 +60,9 @@ GoogleService.prototype.generateExamplesCard = function(data){
         var examplesHtml = strHelper.format(GoogleTemplates.EXAMPLES, {
             examplesListHtml: examplesListHtml
         });
-        contentEl = $('<section/>', {html: examplesHtml});
+        return $('<section/>', {html: examplesHtml}).outerHTML();
     }
-    return contentEl.outerHTML();
+    return null;
 };
 
 //===== GoogleTemplates ================================================================================================

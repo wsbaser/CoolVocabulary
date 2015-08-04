@@ -319,15 +319,13 @@
     overflow-y:auto !important; /* article needs scrolling */
 }
 
-#ctr_dialog .ctr-error-result{
+#ctr_dialog .ctr-error-result,
+#ctr_dialog .ctr-prompts,
+#ctr_dialog .ctr-tab-loading{
   padding: 20px !important; 
 }
 
-/***** LOADING ********************************************************************************************************/
-
-#ctr_dialog .ctr-source-loading,
 #ctr_dialog .ctr-tab-loading{
-    margin: 20px !important;
     overflow-x: hidden !important;
 }
 
@@ -480,11 +478,11 @@
 
 #ctr_dialog .ctr-addButton .ctr-spinnerSmall {
   text-align: center !important;
-  display:none !important;
+  display: none;
   position: absolute !important;
   left: 50% !important;
   top: 50% !important;
-  transform: translate(-50%,-60%);
+  transform: translate(-50%,-50%);
 }
 
 #ctr_dialog .ctr-addButton .ctr-spinnerSmall > div {

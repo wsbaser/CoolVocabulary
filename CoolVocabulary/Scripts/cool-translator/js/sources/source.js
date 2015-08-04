@@ -40,11 +40,11 @@ Source.prototype.createNavigationEl = function () {
     var ul = $('<ul/>');
     var tabLinkWidth = 100 / this.tabs.length + '%';
     $.each(this.tabs, function (index, tab) {
-        var tabNavigationEl = tab.createNavigationEl(tabLinkWidth);
-        tabNavigationEl.click(function (event) {
+        tab.navigationEl[0].style.setProperty('width', tabLinkWidth, 'important');
+        tab.navigationEl.click(function (event) {
             self.selectTab(index);
         });
-        ul.append(tabNavigationEl);
+        ul.append(tab.navigationEl);
     });
     if(this.tabs.length==1)
         this.tabs[0].navigationEl.hide();

@@ -10,7 +10,7 @@ TfdService.prototype = Object.create(DictionaryService.prototype);
 TfdService.prototype.generatePrompts = function(contentType, contentEl){
     if (contentEl.text().indexOf('Word not found')!=-1) {
         this._configureNoResultsWarning(contentEl);
-        return contentEl;
+        return contentEl.outerHTML();
     }
     else if(contentEl.text().indexOf('is not available')!=-1){
         this._configureNotAvailableWarning(contentEl);
@@ -20,15 +20,16 @@ TfdService.prototype.generatePrompts = function(contentType, contentEl){
 };
 
 TfdService.prototype._configureNoResultsWarning = function(responseEl) {
-    var el = responseEl.find('div')[0];
+    var el = responseEl.find('div');
     if (el.length)
         el[0].style.setProperty('margin', '6px 0 3px 0', 'important');
-    configureWordLinks(responseEl, 'a');
+    this.deactivateLinks(responseEl, 'a');
+    this.addTranslateContentEvent(responseEl, 'a');
 };
 
 TfdService.prototype._configureNotAvailableWarning = function(responseEl) {
-    responseEl.find('.br').remove();
-    var el = responseEl.find('div')[0];
+    responseEl.find('br').remove();
+    var el = responseEl.find('div');
     el[0].style.setProperty('margin', '10px 0', 'important');
     el.find('a').each(function (i, linkEl) {
         $(linkEl).attr('target', '_blank');
@@ -38,6 +39,7 @@ TfdService.prototype._configureNotAvailableWarning = function(responseEl) {
 TfdService.prototype.generateThesaurusCard = function(contentEl){
 	var thesaurusEl = contentEl.find('#Thesaurus');
 	this.deactivateLinks(thesaurusEl, 'a');
+    this.addTranslateContentEvent(thesaurusEl, 'a');
 	return thesaurusEl.outerHTML();
 };
 
@@ -45,6 +47,7 @@ TfdService.prototype.generateDefinitionsCard = function(contentEl){
     var self = this;
 	var definitionEl = contentEl.find('#Definition');
 	this.deactivateLinks(definitionEl, 'a');
+    this.addTranslateContentEvent(definitionEl, 'a');
     // . configure pronunciation click event
     definitionEl.find('.pron').each(function (i, pronEl) {
         pronEl = $(pronEl);
@@ -81,7 +84,6 @@ TfdService.prototype.generateVerbtableCard = function(contentEl){
             verbtableEl = $(verbtableEl);
             verbtableEl.removeAttr('onchange');
             this.addEventData(verbtableEl, 'change', 'SelectVT', 'this');
-            console.log(verbtableEl.outerHTML());
         }.bind(this));
         
     	return verbTablesEl.outerHTML();

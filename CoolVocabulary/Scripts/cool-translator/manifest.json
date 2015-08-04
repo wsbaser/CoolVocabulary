@@ -1,16 +1,18 @@
 {
+  "author": "wsbaser",
   "manifest_version": 2,
-
   "name": "Cool Translator",
-  "version": "1.0",
-  "description": "Get every background-color from the current tab.",
-   "content_security_policy": "script-src 'self' ; object-src 'self'",
-  "browser_action": {
-    "default_icon": "icon19.png"
-  },
+  "version": "1.0.1",
+  "description": "Access to world best translation services, now in single browser extension.",
+  "content_security_policy": "script-src 'self' ; object-src 'self'",
+   "icons": {
+      "16": "images/icon16.png",
+      "48": "images/icon48.png",
+      "128": "images/icon128.png"
+   },
   "background": {
     "page": "background.html",
-    "persistent": true
+    "persistent": false
   },
   "content_scripts": [{
     "all_frames": false,
@@ -23,19 +25,24 @@
       "js/controls/login_form.js",
       "js/controls/notification_popup.js",
       "js/sources/common/content_types.js",
+      "js/sources/common/common_handlers.js",
       "js/sources/abby/abby_config.js",
+      "js/sources/abby/abby_handlers.js",
       "js/sources/google/google_config.js",
       "js/sources/ll/ll_config.js",
+      "js/sources/ll/ll_handlers.js",
       "js/sources/tfd/tfd_config.js",
       "js/sources/tfd/tfd_handlers.js",
       "js/sources/source_tab.js",
       "js/sources/source.js",
       "js/sources/services_connection.js",
+      "js/sources/vocabulary.js",
       "js/dialog.js",
       "js/messagetypes.js",
       "js/content.js"
       ],
     "css": [
+      "css/login_form.css",
       "css/dialog.css",
       "js/sources/abby/abby_style.css",
       "js/sources/google/google_style.css",

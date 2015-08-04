@@ -2,38 +2,56 @@ function DictionaryServicesServer(services){
     this.services = services;
 };
 
-DictionaryServicesServer.CONNECTION_NAME = "dictionaryservices";
+DictionaryServicesServer.CONNECTION_NAME = "services_connection";
 
 DictionaryServicesServer.prototype.listener = function(message, port){
     var self = this;
-    var promises = this.callServiceMethod(message.serviceId, message.method, message.params);
-    var promiseGuids = {};
-    var result = {
-        requestGuid: message.requestGuid,
-        promiseGuids: promiseGuids
+    var methodResult = this.callServiceMethod(message.serviceId, message.method, message.params);
+    var requestResult = {
+        requestGuid: message.requestGuid
     };
-    $.each(promises, function(type, promise){
-        var promiseGuid = guid();
-        promiseGuids[type] = promiseGuid;
-        promise.done(function(data){
-            self.resolvePromise(port, promiseGuid, data);
-        })
-        .fail(function(data){
-            self.rejectPromise(port, promiseGuid, data);
+    var promises = {};
+    if(methodResult.done && methodResult.fail){
+        // it is a single promise
+        requestResult.promiseGuid = guid();
+        promises[requestResult.promiseGuid] = methodResult;
+    }
+    else{
+        // it is a dictionary of promises
+        var promiseGuids = {};
+        requestResult.promiseGuids = promiseGuids;
+        $.each(methodResult, function(type, promise){
+            promiseGuids[type] = guid();
+            promises[promiseGuids[type]] = promise;
         });
-    });
+    }
     port.postMessage({
-        requestResult: result
+        requestResult: requestResult
+    });
+    // . bind promise events after sending promises to client
+    //   if not, promises coud be resolved before client got their guids
+    $.each(promises, function(guid, promise){
+        self._bindPromiseEvents(promise,port,guid);
     });
 };
+
+DictionaryServicesServer.prototype._bindPromiseEvents = function(promise,port,guid){
+    var self = this;
+    promise.done(function(data){
+        self.resolvePromise(port, guid, data);
+    })
+    .fail(function(data){
+        self.rejectPromise(port, guid, data);
+    });
+}
 
 DictionaryServicesServer.prototype.resolvePromise = function(port, guid, data){
     var result = {
         promiseResult: {
             promiseGuid: guid,
-            resolveData: data
+            resolveData: data || {}
         }
-    } 
+    }
     port.postMessage(result);
 };
 
@@ -41,7 +59,7 @@ DictionaryServicesServer.prototype.rejectPromise = function(port, guid, data){
     var result = {
         promiseResult:{
             promiseGuid: guid,
-            rejectData: data
+            rejectData: data || {}
         }
     }
     port.postMessage(result);

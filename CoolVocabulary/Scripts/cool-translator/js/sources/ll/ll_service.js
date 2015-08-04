@@ -71,39 +71,50 @@ LLService.prototype.getArticleTemplateData = function(response) {
 };
 
 LLService.prototype.generateTranslationsCard = function(responseData) {
-    // . create content from template
-    return strHelper.format(LLService.CARD_TEMPLATE, this.getArticleTemplateData(responseData));
-    // . bind events
-    // cardEl.find('#lleo_sound').bind('click', function(){ 
-    //     this.playSound(responseData);
-    // });
-    // contentEl.find('#lleo_baseForm').bind('click', LleoHandlers.baseFormClick.bind(this));
-    // //Event.add(contentEl.querySelector('#lleo_trans'), 'click', LleoHandlers.clickTranslationsList.bind(this));
-    // return contentEl;
+    var contentEl = $(strHelper.format(LLService.CARD_TEMPLATE, this.getArticleTemplateData(responseData)));
+    
+    // .play sound click
+    this.addEventData(contentEl.find('#lleo_sound'),'click','play_sound','this');
+    // .show base form click 
+    this.addTranslateContentEvent(contentEl,'#lleo_baseForm');
+    
+    return contentEl.outerHTML();
 };
 
+LLService.prototype.checkAuthentication = function(){
+    var deferred = $.Deferred();
+    if(localStorage.isLLAuthenticated==='true')
+        deferred.resolve(true);
+    else {
+        this.provider.checkAuthentication().done(function(data){
+            if(data.error_msg)
+                deferred.reject(data.error_msg);
+            else{
+                localStorage.isLLAuthenticated = data.is_authorized;
+                deferred.resolve(data.is_authorized);
+            }
+        })
+        .fail(function(error){
+            deferred.reject(error);
+        });
+    }
+    return deferred.promise();
+};
 
-// LleoHandlers.baseFormClick=function() {
-//     var baseForm = this.responseData.word_forms && this.responseData.word_forms.length ?
-//         this.responseData.word_forms[0].word :
-//         null;
-//     if (baseForm)
-//         ctrContent.showDialog(baseForm);
-//     return false;
-// };
+LLService.prototype.login = function(username, password){
+    var deferred = $.Deferred();
+    this.provider.login(username,password).done(function(data){
+        localStorage.isLLAuthenticated = true;
+        deferred.resolve(data);
+    }).fail(function(error){
+        deferred.reject(error);
+    });
+    return deferred;
+}
 
-// LLService.playSound = function(responseData) {
-//     if (ctrContent.canPlayMp3()) {
-//         $('#lleo_player').play();
-//     } else {
-
-//         var url = this.config.path.audio_player + this.responseData.soundUrl;
-//         var htmlFrame = '<iframe src="' + url + '" width="0" height="0" style="width:0 !important; height:0 !important; visibility:hidden !important; border:0 !important; overflow:hidden !important; margin:0 !important; padding:0 !important;" marginwidth="0" marginheight="0" hspace="0" vspace="0" frameborder="0" scrolling="no"></iframe>';
-//         $('#lleo_sound').append(htmlFrame);
-//     }
-//     return false;
-// };
-
+LLService.prototype.addTranslation = function(inputData, translation){
+    return this.provider.addTranslation(inputData.word, translation);
+};
 
 LLService.CARD_TEMPLATE =
 '<div class="{soundUrl?lleo_has_sound:} {hasPic?lleo_has_pic:} {context?lleo_has_context:}">\

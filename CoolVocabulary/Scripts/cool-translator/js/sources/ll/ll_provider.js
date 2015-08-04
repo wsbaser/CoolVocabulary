@@ -42,24 +42,25 @@ LLProvider.prototype.loadTranslations = function (requestData) {
 
 //adds new translation when user clicks on translateion or enters custom translation
 LLProvider.prototype.addTranslation = function (originalText, translatedText) {
+    var self = this;
     var deferred = $.Deferred();
     $.post(this.config.api + this.config.ajax.addWordToDict,{
         word: originalText,
         tword: translatedText,
-        context: context || '',
-        context_url: pageUrl || '',
-        context_title: pageTitle || ''
+        context: '',
+        context_url: '',
+        context_title: ''
     }).done(function(data){
         if(data && data.error_msg){
-            if (this._isNotAuthenticatedError(data))
-                deferred.resolve({notAuthenticated: true});
+            if (self._isNotAuthenticatedError(data))
+                deferred.reject({notAuthenticated: true});
             else
                 deferred.reject(data.error_msg);
         }
         else
             deferred.resolve(data);
     }).fail(function(jqXHR){
-        this.rejectWithStatusCode(deferred,jqXHR);
+        self.rejectWithStatusCode(deferred, jqXHR);
     });
 
     return deferred.promise();
@@ -69,13 +70,27 @@ LLProvider.prototype._isNotAuthenticatedError=function(result) {
     return result && result.error_code === 401;
 };
 
-LLProvider.prototype.checkAuthentication = function (isSilentError, callbackSuccess, callbackError) {
-    return $.post.sendPostRequest(this.config.api + this.config.ajax.isAuthenticated);
+LLProvider.prototype.checkAuthentication = function () {
+    var jqXHR = $.post(this.config.api + this.config.ajax.isAuthenticated);
+    jqXHR.done(function(data){
+        console.log(data);
+    });
+    return jqXHR;
 };
 
 LLProvider.prototype.login = function(username, pass) {
-    return $.post(this.config.ajax.login, {
+    var self = this;
+    var deferred = $.Deferred();
+    $.post(this.config.ajax.login, {
         email: username,
         password: pass
+    }).done(function(data){
+        if(data.error_msg)
+            deferred.reject(data.error_msg);
+        else
+            deferred.resolve(data);
+    }).fail(function(jqXHR){
+        self.rejectWithStatusCode(deferred, jqXHR);
     });
+    return deferred;
 };

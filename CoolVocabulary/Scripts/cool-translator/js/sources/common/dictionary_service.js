@@ -73,14 +73,17 @@ DictionaryService.prototype.getData = function(contentType, requestData){
 
 /* HELPERS */
 
-DictionaryService.prototype.deactivateLinks = function(rootEl, className) {
-    rootEl.find('.' + className).each(function (i, itemEl) {
+DictionaryService.prototype.deactivateLinks = function(rootEl, selector) {
+    rootEl.find(selector).each(function (i, itemEl) {
     	itemEl = $(itemEl);
         itemEl.attr('href', 'javascript:void(0)');
-        // itemEl.bind('click', function (e) {
-        //     ctrContent.showDialog(e.target.textContent.trim());
-        // });
     });
+};
+
+DictionaryService.prototype.addTranslateContentEvent = function(rootEl, selector){
+    rootEl.find(selector).each(function(i, itemEl){
+        this.addEventData($(itemEl),'click','show_dialog_for_content','this');
+    }.bind(this));
 };
 
 DictionaryService.prototype.set1pxAsSrc = function(rootEl,className) {
@@ -91,6 +94,6 @@ DictionaryService.prototype.set1pxAsSrc = function(rootEl,className) {
 
 DictionaryService.prototype.addEventData = function(el, event, method, params){
 	var eventParams = Array.prototype.slice.call(arguments, 1, arguments.length);
-	el.attr('data-event', eventParams.join(':'))
+	el.attr('data-event', eventParams.join('|'))
 };
 

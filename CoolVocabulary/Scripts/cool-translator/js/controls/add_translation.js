@@ -1,18 +1,24 @@
 /***** Add Translation *****************************************************************************************************/
 
-function AddTranslationControl() {
+function AddTranslationControl(vocabulary) {
+    this.vocabulary = vocabulary;
     this.translationsList = null;
     this.translationItemSelector = null;
-    this.el = null;
-    this.selectedTranslationEl = null;
-    this.addButtonEl = null;
-    this.btnCaptionEl = null;
-    this.spinnerEl = null;
+    this._createEl();
 };
 
 AddTranslationControl.TRANSL_ITEM_CLASS ='ctr-translItem';
 
 //===== Private ==========
+
+AddTranslationControl.prototype._createEl = function(){
+    this.el = $('<div/>', {'class':'ctr-addTransl-block'});
+    this.el.html(AddTranslationControl.TEMPLATE);
+    this.selectedTranslationEl = this.el.find('.ctr-selectedTransl');
+    this.addButtonEl = this.el.find('.ctr-addButton');
+    this.btnCaptionEl = this.addButtonEl.find('.ctr-btnCaption');
+    this.spinnerEl = this.addButtonEl.find('.ctr-spinnerSmall');
+};
 
 AddTranslationControl.prototype._bindEvents = function() {
     this.addButtonEl.bind('click', this._onAddButtonClick.bind(this));
@@ -49,64 +55,59 @@ AddTranslationControl.TEMPLATE =
 </table>';
 
 AddTranslationControl.prototype._onAddButtonClick = function() {
+    var self = this;
     this._showLoading();
-    kango.invokeAsyncCallback(ctrContent.vocabulary.config.id + '.getIsAuthenticated', function (isAuthorised) {
-        if (isAuthorised)
-            this._addTranslation();
-        else {
-            kango.invokeAsyncCallback(ctrContent.vocabulary.config.id + '.checkAuthentication', function (isAuthorised) {
-                if (isAuthorised)
-                    this._addTranslation()
-                else {
-                    this._hideLoading();
-                    this._showLoginForm();
-                }
-            }.bind(this));
-        }
-    }.bind(this));
+    self.vocabulary.checkAuthentication(function(promise){
+        promise.done(function(isAuthenticated){
+            if (isAuthenticated)
+                self._addTranslation()
+            else {
+                self._hideLoading();
+                self._showLoginForm();
+            }
+        }).fail(function(error){
+            console.error("checkAuthentication error: "+ error);
+        });
+    });
 };
 
 AddTranslationControl.prototype._showLoginForm = function(){
-    Dialog.showLoginForm(ctrContent.vocabulary, function () {
+    Dialog.showLoginForm(this.vocabulary, function () {
         this._addTranslation();
     }.bind(this));
 };
 
 AddTranslationControl.prototype._showLoading = function() {
-    this.btnCaptionEl.css('visibility', 'hidden', 'important');
+    this.btnCaptionEl.css('visibility','hidden');
     this.spinnerEl.show();
 };
 
 AddTranslationControl.prototype._hideLoading = function() {
-    this.btnCaptionEl.css('visibility', 'visible', 'important');
+    this.btnCaptionEl.css('visibility','visible')
     this.spinnerEl.hide();
 };
 
 AddTranslationControl.prototype._addTranslation = function() {
+    var self = this;
     var inputData = this.translationsList.data;
-    var translation = this.selectedTranslationEl.value;
+    var translation = this.selectedTranslationEl.val();
     this._showLoading();
-    kango.invokeAsyncCallback(ctrContent.vocabulary.config.id + '.addTranslation',
-        inputData,
-        translation,
-        function (response) {
+    this.vocabulary.addTranslation(inputData,translation,function(promise){
+        promise.done(function(response){
             response = response || {};
-            this._hideLoading();
-            if (response.notAuthenticated) {
-                console.error('addTranslation: not authorized');
-                this._showLoginForm();
-            }
-            else if (response.error_msg) {
-                console.error('addTranslation: ' + response.error_msg);
-                this._showAddTranslationError(response.error_msg);
-            }
-            else {
-                this._showTranslationAddedNotification(inputData, translation);
-                if(Dialog.isInputDataEqual(this.translationsList.data,inputData))
-                    this._highlightAddedTranslation(translation);
-                this.setTranslation('');
-            }
-        }.bind(this));
+            self._hideLoading();
+            self._showTranslationAddedNotification(inputData, translation);
+            if(isInputDataEqual(self.translationsList.data, inputData))
+                self._highlightAddedTranslation(translation);
+            self.setTranslation('');
+        }).fail(function(response){
+            self._hideLoading();
+            if (response.notAuthenticated)
+                self._showLoginForm();
+            else
+                self._showAddTranslationError(response);
+        });
+    });
 };
 
 AddTranslationControl.prototype._showTranslationAddedNotification = function(inputData,translation) {
@@ -157,20 +158,19 @@ AddTranslationControl.prototype._highlightAddedTranslation = function (translati
 
 //===== Public ==========
 
-AddTranslationControl.prototype.createElement = function() {
-    if (this.el)
-        this.setTranslation('');
-    else {
-        this.el = $('<div/>',{'class':'ctr-addTransl-block'});        
-        this.el.html(AddTranslationControl.TEMPLATE);
-        this.selectedTranslationEl = this.el.find('.ctr-selectedTransl');
-        this.addButtonEl = this.el.find('.ctr-addButton');
-        this.btnCaptionEl = this.addButtonEl.find('.ctr-btnCaption');
-        this.spinnerEl = this.addButtonEl.find('.ctr-spinnerSmall');
-        this._bindEvents();
-    }
-    return this.el;
-};
+AddTranslationControl.prototype.init = function(translationsList, translationItemSelector,translationWordSelector) {
+    this.setTranslation('');
+    var self = this;
+    this.translationsList = translationsList;
+    this.translationItemSelector = translationItemSelector;
+    this.translationWordSelector = translationWordSelector;
+    this._forEachTranslationItem(function (i, itemEl) {
+        itemEl = $(itemEl);
+        itemEl.addClass(AddTranslationControl.TRANSL_ITEM_CLASS);
+        itemEl.on('click', self._selectTranslationItem.bind(self));
+    });
+    this._bindEvents();
+}
 
 AddTranslationControl.prototype.setTranslation = function(word) {
     this.selectedTranslationEl.val(word);
@@ -182,16 +182,4 @@ AddTranslationControl.prototype.setTranslation = function(word) {
         this.selectedTranslationEl.removeClass('ctr-hasValue');
         this.addButtonEl.removeClass('ctr-active');
     }
-};
-
-AddTranslationControl.prototype.connectTranslationsList = function(translationsList, translationItemSelector,translationWordSelector) {
-    var self = this;
-    this.translationsList = translationsList;
-    this.translationItemSelector = translationItemSelector;
-    this.translationWordSelector = translationWordSelector;
-    this._forEachTranslationItem(function (i, itemEl) {
-        itemEl = $(itemEl);
-        itemEl.addClass(AddTranslationControl.TRANSL_ITEM_CLASS);
-        itemEl.on('click', self._selectTranslationItem.bind(self));
-    });
 };

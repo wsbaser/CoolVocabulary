@@ -4,7 +4,7 @@ function NotificationPopup(rootElementSelector) {
     this.el = $(rootElementSelector);
     this.titleEl = this.el.find('.ctr-ntfTitle');
     this.bodyEl = this.el.find('.ctr-ntfBody');
-    this.el.bind('mouseout', function () {
+    this.el.on('mouseout', function () {
         if (this.showTimeoutExpired)
             this.hide();
     }.bind(this));
@@ -15,7 +15,7 @@ NotificationPopup.prototype.show = function(title,bodyHtml) {
     this.titleEl.html(title);
     this.bodyEl.html(bodyHtml);
     this._hideAfterTimeout(3000);
-    this.el.show();
+    this.el.showImportant();
 };
 
 NotificationPopup.prototype.showError = function(bodyHtml) {
@@ -23,7 +23,7 @@ NotificationPopup.prototype.showError = function(bodyHtml) {
     this.titleEl.html('Error');
     this.bodyEl.html(bodyHtml);
     this._hideAfterTimeout(5000);
-    this.el.show();
+    this.el.showImportant();
 };
 
 NotificationPopup.prototype.hide = function(){
@@ -31,7 +31,7 @@ NotificationPopup.prototype.hide = function(){
 };
 
 NotificationPopup.prototype._isHovered = function() {
-    return (this.el.parent().find(':hover') === this.el);
+    return (this.el.parent().find(':hover')[0] === this.el[0]);
 };
 
 NotificationPopup.prototype._hideAfterTimeout = function(timeout) {

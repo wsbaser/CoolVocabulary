@@ -14,7 +14,6 @@ ctrContent.init = function () {
 
 /* Save to local storage */
 ctrContent.onLangPairChanged = function(event, langPair) {
-  console.log('onLangPairChanged');
   chrome.runtime.sendMessage({
       type: MessageTypes.SaveLangPair,
       langPair: langPair
@@ -25,18 +24,6 @@ ctrContent.onLangPairChanged = function(event, langPair) {
 ctrContent.loadInitializationData = function(callback) {
     chrome.runtime.sendMessage({type: MessageTypes.LoadInitializationData}, callback);
 };
-
-ctrContent.canPlayMp3 = function () {
-    try {
-        if (browserDetector.isSafari()) {
-            var audioElement = $('<audio/>');
-            var canPlay = audioElement[0].canPlayType("audio/mpeg");
-            return canPlay == 'maybe' || canPlay == 'probably';
-        }
-    } catch (e) {
-        return false;
-    }
-}
 
 /*
  * @data.word
@@ -64,7 +51,6 @@ ctrContent.showDialogForCurrentSelection = function (inputElement) {
 };
 
 ctrContent.bindEventHandlers = function() {
-    window.addEventListener('onresize', ctrContent.handlers.onresize);
     document.addEventListener('ondblclick', ctrContent.handlers.dblClick);
     document.addEventListener('keydown', ctrContent.handlers.keyDown, true);
     document.addEventListener('keyup', ctrContent.handlers.keyUp);
@@ -75,13 +61,11 @@ ctrContent.bindEventHandlers = function() {
 
 ctrContent.handlers = {};
 
-ctrContent.handlers.mousedown = function(){
-    if (Dialog && Dialog.hide())
+ctrContent.handlers.mousedown = function(e){
+    if (Dialog &&
+        !$.contains(Dialog.el[0], e.target) &&
+         Dialog.hide())
         return false;
-};
-
-ctrContent.handlers.onresize = function(){
-    Dialog && Dialog.hide();
 };
 
 ctrContent.handlers.dblClick = function (event) {
@@ -102,14 +86,14 @@ ctrContent.handlers.keyUp = function(e) {
 };
 
 ctrContent.handlers.keyDown = function(e) {
-    if (Dialog && Dialog.isActive) {
+    if (Dialog && Dialog.isActive && !Dialog.loginForm.isVisible()) {
         // . Dialog is Visible
         var langSelectorIsActive = Dialog.sourceLangSelector.isActive||Dialog.targetLangSelector.isActive;
-        if (e.keyCode === 27 && !langSelectorIsActive && !Dialog.loginForm.isVisible()) {                    // Esc + language selectors are't active
+        if (e.keyCode === 27 && !langSelectorIsActive) {                    // Esc + language selectors are't active
             Dialog.hide();
             return  cancelEvent(e);
         }
-        if(Dialog.isInputFocuces() || langSelectorIsActive){
+        if(Dialog.isInputFocused() || langSelectorIsActive){
             if (e.ctrlKey && !e.shiftKey && !e.altKey) {
                 if (e.keyCode === 13) {                                     // Ctrl + Enter
                     Dialog.langSwitcher.switch(Dialog.focusInput());

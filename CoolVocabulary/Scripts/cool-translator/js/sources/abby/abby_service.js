@@ -18,8 +18,9 @@ AbbyService.prototype.generateTranslationsCard = function(contentEl){
         // . correct transcription image "src" attribute
         $.each(contentEl.find('.l-article__transcription'), function (i, el) {
             el = $(el);
-            var transcriptionSrc = this.config.domain + el.attr('src');
-            el.attr('src', transcriptionSrc);
+            var src =  el.attr('src')
+            if(src.indexOf('http')!==0)
+                el.attr('src', this.config.domain+src);
         }.bind(this));
 
         // . Remove navigation panel
@@ -33,7 +34,9 @@ AbbyService.prototype.generateTranslationsCard = function(contentEl){
         });
 
         // . deactivate links
-        this.deactivateLinks(contentEl,'l-article__commentlink');
+        this.deactivateLinks(contentEl, '.l-article__commentlink');
+        // . Show translation for word
+        this.addTranslateContentEvent(contentEl, '.l-article__commentlink');
     }
     return contentEl.outerHTML();
 };
@@ -47,21 +50,8 @@ AbbyService.prototype.generateExamplesCard = function(contentEl){
         // . configure
         contentEl.find('.js-examples-table-switchbtn').each(function (i, btnEl) {
             btnEl = $(btnEl);
-            btnEl.click(function () {
-                this.toggleClass('expanded');
-                var row = this.closest('.js-examples-table-trans');
-                var sourceEl = row.find('+* .js-examples-table-slidebox');
-                if (this.hasClass('expanded')) {
-                    this.attr("title", "Hide source");
-                    sourceEl.slideDown();
-                }
-                else {
-                    this.attr("title", "Show source");
-                    sourceEl.slideUp();
-                }
-                return false;
-            });
-        });
+            this.addEventData(btnEl, 'click', 'show_example_source', 'this');
+        }.bind(this));
         var containerEl = $('<div/>',{'class':'ctr-examples-container'});
         containerEl.append(contentEl);
         return containerEl.outerHTML();
@@ -91,7 +81,9 @@ AbbyService.prototype.generatePhrasesCard = function(contentEl){
             prevTransl = transl;
             prevSrcword = srcword;
         }
-        this.deactivateLinks(contentEl, 'l-phrases__link');
+        this.deactivateLinks(contentEl, '.l-phrases__link');
+        this.addTranslateContentEvent(contentEl, '.l-phrases__link');
+
         var containerEl = $('<div/>', {'class': 'ctr-phrases-container'});
         containerEl.append(contentEl);
         return containerEl.outerHTML();

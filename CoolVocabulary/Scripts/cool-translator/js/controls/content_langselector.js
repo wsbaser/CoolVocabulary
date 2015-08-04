@@ -150,7 +150,7 @@ LangSelector.prototype.getSelectedLang = function () {
 LangSelector.prototype.setSelectedLang = function (lang, langEl) {
     this.selectedIndex = this.languages.indexOf(lang);
     if (langEl) {
-        this.selectedLangEl = langEl;
+        this.selectedLangEl = $(langEl);
         this.selectedLangEl.on("click", this._onSelectedLangClick.bind(this));
         this.el.prepend(this.selectedLangEl);
     }

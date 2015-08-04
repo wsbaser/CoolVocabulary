@@ -29,19 +29,15 @@ DictionaryProvider.prototype.requestPage = function(urlTemplate, requestData, re
     var deferred = $.Deferred();
     var translateUrl = this.formatRequestUrl(urlTemplate, requestData);
 
-    // 1. Создаём новый объект XMLHttpRequest
     var xhr = new XMLHttpRequest();
-
-    // 2. Конфигурируем его: GET-запрос на URL 'phones.json'
     xhr.open('GET', translateUrl, true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-    // 3. Отсылаем запрос
     xhr.send();
 
-    xhr.onreadystatechange = function() { // (3)
+    xhr.onreadystatechange = function() {
       if (xhr.readyState != 4) return;
       if (xhr.status != 200) {
+        console.log(translateUrl)
         self.rejectWithStatusCode(deferred, xhr);
       } else {
         self.resolveWithJQueryElement(deferred, xhr.responseText, responseSelector);

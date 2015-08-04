@@ -1,5 +1,4 @@
 /***** Login Form *****************************************************************************************************/
-
 function LoginForm(rootElementSelector) {
     this.el = $(rootElementSelector);
     this.emailEl = this.el.find('input[type="email"]');
@@ -7,7 +6,6 @@ function LoginForm(rootElementSelector) {
     this.buttonEl = this.el.find('input[type="submit"]');
     this.spinnerEl = this.el.find('.ctr-spinner');
     this.errorEl = this.el.find('.ctr-error');
-    this.isInitialized = false;
     this._bindEvents();
 };
 
@@ -18,7 +16,7 @@ LoginForm.BTN_CAPTION_WAIT = 'Please wait...';
 
 LoginForm.prototype._bindEvents = function() {
     this.el.find('.ctr-login-form').bind('submit', this._onSubmitForm.bind(this));
-    this.el.find('form').bind('click', function (e) {
+    this.el.find('form').on('click', function (e) {
         e.stopPropagation();
     });
     this.el.bind('click', function () {
@@ -43,7 +41,7 @@ LoginForm.prototype._showLoading = function() {
     // remove and add spinner element to restart animation
     var newone = this.spinnerEl[0].cloneNode(true);
     this.spinnerEl.replaceWith(newone);
-    this.spinnerEl = newone;
+    this.spinnerEl = $(newone);
     this.errorEl.hide();
     this.spinnerEl.show();
     this.buttonEl.value = LoginForm.BTN_CAPTION_WAIT;
@@ -51,18 +49,18 @@ LoginForm.prototype._showLoading = function() {
 };
 
 LoginForm.prototype._onSubmitForm = function() {
+    var self = this;
     this._showLoading();
-    
-    kango.invokeAsyncCallback(this.source.config.id + '.loginUser', this.emailEl.value, this.passwordEl.value,
-        function (response) {
-            if (response.error_msg) {
-                this._showError(response.error_msg);
-                this._activateSubmitButton();
-            } else {
-                this.hide();
-                this.loginCallback();
-            }
-        }.bind(this));
+    this.service.login(this.emailEl.val(), this.passwordEl.val(), function(promise){
+        promise.done(function(){
+            self.hide();
+            self.loginCallback();
+        })
+        .fail(function(error){
+            self._showError(response.error_msg);
+            self._activateSubmitButton();
+        });
+    });
     return false;
 };
 
@@ -71,26 +69,14 @@ LoginForm.prototype._activateSubmitButton = function() {
     this.buttonEl.addClass('ctr_active');
 };
 
-LoginForm.prototype.init =function(callback) {
-    if (this.isInitialized)
-        callback();
-    else {
-        ctrContent.injectStyle('contentLoginStyle', null, function () {
-            this.isInitialized = true;
-            callback();
-        }.bind(this));
-    }
-};
 //===== Public ==========
 
-LoginForm.prototype.show = function (source, loginCallback) {
-    this.source = source;
+LoginForm.prototype.show = function (service, loginCallback) {
+    this.service = service;
     this.loginCallback = loginCallback;
-    this.init(function () {
-        this._activateSubmitButton();
-        this.el.show()
-        this.emailEl.focus();
-    }.bind(this));
+    this._activateSubmitButton();
+    this.el.show()
+    this.emailEl.focus();
 };
 
 LoginForm.prototype.hide = function(){

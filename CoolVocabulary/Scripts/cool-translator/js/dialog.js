@@ -1,13 +1,19 @@
 /***** TranslationDialogFactory **********************************************************************************************/
 var TranslationDialogFactory =   (function(){
   return {
-    initSources: function(){
-      var connection = new ServicesConnection("dictionaryservices");
+    initConnection: function(){
+      var connection = new ServicesConnection("services_connection");
       connection.open();
+      return connection;
+    },
+    initVocabulary: function(connection){
+      return new Vocabulary(LLConfig(), connection);
+    },
+    initSources: function(connection, vocabulary){
       var arr = 
-        [this.createLLSource(connection),
-        this.createAbbySource(connection),
-        this.createGoogleSource(connection),
+        [this.createLLSource(connection, vocabulary),
+        this.createAbbySource(connection, vocabulary),
+        this.createGoogleSource(connection, vocabulary),
         this.createTfdSource(connection)];
       arr.sort(function (a, b) {
           return a.config.priority > b.config.priority ? -1 : 1;
@@ -19,17 +25,23 @@ var TranslationDialogFactory =   (function(){
       });
       return allSources;
     },
-    createAbbySource: function(connection){
+    createAbbySource: function(connection, vocabulary){
       var tabs = [];
-      tabs.push(new SourceTab(ContentTypes.TRANSLATIONS, { translationItemSelector:'.l-article__showExamp' }));
+      tabs.push(new SourceTab(ContentTypes.TRANSLATIONS, { 
+        translationItemSelector: '.l-article__showExamp',
+        vocabulary: vocabulary 
+      }));
       tabs.push(new SourceTab(ContentTypes.EXAMPLES));
       tabs.push(new SourceTab(ContentTypes.PHRASES));
       var service = new DictionaryServiceProxy(AbbyConfig(),connection);
       return new Source(service, tabs);
     },
-    createGoogleSource: function(connection){
+    createGoogleSource: function(connection, vocabulary){
       var tabs = [];
-      tabs.push(new SourceTab(ContentTypes.TRANSLATIONS, { translationItemSelector:'.gt-baf-word-clickable' }));
+      tabs.push(new SourceTab(ContentTypes.TRANSLATIONS, {
+        translationItemSelector:'.gt-baf-word-clickable',
+        vocabulary: vocabulary
+      }));
       tabs.push(new SourceTab(ContentTypes.DEFINITIONS));
       tabs.push(new SourceTab(ContentTypes.EXAMPLES));  
       var service = new DictionaryServiceProxy(GoogleConfig(), connection);
@@ -43,35 +55,44 @@ var TranslationDialogFactory =   (function(){
       var service = new DictionaryServiceProxy(TfdConfig(), connection);
       return new Source(service, tabs);
     },
-    createLLSource: function(connection){
+    createLLSource: function(connection, vocabulary){
       var tabs = [];
       tabs.push(new SourceTab(ContentTypes.TRANSLATIONS,
       {
         translationItemSelector: '.ll-translation-item',
-        translationWordSelector: '.ll-translation-text'
+        translationWordSelector: '.ll-translation-text',
+        vocabulary: vocabulary
       }));
       var service = new DictionaryServiceProxy(LLConfig(), connection);
       return new Source(service, tabs);
     },
-    createSiteDialog: function(attachBlockSelector, langPair){
-      return new TranslationDialog(this.initSources(),
+    createSiteDialog: function(langPair, attachBlockSelector){
+      var connection = this.initConnection();
+      var vocabulary = this.initVocabulary(connection);
+      var sources = this.initSources(connection, vocabulary);
+      return new TranslationDialog(sources,
         langPair,
+        vocabulary,
         false,
         {
           attachBlockSelector: attachBlockSelector
         });
     },
     createExtensionDialog: function(langPair){
-      return new TranslationDialog(this.initSources(), langPair, true);
+      var connection = this.initConnection();
+      var vocabulary = this.initVocabulary(connection);
+      var sources = this.initSources(connection, vocabulary);
+      return new TranslationDialog(sources, langPair, vocabulary, true);
     }
   };
 })();
 
 /***** TranslationDialog *****************************************************************************************************/
 
-function TranslationDialog(allSources, langPair, isExtension, options){
+function TranslationDialog(allSources, langPair, vocabulary, isExtension, options){
     this.allSources = allSources;
     this.isExtension = isExtension;
+    this.vocabulary = vocabulary;
     this.options = options || {};
     if(this.isExtension){
       this.sourceLangSelector=null;
@@ -108,9 +129,9 @@ function TranslationDialog(allSources, langPair, isExtension, options){
 TranslationDialog.ACTIVE_CLASS = 'ctr-active';
 
 TranslationDialog.TEMPLATE = 
-'<div id="ctr_dialog">\
+'<div id="ctr_dialog" style="visibility: hidden !important">\
     <div id="ctr_header">\
-        <div id="ctr_header_bg" style="display:none !important"></div>\
+        <div id="ctr_header_bg"></div>\
         <div class="ctr_header_buttons" style="display:none !important">\
           <span id="ctr_info">Press F1 to see hot keys</span>\
           <span id="ctr_settings_icon"/>\
@@ -318,8 +339,7 @@ TranslationDialog.prototype.create = function (langPair) {
   this.notificationPopup = new NotificationPopup('#ctr_notification');
   this.loginForm = new LoginForm('#ctr_login_wrap');
   this.inputEl = $('#ctr_wordInput');
-
-  if(this.isExtension){  
+  if(this.isExtension){
     $('#ctr_closeBtn').bind('click', this.hide);
     $('#ctr_wordInputForm').bind('submit', this.submitInputData.bind(this));
     //$('#ctr_settings_icon').bind('click', this.openSettings);
@@ -332,23 +352,20 @@ TranslationDialog.prototype.create = function (langPair) {
   this.appendSourcesContent();
   this.updateSourcesList();
   this.selectSource(this.sourceWithActiveLink);
-  
-  // . bind events
-  function stopPropagation(e){
-    e.stopPropagation();
-  };
-  
-  $(this.el).bind('mousedown', stopPropagation)
-      .bind('mouseup', stopPropagation)
-      .bind('contextmenu', stopPropagation);
-  $(document.documentElement).bind('resize',this.adjustArticleHeight);
+  this.updatePosition();
+  this.makeHidden(this.isExtension);
+  setTimeout(function(){
+    this.el.css('visibility','visible');  // need to do it once
+  }.bind(this),1000);
+  $(window).on('resize', function(){
+    this.hide()
+    this.updatePosition();
+  }.bind(this));
 };
 
 TranslationDialog.prototype.makeVisible = function(withTransition){
-  if(withTransition)
-    this.el.css('transform','translateY(0%)');
-  else
-    this.el.show();
+  this.el.show();
+  this.el.css('transform','translateY(0%)');
 };
 
 TranslationDialog.prototype.makeHidden = function(withTransition){
@@ -365,7 +382,6 @@ TranslationDialog.prototype.makeHidden = function(withTransition){
 
 TranslationDialog.prototype.show = function(word) {
   if(!this.isActive){
-    this.updatePosition();
     this.makeVisible(this.isExtension);
     if(this.isExtension) 
       this.selectionBackup = selectionHelper.saveSelection();
@@ -458,15 +474,15 @@ TranslationDialog.prototype.showNotification = function(title, bodyHtml) {
 
 /****** EXTENSION ONLY *******************************************************************************************************/
 
-TranslationDialog.prototype.showLoginForm = function(source,loginCallback) {
-    this.loginForm.show(source, loginCallback);
+TranslationDialog.prototype.showLoginForm = function(service,loginCallback) {
+    this.loginForm.show(service, loginCallback);
 };
 
 TranslationDialog.prototype.hideLoginForm = function() {
     this.loginForm.hide();
 };
 
-TranslationDialog.prototype.isInputFocuces = function(){
+TranslationDialog.prototype.isInputFocused = function(){
     return document.activeElement===Dialog.inputEl[0];
 }
 
