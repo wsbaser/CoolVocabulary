@@ -229,7 +229,7 @@
 
 #ctr_dialog #ctr_sources {
     color: #aaa !important;
-    line-height: 20px !important;
+    height: 26px !important;
     font-size: 11px !important;
     clear: both !important;
     padding: 0 16px !important;
@@ -275,7 +275,7 @@
 /***** NAVIGATION *****************************************************************************************************/
 
 #ctr_dialog .ctr-source-navigation ul{
-    list-style-type:none !important;
+    list-style: none outside none !important;
     margin: 0 14px !important;
 }
 

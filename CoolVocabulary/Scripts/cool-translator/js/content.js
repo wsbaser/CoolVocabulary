@@ -51,7 +51,7 @@ ctrContent.showDialogForCurrentSelection = function (inputElement) {
 };
 
 ctrContent.bindEventHandlers = function() {
-    document.addEventListener('ondblclick', ctrContent.handlers.dblClick);
+    document.addEventListener('dblclick', ctrContent.handlers.dblClick);
     document.addEventListener('keydown', ctrContent.handlers.keyDown, true);
     document.addEventListener('keyup', ctrContent.handlers.keyUp);
     document.addEventListener('mousedown', ctrContent.handlers.mousedown);
