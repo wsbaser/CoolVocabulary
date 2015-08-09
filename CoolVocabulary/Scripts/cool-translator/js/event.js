@@ -53,3 +53,15 @@ chrome.runtime.onMessage.addListener(
         	break;
     }
 });
+
+chrome.runtime.onMessageExternal.addListener(
+  function(request, sender, sendResponse) {
+    console.log('message from ' + sender.tab.id);
+    if(request.initDialog){
+        chrome.tabs.sendMessage(sender.tab.id, {
+            type: MessageTypes.InitSiteDialog,
+            langPair: request.initDialog.langPair,
+            attachBlockSelector: request.initDialog.attachBlockSelector
+        });
+    }    
+});

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Test Ember 'vocabulary' app</title>
-	<link rel='stylesheet' href='../../Content/bootstrap.min.css' />
+	<link rel='stylesheet' href='__temp__/Content/bootstrap.min.css' />
 </head>
 <body>
 	<style>
@@ -254,7 +254,7 @@
 		
 	<script type='text/x-handlebars' id='wordsToolbox'>
 		<div class="col-xs-6">
-			<form id="word_input_block" class="input-group" {{action "addTranslation"}}>
+			<form id="word_input_block" class="input-group">
 				{{input value=inputWord class="form-control"  placeholder="Type word..."}}
 		      	<span class="input-group-btn">
 		        	<button {{bind-attr class=":btn inputWord:btn-info"}} type="submit" >
@@ -336,50 +336,14 @@
 	</script>
 
 </body>
-<script src="../vendor/jquery-1.10.2.js"></script>
+<script src="__temp__/vendor/jquery-1.10.2.js"></script>
 <script src="http://builds.emberjs.com/release/ember-template-compiler.js"></script>
 <script src="http://builds.emberjs.com/release/ember.debug.js"></script>
 <script src="http://builds.emberjs.com/release/ember-data.prod.js"></script>
-<script src="../vendor/bootstrap.min.js"></script>
-<script src="../vendor/jquery.scrollTo.min.js"></script>
-
-<!-- Cool Translator -->
-
-<script src='../cool-translator/scripts/utils.js'></script>
-<script src='../cool-translator/scripts/config.js'></script>
-
-<script src='../cool-translator/scripts/controls/add_translation.js'></script>
-<script src='../cool-translator/scripts/controls/login_form.js'></script>
-<script src='../cool-translator/scripts/controls/notification_popup.js'></script>
-
-<script src='../cool-translator/scripts/sources/source_tab.js'></script>
-<script src='../cool-translator/scripts/sources/source.js'></script>
-
-<script src='../cool-translator/scripts/sources/common/content_types.js'></script>
-<script src='../cool-translator/scripts/sources/common/dictionary_provider.js'></script>
-<script src='../cool-translator/scripts/sources/common/dictionary_service.js'></script>
-
-<script src='../cool-translator/scripts/sources/abby/abby_config.js'></script>
-<script src='../cool-translator/scripts/sources/abby/abby_provider.js'></script>
-<script src='../cool-translator/scripts/sources/abby/abby_service.js'></script>
-
-<script src='../cool-translator/scripts/sources/google/google_config.js'></script>
-<script src='../cool-translator/scripts/sources/google/google_provider.js'></script>
-<script src='../cool-translator/scripts/sources/google/google_service.js'></script>
-
-<script src='../cool-translator/scripts/sources/lingualeo/ll_config.js'></script>
-<script src='../cool-translator/scripts/sources/lingualeo/ll_provider.js'></script>
-<script src='../cool-translator/scripts/sources/lingualeo/ll_service.js'></script>
-
-<script src='../cool-translator/scripts/sources/thefreedictionary/tfd_config.js'></script>
-<script src='../cool-translator/scripts/sources/thefreedictionary/tfd_provider.js'></script>
-<script src='../cool-translator/scripts/sources/thefreedictionary/tfd_service.js'></script>
-
-<script src='../cool-translator/scripts/dialog.js'></script>
-
+<script src="__temp__/vendor/bootstrap.min.js"></script>
+<script src="__temp__/vendor/jquery.scrollTo.min.js"></script>
 <script src="vocabulary.js"></script>
-
-<link rel='stylesheet' href='../cool-translator/styles/dialog.css'>
+<script src="ct_adapter.js"></script>
 
 <script>
 	Vocabulary.Router.map(function(){
@@ -464,26 +428,14 @@
 		translator: {},
 		applicationCtrl: Ember.inject.controller('application'),
 		init: function(){
-			var self = this;
-			$(document).ready(function(){
-				$('body').mousedown(function(e){
-					if(self.get('translator').hide()){
-						e.stopPropagation();
-						e.preventDefault();
-					}
-				});
-			});
+			var ctAdapter =  new CTAdapter();
+			this.set('ctAdapter', ctAdapter);
 			var langPair = this.get('applicationCtrl').langPair;
-			var translationDialog = TranslationDialogFactory.createSiteDialog('#word_input_block', langPair);
-			this.set('translator', translationDialog);
-		}.on('init'),
-		actions:{
-			addTranslation: function(){
-				var inputWord = this.get('inputWord');
-				if(inputWord)
-					this.get('translator').show(inputWord);
-			}
-		}
+			ctAdapter.initSiteDialog(langPair, '#word_input_block');
+
+			// $(document).ready(function(){
+			// }.bind(this));
+		}.on('init')
 	});
 
 	Vocabulary.SpechPartBlock = Ember.Component.extend({

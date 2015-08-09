@@ -49,7 +49,7 @@
       "js/sources/ll/ll_style.css",
       "js/sources/tfd/tfd_style.css"
       ],
-    "matches": [ "*://*/*" ],
+    "matches": [ "<all_urls>" ],
     "run_at": "document_end"
   }],
   "permissions": ["tabs", "<all_urls>"],
@@ -60,5 +60,8 @@
     "images/sound.png",
     "images/sprites.png",
     "images/ll/marker.png",
-    "images/blank.gif"]
+    "images/blank.gif"],
+  "externally_connectable": {
+    "matches": [ "http://localhost:3000/app.html" ]
+  }
 }

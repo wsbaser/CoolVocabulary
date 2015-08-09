@@ -322,7 +322,7 @@
 #ctr_dialog .ctr-error-result,
 #ctr_dialog .ctr-prompts,
 #ctr_dialog .ctr-tab-loading{
-  padding: 20px !important; 
+  margin: 20px !important; 
 }
 
 #ctr_dialog .ctr-tab-loading{

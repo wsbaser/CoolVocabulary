@@ -121,15 +121,7 @@ LLService.CARD_TEMPLATE =
     <div id="lleo_translationsCopntainer1">\
         <div id="lleo_translationsCopntainer2">\
             <div id="lleo_picOuter">\
-                <table>\
-                    <tr>\
-                        <td>\
-                            <div>\
-                                <img id="lleo_pic" src="{picUrl}" width="30"/>\
-                            </div>\
-                        </td>\
-                    </tr>\
-                </table>\
+                <img id="lleo_pic" src="{picUrl}" width="30"/>\
                 <img id="lleo_picBig" src="{picUrl}"/>\
             </div>\
             <div id="lleo_inner">\
