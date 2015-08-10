@@ -16,8 +16,8 @@ var GoogleConfig = function() {
     return {
         id: "google",
         name: "Google Translator",
-        sourceLanguages: ['cn', 'en','ru'],
-        targetLanguages: ['cn', 'en','ru'],
+        sourceLanguages: ['en','ru'],
+        targetLanguages: ['en','ru'],
         priority: 8,
         domain:"https://translate.google.com",
         path:{

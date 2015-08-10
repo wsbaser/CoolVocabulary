@@ -1,4 +1,5 @@
 window.Dialog = null;
+window.SiteDialogData = null;
 /***** ctrContent *****************************************************************************************************/
 
 var ctrContent = {};
@@ -53,19 +54,11 @@ ctrContent.bindEventHandlers = function() {
     document.addEventListener('dblclick', ctrContent.handlers.dblClick);
     document.addEventListener('keydown', ctrContent.handlers.keyDown, true);
     document.addEventListener('keyup', ctrContent.handlers.keyUp);
-    document.addEventListener('mousedown', ctrContent.handlers.mousedown);
 };
 
 /***** Handlers *******************************************************************************************************/
 
 ctrContent.handlers = {};
-
-ctrContent.handlers.mousedown = function(e){
-    if (Dialog &&
-        !$.contains(Dialog.el[0], e.target) &&
-         Dialog.hide())
-        return false;
-};
 
 ctrContent.handlers.dblClick = function (event) {
     var inputElement = null;
@@ -147,6 +140,15 @@ ctrContent.handlers.keyDown = function(e) {
     }
 };
 
+ctrContent.initSiteDialog = function(langPair, attachBlockSelector){
+    var attachBlockEl = $(attachBlockSelector);
+    var inputEl = attachBlockEl.find('input');
+    attachBlockEl.on('submit', function(event){
+        Dialog.showForSite(langPair, attachBlockSelector, inputEl.val());
+        return false;
+    });
+};
+
 //======================================================================================================================
 
 ctrContent.init();
@@ -154,12 +156,11 @@ ctrContent.init();
 chrome.runtime.onMessage.addListener(
   function(message, sender, sendResponse) {
     switch(message.type){
-        case MessageTypes.DialogInjected:
-            // Dialog = TranslationDialogFactory.createExtensionDialog();
-            // Dialog.show(message.word);
+        case MessageTypes.InitSiteDialog:
+            ctrContent.initSiteDialog(message.langPair, message.attachBlockSelector);
             break;
         default:
-            console.error('Unknown message type:'+message.type);
+            console.error('Unknown message type:' + message.type);
             break;
     }
 });

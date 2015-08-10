@@ -87,6 +87,10 @@ jQuery.fn.showImportant = function() {
     this[0].style.setProperty('display',displayValue,'important');
 };
 
+jQuery.fn.hideImportant = function() {
+    this[0].style.setProperty('display','none','important');
+};
+
 function isCtrlPressed(event){
     var isMac = window.navigator.userAgent.toLowerCase().indexOf('macintosh') > -1;
     return (isMac ? event.metaKey : event.ctrlKey);

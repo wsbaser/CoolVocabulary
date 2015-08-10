@@ -219,20 +219,22 @@ TranslationDialog.prototype.selectPrevSource = function() {
 * @param force - update even if data has not changed
 * */
 TranslationDialog.prototype.updateSourcesContent = function(force) {
-    // . do not update content if data not changed and current tab is loading
-    var inputData = this.getInputData();
-    if (!inputData.word)
+  if(!this.isActive)
+    return;
+  // . do not update content if data not changed and current tab is loading
+  var inputData = this.getInputData();
+  if (!inputData.word)
+    return;
+  if (isInputDataEqual(inputData,this.lastRequestData) && !force)
       return;
-    if (isInputDataEqual(inputData,this.lastRequestData) && !force)
-        return;
-   this.hideLoginForm();
-   this.lastRequestData = inputData;
-    // . load data for all sources simultaneously
-    $.each(this.sources, function (key, source) {
-        source.loadAndShow(inputData);
-    });
-    // . but show only active
-   this.blurInput();
+ this.hideLoginForm();
+ this.lastRequestData = inputData;
+  // . load data for all sources simultaneously
+  $.each(this.sources, function (key, source) {
+      source.loadAndShow(inputData);
+  });
+  // . but show only active
+  this.blurInput();
 };
 
 TranslationDialog.prototype.getLangPair = function(){
@@ -302,7 +304,6 @@ TranslationDialog.prototype.create = function () {
   this.headerEl = $('#ctr_header');
   this.notificationPopup = new NotificationPopup('#ctr_notification');
   this.loginForm = new LoginForm('#ctr_login_wrap');
-  this.inputEl = $('#ctr_wordInput');
   this.inputFormEl = $('#ctr_wordInputForm');
   $('#ctr_closeBtn').bind('click', this.hide);
   this.inputFormEl.bind('submit', this.submitInputData.bind(this));
@@ -315,30 +316,38 @@ TranslationDialog.prototype.create = function () {
   this.updateSourcesList();
   this.selectSource(this.sourceWithActiveLink);
   $(window).on('resize', this.hide.bind(this));
+  document.addEventListener('mousedown', this.mousedown.bind(this));
 };
 
-TranslationDialog.prototype.initFor = function(extension) {  
-  // called before particular show
-  if(extension) {
-    this.el[0].style.removeProperty('left');
-    this.el[0].style.removeProperty('top');
-    this.el.removeClass('ctr-site');
-    this.el.addClass('ctr-extension');
-    this.el.addClass('ctr-with-transition');
-    this.inputFormEl.show();
-  }
-  else {
-    this.attach();
-    this.el.removeClass('ctr-extension');
-    this.el.removeClass('ctr-with-transition');
-    this.el.addClass('ctr-site');
-  }
-  this.isExtension = extension;
+TranslationDialog.prototype.mousedown = function(e){
+  if(!this.isActive ||
+    $.contains(Dialog.el[0], e.target) ||
+    (!this.isExtension && $.contains(this.attachBlockEl[0], e.target)))
+    return;
+  this.hide();
+  return false;
 };
 
 TranslationDialog.prototype.showForExtension = function(word) {
-  this.initFor(true);
+  this.el[0].removeAttribute('style');
+  this.inputEl = $('#ctr_wordInput');
+  this.el.removeClass('ctr-site');
+  this.el.addClass('ctr-extension');
+  this.inputFormEl.showImportant();
+  this.isExtension = true;
   this.selectionBackup = selectionHelper.saveSelection();
+  this.show(word);
+};
+
+TranslationDialog.prototype.showForSite = function(langPair, attachBlockSelector, word) {
+  this.setLangPair(langPair);
+  this.attachBlockEl = $(attachBlockSelector);
+  this.inputEl = this.attachBlockEl.find('input');
+  this.attach();
+  this.el.removeClass('ctr-extension');
+  this.el.addClass('ctr-site');
+  this.inputFormEl.hideImportant();
+  this.isExtension = false;
   this.show(word);
 };
 
@@ -414,9 +423,7 @@ TranslationDialog.prototype.getInputData = function() {
   };
 };
 
-TranslationDialog.prototype.attach = function () {
-  if(!this.attachBlockEl || !this.attachBlockEl.length)
-    throw new Error('no element to attach');
+TranslationDialog.prototype.attach = function() {
   var l,t;
   // .attach to element bottom
   var GAP = 2;
