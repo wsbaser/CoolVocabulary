@@ -3,26 +3,30 @@ window.Dialog = null;
 
 var ctrContent = {};
 ctrContent.isMac = window.navigator.userAgent.toLowerCase().indexOf('macintosh') > -1;
+ctrContent.langPair = null;
 
 ctrContent.init = function () {
     ctrContent.bindEventHandlers();
+    Dialog = TranslationDialogFactory.create();
+    Dialog.addEventListener('langPairChanged', ctrContent.onLangPairChanged);
     ctrContent.loadInitializationData(function(data){
-        Dialog = TranslationDialogFactory.createExtensionDialog(data.langPair);
-        Dialog.addEventListener('langPairChanged', ctrContent.onLangPairChanged);
+        Dialog.setLangPair(data.langPair);
     });
 };
 
 /* Save to local storage */
 ctrContent.onLangPairChanged = function(event, langPair) {
-  chrome.runtime.sendMessage({
-      type: MessageTypes.SaveLangPair,
-      langPair: langPair
+    chrome.runtime.sendMessage({
+        type: MessageTypes.SaveLangPair,
+        langPair: langPair
     });
 };
 
 /* Load from local storage */
 ctrContent.loadInitializationData = function(callback) {
-    chrome.runtime.sendMessage({type: MessageTypes.LoadInitializationData}, callback);
+    chrome.runtime.sendMessage({
+        type: MessageTypes.LoadInitializationData
+    }, callback);
 };
 
 /*
@@ -38,16 +42,11 @@ ctrContent.getSelectedText = function(inputElement) {
     return strHelper.trimText(text);
 };
 
-ctrContent.showDialog = function(word){
-    if(Dialog!=null)
-        Dialog.show(word);
-};
-
 ctrContent.showDialogForCurrentSelection = function (inputElement) {
     if (inputElement && inputElement.getAttribute && inputElement.getAttribute('type') === 'password')
         return;
     var word = ctrContent.getSelectedText(inputElement);
-    ctrContent.showDialog(word);
+    Dialog.showForExtension(word);
 };
 
 ctrContent.bindEventHandlers = function() {
@@ -142,7 +141,7 @@ ctrContent.handlers.keyDown = function(e) {
     else {
         // Dialog is Hidden
         if (e.ctrlKey && e.keyCode === 32) {      // Ctrl + Space
-            ctrContent.showDialog();
+             Dialog.showForExtension();
             return cancelEvent(e);
         }
     }

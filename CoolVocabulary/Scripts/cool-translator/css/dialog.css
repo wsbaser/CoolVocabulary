@@ -94,23 +94,48 @@
 }
 /***** Dialog *********************************************************************************************************/
 #ctr_dialog {
-    position: fixed !important;
-    left: -999px !important;
-    top: -999px !important;
-    background: #fff !important;
-    border: solid 1px #ccc !important;
-    border-radius: 4px !important;
-    width: 600px !important;
-    max-height: 100% !important;
-    overflow: visible !important;
-    z-index: 999999999 !important;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18) !important;
+  position: fixed !important;
+  left: -999px !important;
+  top: -999px !important;
+  background: #fff !important;
+  border: solid 1px #ccc !important;
+  border-radius: 4px !important;
+  width: 600px !important;
+  max-height: 100% !important;
+  overflow: visible !important;
+  z-index: 999999999 !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18) !important;
 	-moz-border-radius: 3px !important;
 	-webkit-border-radius: 3px !important;
 	font: normal 13px Arial, Helvetica !important;
-    transition: transform 0.3s !important;
 }
 
+#ctr_dialog.ctr-extension{
+  left: 50% !important;
+  top: 0px !important;
+  transform: translate(-50%,-110%);
+}
+
+#ctr_dialog.ctr-extension.ctr-show{
+  transition: transform .3s !important;
+  transform: translate(-50%, 0%) !important;
+}
+
+#ctr_dialog.ctr-extension.ctr-hide{
+  transition: transform .3s !important;
+}
+
+#ctr_dialog.ctr-site{
+  display: none !important;
+}
+
+#ctr_dialog.ctr-site.ctr-show{
+  display: block !important;
+}
+
+#ctr_dialog.ctr-site.ctr-hide{
+  display: none !important;
+}
 
 #ctr_dialog #ctr_notification{
     background: radial-gradient(ellipse at center, #b4df5b 0%,#b4df5b 100%) !important;
@@ -395,7 +420,7 @@
 
 #ctr_dialog .ctr-flag-icon.ru{background-position: 0 0 !important;}
 #ctr_dialog .ctr-flag-icon.en{background-position: -24px 0 !important;}
-#ctr_dialog .ctr-flag-icon.es{background-position: -48px 0 !important;}
+#ctr_dialog .ctr-flag-icon.cn{background-position: -48px 0 !important;}
 
 
 #ctr_dialog .ctr-source-icon{

@@ -28,7 +28,7 @@ DictionaryProvider.prototype.requestPage = function(urlTemplate, requestData, re
     var self = this;
     var deferred = $.Deferred();
     var translateUrl = this.formatRequestUrl(urlTemplate, requestData);
-
+    console.log(translateUrl);
     var xhr = new XMLHttpRequest();
     xhr.open('GET', translateUrl, true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');

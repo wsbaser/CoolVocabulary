@@ -75,6 +75,7 @@ GoogleProvider.prototype.loadWordArticle = function(requestData) {
     var self = this;
     var deferred = $.Deferred();
     var translateUrl = this.formatRequestUrl(this.config.ajax.translate, requestData);
+    console.log(translateUrl);
     $.ajax(translateUrl,{dataType:'text'}).done(function (data) {
         try{
             deferred.resolve(self.processResponse(data));

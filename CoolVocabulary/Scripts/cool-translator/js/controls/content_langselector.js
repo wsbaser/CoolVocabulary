@@ -9,7 +9,7 @@
 * @param onLangAccepted - callback function called when user accepted some language from list
 * */
 
-function LangSelector(rootSelector, languages, currentLang, options) {
+function LangSelector(rootSelector, languages, options) {
     this.el = $(rootSelector);
     this.el.addClass('ctr-lang-selector');
     this.languages = languages;
@@ -23,7 +23,7 @@ function LangSelector(rootSelector, languages, currentLang, options) {
     this.freezeEvents = true;   // don't fire events during initialization
     this._initSelectedLang();
     this._initList();
-    this.setSelectedLang(currentLang);
+    this.setSelectedLang(languages[0]);
     this._bindEvents();
     this.freezeEvents = false;
 };
@@ -111,9 +111,10 @@ LangSelector.prototype._select = function(index) {
     var itemEl = $(this.langListEl.children()[index]);
     this.selectedItemEl = itemEl;
     this.selectedIndex = index;
+    var selectedLang = this.getSelectedLang();
     this.selectedItemEl.addClass(LangSelector.SELECTED_CLASS);
-    this.selectedLangEl.addClass(this.getSelectedLang());
-    this.selectedLangEl.attr('title', this.getSelectedLang());
+    this.selectedLangEl.addClass(selectedLang);
+    this.selectedLangEl.attr('title', selectedLang);
 
     this._fireEvent(this.options.onLangChange);
 };
@@ -147,19 +148,17 @@ LangSelector.prototype.getSelectedLang = function () {
     return this.languages[this.selectedIndex];
 };
 
-LangSelector.prototype.setSelectedLang = function (lang, langEl) {
-    this.selectedIndex = this.languages.indexOf(lang);
+LangSelector.prototype.setSelectedLang = function (lang, langEl, freezeEvents) {
+    this.freezeEvents = this.freezeEvents || freezeEvents;
     if (langEl) {
         this.selectedLangEl = $(langEl);
         this.selectedLangEl.on("click", this._onSelectedLangClick.bind(this));
         this.el.prepend(this.selectedLangEl);
     }
-    else {
-        this.selectedLangEl.addClass(lang);
-        this.selectedLangEl.attr('title', lang);
-    }
-    this._select(this.selectedIndex);
+    var selectedIndex = this.languages.indexOf(lang);
+    this._select(selectedIndex);
     this._fireEvent(this.options.onLangAccepted);
+    this.freezeEvents = false;
 };
 
 /***** LANG SWITCHER **************************************************************************************************/
