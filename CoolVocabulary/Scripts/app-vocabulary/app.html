@@ -171,10 +171,72 @@
 			vertical-align: -7px;
 		}  
 
+		.navbar.topbar {
+		    width: 100%;
+		    background: rgba(0,0,0,0.86);
+		    height: 34px;
+		    line-height: 1;
+		    font-size: 13px;
+		    min-height: 34px;	/* rewrite bootstrap.css */
+		}
+
+		.topbar>.container {
+		    height: 34px;
+		    text-align: left;
+		    position: relative;
+		}
+
+		.topbar-navitems.navbar-collapse {
+			padding-left: 0;
+			padding-right: 0;
+		}
+
+		.topbar-navitems li{
+		    color: #e0e0e0;
+		    text-decoration: none;
+		    display: inline-block;
+		    height: 24px;
+		    padding: 10px 7px 0 7px;
+		    vertical-align: top;
+		    font-size: 13px;
+		}
+
+		.container.toolbox {
+			padding-top: 34px;
+		}
+
 	</style>
 
+	<div class="topbar navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="topbar-navitems navbar-collapse collapse">
+            	<div class="topbar-menu-links">
+	                <ul class="nav navbar-nav">
+	                    <li>About</li>
+	                    <li>Cool Translator</li>
+	                    <li>Babbel.com</li>
+	                    <li>Duolingo.com</li>
+	                </ul>
+            	</div>
+				<div class="topbar-user-links pull-right">
+					<ul class="nav navbar-nav">
+						<li>Sign Up</li>
+						<li>Sign In</li>
+	                </ul>
+				</div>
+            </div>
+        </div>
+    </div>
+
 	<script type='text/x-handlebars' id='application'>
-		<div id='toolbox' class="container">
+		<div id='toolbox' class="container toolbox">
 			<div class="row">
 				<div class="col-xs-4">
 					<ol class="breadcrumb">
