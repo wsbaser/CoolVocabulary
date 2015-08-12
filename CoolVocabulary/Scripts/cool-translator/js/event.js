@@ -63,5 +63,6 @@ chrome.runtime.onMessageExternal.addListener(
             langPair: request.initDialog.langPair,
             attachBlockSelector: request.initDialog.attachBlockSelector
         });
+        sendResponse(true);
     }    
 });
