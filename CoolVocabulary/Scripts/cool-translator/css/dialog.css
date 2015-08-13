@@ -103,7 +103,6 @@
   width: 600px !important;
   max-height: 100% !important;
   overflow: visible !important;
-  z-index: 999999999 !important;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18) !important;
 	-moz-border-radius: 3px !important;
 	-webkit-border-radius: 3px !important;
@@ -111,6 +110,8 @@
 }
 
 #ctr_dialog.ctr-extension{
+  z-index: 9999999999 !important;
+  position: fixed !important;
   left: 50% !important;
   top: 0px !important;
   transform: translate(-50%,-110%);
@@ -126,6 +127,8 @@
 }
 
 #ctr_dialog.ctr-site{
+  z-index: 1001 !important;
+  position: absolute !important;
   display: none !important;
 }
 

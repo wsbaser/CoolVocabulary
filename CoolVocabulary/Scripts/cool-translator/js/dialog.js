@@ -203,7 +203,6 @@ TranslationDialog.prototype.showSourceContent = function(source) {
     if(this.activeSource)
       this.activeSource.hide();
     source.show();
-    source.adjustArticleHeight();
 };
 
 
@@ -277,10 +276,6 @@ TranslationDialog.prototype.onSelectSource = function(e) {
     if (targetSourceId === this.activeSource.config.id)
         return; // source is already displayed
    this.selectSource(this.allSources[targetSourceId])
-};
-
-TranslationDialog.prototype.adjustArticleHeight = function(){
-   this.activeSource.adjustArticleHeight();
 };
 
 TranslationDialog.prototype.appendSourcesContent = function() {

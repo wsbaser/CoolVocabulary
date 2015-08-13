@@ -128,12 +128,6 @@ Source.prototype.selectTab = function (tabIndex) {
     }
 };
 
-Source.prototype.adjustArticleHeight = function () {
-    $.each(this.tabs, function(key,tab){
-        tab.adjustContentHeight();
-    });
-};
-
 Source.prototype.isDataEqualTo = function (data) {
     var currentData = this.currentTabIndex ? this.tabs[this.currentTabIndex].data : null;
     return isInputDataEqual(currentData, data);
@@ -169,6 +163,7 @@ Source.prototype.clear = function() {
 };
 Source.prototype.show = function(){
     this.rootEl.show();
+    this.tabs[this.currentTabIndex].adjustContentHeight();
 };
 Source.prototype.hide = function(){
     this.rootEl.hide();

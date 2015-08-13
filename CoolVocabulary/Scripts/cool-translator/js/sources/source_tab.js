@@ -56,7 +56,6 @@ SourceTab.prototype.init = function(data, content, error, prompts) {
                 this.rootEl.append(this.createNoResultsErrorEl(this.contentType,this.data.word));
         }
     }
-    this.adjustContentHeight();
 };
 
 SourceTab.prototype.createContentEl = function(){
@@ -122,10 +121,10 @@ SourceTab.prototype.clear = function(){
 SourceTab.prototype.adjustContentHeight = function() {
     if(this.hasContent) {
         this.contentEl[0].style.setProperty("overflow", "auto", "important");
+        var rect = this.contentEl[0].getBoundingClientRect();
         this.contentEl[0].style.maxHeight =
             document.documentElement.clientHeight -
-            Dialog.headerEl.height() -
-            this.navigationEl.height() -
+            rect.top -
             (this._addTranslation ? this._addTranslation.el.height() : 0) +
             'px';
     }
@@ -141,6 +140,7 @@ SourceTab.prototype.show = function(){
     this.navigationEl.addClass(SourceTab.SELECTED_CLASS);
     // . show tab content
     this.rootEl.show();
+    this.adjustContentHeight();
 };
 
 SourceTab.prototype.isActive = function(){
