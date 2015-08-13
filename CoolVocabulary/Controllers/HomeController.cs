@@ -10,16 +10,16 @@ namespace CoolVocabulary.Controllers {
             return View();
         }
 
-        public ActionResult About() {
-            ViewBag.Message = "Your application description page.";
-
+        public ActionResult CoolTranslator() {
             return View();
         }
 
-        public ActionResult Contact() {
-            ViewBag.Message = "Your contact page.";
-
+        public ActionResult Babbel() {
             return View();
         }
+        public ActionResult Duolingo() {
+            return View();
+        }
+
     }
 }

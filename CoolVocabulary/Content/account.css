@@ -1,0 +1,163 @@
+﻿    .login-container {
+        width: 980px;
+        margin: 30px auto;
+    }
+    .login-ui {
+        padding-top: 20px;
+        text-align: center;
+    }
+    .call-to-action {
+        margin-bottom: 10px;
+        font-size: 16px;
+    }
+        .call-to-action .site-name-container {
+            display: inline-block;
+        }
+        .call-to-action .site-logo {
+            vertical-align: middle;
+            width: 24px;
+            height: 24px;
+            margin-right: 0;
+        }
+        .call-to-action .site-name {
+            display: inline-block;
+            font-weight: bold;
+        }
+    #formContainer {
+        width: 280px;
+        margin: 0 auto;
+        padding: 30px;
+        border: 1px solid #e6e6e6;
+        background: #fff;
+        box-sizing: content-box;
+    }
+    #openid-buttons {
+        text-align: left;
+    }
+    .preferred-login {
+        cursor: pointer;
+        border-radius: 3px;
+        width: 137px;
+        height: 38px;
+        display: inline-block;
+        text-align: center;
+    }
+    .preferred-login.google-login {
+        border: 1px solid #e0492f;
+    }
+        .preferred-login.facebook-login {
+            border: 1px solid #395697;
+        }
+        .preferred-login .icon-container {
+            display: inline-block;
+            width: 35px;
+            height: 100%;
+            padding: 0;
+            float: left;
+        }
+        .preferred-login .icon {
+            background: url('http://cdn.sstatic.net/img/openid/universal-login-sprite.png?v=081e7998ef2c');
+            display: inline-block;
+            margin: 11px auto;
+            width: 16px;
+            height: 16px;
+        }
+        .preferred-login.google-login .icon {
+            background-position: 0 0;
+        }
+        .preferred-login.facebook-login .icon {
+            background-position: -17px 0;
+        }
+        .preferred-login.facebook-login .icon-container {
+            background: #395697;
+            border-right: 1px solid #2a4683;
+        }
+        .preferred-login.google-login .icon-container {
+            border-right: 1px solid #bf3b24;
+            background: #e0492f;
+        }
+        .preferred-login .text {
+            width: 100px;
+            height: 100%;
+            color: #fff;
+            display: table;
+        }
+        .preferred-login.google-login .text {
+            background: #e0492f;
+        }
+        .preferred-login.facebook-login .text {
+            background: #395697;
+        }
+        .preferred-login .text span {
+            display: table-cell;
+            vertical-align: middle;
+            text-align: center;
+        }
+    .cbt {
+        clear: both;
+    }
+    .or-container {
+        text-align: center;
+        margin-top: 20px;
+        color: #808080;
+        font-variant: small-caps;
+    }
+    .or-hr {
+        margin-bottom: -20px;
+        height: 0;
+        border: 0;
+        border-top: 1px solid #e6e6e6;
+    }
+    #or {
+        display: inline-block;
+        position: relative;
+        padding: 10px;
+        background-color: #fff;
+    }
+
+    #cv-login-form{
+        text-align: left;
+    }
+
+    #switch {
+        padding: 20px;
+        border: 1px solid #e6e6e6;
+        width: 300px;
+        margin: 20px auto;
+        background: #fff;
+        box-sizing: content-box;
+    }
+
+    #cv-login-form input {
+        margin: 5px 0 5px 0;
+        transition: none;
+    }
+        #cv-login-form input[type=text],
+        #cv-login-form input[type=email],
+        #cv-login-form input[type=password] {
+            color: #2a2a28;
+            width: 263px;
+            line-height: 1.3;
+            font-size: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            height: 18px;
+            border: 1px solid #e6e6e6;
+            border-radius: 0;
+            cursor: auto !important;
+            box-sizing: content-box;
+        }
+input[type=button], input[type=submit] {
+    text-align: center;
+    background: #07c;
+    color: #fff;
+    border-radius: 3px;
+    width: 120px;
+    padding: 12px 40px;
+    box-shadow: none;
+    text-shadow: none;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 0 !important;
+}

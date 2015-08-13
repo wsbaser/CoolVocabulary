@@ -1,9 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>Test Ember 'vocabulary' app</title>
-	<link rel='stylesheet' href='__temp__/Content/bootstrap.min.css' />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wsbaser's vocabulary</title>
+    <link rel='stylesheet' href='__temp__/Content/bootstrap.min.css' />
 </head>
 <body>
 	<style>
@@ -171,7 +172,9 @@
 			background-size: contain;
 			vertical-align: -7px;
 		}  
-
+		
+		/* site.css */
+	
 		.navbar.topbar {
 		    width: 100%;
 		    background: rgba(0,0,0,0.86);
@@ -193,13 +196,18 @@
 		}
 
 		.topbar-navitems li{
-		    color: #e0e0e0;
-		    text-decoration: none;
 		    display: inline-block;
 		    height: 24px;
 		    padding: 10px 7px 0 7px;
 		    vertical-align: top;
+		}
+
+		.topbar-navitems .navbar-nav>li>a{
 		    font-size: 13px;
+		    padding: 0;
+		    margin: 0; 
+		    color: #e0e0e0;
+		    text-decoration: none;
 		}
 
 		.container.toolbox {
@@ -220,16 +228,16 @@
             <div class="topbar-navitems navbar-collapse collapse">
             	<div class="topbar-menu-links">
 	                <ul class="nav navbar-nav">
-	                    <li>About</li>
-	                    <li>Cool Translator</li>
-	                    <li>Babbel.com</li>
-	                    <li>Duolingo.com</li>
+	                    <li><a>About</a></li>
+	                    <li><a>Cool Translator</a></li>
+	                    <li><a>Babbel.com</a></li>
+	                    <li><a>Duolingo.com</a></li>
 	                </ul>
             	</div>
 				<div class="topbar-user-links pull-right">
 					<ul class="nav navbar-nav">
-						<li>Sign Up</li>
-						<li>Sign In</li>
+						<li><a>Sign Up</a></li>
+						<li><a>Sign In</a></li>
 	                </ul>
 				</div>
             </div>
@@ -332,7 +340,7 @@
 			<form id="word_input_form" class="input-group">
 				{{input value=inputWord class="form-control input-sm"  placeholder="Type word..."}}
 		      	<span class="input-group-btn">
-		        	<button {{bind-attr class=":btn :btn-sm inputWord:btn-info"}} type="submit" >
+		        	<button class="btn btn-sm btn-info" type="submit" >
 		        		<span class="glyphicon glyphicon-add" aria-hidden="true"></span>
 		        		Add
 		        	</button>
@@ -413,8 +421,8 @@
 </body>
 <script src="__temp__/vendor/jquery-1.10.2.js"></script>
 <script src="http://builds.emberjs.com/release/ember-template-compiler.js"></script>
-<script src="__temp__/vendor/ember.debug.js"></script>
-<script src="http://builds.emberjs.com/release/ember-data.prod.js"></script>
+<script src="http://builds.emberjs.com/release/ember.debug.js"></script>
+<!-- <script src="http://builds.emberjs.com/release/ember-data.prod.js"></script> -->
 <script src="__temp__/vendor/bootstrap.min.js"></script>
 <script src="__temp__/vendor/bootstrap-modal-popover.js"></script>
 <script src="__temp__/vendor/jquery.scrollTo.min.js"></script>
@@ -423,9 +431,9 @@
 
 <script>
 	Vocabulary.Router.map(function(){
-		this.resource('words',{path:'/'});
-		this.resource('learn');
-		this.resource('exam');
+		this.route('words', { path:'/' });
+		this.route('learn');
+		this.route('exam');
 	});
 
 	Vocabulary.ApplicationController = Ember.Controller.extend({
@@ -576,7 +584,7 @@
 		},
 	});
 
-	Vocabulary.LearnView = Ember.View.extend({
+	Vocabulary.LearnComponent = Ember.Component.extend({
 		didInsertElement: function(){
 			var self = this;
 			$('#content')[0].addEventListener('heightChanged', function(){

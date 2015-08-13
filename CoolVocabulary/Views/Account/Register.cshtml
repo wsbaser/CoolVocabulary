@@ -1,40 +1,52 @@
 ﻿@model CoolVocabulary.Models.RegisterViewModel
 @{
-    ViewBag.Title = "Регистрация";
+   ViewBag.Title = "Sign up - Cool Vocabulary";
 }
 
-<h2>@ViewBag.Title.</h2>
+<link href="~/Content/account.css" rel="stylesheet" />
 
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
-    <h4>Создайте новую учетную запись.</h4>
-    <hr />
-    @Html.ValidationSummary()
-    <div class="form-group">
-        @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+<div class="login-container">
+    <div class="login-ui">
+        <div class="call-to-action">
+            Sign up to continue to <div class="site-name-container">
+                <img class="site-logo" src="//cdn.sstatic.net/stackoverflow/img/apple-touch-icon.png">
+                <div class="site-name">Cool Vocabulary</div>
+            </div>
+        </div>
+        <div id="formContainer">
+            <div id="openid-buttons">
+                <div class="preferred-login   google-login" data-provider="google" data-oauthserver="https://accounts.google.com/o/oauth2/auth" data-oauthversion="2.0">
+                    <div class="icon-container"><span class="icon" style=""></span></div>
+                    <div class="text"><span>Google</span></div>
+                    <br class="cbt">
+                </div>
+                <div class="preferred-login   facebook-login" data-provider="facebook" data-oauthserver="https://www.facebook.com/v2.0/dialog/oauth" data-oauthversion="2.0">
+                    <div class="icon-container"><span class="icon" style=""></span></div>
+                    <div class="text"><span>Facebook</span></div>
+                    <br class="cbt">
+                </div>
+            </div>
+            <div class="or-container">
+                <hr class="or-hr">
+                <div id="or">or</div>
+            </div>
+            @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "clearfix", role = "form",id="cv-login-form" })) {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary()
+                @Html.LabelFor(m => m.UserName)
+                @Html.TextBoxFor(m => m.UserName)
+                @Html.LabelFor(m => m.Password)
+                @Html.PasswordFor(m => m.Password)
+                @Html.LabelFor(m => m.ConfirmPassword)
+                @Html.PasswordFor(m => m.ConfirmPassword)
+                <input type="submit" class="pull-right" value="Sign Up" />
+            }
+        </div>
+        <div id="switch">
+            Already have an account? <a href="/users/login?returnurl=http%3a%2f%2fstackoverflow.com%2f">Log in</a>
         </div>
     </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Регистрация" />
-        </div>
-    </div>
-}
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
