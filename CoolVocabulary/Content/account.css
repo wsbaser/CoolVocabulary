@@ -1,153 +1,161 @@
-﻿    .login-container {
-        width: 980px;
-        margin: 30px auto;
-    }
-    .login-ui {
-        padding-top: 20px;
-        text-align: center;
-    }
-    .call-to-action {
-        margin-bottom: 10px;
-        font-size: 16px;
-    }
-        .call-to-action .site-name-container {
-            display: inline-block;
-        }
-        .call-to-action .site-logo {
-            vertical-align: middle;
-            width: 24px;
-            height: 24px;
-            margin-right: 0;
-        }
-        .call-to-action .site-name {
-            display: inline-block;
-            font-weight: bold;
-        }
-    #formContainer {
-        width: 280px;
-        margin: 0 auto;
-        padding: 30px;
-        border: 1px solid #e6e6e6;
-        background: #fff;
-        box-sizing: content-box;
-    }
-    #openid-buttons {
-        text-align: left;
-    }
-    .preferred-login {
-        cursor: pointer;
-        border-radius: 3px;
-        width: 137px;
-        height: 38px;
-        display: inline-block;
-        text-align: center;
-    }
-    .preferred-login.google-login {
-        border: 1px solid #e0492f;
-    }
-        .preferred-login.facebook-login {
-            border: 1px solid #395697;
-        }
-        .preferred-login .icon-container {
-            display: inline-block;
-            width: 35px;
-            height: 100%;
-            padding: 0;
-            float: left;
-        }
-        .preferred-login .icon {
-            background: url('http://cdn.sstatic.net/img/openid/universal-login-sprite.png?v=081e7998ef2c');
-            display: inline-block;
-            margin: 11px auto;
-            width: 16px;
-            height: 16px;
-        }
-        .preferred-login.google-login .icon {
-            background-position: 0 0;
-        }
-        .preferred-login.facebook-login .icon {
-            background-position: -17px 0;
-        }
-        .preferred-login.facebook-login .icon-container {
-            background: #395697;
-            border-right: 1px solid #2a4683;
-        }
-        .preferred-login.google-login .icon-container {
-            border-right: 1px solid #bf3b24;
-            background: #e0492f;
-        }
-        .preferred-login .text {
-            width: 100px;
-            height: 100%;
-            color: #fff;
-            display: table;
-        }
-        .preferred-login.google-login .text {
-            background: #e0492f;
-        }
-        .preferred-login.facebook-login .text {
-            background: #395697;
-        }
-        .preferred-login .text span {
-            display: table-cell;
-            vertical-align: middle;
-            text-align: center;
-        }
-    .cbt {
-        clear: both;
-    }
-    .or-container {
-        text-align: center;
-        margin-top: 20px;
-        color: #808080;
-        font-variant: small-caps;
-    }
-    .or-hr {
-        margin-bottom: -20px;
-        height: 0;
-        border: 0;
-        border-top: 1px solid #e6e6e6;
-    }
-    #or {
-        display: inline-block;
-        position: relative;
-        padding: 10px;
-        background-color: #fff;
-    }
+﻿.login-container {
+    width: 980px;
+    margin: 30px auto;
+}
+.login-ui {
+    padding-top: 20px;
+    text-align: center;
+}
+.call-to-action {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+.call-to-action .site-name-container {
+    display: inline-block;
+}
+.call-to-action .site-logo {
+    vertical-align: middle;
+    width: 24px;
+    height: 24px;
+    margin-right: 0;
+}
+.call-to-action .site-name {
+    display: inline-block;
+    font-weight: bold;
+}
 
-    #cv-login-form{
-        text-align: left;
-    }
+#formContainer {
+    width: 280px;
+    margin: 0 auto;
+    padding: 30px;
+    border: 1px solid #e6e6e6;
+    background: #fff;
+    box-sizing: content-box;
+}
+#openid-buttons {
+    text-align: left;
+}
+.preferred-login {
+    padding:0;
+    cursor: pointer;
+    border-radius: 3px;
+    width: 137px;
+    height: 38px;
+    display: inline-block;
+    text-align: center;
+}
+.preferred-login:focus {
+    outline: none;
+}
+.preferred-login.google-login {
+    border: 1px solid #e0492f;
+}
+.preferred-login.facebook-login {
+    border: 1px solid #395697;
+}
+.preferred-login .icon-container {
+    display: inline-block;
+    width: 35px;
+    height: 100%;
+    padding: 0;
+    float: left;
+}
+.preferred-login .icon {
+    background: url('http://cdn.sstatic.net/img/openid/universal-login-sprite.png?v=081e7998ef2c');
+    display: inline-block;
+    margin: 11px auto;
+    width: 16px;
+    height: 16px;
+}
+.preferred-login.google-login .icon {
+    background-position: 0 0;
+}
+.preferred-login.facebook-login .icon {
+    background-position: -17px 0;
+}
+.preferred-login.facebook-login .icon-container {
+    background: #395697;
+    border-right: 1px solid #2a4683;
+}
+.preferred-login.google-login .icon-container {
+    border-right: 1px solid #bf3b24;
+    background: #e0492f;
+}
+.preferred-login .text {
+    width: 100px;
+    height: 100%;
+    color: #fff;
+    display: table;
+}
+.preferred-login.google-login .text {
+    background: #e0492f;
+}
+.preferred-login.facebook-login .text {
+    background: #395697;
+}
+.preferred-login .text span {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+.cbt {
+    clear: both;
+}
+.or-container {
+    text-align: center;
+    margin-top: 20px;
+    color: #808080;
+    font-variant: small-caps;
+}
+.or-hr {
+    margin-bottom: -20px;
+    height: 0;
+    border: 0;
+    border-top: 1px solid #e6e6e6;
+}
+#or {
+    display: inline-block;
+    position: relative;
+    padding: 10px;
+    background-color: #fff;
+}
 
-    #switch {
-        padding: 20px;
-        border: 1px solid #e6e6e6;
-        width: 300px;
-        margin: 20px auto;
-        background: #fff;
-        box-sizing: content-box;
-    }
+#cv-login-form {
+    text-align: left;
+}
 
-    #cv-login-form input {
-        margin: 5px 0 5px 0;
-        transition: none;
-    }
-        #cv-login-form input[type=text],
-        #cv-login-form input[type=email],
-        #cv-login-form input[type=password] {
-            color: #2a2a28;
-            width: 263px;
-            line-height: 1.3;
-            font-size: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            height: 18px;
-            border: 1px solid #e6e6e6;
-            border-radius: 0;
-            cursor: auto !important;
-            box-sizing: content-box;
-        }
-input[type=button], input[type=submit] {
+#switch {
+    padding: 20px;
+    border: 1px solid #e6e6e6;
+    width: 300px;
+    margin: 20px auto;
+    background: #fff;
+    box-sizing: content-box;
+}
+
+#cv-login-form input {
+    margin: 5px 0 5px 0;
+    transition: none;
+}
+
+#cv-login-form input[type=text],
+#cv-login-form input[type=email],
+#cv-login-form input[type=password] {
+    color: #2a2a28;
+    width: 263px;
+    line-height: 1.3;
+    font-size: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    height: 18px;
+    border: 1px solid #e6e6e6;
+    border-radius: 0;
+    cursor: auto !important;
+    box-sizing: content-box;
+}
+
+#cv-login-form input[type=button],
+#cv-login-form input[type=submit] {
     text-align: center;
     background: #07c;
     color: #fff;
@@ -160,4 +168,132 @@ input[type=button], input[type=submit] {
     border: none;
     cursor: pointer;
     margin-bottom: 0 !important;
+}
+
+#cv-login-form > label {
+    margin: 0;
+}
+
+/* External Login Confirmation */
+
+#content {
+    min-height: 450px;
+    margin: 0 auto;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    width: 1000px;
+    padding: 25px;
+    background-color: #fff;
+}
+
+#content  p{
+    margin-bottom: 1em;
+}
+
+.subheader {
+    clear: both;
+    margin: 15px 0;
+    height: 34px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.subheader h1 {
+    margin: 0;
+    color: #222;
+    line-height: 1.3;
+    font-weight: 400;
+    font-size: 18px;
+}
+.page-description {
+    font-size: 14px;
+    margin: 10px 0;
+    line-height: 18px;
+}
+
+#confirm-form .openid-block{
+    margin-bottom: 15px;
+}
+
+#confirm-form .openid-icon {
+    width: 24px;
+    height: 24px;
+    background: #fff url("http://cdn.sstatic.net/Img/openid/openid-logos.png?v=11");
+}
+#confirm-form .icon-google {
+    background-position: -1px -300px;
+}
+#confirm-form .icon-facebook {
+    background-position: -27px -378px;
+}
+
+#confirm-form .openid-login{
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#confirm-form .openid-name{
+    font-size: 14px;
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+#confirm-form .user-avatar-and-name{
+    background-color: #f8f8f8;
+    width: 450px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+#confirm-form .account-data{
+    display: inline-block;
+    margin-left: 15px;
+}
+
+#confirm-form .account-data label{
+    display: block;
+    margin: 5px 0;
+}
+
+#confirm-form .account-data input{
+    width: 250px;
+}
+
+#confirm-form input {
+    margin: 5px 0 5px 0;
+    padding: 3px;
+}
+
+#confirm-form input[type=text], 
+#confirm-form input[type=email] {
+    font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
+    background: #fff;
+    color: #444;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    padding: 8px 10px;
+}
+
+#confirm-form input[type="text"] {
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1) inset;
+}
+
+#confirm-form input[type=submit], 
+#confirm-form input[type=button]{
+    cursor: pointer;
+    display: inline-block;
+    color: #fff;
+    line-height: 1;
+    padding: .6em .8em;
+    background: #009afd;
+    transition: background 0.15s ease, color 0.15s ease;
+    border: 1px solid #1777b7;
+    box-shadow: 0 1px 0 rgba(255,255,255,0.3) inset,0 1px 1px rgba(100,100,100,0.3);
+    border-radius: 3px;
+}
+
+#confirm-form input[type=submit]:hover,
+#confirm-form input[type=button]:hover{
+    color: #fff;
+    background: #0087de;
 }

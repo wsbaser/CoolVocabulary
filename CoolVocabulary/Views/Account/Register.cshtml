@@ -14,18 +14,21 @@
             </div>
         </div>
         <div id="formContainer">
-            <div id="openid-buttons">
-                <div class="preferred-login   google-login" data-provider="google" data-oauthserver="https://accounts.google.com/o/oauth2/auth" data-oauthversion="2.0">
-                    <div class="icon-container"><span class="icon" style=""></span></div>
-                    <div class="text"><span>Google</span></div>
-                    <br class="cbt">
+            @using (Html.BeginForm("ExternalLogin", "Account", new { returnUrl = ViewBag.ReturnUrl })) {
+                @Html.AntiForgeryToken()
+                <div id="openid-buttons">
+                    <button type="submit" value="Google" name="provider" class="preferred-login google-login">
+                        <div class="icon-container"><span class="icon" style=""></span></div>
+                        <div class="text"><span>Google</span></div>
+                        <br class="cbt">
+                    </button>
+                    <button type="submit" value="Facebook" name="provider" class="preferred-login   facebook-login">
+                        <div class="icon-container"><span class="icon" style=""></span></div>
+                        <div class="text"><span>Facebook</span></div>
+                        <br class="cbt">
+                    </button>
                 </div>
-                <div class="preferred-login   facebook-login" data-provider="facebook" data-oauthserver="https://www.facebook.com/v2.0/dialog/oauth" data-oauthversion="2.0">
-                    <div class="icon-container"><span class="icon" style=""></span></div>
-                    <div class="text"><span>Facebook</span></div>
-                    <br class="cbt">
-                </div>
-            </div>
+            }
             <div class="or-container">
                 <hr class="or-hr">
                 <div id="or">or</div>
@@ -33,8 +36,10 @@
             @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "clearfix", role = "form",id="cv-login-form" })) {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary()
-                @Html.LabelFor(m => m.UserName)
-                @Html.TextBoxFor(m => m.UserName)
+                @Html.LabelFor(m => m.DisplayName)
+                @Html.TextBoxFor(m => m.DisplayName)
+                @Html.LabelFor(m => m.Email)
+                @Html.TextBoxFor(m => m.Email)
                 @Html.LabelFor(m => m.Password)
                 @Html.PasswordFor(m => m.Password)
                 @Html.LabelFor(m => m.ConfirmPassword)
@@ -43,7 +48,7 @@
             }
         </div>
         <div id="switch">
-            Already have an account? <a href="/users/login?returnurl=http%3a%2f%2fstackoverflow.com%2f">Log in</a>
+            Already have an account? @Html.ActionLink("Sign In", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
         </div>
     </div>
 </div>

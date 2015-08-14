@@ -6,7 +6,12 @@ namespace CoolVocabulary.Models
     {
         [Required]
         [Display(Name = "Display Name")]
-        public string UserName { get; set; }
+        public string DisplayName { get; set; }
+
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
     }
 
     public class ManageUserViewModel
@@ -31,8 +36,8 @@ namespace CoolVocabulary.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Email (required, but never shown)")]
-        public string UserName { get; set; }
+        [Display(Name = "Email")]
+        public string Email { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -46,8 +51,13 @@ namespace CoolVocabulary.Models
     public class RegisterViewModel
     {
         [Required]
+        [Display(Name = "Display Name")]
+        public string DisplayName { get; set; }
+
+        [Required]
         [Display(Name = "Email (required, but never shown)")]
-        public string UserName { get; set; }
+        public string Email { get; set; }
+
 
         [Required]
         [StringLength(100, ErrorMessage = "Value {0} must contain at least {2} symbols.", MinimumLength = 6)]

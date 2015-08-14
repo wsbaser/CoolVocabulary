@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.Facebook;
 using Owin;
 
 namespace CoolVocabulary
@@ -28,11 +29,15 @@ namespace CoolVocabulary
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            var x = new FacebookAuthenticationOptions();
+            x.Scope.Add("email");
+            x.AppId = "698020986995763";
+            x.AppSecret = "1e506a050e170e62cb516d065305d81c";
+            app.UseFacebookAuthentication(x);
 
-            //app.UseGoogleAuthentication();
+            app.UseGoogleAuthentication(
+                clientId: "813562463354-ir13fejg31gfmbb5utv4854m13ft7c6e.apps.googleusercontent.com",
+                clientSecret: "dj26JLnwGgXKJS6xB40O0hJU");
         }
     }
 }

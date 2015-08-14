@@ -1,35 +1,58 @@
 ﻿@model CoolVocabulary.Models.ExternalLoginConfirmationViewModel
 @{
-    ViewBag.Title = "Регистрация";
+    ViewBag.Title = "Sign Up - Cool Vocabulary";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>Связывание вашей учетной записи @ViewBag.LoginProvider.</h3>
 
-@using (Html.BeginForm("ExternalLoginConfirmation", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
+<link href="~/Content/account.css" rel="stylesheet" />
 
-    <h4>Форма связи</h4>
-    <hr />
-    @Html.ValidationSummary(true)
-    <p class="text-info">
-        Вы успешно прошли проверку подлинности через <strong>@ViewBag.LoginProvider</strong>.
-            Введите имя пользователя для сайта ниже и нажмите кнопку "Регистрация", чтобы завершить
-            вход.
-    </p>
-    <div class="form-group">
-        @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.UserName)
-        </div>
+<div id="content">
+
+
+    <div class="subheader">
+        <h1>Confirm Your New Account</h1>
     </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Регистрация" />
-        </div>
+    <div class="page-description">
+        @using (Html.BeginForm("ExternalLoginConfirmation", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form", id = "confirm-form", @class = "clearfix" })) {
+            @Html.AntiForgeryToken()
+            <div class="openid-confirm-newuser">
+                <p>You are about to create a new account on <span class="make-it-bold">Cool Vocabulary</span> using a login from</p>
+                <div class="openid-block">
+                    <span class="openid-login openid-icon icon-@ViewBag.LoginProvider.ToLower()"></span>
+                    <span class="openid-name">@(ViewBag.LoginProvider)(@(Model.Email))</span>
+                </div>
+                <p>
+                    Here's how you'll look on the site based on the information provided to us by @(ViewBag.LoginProvider).
+                </p>
+                <p>Edit these fields if you'd like, then click "Confirm And Create This Account" when finished.</p>
+                <div class="user-avatar-and-name">
+                    <!--
+                    <input type="hidden" name="ProfileImage" id="profile-image" value="https://www.gravatar.com/avatar/16743521148e411b66d23e3f4030be37?s=128&amp;d=identicon&amp;r=PG&amp;f=1">
+                    <div class="picture-container">
+                        <div class="user-picture"><img src="https://www.gravatar.com/avatar/16743521148e411b66d23e3f4030be37?s=128&amp;d=identicon&amp;r=PG&amp;f=1" alt="" width="128" height="128"></div>
+                        <div class="change-picture-container">
+                            <a id="change-picture">change picture</a>
+                        </div>
+                        <div id="change-picture-progress"></div>
+                        <div id="picture-popup"></div>
+                    </div>
+                    -->
+                    <div class="account-data">
+                        @Html.ValidationSummary()
+                        @Html.LabelFor(m => m.Email)
+                        @Html.TextBoxFor(m => m.Email)
+                        @Html.LabelFor(m => m.DisplayName)
+                        @Html.TextBoxFor(m => m.DisplayName)
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <input type="submit" value="Confirm And Create This Account" style="font-size: 120%" id="confirm-submit">
+                @Html.ActionLink("cancel","Index","Home")
+            </div>
+        }
     </div>
-}
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

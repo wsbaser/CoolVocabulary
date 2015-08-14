@@ -1,13 +1,18 @@
 ﻿@using Microsoft.AspNet.Identity
+@using CoolVocabulary.Models;
+@using Microsoft.AspNet.Identity.EntityFramework;
+
 @if (Request.IsAuthenticated)
 {
+    var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+    var appUser = um.FindById(User.Identity.GetUserId());
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
     @Html.AntiForgeryToken()
 
     <ul class="nav navbar-nav navbar-right">
         <li>
-            @Html.ActionLink(User.Identity.GetUserName(), "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Управление" })
+            @Html.ActionLink(appUser.DisplayName, "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Управление" })
         </li>
         <li><a href="javascript:document.getElementById('logoutForm').submit()">Выйти</a></li>
     </ul>
