@@ -1,6 +1,6 @@
 function CTAdapter(){
 	this.extensionIsActive = false;
-};
+}
 
 CTAdapter.prototype.open = function(){
 	console.log('send request to ');

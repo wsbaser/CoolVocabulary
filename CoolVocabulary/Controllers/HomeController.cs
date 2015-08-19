@@ -21,5 +21,10 @@ namespace CoolVocabulary.Controllers {
             return View();
         }
 
+        [Authorize]
+        public ActionResult Vocabulary() {
+            return View();
+        }
+
     }
 }

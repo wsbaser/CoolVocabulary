@@ -5,14 +5,14 @@ namespace CoolVocabulary.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<CoolVocabulary.Models.ApplicationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<CoolVocabulary.Models.UserDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
         }
 
-        protected override void Seed(CoolVocabulary.Models.ApplicationDbContext context)
+        protected override void Seed(CoolVocabulary.Models.UserDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 

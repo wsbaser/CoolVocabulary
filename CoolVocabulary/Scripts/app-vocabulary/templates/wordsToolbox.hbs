@@ -1,0 +1,15 @@
+<div class="col-xs-6">
+	<form id="word_input_form" class="input-group">
+		{{input value=inputWord class="form-control input-sm"  placeholder="Word to search or to add..."}}
+      	<span class="input-group-btn">
+        	<button class="btn btn-sm btn-info" type="submit" >
+        		<span class="glyphicon glyphicon-add" aria-hidden="true"></span>
+        		Add
+        	</button>
+      	</span>
+    </form>
+</div>
+<div class="col-xs-2">
+	{{#link-to "learn"}}<button class="btn btn-sm btn-success" type="button">Learn</button>{{/link-to}}
+	{{#link-to "exam"}}<button class="btn btn-sm btn-warning" type="button">Examenate</button>{{/link-to}}
+</div>

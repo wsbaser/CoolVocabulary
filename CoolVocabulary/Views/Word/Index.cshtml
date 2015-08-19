@@ -1,0 +1,57 @@
+﻿@model IEnumerable<CoolVocabulary.Models.Word>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Language)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Value)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Pronunsiation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SoundUrls)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PictureUrls)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Language)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Value)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Pronunsiation)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SoundUrls)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PictureUrls)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

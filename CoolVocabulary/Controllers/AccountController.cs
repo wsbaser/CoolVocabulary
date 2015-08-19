@@ -16,7 +16,7 @@ namespace CoolVocabulary.Controllers
     public class AccountController : Controller
     {
         public AccountController()
-            : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
+            : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new UserDbContext())))
         {
         }
 
@@ -48,13 +48,10 @@ namespace CoolVocabulary.Controllers
             if (ModelState.IsValid)
             {
                 var user = await UserManager.FindAsync(model.Email, model.Password);
-                if (user != null)
-                {
+                if (user != null) {
                     await SignInAsync(user, model.RememberMe);
-                    return RedirectToLocal(returnUrl);
-                }
-                else
-                {
+                    return RedirectToAction("Vocabulary", "Home");
+                } else {
                     ModelState.AddModelError("", "Invalid username or password.");
                 }
             }
@@ -204,13 +201,13 @@ namespace CoolVocabulary.Controllers
 
             // Sign in the user with this external login provider if the user already has a login
             var user = await UserManager.FindAsync(loginInfo.Login);
-            
+
             if (user != null) {
                 await SignInAsync(user, isPersistent: false);
-                return RedirectToLocal(returnUrl);
+                return RedirectToAction("Vocabulary", "Home");
             } else {
-                user = loginInfo.Email==null?
-                    null:
+                user = loginInfo.Email == null ?
+                    null :
                     await UserManager.FindByNameAsync(loginInfo.Email);
                 if (user == null) {
                     // If the user does not have an account, then prompt the user to create an account
@@ -221,7 +218,7 @@ namespace CoolVocabulary.Controllers
                     var result = await UserManager.AddLoginAsync(user.Id, loginInfo.Login);
                     if (result.Succeeded) {
                         await SignInAsync(user, isPersistent: false);
-                        return RedirectToLocal(returnUrl);
+                        return RedirectToAction("Vocabulary", "Home");
                     }
                     AddErrors(result);
                     ViewBag.ReturnUrl = returnUrl;
@@ -285,7 +282,7 @@ namespace CoolVocabulary.Controllers
                     if (result.Succeeded)
                     {
                         await SignInAsync(user, isPersistent: false);
-                        return RedirectToLocal(returnUrl);
+                        return RedirectToAction("Vocabulary","Home");
                     }
                 }
                 AddErrors(result);
