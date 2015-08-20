@@ -7,7 +7,7 @@ var TranslationDialogFactory =   (function(){
       return connection;
     },
     initVocabulary: function(connection){
-      return new Vocabulary(LLConfig(), connection);
+      return new Vocabulary(CVConfig(), connection);
     },
     initSources: function(connection, vocabulary){
       var arr = 

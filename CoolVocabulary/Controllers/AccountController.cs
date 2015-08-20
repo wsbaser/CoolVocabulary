@@ -30,12 +30,34 @@ namespace CoolVocabulary.Controllers
         public UserManager<ApplicationUser> UserManager { get; private set; }
 
         //
+        // GET: /Account/IsAuthenticated
+        [AllowAnonymous]
+        [HttpPost]
+        public JsonResult IsAuthenticated() {
+            return Json(new { is_authenticated = User.Identity.IsAuthenticated });
+        }
+
+        //
         // GET: /Account/Login
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
             return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<JsonResult> ApiLogin(LoginViewModel model) {
+            if (ModelState.IsValid) {
+                var user = await UserManager.FindAsync(model.Email, model.Password);
+                if (user != null) {
+                    await SignInAsync(user, model.RememberMe);
+                    return Json(new { });
+                }
+            }
+
+            return Json(new { error_msg = "Invalid username or password." });
         }
 
         //

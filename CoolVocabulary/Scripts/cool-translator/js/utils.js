@@ -95,3 +95,10 @@ function isCtrlPressed(event){
     var isMac = window.navigator.userAgent.toLowerCase().indexOf('macintosh') > -1;
     return (isMac ? event.metaKey : event.ctrlKey);
 };
+
+function getLangByIndex(langIndex){
+    switch(langIndex){
+        case 0: return 'en';
+        case 1: return 'ru';
+    }
+}

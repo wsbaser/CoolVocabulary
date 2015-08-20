@@ -49,7 +49,7 @@ DictionaryServicesServer.prototype.resolvePromise = function(port, guid, data){
     var result = {
         promiseResult: {
             promiseGuid: guid,
-            resolveData: data || {}
+            resolveData: data==null?{}:data
         }
     }
     port.postMessage(result);
@@ -59,7 +59,7 @@ DictionaryServicesServer.prototype.rejectPromise = function(port, guid, data){
     var result = {
         promiseResult:{
             promiseGuid: guid,
-            rejectData: data || {}
+            rejectData: data==null?{}:data
         }
     }
     port.postMessage(result);

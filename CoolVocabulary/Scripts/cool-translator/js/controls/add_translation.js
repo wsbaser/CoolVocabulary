@@ -5,23 +5,88 @@ function AddTranslationControl(vocabulary) {
     this.translationsList = null;
     this.translationItemSelector = null;
     this._createEl();
+    var self = this;
+    document.addEventListener('ctrbookchanged', function(event, bookName){
+        self._selectBook(bookName)
+    })
+    this.books = null;
 };
 
 AddTranslationControl.TRANSL_ITEM_CLASS ='ctr-translItem';
 
 //===== Private ==========
+AddTranslationControl.prototype._selectBook = function(bookName){
+    this.booksEl.find('option:contains(' + bookName + ')').prop('selected',true);
+};
+
+AddTranslationControl.prototype._getSelectedBookId = function(){
+    return this.booksEl.is(':visible')?
+        this.booksEl.find('option:selected').data('bookid'):
+        null;
+};
+
+AddTranslationControl.prototype._getBooks = function(callback){
+    var self = this;
+    if(this.books)
+        callback();
+    else {
+        this.vocabulary.getBooks(function(promise){
+            promise.done(function(books){
+                self.books = books;
+                callback();
+            });
+        });
+    }
+};
+
+AddTranslationControl.prototype._showDefaultBook= function(language){
+    var DEFAULT_BOOK_NAME = 'New words';
+    this.booksEl.append('<option>'+DEFAULT_BOOK_NAME+'</option>');
+};
+
+AddTranslationControl.prototype._showBooks= function(language){
+    var self = this;
+    this.booksEl.empty();
+    if(this.books && this.books.length){
+        $.each(this.books, function(i, book){
+            if(getLangByIndex(book.Language)==language);{
+                var bookEl = $('<select>' + book.Name + '</select>');
+                bookEl.data('bookid', book.ID);
+                self.booksEl.append(bookEl);
+            }
+        });
+    }
+    else
+        this._showDefaultBook();
+    self.booksEl.showImportant();
+};
+
 
 AddTranslationControl.prototype._createEl = function(){
     this.el = $('<div/>', {'class':'ctr-addTransl-block'});
     this.el.html(AddTranslationControl.TEMPLATE);
     this.selectedTranslationEl = this.el.find('.ctr-selectedTransl');
-    this.addButtonEl = this.el.find('.ctr-addButton');
-    this.btnCaptionEl = this.addButtonEl.find('.ctr-btnCaption');
-    this.spinnerEl = this.addButtonEl.find('.ctr-spinnerSmall');
+    this.buttonEl = this.el.find('.ctr-button');
+    this.btnCaptionEl = this.buttonEl.find('.ctr-btnCaption');
+    this.spinnerEl = this.buttonEl.find('.ctr-spinnerSmall');
+    this.booksEl = this.el.find('.ctr-vocabularyBooks');
+
+    var vocabularyEl = this.el.find('.ctr-vocabulary-col');
+    if(this.vocabulary.config.iconBase64)
+        vocabularyEl.find('.ctr-vocabularyIcon').attr('src',this.vocabulary.config.iconBase64);
+    var vocabularyNameEl = vocabularyEl.find('.ctr-vocabularyName');
+    vocabularyNameEl.text(this.vocabulary.config.name);
+    vocabularyNameEl.attr('href', this.vocabulary.config.path.vocabulary);
+    this._showDefaultBook();
 };
 
 AddTranslationControl.prototype._bindEvents = function() {
-    this.addButtonEl.bind('click', this._onAddButtonClick.bind(this));
+    var self = this;
+    this.buttonEl.bind('click', this._onButtonClick.bind(this));
+    this.booksEl.change(function(){
+        var bookName = self.booksEl.find('option:selected').text();
+        $(document).trigger('ctrbookchanged', bookName);
+    });
 };
 
 AddTranslationControl.TEMPLATE = 
@@ -32,8 +97,8 @@ AddTranslationControl.TEMPLATE =
             <td class="ctr-transl-col">\
                 <input class="ctr-selectedTransl" readonly type="textbox" placeholder="Select translation">\
             </td>\
-            <td class="ctr-addButton-col">\
-                <a class="ctr-addButton">\
+            <td class="ctr-button-col">\
+                <a class="ctr-button">\
                     <span class="ctr-btnCaption">\
                         <span class="ctr-addIcon"></span>\
                         &nbsp;Add\
@@ -47,34 +112,52 @@ AddTranslationControl.TEMPLATE =
             </td>\
             <td class="ctr-vocabulary-col">\
                 <span>&nbsp;&nbsp;&nbsp;to</span>\
-                <img class="ctr-lleoIcon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAwRJREFUeNpkU02IHEUU/upV9fT0zOx2NisahNVI1BwkrhhR0JOsaBAxKBFz8eBF8CeHkItHJSiCoAc9iIKCB2EPMQcFwXgQRC/+HIw/oAd1zSabmUlPz+72THdV1ytfTwiGTcHX1VX1vlffq/eeeebMCAGAidszeOfwev0wOhgjjvUjgieGmX2ntOHXxACLbYKvGFwLSwkPO4ZqnLlNsMH9cUynEEI3iXWidXguNaGa3XbVoKv+u4L7GKp3xj6uIsIRMW72UFvebzhEsm7L8ojgQUG008ExwVeBzEeflUcXFfzyTA4D+Vb9p+Zwgxifgg+r4HCaGXcGOSMykcgztytFz4q6Hmk82aHJgWzT94MLGA4dbMmrkcFrQnxUQqLJxKeXRlUvyy2Mt2UrIOyONC0RteRxQL6axqOifj/LJ/cwh/d6LXVRMx6CxOBLxiCzX+Rb/mdNCqYc9achhPPcS39TOjo4GefbHYp+mUvoHDPdNpl6FIW/e5A5TSyKRvZssPxKajASHkxtKyue16bZxpu2GL/EZu7dPTfelO/VrWUE0xoP7e//bPifzvXtiXkd0jmjPlmcN0USQkdCnhiT9CDxQ+ZVMvF3SNJD4MFpBL4VNc+lPfPB9T3/qi39h7valMwn9Dysfxou/HFhWB8z1GqDtEGc7j4AMm9ZhxXv5f1J/PsZXk50+La0/vNONzqJyp9o9uuK781y94aRTF2nlN4r5E+9w5I8Itg3CRZyLXmSiosJT1m5kTwflyyALWN94M56xtDYolgh4+4yycJSUKY5h+T48qemmZMYeEBS2V3rVxe6Wu3JN+u1YupflCRcNHVVfYOy+teVfz2m2+kdnrqqqyZAckWB1KbnWxY6amOQ+cN5HQ4S85dC/rupvqYXzjeoJ8WhanNrxdbRvojGy/mCO7yrIwGKpKpkWkxIXVL4EZeBKz3xfzMpWleaPm5kO+fa6333wrgVTrYUOsW2/6H2oZBK3Nl713Zj452UKsX47dG2/1o5vllq/ns5GZO6xhr/CTAAU+KSscJ7kCAAAAAASUVORK5CYII="/>\
-                <a class="ctr-vocabularyName" target="_blank" href="http://lingualeo.com/ru/userdict">LinguaLeo</a>\
+                <img class="ctr-vocabularyIcon" src=""/>\
+                <a class="ctr-vocabularyName" target="_blank" href=""></a>\
+                <select class="ctr-vocabularyBooks"></select>\
             </td>\
         </tr>\
     </tbody>\
 </table>';
 
-AddTranslationControl.prototype._onAddButtonClick = function() {
+AddTranslationControl.prototype.checkAuthentication = function() {
     var self = this;
     this._showLoading();
-    self.vocabulary.checkAuthentication(function(promise){
+    this.vocabulary.checkAuthentication(function(promise){
         promise.done(function(isAuthenticated){
-            if (isAuthenticated)
-                self._addTranslation()
-            else {
-                self._hideLoading();
-                self._showLoginForm();
+            if (isAuthenticated){
+                self.logedIn = true;
+                self._getBooks(function(){
+                    self._showBooks(self.translationsList.data.sourceLang);
+                    self._hideLoading();
+                });
             }
-        }).fail(function(error){
-            console.error("checkAuthentication error: "+ error);
+            else{
+                self._hideLoading();
+                self.logedIn = false;
+            }
         });
     });
+}
+
+AddTranslationControl.prototype._onButtonClick = function() {
+    var self = this;
+    if(this.logedIn)
+        self._addTranslation()
+    else
+        self._showLoginForm();
 };
 
 AddTranslationControl.prototype._showLoginForm = function(){
+    var self = this;
     Dialog.showLoginForm(this.vocabulary, function () {
-        this._addTranslation();
-    }.bind(this));
+        self.logedIn = true;
+        this._showLoading();
+        self._getBooks(function(){
+            self._showBooks(self.translationsList.data.sourceLang);
+            self._hideLoading();
+        });
+    });
 };
 
 AddTranslationControl.prototype._showLoading = function() {
@@ -140,7 +223,7 @@ AddTranslationControl.prototype._forEachTranslationItem = function(action) {
     $.each(this.translationsList.rootEl.find(this.translationItemSelector), action);
 };
 
-AddTranslationControl.prototype._getTranslationItemWord= function(itemEl) {
+AddTranslationControl.prototype._getTranslationItemWord = function(itemEl) {
     return (this.translationWordSelector ? itemEl.find(this.translationWordSelector) : itemEl)
         .text().trim();
 };
@@ -170,16 +253,17 @@ AddTranslationControl.prototype.init = function(translationsList, translationIte
         itemEl.on('click', self._selectTranslationItem.bind(self));
     });
     this._bindEvents();
+    this.checkAuthentication();
 }
 
 AddTranslationControl.prototype.setTranslation = function(word) {
     this.selectedTranslationEl.val(word);
     if(word){
         this.selectedTranslationEl.addClass('ctr-hasValue');
-        this.addButtonEl.addClass('ctr-active');
+        this.buttonEl.addClass('ctr-active');
     }
     else {
         this.selectedTranslationEl.removeClass('ctr-hasValue');
-        this.addButtonEl.removeClass('ctr-active');
+        this.buttonEl.removeClass('ctr-active');
     }
 };

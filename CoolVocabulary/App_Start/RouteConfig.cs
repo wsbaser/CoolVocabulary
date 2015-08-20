@@ -17,6 +17,12 @@ namespace CoolVocabulary {
             );
 
             routes.MapRoute(
+                name: "Vocabulary",
+                url: "Vocabulary/api/{action}/{id}",
+                defaults: new { controller = "Vocabulary", action = "Index", id = UrlParameter.Optional }
+            );
+            
+            routes.MapRoute(
                 name: "Default",
                 url: "{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }

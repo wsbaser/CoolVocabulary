@@ -4,7 +4,7 @@
 
 @if (Request.IsAuthenticated)
 {
-    var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+    var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new UserDbContext()));
     var appUser = um.FindById(User.Identity.GetUserId());
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {

@@ -444,7 +444,7 @@
 #ctr_dialog .ctr-addTransl-block{
      border-radius: 3px !important;
      padding: 1px 0 0 !important;
-     height: 23px!important;
+     height: 23px !important;
 }
 #ctr_dialog .ctr-addTransl-block td{
     vertical-align: middle !important;
@@ -466,7 +466,7 @@
     color: #3f669f !important;
 }
 /*******************************************/
-#ctr_dialog .ctr-addButton-col{
+#ctr_dialog .ctr-button-col{
   width:100px !important;
   text-align: center !important;
 }
@@ -476,7 +476,7 @@
   height: 16px !important;
   vertical-align:middle !important;
 }
-#ctr_dialog .ctr-addButton{
+#ctr_dialog .ctr-button{
   position: relative !important;
   text-align:center !important;
   display: inline-block !important;
@@ -491,16 +491,16 @@
   opacity: 0.5 !important;
   cursor: default !important;
 }
-#ctr_dialog .ctr-addButton.ctr-active{
+#ctr_dialog .ctr-button.ctr-active{
     opacity: 1 !important;
 }
-#ctr_dialog .ctr-addButton.ctr-active:hover{
+#ctr_dialog .ctr-button.ctr-active:hover{
   background: #eef !important;
   box-shadow: 1px 1px 2px 0 #222 !important;
   cursor: pointer !important;
 }
 
-#ctr_dialog .ctr-addButton .ctr-spinnerSmall {
+#ctr_dialog .ctr-button .ctr-spinnerSmall {
   text-align: center !important;
   display: none;
   position: absolute !important;
@@ -509,7 +509,7 @@
   transform: translate(-50%,-50%);
 }
 
-#ctr_dialog .ctr-addButton .ctr-spinnerSmall > div {
+#ctr_dialog .ctr-button .ctr-spinnerSmall > div {
   width: 7px !important;
   height: 7px !important;
   background-color: #64c8ef !important;
@@ -522,12 +522,12 @@
   animation-fill-mode: both;
 }
 
-#ctr_dialog .ctr-addButton .ctr-spinnerSmall>div:nth-child(0) {
+#ctr_dialog .ctr-button .ctr-spinnerSmall>div:nth-child(0) {
   -webkit-animation-delay: -0.32s;
   animation-delay: -0.32s;
 }
 
-#ctr_dialog .ctr-addButton .ctr-spinnerSmall>div:nth-child(1) {
+#ctr_dialog .ctr-button .ctr-spinnerSmall>div:nth-child(1) {
   -webkit-animation-delay: -0.16s;
   animation-delay: -0.16s;
 }
@@ -564,9 +564,10 @@
   color: #444 !important;
 }
 
-#ctr_dialog .ctr-lleoIcon{
+#ctr_dialog .ctr-vocabularyIcon{
     vertical-align: middle !important;
     margin-right: -2px !important;
+    display: none !important;
 }
 /*******************************************/
 #ctr_dialog .ctr-translItem:hover {

@@ -1,16 +1,3 @@
-/**
- * Created by wsbaser on 25.03.2015.
- */
-// ==UserScript==
-// @name GoogleConfig
-// @all-frames true
-// @include http://*
-// @include https://*
-// @exclude http*://*facebook.com/plugins/*
-// @exclude http*://*twitter.com/widgets/*
-// @exclude http*://plusone.google.com/*
-// ==/UserScript==
-
 var GoogleConfig = function() {
     var rootDir = 'cooltranslator/js/google/';
     return {

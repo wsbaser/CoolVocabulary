@@ -33,6 +33,7 @@
       "js/sources/ll/ll_handlers.js",
       "js/sources/tfd/tfd_config.js",
       "js/sources/tfd/tfd_handlers.js",
+      "js/sources/cv/cv_config.js",
       "js/sources/source_tab.js",
       "js/sources/source.js",
       "js/sources/services_connection.js",

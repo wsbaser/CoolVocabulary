@@ -46,4 +46,10 @@ namespace CoolVocabulary.Models {
         }
     }
 
+    public enum LanguageType {
+        en = 0,
+        ru = 1,
+        es = 2
+    }
+
 }

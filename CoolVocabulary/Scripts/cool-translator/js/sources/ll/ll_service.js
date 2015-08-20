@@ -87,15 +87,20 @@ LLService.prototype.checkAuthentication = function(){
         deferred.resolve(true);
     else {
         this.provider.checkAuthentication().done(function(data){
-            if(data.error_msg)
-                deferred.reject(data.error_msg);
+            if(data.error_msg){
+                localStorage.isLLAuthenticated = false;
+                deferred.resolve(false);
+                console.error(error_msg);
+            }
             else{
                 localStorage.isLLAuthenticated = data.is_authorized;
                 deferred.resolve(data.is_authorized);
             }
         })
         .fail(function(error){
-            deferred.reject(error);
+            localStorage.isLLAuthenticated = false;
+            deferred.resolve(false);
+            console.error(error);
         });
     }
     return deferred.promise();

@@ -26,7 +26,8 @@ function createServer(){
     var arr = [new AbbyService(new AbbyProvider(AbbyConfig())),
         new GoogleService(new GoogleProvider(GoogleConfig())),
         new TfdService(new TfdProvider(TfdConfig())),
-        new LLService(new LLProvider(LLConfig()))];
+        new LLService(new LLProvider(LLConfig())),
+        new CVService(new CVProvider(CVConfig()))];
     var services = {};
     arr.forEach(function(service){
         services[service.config.id] = service;

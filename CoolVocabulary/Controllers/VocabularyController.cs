@@ -15,6 +15,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace CoolVocabulary.Controllers {
+    [System.Web.Mvc.Authorize]
     public class VocabularyController : Controller {
         private VocabularyDbContext db = new VocabularyDbContext();
         private VocabularyMongoContext mongoDb = new VocabularyMongoContext();
@@ -65,12 +66,10 @@ namespace CoolVocabulary.Controllers {
             }
         }
 
-        public async Task<JsonResult> GetVocabularies(string language) {
+        [System.Web.Mvc.HttpPost]
+        public async Task<JsonResult> GetBooks() {
             var userId = GetUserId();
-            int languageId;
-            if (TryParseLanguage(language, out languageId))
-                return Json(new { error_msg = "Invalid input data" });
-            var vocabularies = await db.Vocabularies.Where(v => v.UserID == userId && v.Language == languageId).ToListAsync();
+            var vocabularies = await db.Vocabularies.Where(v => v.UserID == userId).ToListAsync();
             return Json(new { vocabularies = vocabularies });
         }
 
@@ -89,11 +88,5 @@ namespace CoolVocabulary.Controllers {
             value = (int)languageType;
             return true;
         }
-    }
-
-    public enum LanguageType {
-        en = 0,
-        ru = 1,
-        es = 2
     }
 }

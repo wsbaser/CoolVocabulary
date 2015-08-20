@@ -57,7 +57,7 @@ LoginForm.prototype._onSubmitForm = function() {
             self.loginCallback();
         })
         .fail(function(error){
-            self._showError(response.error_msg);
+            self._showError(error);
             self._activateSubmitButton();
         });
     });
