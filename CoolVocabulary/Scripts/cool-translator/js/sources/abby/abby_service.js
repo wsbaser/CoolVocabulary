@@ -90,3 +90,40 @@ AbbyService.prototype.generatePhrasesCard = function(contentEl){
     }
     return "";
 };
+
+AbbyService.prototype.parseSpeachPart = function(text){
+    switch(text){
+        case "сущ.":
+            return SpeachParts.NOUN;
+        case "гл.":
+            return SpeachParts.VERB;
+        case "прил.":
+            return SpeachParts.ADJECTIVE;
+        case "нареч.":
+            return SpeachParts.ADVERB;
+        default:
+            return SpeachParts.UNKNOWN;
+    }
+};
+
+AbbyService.prototype.getTranslations = function(inputData){
+    var self = this;
+    var card = this.getCachedCard(ContentTypes.TRANSLATIONS, inputData);
+    var translationsEl = $(card);
+    var translations = {};
+    var currentSP = SpeachParts.UNKNOWN;
+    translationsEl.find('p').each(function(i, el){
+        el = $(el);
+        var sp = self.parseSpeachPart(el.find('.l-article__abbrev:nth-child(1)').text());
+        if(sp!=SpeachParts.UNKNOWN){
+            currentSP = sp;
+            if(!translations[currentSP])
+                translations[currentSP] = [];
+        }
+        el.find('a.js-show-examples', function(j, translationEl){
+            translations[currentSP] = translationsEl.text();
+        });
+    });
+    return translations;
+};
+

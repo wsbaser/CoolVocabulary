@@ -92,4 +92,26 @@ TfdService.prototype.generateVerbtableCard = function(contentEl){
         return null;
 };
 
-//===== Handlers ===============================================================================================
+TfdService.prototype.getPronunciation = function(inputData){
+    var cards = this.getCachedCards(inputData);
+    var pronunciation = null;
+    if(cards){
+        var definitionsEl = $(cards[ContentTypes.DEFINITIONS]);
+        var pronEl = definitionsEl.find('section[data-src="hc_dict"] .pron');
+        if(pronEl.length)
+            pronunciation = pronEl.text();
+    }
+    return pronunciation;
+};
+
+TfdService.prototype.getPictureUrls = function(inputData){
+    var cards = this.getCachedCards(inputData);
+    var urls = [];
+    if(cards){
+        var thesaurusEl = $(cards[ContentTypes.THESAURUS]);    
+        thesaurusEl.find('img').each(function(i, imgEl){
+            urls.push($(imgEl).prop('src'));
+        });
+    }
+    return urls;
+};

@@ -13,9 +13,8 @@ function SourceTab(contentType, options) {
         if(!options.translationItemSelector)
             throw new Error('Translation item selector not specified.');
         if(!options.vocabulary)
-            throw new Error('Vocabulary not specified.');
-        this._addTranslation = new AddTranslationControl(options.vocabulary);
-        this.rootEl.append(this._addTranslation.el);
+            throw new Error('vocabulary not specified.');
+        this.addTranslation = new AddTranslationControl(options.vocabulary);
     }
 }
 
@@ -39,10 +38,10 @@ SourceTab.prototype.init = function(data, content, error, prompts) {
         bindDataEvents(this.contentEl);
         this.navigationEl.addClass(SourceTab.ACTIVE_CLASS);
         if(this.contentType === ContentTypes.TRANSLATIONS){
-            this._addTranslation.init(this,
+            this.addTranslation.init(this,
                 this.options.translationItemSelector,
                 this.options.translationWordSelector);
-            this.rootEl.append(this._addTranslation.el);
+            this.rootEl.append(this.addTranslation.el);
         }
     }
     else{
@@ -125,7 +124,7 @@ SourceTab.prototype.adjustContentHeight = function() {
         this.contentEl[0].style.maxHeight =
             document.documentElement.clientHeight -
             rect.top -
-            (this._addTranslation ? this._addTranslation.el.height() : 0) +
+            (this.addTranslation ? this.addTranslation.el.height() : 0) +
             'px';
     }
 };

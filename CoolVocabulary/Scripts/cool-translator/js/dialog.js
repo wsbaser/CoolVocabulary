@@ -29,7 +29,7 @@ var TranslationDialogFactory =   (function(){
       var tabs = [];
       tabs.push(new SourceTab(ContentTypes.TRANSLATIONS, { 
         translationItemSelector: '.l-article__showExamp',
-        vocabulary: vocabulary 
+        vocabulary: vocabulary
       }));
       tabs.push(new SourceTab(ContentTypes.EXAMPLES));
       tabs.push(new SourceTab(ContentTypes.PHRASES));
@@ -361,6 +361,7 @@ TranslationDialog.prototype.show = function(word) {
 
 TranslationDialog.prototype.hide = function() {
   if(this.isActive) {
+    this.hideLoginForm();
     this.el.removeClass('ctr-show');
     this.el.addClass('ctr-hide');
     if(this.selectionBackup){

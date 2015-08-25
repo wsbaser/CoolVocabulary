@@ -63,17 +63,7 @@ var strHelper= (function() {
     return strHelper;
 })();
 
-/***** Generate guid *************************************************************************************************/
-
-function guid() {
-  function s4() {
-    return Math.floor((1 + Math.random()) * 0x10000)
-      .toString(16)
-      .substring(1);
-  }
-  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-    s4() + '-' + s4() + s4() + s4();
-}
+/***** JQuery extensions **********************************************************************************************/
 
 jQuery.fn.outerHTML = function(s) {
     return s
@@ -91,6 +81,32 @@ jQuery.fn.hideImportant = function() {
     this[0].style.setProperty('display','none','important');
 };
 
+/***** JS extensions **************************************************************************************************/
+Array.prototype.unique = function(b) {
+    var a = this.concat();
+    for(var i=0; i<a.length; ++i) {
+        for(var j=0; j<b.length; ++j) {
+            if(a[i] === b[j])
+                a.splice(i, 1);
+        }
+    }
+    return a;
+};
+
+/***** Generate guid *************************************************************************************************/
+
+function guid() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+    s4() + '-' + s4() + s4() + s4();
+}
+
+
+/**********************************************************************************************************************/
 function isCtrlPressed(event){
     var isMac = window.navigator.userAgent.toLowerCase().indexOf('macintosh') > -1;
     return (isMac ? event.metaKey : event.ctrlKey);
@@ -100,5 +116,12 @@ function getLangByIndex(langIndex){
     switch(langIndex){
         case 0: return 'en';
         case 1: return 'ru';
+    }
+}
+
+function getIndexByLang(lang){
+    switch(lang){
+        case 'en': return 0;
+        case 'ru': return 1;
     }
 }

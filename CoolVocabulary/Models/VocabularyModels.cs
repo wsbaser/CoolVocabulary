@@ -13,29 +13,44 @@ namespace CoolVocabulary.Models {
     }
 
     public class Vocabulary {
+        [Required]
         public int ID { get; set; }
+        [Required]
         [MaxLength(128)]
         public string UserID { get; set; }
-        public int Name { get; set; }
+        [Required, MaxLength(100)]
+        public string Name { get; set; }
+        [Required]
         public int Language { get; set; }
     }
 
     public class Word {
+        [Required]
         public int ID { get; set; }
+        [Required]
         public string Value { get; set; }
+        [Required]
         public int Language { get; set; }
+        [MaxLength(100)]
         public string Pronunciation { get; set; }
         public string SoundUrls { get; set; }
         public string PictureUrls { get; set; }
     }
 
     public class VocabularyWord {
+        [Required]
         public int ID { get; set; }
+        [Required]
         public int VocabularyID { get; set; }
+        [Required]
         public int WordID { get; set; }
+        [Required]
         public string Translations { get; set; }
+        [Required]
         public int TranslationsLanguage { get; set; }
         public int LearnProgress { get; set; }
+        public virtual Word Word { get; set; }
+        public virtual Vocabulary Vocabulary { get; set; }
         public void UpdateTranslations(string translations) {
             if (string.IsNullOrWhiteSpace(translations))
                 return;

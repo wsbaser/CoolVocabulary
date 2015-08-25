@@ -27,18 +27,13 @@ namespace CoolVocabulary.Controllers {
         }
 
         [System.Web.Mvc.HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<JsonResult> AddWordTranslations(string sourceLanguage, string targetLanguage,
-            [Bind(Include = "Word,Translations,TranslationCards")]WordTranslations wordTranslations) {
+        public async Task<JsonResult> AddWordTranslations(string sourceLanguage, string targetLanguage,WordTranslations wordTranslations) {
             await mongoDb.AddWordTranslations(sourceLanguage, targetLanguage, wordTranslations);
             return Json(new { error_msg = "" });
         }
 
         [System.Web.Mvc.HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<JsonResult> AddWord(
-            [Bind(Include = "Value,Language,Pronunciation,SoundUrls,PictureUrls")] Word word,
-            [Bind(Include = "VocabularyID,Translations,TranslationsLanguage")] VocabularyWord vocabularyWord) {
+        public async Task<JsonResult> AddWord(Word word, VocabularyWord wordTranslation) {
             try {
                 dynamic entity = await db.Words.SingleOrDefaultAsync(w => w.Value == word.Value && w.Language == word.Language);
                 if (entity == null) {
@@ -47,17 +42,23 @@ namespace CoolVocabulary.Controllers {
                     await db.SaveChangesAsync();
                 } else
                     word = entity;
+
+                if (wordTranslation.VocabularyID == 0) {
+                    var vocabulary = await db.GetDefaultVocabulary(User.Identity.GetUserId(), word.Language);
+                    wordTranslation.VocabularyID = vocabulary.ID;
+                }
+
                 // . add word translations to vocabulary
                 entity = await db.VocabularyWords.SingleOrDefaultAsync(
-                    vw => vw.VocabularyID == vocabularyWord.VocabularyID
+                    vw => vw.VocabularyID == wordTranslation.VocabularyID
                     && vw.WordID == word.ID);
                 if (entity != null) {
                     // . update vocabulary word
-                    entity.UpdateTranslations(vocabularyWord.Translations);
+                    entity.UpdateTranslations(wordTranslation.Translations);
                 } else {
                     // . add vocabulary word
-                    vocabularyWord.WordID = word.ID;
-                    db.VocabularyWords.Add(vocabularyWord);
+                    wordTranslation.WordID = word.ID;
+                    db.VocabularyWords.Add(wordTranslation);
                 }
                 await db.SaveChangesAsync();
                 return Json(new { error_msg = "" });

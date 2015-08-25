@@ -8,7 +8,7 @@ function AddTranslationControl(vocabulary) {
     var self = this;
     document.addEventListener('ctrbookchanged', function(event, bookName){
         self._selectBook(bookName)
-    })
+    });
     this.books = null;
 };
 
@@ -16,7 +16,7 @@ AddTranslationControl.TRANSL_ITEM_CLASS ='ctr-translItem';
 
 //===== Private ==========
 AddTranslationControl.prototype._selectBook = function(bookName){
-    this.booksEl.find('option:contains(' + bookName + ')').prop('selected',true);
+    this.booksEl.find('option:contains(' + bookName + ')').prop('selected', true);
 };
 
 AddTranslationControl.prototype._getSelectedBookId = function(){
@@ -34,6 +34,8 @@ AddTranslationControl.prototype._getBooks = function(callback){
             promise.done(function(books){
                 self.books = books;
                 callback();
+            }).fail(function(){
+                self._hideLoading();
             });
         });
     }
@@ -142,17 +144,17 @@ AddTranslationControl.prototype.checkAuthentication = function() {
 
 AddTranslationControl.prototype._onButtonClick = function() {
     var self = this;
-    if(this.logedIn)
+    // if(this.logedIn)
         self._addTranslation()
-    else
-        self._showLoginForm();
+    // else
+    //     self._showLoginForm();
 };
 
 AddTranslationControl.prototype._showLoginForm = function(){
     var self = this;
     Dialog.showLoginForm(this.vocabulary, function () {
         self.logedIn = true;
-        this._showLoading();
+        self._showLoading();
         self._getBooks(function(){
             self._showBooks(self.translationsList.data.sourceLang);
             self._hideLoading();
@@ -253,7 +255,7 @@ AddTranslationControl.prototype.init = function(translationsList, translationIte
         itemEl.on('click', self._selectTranslationItem.bind(self));
     });
     this._bindEvents();
-    this.checkAuthentication();
+    //this.checkAuthentication();
 }
 
 AddTranslationControl.prototype.setTranslation = function(word) {

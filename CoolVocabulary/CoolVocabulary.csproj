@@ -203,10 +203,12 @@
     <Compile Include="Controllers\VocabularyController.cs" />
     <Compile Include="Controllers\VocabularyWordController.cs" />
     <Compile Include="Controllers\WordController.cs" />
+    <Compile Include="Custom\AjaxAuthorize.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Migrations\VocabularyDbContext\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\VocabularyDbContext.cs" />

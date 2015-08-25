@@ -6,10 +6,12 @@ var CVConfig = function() {
         ajax: {
             getBooks: siteHost + "/vocabulary/api/getbooks",
             isAuthenticated: siteHost + "/account/isAuthenticated",
-            login: siteHost + '/account/apilogin'
+            login: siteHost + '/account/apilogin',
+            addWord: siteHost + '/vocabulary/api/addWord',
+            addWordTranslations: siteHost + '/vocabulary/api/addWordTranslations'
         },
         path: {
-            vocabulary: siteHost,
+            vocabulary: siteHost
         }
     };
 };

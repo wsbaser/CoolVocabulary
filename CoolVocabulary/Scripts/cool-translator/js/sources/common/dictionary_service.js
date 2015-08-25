@@ -1,28 +1,29 @@
 function DictionaryService(config, provider){
 	this.config = config;
 	this.provider = provider;
-	this.cache = {};
+	this.requestCache = {};
+	this.cacheResponseData = false;
 }
 
-DictionaryService.prototype.getRequestDataHash = function(requestName, requestData) {
+DictionaryService.prototype.getCardHash = function(contentType, requestData) {
     var hash = '';
     for (var key in requestData)
         hash += key + ':' + requestData[key] + ',';
-    return requestName + ':' + hash.substr(0, hash.length - 1);
+    return contentType + ':' + hash.substr(0, hash.length - 1);
 };
 
-DictionaryService.prototype.getFromCache = function(requestName, requestData){
-	var requestHash = this.getRequestDataHash(requestName, requestData);
-	return this.cache[requestHash];
+DictionaryService.prototype.getCachedCard = function(contentType, requestData){
+	var hash = this.getCardHash(contentType, requestData);
+	return this.requestCache[hash];
 };
 
-DictionaryService.prototype.saveToCache = function(requestName, requestData, data){
-	var requestHash = this.getRequestDataHash(requestName, requestData);
-	this.cache[requestHash] = data;
+DictionaryService.prototype.saveToCache = function(contentType, requestData, card){
+	var requestHash = this.getCardHash(contentType, requestData);
+	this.requestCache[requestHash] = card;
 };
 
 DictionaryService.prototype.generateCard = function(contentType, data){
-    var methodName = 'generate'+ strHelper.capitalizeFirstLetter(contentType) + 'Card';
+	var methodName = 'generate' + strHelper.capitalizeFirstLetter(contentType) + 'Card';
     var method = this[methodName];
     if(method==null)
         throw new Error('Content type not supported');
@@ -38,18 +39,30 @@ DictionaryService.prototype.generatePrompts = function(contentType, data){
 	return this[methodName](data);
 };
 
-DictionaryService.prototype.getCards = function(requestData){
+DictionaryService.prototype.getCachedCards = function(requestData){
 	var self = this;
 	var cards = {};
 	$.each(this.config.contentTypes, function(i, contentType){
+		cards[contentType] = self.getCachedCard(contentType, requestData);
+	});
+	return cards;
+};
+
+DictionaryService.prototype.getCards = function(requestData){
+	var self = this;
+	var dataPromises = this.provider.getTranslationsData(requestData);
+	var cards = {};
+	$.each(dataPromises, function(contentType, dataPromise){
 		var deferred = $.Deferred();
 		cards[contentType] = deferred;
-		var data = self.getData(contentType, requestData);
-		data.done(function(data){
+		dataPromise.done(function(data){
+			var card = self.generateCard(contentType, data);
 			deferred.resolve({
-				inputData:requestData,
-				cards: self.generateCard(contentType,data),
-				prompts: self.generatePrompts(contentType,data)});
+				inputData: requestData,
+				cards: card,
+				prompts: self.generatePrompts(contentType, data)});
+			var cachedData = self.cacheResponseData ? data : card;
+			self.saveToCache(contentType, requestData, cachedData);
 		})
 		.fail(function(error){
 			deferred.reject({
@@ -59,16 +72,6 @@ DictionaryService.prototype.getCards = function(requestData){
 		});
 	});
 	return cards;
-};
-
-DictionaryService.prototype.getData = function(contentType, requestData){
-	var requestName = this.provider.getRequestName(contentType);
-	var data = this.getFromCache(requestName, requestData);
-	if(data==null){
-		data = this.provider[requestName](requestData);
-		this.saveToCache(requestName, requestData, data);
-	}
-	return data;
 };
 
 /* HELPERS */
@@ -97,3 +100,18 @@ DictionaryService.prototype.addEventData = function(el, event, method, params){
 	el.attr('data-event', eventParams.join('|'))
 };
 
+DictionaryService.prototype.getPronunciation = function(inputData){
+	return null;
+};
+
+DictionaryService.prototype.getSoundUrls = function(inputData){
+	return [];
+};
+
+DictionaryService.prototype.getPictureUrls = function(inputData){
+	return [];
+};
+
+DictionaryService.prototype.getTranslations = function(inputData){
+	return null;
+};

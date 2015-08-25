@@ -1,5 +1,6 @@
 function LLService(provider){
     DictionaryService.call(this, provider.config, provider);
+    this.cacheResponseData = true;
 }
 
 LLService.prototype = Object.create(DictionaryService.prototype);
@@ -159,3 +160,25 @@ function length(obj){
     if (obj.length!=undefined) return obj.length;
     return Object.keys(obj);
 }
+
+LLService.prototype.getSoundUrls = function(inputData){
+    var responseData = this.getCachedCard(ContentTypes.TRANSLATIONS, inputData);
+    return responseData.sound_url;
+};
+
+LLService.prototype.getPictureUrls = function(inputData){
+    var responseData = this.getCachedCard(ContentTypes.TRANSLATIONS, inputData);
+    return responseData.pic_url ? 
+        [responseData.pic_url] :
+        [];
+};
+
+LLService.prototype.getTranslations = function(inputData){
+    var responseData = this.getCachedCard(ContentTypes.TRANSLATIONS, inputData);
+    var translations = {};
+    translations[SpeachParts.UNKNOWN] = [];
+    $.each(responseData.translate, function(i, translation){
+        translations[SpeachParts.UNKNOWN].push(translation.value);
+    });
+    return translations;
+};

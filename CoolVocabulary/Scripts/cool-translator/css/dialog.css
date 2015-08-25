@@ -569,6 +569,10 @@
     margin-right: -2px !important;
     display: none !important;
 }
+
+#ctr_dialog .ctr-vocabularyBooks{
+  cursor: pointer !important;
+}
 /*******************************************/
 #ctr_dialog .ctr-translItem:hover {
 	border: solid 1px #9FC2C9 !important;

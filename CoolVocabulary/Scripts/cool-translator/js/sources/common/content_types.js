@@ -24,3 +24,10 @@ ContentTypes.getTitle = function(contentType){
 			throw new Error('Unknown content type');
 	}
 }
+
+var SpeachParts = {};
+SpeachParts.UNKNOWN = 0;
+SpeachParts.NOUN = 1;
+SpeachParts.VERB = 2;
+SpeachParts.ADJECTIVE = 3;
+SpeachParts.ADVERB = 4;

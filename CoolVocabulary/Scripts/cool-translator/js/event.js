@@ -23,11 +23,12 @@ function saveLangPair(langPair){
 /* Message listener */
 
 function createServer(){
-    var arr = [new AbbyService(new AbbyProvider(AbbyConfig())),
-        new GoogleService(new GoogleProvider(GoogleConfig())),
-        new TfdService(new TfdProvider(TfdConfig())),
-        new LLService(new LLProvider(LLConfig())),
-        new CVService(new CVProvider(CVConfig()))];
+    var ll = new LLService(new LLProvider(LLConfig()))
+    var abby = new AbbyService(new AbbyProvider(AbbyConfig()));
+    var google = new GoogleService(new GoogleProvider(GoogleConfig()));
+    var tfd = new TfdService(new TfdProvider(TfdConfig()));
+    var cv = new CVService(new CVProvider(CVConfig()), [ll, abby, google, tfd]);
+    var arr = [ll, abby, google, tfd, cv];
     var services = {};
     arr.forEach(function(service){
         services[service.config.id] = service;
@@ -66,4 +67,8 @@ chrome.runtime.onMessageExternal.addListener(
         });
         sendResponse(true);
     }    
+});
+
+$.ajaxSetup({
+    headers: {"X-Requested-With":"XMLHttpRequest"}
 });

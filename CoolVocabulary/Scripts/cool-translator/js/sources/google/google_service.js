@@ -4,6 +4,7 @@
 
 function GoogleService(provider){
     DictionaryService.call(this, provider.config, provider);
+    this.cacheResponseData = true;
 };
 
 GoogleService.prototype = Object.create(DictionaryService.prototype);
@@ -63,6 +64,16 @@ GoogleService.prototype.generateExamplesCard = function(data){
         return $('<section/>', {html: examplesHtml}).outerHTML();
     }
     return null;
+};
+
+GoogleService.prototype.getTranslations = function(inputData){
+    var responseData = this.getCachedCard(ContentTypes.TRANSLATIONS, inputData);
+    var translations = {};
+    translations[SpeachParts.UNKNOWN] = [];
+    $.each(responseData.entry, function(i, entry){
+        translations[SpeachParts.UNKNOWN].push(entry.word);
+    });
+    return translations;
 };
 
 //===== GoogleTemplates ================================================================================================

@@ -7,11 +7,6 @@ var TfdProvider = function(config){
 
 TfdProvider.prototype = Object.create(DictionaryProvider.prototype);
 
-TfdProvider.prototype.getRequestName = function(contentType){
-    this.checkIfContentTypeSupported(contentType);
-    return 'loadWordPage';
-};
-
-TfdProvider.prototype.loadWordPage = function(requestData) {
+TfdProvider.prototype.requestTranslationsData = function(requestData) {
     return this.requestPage(this.config.ajax.translate, requestData, '#MainTxt');
 };

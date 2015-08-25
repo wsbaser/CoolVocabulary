@@ -14,6 +14,7 @@ GoogleProvider.prototype.convertGoogleResponseToValidJson = function(googleRespo
 GoogleProvider.prototype.processResponse = function(response) {
     var arrayString = this.convertGoogleResponseToValidJson(response);
     arrayString = arrayString.replace(new RegExp('\'', 'g'), '&apos;');
+    console.log(arrayString);
     try {
         var arr = JSON.parse(arrayString);
     }
@@ -63,15 +64,10 @@ GoogleProvider.prototype.processResponse = function(response) {
     return jsonObject;
 };
 
-GoogleProvider.prototype.getRequestName = function(contentType){
-    this.checkIfContentTypeSupported(contentType);
-    return 'loadWordArticle';
-};
-
 GoogleProvider.prototype.makeRequest = function(urlTemplate, requestData) {
 };
 
-GoogleProvider.prototype.loadWordArticle = function(requestData) {
+GoogleProvider.prototype.requestTranslationsData = function(requestData) {
     var self = this;
     var deferred = $.Deferred();
     var translateUrl = this.formatRequestUrl(this.config.ajax.translate, requestData);

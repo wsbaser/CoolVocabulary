@@ -7,11 +7,11 @@ function DictionaryProvider(config){
 
 DictionaryProvider.prototype.checkIfContentTypeSupported = function(contentType){
 	if(this.config.contentTypes.indexOf(contentType)===-1)
-		throw new Error("Content type "+contentType+' not supported.');
+		throw new Error("Content type " + contentType + ' not supported.');
 };
 
 DictionaryProvider.prototype.rejectWithStatusCode = function(deferred,jqXHR){
-    deferred.reject('Error. Status('+jqXHR.status+')');
+    deferred.reject('Error. Status(' + jqXHR.status+')');
 };
 
 DictionaryProvider.prototype.resolveWithJQueryElement = function(deferred,data,selector){
@@ -51,4 +51,13 @@ DictionaryProvider.prototype.requestPage = function(urlTemplate, requestData, re
 */
 DictionaryProvider.prototype.getRequestName = function(contentType){
 	throw new Error('Not implemented');
+};
+
+DictionaryProvider.prototype.getTranslationsData = function(requestData){
+    var cards = {};
+    var deferred = this.requestTranslationsData(requestData);
+    $.each(this.config.contentTypes, function(i, contentType){
+        cards[contentType] = deferred;
+    });
+    return cards;
 };

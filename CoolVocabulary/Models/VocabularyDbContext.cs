@@ -25,6 +25,24 @@ namespace CoolVocabulary.Models {
         public System.Data.Entity.DbSet<Word> Words { get; set; }
         public System.Data.Entity.DbSet<Vocabulary> Vocabularies { get; set; }
         public System.Data.Entity.DbSet<VocabularyWord> VocabularyWords { get; set; }
+
+        public async Task<Vocabulary> GetDefaultVocabulary(string userId, int language) {
+            const string DEFAULT_VOCABULARY = "New words";
+            var vocabulary = await Vocabularies.SingleOrDefaultAsync(v=>
+                v.UserID==userId &&
+                v.Language==language &&
+                v.Name == DEFAULT_VOCABULARY);
+            if (vocabulary == null) {
+                vocabulary = new Vocabulary(){
+                    Name = DEFAULT_VOCABULARY,
+                    UserID = userId,
+                    Language = language
+                };
+                Vocabularies.Add(vocabulary);
+                await SaveChangesAsync();
+            }
+            return vocabulary;
+        }
     }
 
     public class VocabularyMongoContext {

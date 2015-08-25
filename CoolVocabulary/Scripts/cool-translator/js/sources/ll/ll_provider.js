@@ -8,12 +8,7 @@ LLProvider.prototype._isTextTooLong = function(text){
     return text.replace(/ |\t|\r|\n/igm, '').length > this.config.maxTextLengthToTranslate;
 };
 
-LLProvider.prototype.getRequestName = function(contentType){
-    this.checkIfContentTypeSupported(contentType);
-    return 'loadTranslations';
-};
-
-LLProvider.prototype.loadTranslations = function (requestData) {
+LLProvider.prototype.requestTranslationsData = function (requestData) {
     var self = this;
     var deferred = $.Deferred();
     if(this._isTextTooLong(requestData.word))
