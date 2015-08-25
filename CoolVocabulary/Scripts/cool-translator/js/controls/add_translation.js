@@ -74,8 +74,11 @@ AddTranslationControl.prototype._createEl = function(){
     this.booksEl = this.el.find('.ctr-vocabularyBooks');
 
     var vocabularyEl = this.el.find('.ctr-vocabulary-col');
-    if(this.vocabulary.config.iconBase64)
-        vocabularyEl.find('.ctr-vocabularyIcon').attr('src',this.vocabulary.config.iconBase64);
+    if(this.vocabulary.config.iconBase64){
+        var iconEl = vocabularyEl.find('.ctr-vocabularyIcon');
+        iconEl.attr('src',this.vocabulary.config.iconBase64);
+        iconEl.showImportant();
+    }
     var vocabularyNameEl = vocabularyEl.find('.ctr-vocabularyName');
     vocabularyNameEl.text(this.vocabulary.config.name);
     vocabularyNameEl.attr('href', this.vocabulary.config.path.vocabulary);
