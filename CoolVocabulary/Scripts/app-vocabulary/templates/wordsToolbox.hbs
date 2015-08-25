@@ -1,3 +1,40 @@
+<div id="bookContainer" class="col-xs-4" >
+  <div id="currentBookDropdown" class="dropdown">
+    <a id="currentBook" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+      Martin Eden
+      {{!-- {{currentBook}} --}}
+      <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="currentBook">
+{{!--       {{#each books as |book|}}
+        <li><a href="#">book</a></li>
+      {{/each}} --}}
+      <li><a class="bookLink" href="#">Poliglot
+        <span class="manageIcons">
+<span class="glyphicon glyphicon-remove pull-right"  title="Remove book"></span>
+<span class="glyphicon glyphicon-pencil pull-right" style="margin-right: 10px" title="Rename book"></span>
+</span>
+      </a></li>
+      <li><a class="bookLink" href="#">Martin Eden
+                <span class="manageIcons">
+<span class="glyphicon glyphicon-remove pull-right" title="Remove book"></span>
+<span class="glyphicon glyphicon-pencil pull-right" style="margin-right: 10px" title="Rename book"></span>
+</span>
+      </a></li>
+      <li><a class="bookLink" href="#">1984
+        <span class="manageIcons">
+<span class="glyphicon glyphicon-remove pull-right" title="Remove book"></span>
+<span class="glyphicon glyphicon-pencil pull-right" style="margin-right: 10px" title="Rename book"></span>
+</span>
+      </a></li>
+      <li role="separator" class="divider"></li>
+      <li><a class="addBookLink" href="#">
+        <span class="glyphicon glyphicon-plus" style="margin-right:10px;" aria-hidden="true"></span>Add Empty Book</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
 <div class="col-xs-6">
 	<form id="word_input_form" class="input-group">
 		{{input value=inputWord class="form-control input-sm"  placeholder="Word to search or to add..."}}
@@ -9,6 +46,7 @@
       	</span>
     </form>
 </div>
+
 <div class="col-xs-2">
 	{{#link-to "learn"}}<button class="btn btn-sm btn-success" type="button">Learn</button>{{/link-to}}
 	{{#link-to "exam"}}<button class="btn btn-sm btn-warning" type="button">Examenate</button>{{/link-to}}

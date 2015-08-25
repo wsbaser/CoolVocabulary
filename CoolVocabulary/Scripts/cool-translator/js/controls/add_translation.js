@@ -76,7 +76,7 @@ AddTranslationControl.prototype._createEl = function(){
     var vocabularyEl = this.el.find('.ctr-vocabulary-col');
     if(this.vocabulary.config.iconBase64){
         var iconEl = vocabularyEl.find('.ctr-vocabularyIcon');
-        iconEl.attr('src',this.vocabulary.config.iconBase64);
+        iconEl.attr('src', this.vocabulary.config.iconBase64);
         iconEl.showImportant();
     }
     var vocabularyNameEl = vocabularyEl.find('.ctr-vocabularyName');

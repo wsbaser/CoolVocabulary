@@ -9,7 +9,7 @@ Ember.TEMPLATES["application"] = Ember.HTMLBars.template((function() {
           "column": 0
         },
         "end": {
-          "line": 36,
+          "line": 9,
           "column": 6
         }
       }
@@ -30,148 +30,6 @@ Ember.TEMPLATES["application"] = Ember.HTMLBars.template((function() {
       dom.appendChild(el1, el2);
       var el2 = dom.createElement("div");
       dom.setAttribute(el2,"class","row");
-      var el3 = dom.createTextNode("\n		");
-      dom.appendChild(el2, el3);
-      var el3 = dom.createElement("div");
-      dom.setAttribute(el3,"class","col-xs-4");
-      var el4 = dom.createTextNode("\n			");
-      dom.appendChild(el3, el4);
-      var el4 = dom.createElement("ol");
-      dom.setAttribute(el4,"class","breadcrumb");
-      var el5 = dom.createTextNode("\n			  	");
-      dom.appendChild(el4, el5);
-      var el5 = dom.createElement("li");
-      var el6 = dom.createComment("");
-      dom.appendChild(el5, el6);
-      dom.appendChild(el4, el5);
-      var el5 = dom.createTextNode("\n			  	");
-      dom.appendChild(el4, el5);
-      var el5 = dom.createElement("li");
-      dom.setAttribute(el5,"class","dropdown");
-      var el6 = dom.createTextNode("\n				  ");
-      dom.appendChild(el5, el6);
-      var el6 = dom.createElement("a");
-      dom.setAttribute(el6,"class","dropdown-toggle");
-      dom.setAttribute(el6,"role","button");
-      dom.setAttribute(el6,"id","langugesDropdown");
-      dom.setAttribute(el6,"data-toggle","dropdown");
-      dom.setAttribute(el6,"href","#");
-      var el7 = dom.createTextNode("\n				    ");
-      dom.appendChild(el6, el7);
-      var el7 = dom.createComment("");
-      dom.appendChild(el6, el7);
-      var el7 = dom.createTextNode("\n				    ");
-      dom.appendChild(el6, el7);
-      var el7 = dom.createElement("span");
-      dom.setAttribute(el7,"class","caret");
-      dom.appendChild(el6, el7);
-      var el7 = dom.createTextNode("\n				  ");
-      dom.appendChild(el6, el7);
-      dom.appendChild(el5, el6);
-      var el6 = dom.createTextNode("\n				  ");
-      dom.appendChild(el5, el6);
-      var el6 = dom.createElement("ul");
-      dom.setAttribute(el6,"class","dropdown-menu");
-      var el7 = dom.createTextNode("\n				    ");
-      dom.appendChild(el6, el7);
-      var el7 = dom.createElement("li");
-      var el8 = dom.createElement("a");
-      dom.setAttribute(el8,"href","#");
-      var el9 = dom.createTextNode("Es");
-      dom.appendChild(el8, el9);
-      dom.appendChild(el7, el8);
-      dom.appendChild(el6, el7);
-      var el7 = dom.createTextNode("\n				    ");
-      dom.appendChild(el6, el7);
-      var el7 = dom.createElement("li");
-      var el8 = dom.createElement("a");
-      dom.setAttribute(el8,"href","#");
-      var el9 = dom.createTextNode("Fr");
-      dom.appendChild(el8, el9);
-      dom.appendChild(el7, el8);
-      dom.appendChild(el6, el7);
-      var el7 = dom.createTextNode("\n				    ");
-      dom.appendChild(el6, el7);
-      var el7 = dom.createElement("li");
-      var el8 = dom.createElement("a");
-      dom.setAttribute(el8,"href","#");
-      var el9 = dom.createTextNode("Pt");
-      dom.appendChild(el8, el9);
-      dom.appendChild(el7, el8);
-      dom.appendChild(el6, el7);
-      var el7 = dom.createTextNode("\n				  ");
-      dom.appendChild(el6, el7);
-      dom.appendChild(el5, el6);
-      var el6 = dom.createTextNode("\n			  	");
-      dom.appendChild(el5, el6);
-      dom.appendChild(el4, el5);
-      var el5 = dom.createTextNode("\n			  	");
-      dom.appendChild(el4, el5);
-      var el5 = dom.createElement("li");
-      dom.setAttribute(el5,"class","active dropdown");
-      var el6 = dom.createTextNode("\n				  	");
-      dom.appendChild(el5, el6);
-      var el6 = dom.createElement("a");
-      dom.setAttribute(el6,"class","dropdown-toggle");
-      dom.setAttribute(el6,"role","button");
-      dom.setAttribute(el6,"id","booksDropdown");
-      dom.setAttribute(el6,"data-toggle","dropdown");
-      dom.setAttribute(el6,"href","#");
-      var el7 = dom.createTextNode("\n				    	");
-      dom.appendChild(el6, el7);
-      var el7 = dom.createComment("");
-      dom.appendChild(el6, el7);
-      var el7 = dom.createTextNode("\n				    	");
-      dom.appendChild(el6, el7);
-      var el7 = dom.createElement("span");
-      dom.setAttribute(el7,"class","caret");
-      dom.appendChild(el6, el7);
-      var el7 = dom.createTextNode("\n				  	");
-      dom.appendChild(el6, el7);
-      dom.appendChild(el5, el6);
-      var el6 = dom.createTextNode("\n				  	");
-      dom.appendChild(el5, el6);
-      var el6 = dom.createElement("ul");
-      dom.setAttribute(el6,"class","dropdown-menu");
-      var el7 = dom.createTextNode("\n				    	");
-      dom.appendChild(el6, el7);
-      var el7 = dom.createElement("li");
-      var el8 = dom.createElement("a");
-      dom.setAttribute(el8,"href","#");
-      var el9 = dom.createTextNode("Poliglot");
-      dom.appendChild(el8, el9);
-      dom.appendChild(el7, el8);
-      dom.appendChild(el6, el7);
-      var el7 = dom.createTextNode("\n				    	");
-      dom.appendChild(el6, el7);
-      var el7 = dom.createElement("li");
-      var el8 = dom.createElement("a");
-      dom.setAttribute(el8,"href","#");
-      var el9 = dom.createTextNode("Martin Eden");
-      dom.appendChild(el8, el9);
-      dom.appendChild(el7, el8);
-      dom.appendChild(el6, el7);
-      var el7 = dom.createTextNode("\n				    	");
-      dom.appendChild(el6, el7);
-      var el7 = dom.createElement("li");
-      var el8 = dom.createElement("a");
-      dom.setAttribute(el8,"href","#");
-      var el9 = dom.createTextNode("1984");
-      dom.appendChild(el8, el9);
-      dom.appendChild(el7, el8);
-      dom.appendChild(el6, el7);
-      var el7 = dom.createTextNode("\n				  	");
-      dom.appendChild(el6, el7);
-      dom.appendChild(el5, el6);
-      var el6 = dom.createTextNode("\n			  	");
-      dom.appendChild(el5, el6);
-      dom.appendChild(el4, el5);
-      var el5 = dom.createTextNode("\n			");
-      dom.appendChild(el4, el5);
-      dom.appendChild(el3, el4);
-      var el4 = dom.createTextNode("\n		");
-      dom.appendChild(el3, el4);
-      dom.appendChild(el2, el3);
       var el3 = dom.createTextNode("\n		");
       dom.appendChild(el2, el3);
       var el3 = dom.createComment("");
@@ -197,25 +55,17 @@ Ember.TEMPLATES["application"] = Ember.HTMLBars.template((function() {
       return el0;
     },
     buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-      var element0 = dom.childAt(fragment, [2, 1]);
-      var element1 = dom.childAt(element0, [1, 1]);
-      var morphs = new Array(6);
+      var morphs = new Array(3);
       morphs[0] = dom.createMorphAt(fragment,0,0,contextualElement);
-      morphs[1] = dom.createMorphAt(dom.childAt(element1, [1]),0,0);
-      morphs[2] = dom.createMorphAt(dom.childAt(element1, [3, 1]),1,1);
-      morphs[3] = dom.createMorphAt(dom.childAt(element1, [5, 1]),1,1);
-      morphs[4] = dom.createMorphAt(element0,3,3);
-      morphs[5] = dom.createMorphAt(dom.childAt(fragment, [4]),1,1);
+      morphs[1] = dom.createMorphAt(dom.childAt(fragment, [2, 1]),1,1);
+      morphs[2] = dom.createMorphAt(dom.childAt(fragment, [4]),1,1);
       dom.insertBoundary(fragment, 0);
       return morphs;
     },
     statements: [
       ["inline","outlet",["root"],[],["loc",[null,[1,0],[1,17]]]],
-      ["content","userName",["loc",[null,[6,10],[6,22]]]],
-      ["content","language",["loc",[null,[9,8],[9,20]]]],
-      ["content","book",["loc",[null,[20,9],[20,17]]]],
-      ["inline","outlet",["toolbox"],[],["loc",[null,[31,2],[31,22]]]],
-      ["inline","outlet",["content"],[],["loc",[null,[35,1],[35,21]]]]
+      ["inline","outlet",["toolbox"],[],["loc",[null,[4,2],[4,22]]]],
+      ["inline","outlet",["content"],[],["loc",[null,[8,1],[8,21]]]]
     ],
     locals: [],
     templates: []
@@ -931,11 +781,11 @@ Ember.TEMPLATES["wordsToolbox"] = Ember.HTMLBars.template((function() {
         "loc": {
           "source": null,
           "start": {
-            "line": 13,
+            "line": 51,
             "column": 1
           },
           "end": {
-            "line": 13,
+            "line": 51,
             "column": 88
           }
         }
@@ -968,11 +818,11 @@ Ember.TEMPLATES["wordsToolbox"] = Ember.HTMLBars.template((function() {
         "loc": {
           "source": null,
           "start": {
-            "line": 14,
+            "line": 52,
             "column": 1
           },
           "end": {
-            "line": 14,
+            "line": 52,
             "column": 91
           }
         }
@@ -1008,7 +858,7 @@ Ember.TEMPLATES["wordsToolbox"] = Ember.HTMLBars.template((function() {
           "column": 0
         },
         "end": {
-          "line": 15,
+          "line": 53,
           "column": 6
         }
       }
@@ -1018,6 +868,166 @@ Ember.TEMPLATES["wordsToolbox"] = Ember.HTMLBars.template((function() {
     hasRendered: false,
     buildFragment: function buildFragment(dom) {
       var el0 = dom.createDocumentFragment();
+      var el1 = dom.createElement("div");
+      dom.setAttribute(el1,"id","bookContainer");
+      dom.setAttribute(el1,"class","col-xs-4");
+      var el2 = dom.createTextNode("\n  ");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createElement("div");
+      dom.setAttribute(el2,"id","currentBookDropdown");
+      dom.setAttribute(el2,"class","dropdown");
+      var el3 = dom.createTextNode("\n    ");
+      dom.appendChild(el2, el3);
+      var el3 = dom.createElement("a");
+      dom.setAttribute(el3,"id","currentBook");
+      dom.setAttribute(el3,"href","#");
+      dom.setAttribute(el3,"data-toggle","dropdown");
+      dom.setAttribute(el3,"role","button");
+      dom.setAttribute(el3,"aria-haspopup","true");
+      dom.setAttribute(el3,"aria-expanded","false");
+      var el4 = dom.createTextNode("\n      Martin Eden\n");
+      dom.appendChild(el3, el4);
+      var el4 = dom.createTextNode("      ");
+      dom.appendChild(el3, el4);
+      var el4 = dom.createElement("span");
+      dom.setAttribute(el4,"class","caret");
+      dom.appendChild(el3, el4);
+      var el4 = dom.createTextNode("\n    ");
+      dom.appendChild(el3, el4);
+      dom.appendChild(el2, el3);
+      var el3 = dom.createTextNode("\n    ");
+      dom.appendChild(el2, el3);
+      var el3 = dom.createElement("ul");
+      dom.setAttribute(el3,"class","dropdown-menu");
+      dom.setAttribute(el3,"aria-labelledby","currentBook");
+      var el4 = dom.createTextNode("\n");
+      dom.appendChild(el3, el4);
+      var el4 = dom.createTextNode("      ");
+      dom.appendChild(el3, el4);
+      var el4 = dom.createElement("li");
+      var el5 = dom.createElement("a");
+      dom.setAttribute(el5,"class","bookLink");
+      dom.setAttribute(el5,"href","#");
+      var el6 = dom.createTextNode("Poliglot\n        ");
+      dom.appendChild(el5, el6);
+      var el6 = dom.createElement("span");
+      dom.setAttribute(el6,"class","manageIcons");
+      var el7 = dom.createTextNode("\n");
+      dom.appendChild(el6, el7);
+      var el7 = dom.createElement("span");
+      dom.setAttribute(el7,"class","glyphicon glyphicon-remove pull-right");
+      dom.setAttribute(el7,"title","Remove book");
+      dom.appendChild(el6, el7);
+      var el7 = dom.createTextNode("\n");
+      dom.appendChild(el6, el7);
+      var el7 = dom.createElement("span");
+      dom.setAttribute(el7,"class","glyphicon glyphicon-pencil pull-right");
+      dom.setAttribute(el7,"style","margin-right: 10px");
+      dom.setAttribute(el7,"title","Rename book");
+      dom.appendChild(el6, el7);
+      var el7 = dom.createTextNode("\n");
+      dom.appendChild(el6, el7);
+      dom.appendChild(el5, el6);
+      var el6 = dom.createTextNode("\n      ");
+      dom.appendChild(el5, el6);
+      dom.appendChild(el4, el5);
+      dom.appendChild(el3, el4);
+      var el4 = dom.createTextNode("\n      ");
+      dom.appendChild(el3, el4);
+      var el4 = dom.createElement("li");
+      var el5 = dom.createElement("a");
+      dom.setAttribute(el5,"class","bookLink");
+      dom.setAttribute(el5,"href","#");
+      var el6 = dom.createTextNode("Martin Eden\n                ");
+      dom.appendChild(el5, el6);
+      var el6 = dom.createElement("span");
+      dom.setAttribute(el6,"class","manageIcons");
+      var el7 = dom.createTextNode("\n");
+      dom.appendChild(el6, el7);
+      var el7 = dom.createElement("span");
+      dom.setAttribute(el7,"class","glyphicon glyphicon-remove pull-right");
+      dom.setAttribute(el7,"title","Remove book");
+      dom.appendChild(el6, el7);
+      var el7 = dom.createTextNode("\n");
+      dom.appendChild(el6, el7);
+      var el7 = dom.createElement("span");
+      dom.setAttribute(el7,"class","glyphicon glyphicon-pencil pull-right");
+      dom.setAttribute(el7,"style","margin-right: 10px");
+      dom.setAttribute(el7,"title","Rename book");
+      dom.appendChild(el6, el7);
+      var el7 = dom.createTextNode("\n");
+      dom.appendChild(el6, el7);
+      dom.appendChild(el5, el6);
+      var el6 = dom.createTextNode("\n      ");
+      dom.appendChild(el5, el6);
+      dom.appendChild(el4, el5);
+      dom.appendChild(el3, el4);
+      var el4 = dom.createTextNode("\n      ");
+      dom.appendChild(el3, el4);
+      var el4 = dom.createElement("li");
+      var el5 = dom.createElement("a");
+      dom.setAttribute(el5,"class","bookLink");
+      dom.setAttribute(el5,"href","#");
+      var el6 = dom.createTextNode("1984\n        ");
+      dom.appendChild(el5, el6);
+      var el6 = dom.createElement("span");
+      dom.setAttribute(el6,"class","manageIcons");
+      var el7 = dom.createTextNode("\n");
+      dom.appendChild(el6, el7);
+      var el7 = dom.createElement("span");
+      dom.setAttribute(el7,"class","glyphicon glyphicon-remove pull-right");
+      dom.setAttribute(el7,"title","Remove book");
+      dom.appendChild(el6, el7);
+      var el7 = dom.createTextNode("\n");
+      dom.appendChild(el6, el7);
+      var el7 = dom.createElement("span");
+      dom.setAttribute(el7,"class","glyphicon glyphicon-pencil pull-right");
+      dom.setAttribute(el7,"style","margin-right: 10px");
+      dom.setAttribute(el7,"title","Rename book");
+      dom.appendChild(el6, el7);
+      var el7 = dom.createTextNode("\n");
+      dom.appendChild(el6, el7);
+      dom.appendChild(el5, el6);
+      var el6 = dom.createTextNode("\n      ");
+      dom.appendChild(el5, el6);
+      dom.appendChild(el4, el5);
+      dom.appendChild(el3, el4);
+      var el4 = dom.createTextNode("\n      ");
+      dom.appendChild(el3, el4);
+      var el4 = dom.createElement("li");
+      dom.setAttribute(el4,"role","separator");
+      dom.setAttribute(el4,"class","divider");
+      dom.appendChild(el3, el4);
+      var el4 = dom.createTextNode("\n      ");
+      dom.appendChild(el3, el4);
+      var el4 = dom.createElement("li");
+      var el5 = dom.createElement("a");
+      dom.setAttribute(el5,"class","addBookLink");
+      dom.setAttribute(el5,"href","#");
+      var el6 = dom.createTextNode("\n        ");
+      dom.appendChild(el5, el6);
+      var el6 = dom.createElement("span");
+      dom.setAttribute(el6,"class","glyphicon glyphicon-plus");
+      dom.setAttribute(el6,"style","margin-right:10px;");
+      dom.setAttribute(el6,"aria-hidden","true");
+      dom.appendChild(el5, el6);
+      var el6 = dom.createTextNode("Add Empty Book");
+      dom.appendChild(el5, el6);
+      dom.appendChild(el4, el5);
+      var el5 = dom.createTextNode("\n      ");
+      dom.appendChild(el4, el5);
+      dom.appendChild(el3, el4);
+      var el4 = dom.createTextNode("\n    ");
+      dom.appendChild(el3, el4);
+      dom.appendChild(el2, el3);
+      var el3 = dom.createTextNode("\n  ");
+      dom.appendChild(el2, el3);
+      dom.appendChild(el1, el2);
+      var el2 = dom.createTextNode("\n");
+      dom.appendChild(el1, el2);
+      dom.appendChild(el0, el1);
+      var el1 = dom.createTextNode("\n\n");
+      dom.appendChild(el0, el1);
       var el1 = dom.createElement("div");
       dom.setAttribute(el1,"class","col-xs-6");
       var el2 = dom.createTextNode("\n	");
@@ -1056,7 +1066,7 @@ Ember.TEMPLATES["wordsToolbox"] = Ember.HTMLBars.template((function() {
       var el2 = dom.createTextNode("\n");
       dom.appendChild(el1, el2);
       dom.appendChild(el0, el1);
-      var el1 = dom.createTextNode("\n");
+      var el1 = dom.createTextNode("\n\n");
       dom.appendChild(el0, el1);
       var el1 = dom.createElement("div");
       dom.setAttribute(el1,"class","col-xs-2");
@@ -1074,17 +1084,17 @@ Ember.TEMPLATES["wordsToolbox"] = Ember.HTMLBars.template((function() {
       return el0;
     },
     buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-      var element0 = dom.childAt(fragment, [2]);
+      var element0 = dom.childAt(fragment, [4]);
       var morphs = new Array(3);
-      morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0, 1]),1,1);
+      morphs[0] = dom.createMorphAt(dom.childAt(fragment, [2, 1]),1,1);
       morphs[1] = dom.createMorphAt(element0,1,1);
       morphs[2] = dom.createMorphAt(element0,3,3);
       return morphs;
     },
     statements: [
-      ["inline","input",[],["value",["subexpr","@mut",[["get","inputWord",["loc",[null,[3,16],[3,25]]]]],[],[]],"class","form-control input-sm","placeholder","Word to search or to add..."],["loc",[null,[3,2],[3,100]]]],
-      ["block","link-to",["learn"],[],0,null,["loc",[null,[13,1],[13,100]]]],
-      ["block","link-to",["exam"],[],1,null,["loc",[null,[14,1],[14,103]]]]
+      ["inline","input",[],["value",["subexpr","@mut",[["get","inputWord",["loc",[null,[40,16],[40,25]]]]],[],[]],"class","form-control input-sm","placeholder","Word to search or to add..."],["loc",[null,[40,2],[40,100]]]],
+      ["block","link-to",["learn"],[],0,null,["loc",[null,[51,1],[51,100]]]],
+      ["block","link-to",["exam"],[],1,null,["loc",[null,[52,1],[52,103]]]]
     ],
     locals: [],
     templates: [child0, child1]

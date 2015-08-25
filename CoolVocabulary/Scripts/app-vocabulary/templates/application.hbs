@@ -1,33 +1,6 @@
 {{outlet "root"}}
 <div id='toolbox' class="container toolbox">
 	<div class="row">
-		<div class="col-xs-4">
-			<ol class="breadcrumb">
-			  	<li>{{userName}}</li>
-			  	<li class="dropdown">
-				  <a class="dropdown-toggle" role="button" id="langugesDropdown" data-toggle="dropdown" href="#">
-				    {{language}}
-				    <span class="caret"></span>
-				  </a>
-				  <ul class="dropdown-menu">
-				    <li><a href="#">Es</a></li>
-				    <li><a href="#">Fr</a></li>
-				    <li><a href="#">Pt</a></li>
-				  </ul>
-			  	</li>
-			  	<li class="active dropdown">
-				  	<a class="dropdown-toggle" role="button" id="booksDropdown" data-toggle="dropdown" href="#">
-				    	{{book}}
-				    	<span class="caret"></span>
-				  	</a>
-				  	<ul class="dropdown-menu">
-				    	<li><a href="#">Poliglot</a></li>
-				    	<li><a href="#">Martin Eden</a></li>
-				    	<li><a href="#">1984</a></li>
-				  	</ul>
-			  	</li>
-			</ol>
-		</div>
 		{{outlet "toolbox"}}
 	</div>
 </div>
