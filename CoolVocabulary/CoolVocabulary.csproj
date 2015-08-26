@@ -199,10 +199,13 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\api\BookController.cs" />
+    <Compile Include="Controllers\api\BookWordController.cs" />
+    <Compile Include="Controllers\api\TranslationController.cs" />
+    <Compile Include="Controllers\api\WordController.cs" />
+    <Compile Include="Controllers\api\WordTranslationsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\VocabularyController.cs" />
-    <Compile Include="Controllers\VocabularyWordController.cs" />
-    <Compile Include="Controllers\WordController.cs" />
     <Compile Include="Custom\AjaxAuthorize.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -211,8 +214,10 @@
     <Compile Include="Migrations\VocabularyDbContext\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\VocabularyBindingModels.cs" />
     <Compile Include="Models\VocabularyDbContext.cs" />
     <Compile Include="Models\VocabularyModels.cs" />
+    <Compile Include="Models\VocabularyMongoContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

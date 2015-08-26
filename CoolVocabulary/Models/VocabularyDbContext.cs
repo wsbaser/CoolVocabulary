@@ -4,9 +4,6 @@ using System.Linq;
 using System.Web;
 using System.Data.Entity;
 using System.Threading.Tasks;
-using MongoDB;
-using MongoDB.Driver;
-using MongoDB.Driver.Builders;
 
 namespace CoolVocabulary.Models {
     public class VocabularyDbContext : DbContext {
@@ -23,53 +20,65 @@ namespace CoolVocabulary.Models {
         }
 
         public System.Data.Entity.DbSet<Word> Words { get; set; }
-        public System.Data.Entity.DbSet<Vocabulary> Vocabularies { get; set; }
-        public System.Data.Entity.DbSet<VocabularyWord> VocabularyWords { get; set; }
+        public System.Data.Entity.DbSet<Book> Books { get; set; }
+        public System.Data.Entity.DbSet<BookWord> BookWords { get; set; }
+        public System.Data.Entity.DbSet<Translation> Translations { get; set; }
 
-        public async Task<Vocabulary> GetDefaultVocabulary(string userId, int language) {
+        public async Task<Book> GetDefaultVocabulary(string userId, LanguageType language) {
             const string DEFAULT_VOCABULARY = "New words";
-            var vocabulary = await Vocabularies.SingleOrDefaultAsync(v=>
-                v.UserID==userId &&
-                v.Language==language &&
+            var vocabulary = await Books.SingleOrDefaultAsync(v =>
+                v.UserID == userId &&
+                v.Language == (int)language &&
                 v.Name == DEFAULT_VOCABULARY);
             if (vocabulary == null) {
-                vocabulary = new Vocabulary(){
+                vocabulary = new Book() {
                     Name = DEFAULT_VOCABULARY,
                     UserID = userId,
-                    Language = language
+                    Language = (int)language
                 };
-                Vocabularies.Add(vocabulary);
+                Books.Add(vocabulary);
                 await SaveChangesAsync();
             }
             return vocabulary;
         }
-    }
 
-    public class VocabularyMongoContext {
-        MongoClient _mongoClient;
-
-        public VocabularyMongoContext() {
-            _mongoClient = new MongoClient("mongodb://localhost");
+        public async Task<Word> AddWord(string word, LanguageType language, string pronunciation, string soundUrls, string pictureUrls) {
+            Word entity = await Words.SingleOrDefaultAsync(w => w.Value == word && w.Language == (int)language);
+            if (entity == null) {
+                entity = new Word {
+                    Value = word,
+                    Language = (int)language,
+                    Pronunciation = pronunciation,
+                    SoundUrls = soundUrls,
+                    PictureUrls = pictureUrls
+                };
+                Words.Add(entity);
+                await SaveChangesAsync();
+            }
+            return entity;
         }
 
-        private IMongoCollection<WordTranslations> GetCollection(string sourceLanguage, string targetLanguage) {
-            // .each source language has it's own database
-            var db = _mongoClient.GetDatabase("vocabulary_" + sourceLanguage);
-            // .each target language has it's own collection
-            string collectionName = typeof(WordTranslations).Name.ToLower() + targetLanguage;
-            return db.GetCollection<WordTranslations>(collectionName);
-        }
 
-        public async Task<WordTranslations> GetWordTranslations(string word, string sourceLanguage, string targetLanguage) {
-            var collection = GetCollection(sourceLanguage, targetLanguage);
-            // .find record for word
-            var x = await collection.FindAsync(wt => wt.Word == word);
-            return x.Current.SingleOrDefault<WordTranslations>();
-        }
-
-        public async Task AddWordTranslations(string sourceLanguage, string targetLanguage, WordTranslations wordTranslations) {
-            var collection = GetCollection(sourceLanguage, targetLanguage);
-            await collection.FindOneAndReplaceAsync(wt => wt.Word == wordTranslations.Word, wordTranslations);
+        public async Task<Translation> AddTranslation(int bookID, int wordID, string value, LanguageType language) {
+            // . find BookWord entity
+            BookWord bookWordEntity = await BookWords.SingleOrDefaultAsync(bw =>
+                bw.BookID == bookID &&
+                bw.WordID == wordID);
+            // . create if not exists
+            if (bookWordEntity == null) {
+                bookWordEntity = new BookWord { WordID = wordID };
+                BookWords.Add(bookWordEntity);
+                await SaveChangesAsync();
+            }
+            // . add Translation entity
+            Translation translationEntity = new Translation {
+                BookWordID = bookWordEntity.ID,
+                Value = value,
+                Language = (int)language
+            };
+            Translations.Add(translationEntity);
+            await SaveChangesAsync();
+            return translationEntity;
         }
     }
 }

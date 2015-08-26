@@ -8,11 +8,11 @@ namespace CoolVocabulary.Models {
     public class WordTranslations {
         public string ID { get; set; }
         public string Word { get; set; }
-        public string Translations { get; set; }
+        public string TranslationWords { get; set; }
         public string TranslationCards { get; set; }
     }
 
-    public class Vocabulary {
+    public class Book {
         [Required]
         public int ID { get; set; }
         [Required]
@@ -27,7 +27,7 @@ namespace CoolVocabulary.Models {
     public class Word {
         [Required]
         public int ID { get; set; }
-        [Required]
+        [Required, MaxLength(100)]
         public string Value { get; set; }
         [Required]
         public int Language { get; set; }
@@ -37,28 +37,37 @@ namespace CoolVocabulary.Models {
         public string PictureUrls { get; set; }
     }
 
-    public class VocabularyWord {
+    public class BookWord {
         [Required]
         public int ID { get; set; }
         [Required]
-        public int VocabularyID { get; set; }
+        public int BookID { get; set; }
         [Required]
         public int WordID { get; set; }
-        [Required]
-        public string Translations { get; set; }
-        [Required]
-        public int TranslationsLanguage { get; set; }
+        [Range(0,4)]
         public int LearnProgress { get; set; }
         public virtual Word Word { get; set; }
-        public virtual Vocabulary Vocabulary { get; set; }
-        public void UpdateTranslations(string translations) {
-            if (string.IsNullOrWhiteSpace(translations))
-                return;
-            var list1 = this.Translations.Split(',').ToList<string>();
-            var list2 = translations.Split(',').ToList<string>();
-            this.Translations = list1.Union(list2).Aggregate(string.Empty, (current, s) => s + (current + ","));
-            this.Translations = this.Translations.Remove(this.Translations.Length - 1);
-        }
+        public virtual Book Vocabulary { get; set; }
+        //public void UpdateTranslations(string translations) {
+        //    if (string.IsNullOrWhiteSpace(translations))
+        //        return;
+        //    var list1 = this.Translations.Split(',').ToList<string>();
+        //    var list2 = translations.Split(',').ToList<string>();
+        //    this.Translations = list1.Union(list2).Aggregate(string.Empty, (current, s) => s + (current + ","));
+        //    this.Translations = this.Translations.Remove(this.Translations.Length - 1);
+        //}
+    }
+
+    public class Translation {
+        [Required]
+        public int ID { get; set; }
+        [Required]
+        public int BookWordID { get; set; }
+        [Required, MaxLength(100)]
+        public string Value { get; set; }
+        [Required]
+        public int Language { get; set; }
+        public virtual BookWord BookWord { get; set; }
     }
 
     public enum LanguageType {
