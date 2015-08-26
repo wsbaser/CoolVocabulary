@@ -1,5 +1,6 @@
 <div id="bookContainer" class="col-xs-4" >
   <div id="currentBookDropdown" class="dropdown">
+    <input id="newBookName" type="text" value="New words - 1">
     <a id="currentBook" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
       Martin Eden
       {{!-- {{currentBook}} --}}
@@ -9,6 +10,7 @@
 {{!--       {{#each books as |book|}}
         <li><a href="#">book</a></li>
       {{/each}} --}}
+      <li class="dropdown-header">Your books: 3</li>
       <li><a class="bookLink" href="#">Poliglot
         <span class="manageIcons">
 <span class="glyphicon glyphicon-remove pull-right"  title="Remove book"></span>
@@ -30,6 +32,9 @@
       <li role="separator" class="divider"></li>
       <li><a class="addBookLink" href="#">
         <span class="glyphicon glyphicon-plus" style="margin-right:10px;" aria-hidden="true"></span>Add Empty Book</a>
+      </li>
+      <li><a class="findBookLink" href="#">
+        <span class="glyphicon glyphicon-search" style="margin-right:10px;" aria-hidden="true"></span>Find Book</a>
       </li>
     </ul>
   </div>

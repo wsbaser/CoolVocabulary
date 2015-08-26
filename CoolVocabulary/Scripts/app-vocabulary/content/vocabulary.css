@@ -176,11 +176,27 @@
 
 #bookContainer .dropdown-menu{
   min-width:300px;
+  border-left: 15px solid #080808;
 }
 
-#currentBook{
+#bookContainer li>a{
+	padding-right: 10px;
+}
+
+#bookContainer li>a:hover {
+	background-color: #47a447;
+}
+
+#currentBook,
+#newBookName{
   color: #444;
   font-size:1.3em;
+}
+
+#newBookName {
+    border: 0;
+    width: 100%;
+    display: none;
 }
 
 #currentBookDropdown{
@@ -190,6 +206,7 @@
 .manageIcons .glyphicon {
     opacity: 0.2;
     display: none;
+    line-height: 18px;
 }
 
 .manageIcons .glyphicon:hover {

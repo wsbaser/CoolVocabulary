@@ -781,11 +781,11 @@ Ember.TEMPLATES["wordsToolbox"] = Ember.HTMLBars.template((function() {
         "loc": {
           "source": null,
           "start": {
-            "line": 51,
+            "line": 56,
             "column": 1
           },
           "end": {
-            "line": 51,
+            "line": 56,
             "column": 88
           }
         }
@@ -818,11 +818,11 @@ Ember.TEMPLATES["wordsToolbox"] = Ember.HTMLBars.template((function() {
         "loc": {
           "source": null,
           "start": {
-            "line": 52,
+            "line": 57,
             "column": 1
           },
           "end": {
-            "line": 52,
+            "line": 57,
             "column": 91
           }
         }
@@ -858,7 +858,7 @@ Ember.TEMPLATES["wordsToolbox"] = Ember.HTMLBars.template((function() {
           "column": 0
         },
         "end": {
-          "line": 53,
+          "line": 58,
           "column": 6
         }
       }
@@ -876,6 +876,13 @@ Ember.TEMPLATES["wordsToolbox"] = Ember.HTMLBars.template((function() {
       var el2 = dom.createElement("div");
       dom.setAttribute(el2,"id","currentBookDropdown");
       dom.setAttribute(el2,"class","dropdown");
+      var el3 = dom.createTextNode("\n    ");
+      dom.appendChild(el2, el3);
+      var el3 = dom.createElement("input");
+      dom.setAttribute(el3,"id","newBookName");
+      dom.setAttribute(el3,"type","text");
+      dom.setAttribute(el3,"value","New words - 1");
+      dom.appendChild(el2, el3);
       var el3 = dom.createTextNode("\n    ");
       dom.appendChild(el2, el3);
       var el3 = dom.createElement("a");
@@ -903,6 +910,13 @@ Ember.TEMPLATES["wordsToolbox"] = Ember.HTMLBars.template((function() {
       var el4 = dom.createTextNode("\n");
       dom.appendChild(el3, el4);
       var el4 = dom.createTextNode("      ");
+      dom.appendChild(el3, el4);
+      var el4 = dom.createElement("li");
+      dom.setAttribute(el4,"class","dropdown-header");
+      var el5 = dom.createTextNode("Your books: 3");
+      dom.appendChild(el4, el5);
+      dom.appendChild(el3, el4);
+      var el4 = dom.createTextNode("\n      ");
       dom.appendChild(el3, el4);
       var el4 = dom.createElement("li");
       var el5 = dom.createElement("a");
@@ -1017,6 +1031,25 @@ Ember.TEMPLATES["wordsToolbox"] = Ember.HTMLBars.template((function() {
       var el5 = dom.createTextNode("\n      ");
       dom.appendChild(el4, el5);
       dom.appendChild(el3, el4);
+      var el4 = dom.createTextNode("\n      ");
+      dom.appendChild(el3, el4);
+      var el4 = dom.createElement("li");
+      var el5 = dom.createElement("a");
+      dom.setAttribute(el5,"class","findBookLink");
+      dom.setAttribute(el5,"href","#");
+      var el6 = dom.createTextNode("\n        ");
+      dom.appendChild(el5, el6);
+      var el6 = dom.createElement("span");
+      dom.setAttribute(el6,"class","glyphicon glyphicon-search");
+      dom.setAttribute(el6,"style","margin-right:10px;");
+      dom.setAttribute(el6,"aria-hidden","true");
+      dom.appendChild(el5, el6);
+      var el6 = dom.createTextNode("Find Book");
+      dom.appendChild(el5, el6);
+      dom.appendChild(el4, el5);
+      var el5 = dom.createTextNode("\n      ");
+      dom.appendChild(el4, el5);
+      dom.appendChild(el3, el4);
       var el4 = dom.createTextNode("\n    ");
       dom.appendChild(el3, el4);
       dom.appendChild(el2, el3);
@@ -1092,9 +1125,9 @@ Ember.TEMPLATES["wordsToolbox"] = Ember.HTMLBars.template((function() {
       return morphs;
     },
     statements: [
-      ["inline","input",[],["value",["subexpr","@mut",[["get","inputWord",["loc",[null,[40,16],[40,25]]]]],[],[]],"class","form-control input-sm","placeholder","Word to search or to add..."],["loc",[null,[40,2],[40,100]]]],
-      ["block","link-to",["learn"],[],0,null,["loc",[null,[51,1],[51,100]]]],
-      ["block","link-to",["exam"],[],1,null,["loc",[null,[52,1],[52,103]]]]
+      ["inline","input",[],["value",["subexpr","@mut",[["get","inputWord",["loc",[null,[45,16],[45,25]]]]],[],[]],"class","form-control input-sm","placeholder","Word to search or to add..."],["loc",[null,[45,2],[45,100]]]],
+      ["block","link-to",["learn"],[],0,null,["loc",[null,[56,1],[56,100]]]],
+      ["block","link-to",["exam"],[],1,null,["loc",[null,[57,1],[57,103]]]]
     ],
     locals: [],
     templates: [child0, child1]

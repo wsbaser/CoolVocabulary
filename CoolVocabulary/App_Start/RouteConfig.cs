@@ -12,13 +12,13 @@ namespace CoolVocabulary {
 
             routes.MapRoute(
                 name: "Account",
-                url: "Account/{action}/{id}",
+                url: "account/{action}/{id}",
                 defaults: new { controller = "Account", action = "Index", id = UrlParameter.Optional }
             );
 
             routes.MapRoute(
-                name: "Vocabulary",
-                url: "Vocabulary/api/{action}/{id}",
+                name: "Words",
+                url: "words/api/{action}/{id}",
                 defaults: new { controller = "Vocabulary", action = "Index", id = UrlParameter.Optional }
             );
             

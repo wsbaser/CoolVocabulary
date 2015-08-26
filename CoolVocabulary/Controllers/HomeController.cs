@@ -22,7 +22,7 @@ namespace CoolVocabulary.Controllers {
         }
 
         [Authorize]
-        public ActionResult Vocabulary() {
+        public ActionResult Words() {
             return View();
         }
 

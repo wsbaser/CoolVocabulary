@@ -4,11 +4,11 @@ var CVConfig = function() {
         id: "cv",
         name: "Cool Vocabulary",
         ajax: {
-            getBooks: siteHost + "/vocabulary/api/getbooks",
             isAuthenticated: siteHost + "/account/isAuthenticated",
             login: siteHost + '/account/apilogin',
-            addWord: siteHost + '/vocabulary/api/addWord',
-            addWordTranslations: siteHost + '/vocabulary/api/addWordTranslations'
+            getBooks: siteHost + "/words/api/getbooks",
+            addWord: siteHost + '/words/api/addWord',
+            addWordTranslations: siteHost + '/words/api/addWordTranslations'
         },
         path: {
             vocabulary: siteHost
