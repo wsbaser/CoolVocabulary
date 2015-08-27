@@ -319,7 +319,8 @@
 }
 
 #ctr_dialog .ctr-source-navigation li.ctr-active a{
-    background: #fff475 !important;
+    /*background: #fff475 !important;*/
+    background: #5bc0de !important
     cursor: pointer !important;
 }
 
@@ -576,7 +577,7 @@
 /*******************************************/
 #ctr_dialog .ctr-translItem:hover {
 	border: solid 1px #9FC2C9 !important;
-    background: rgba(44, 175, 227,0.1) !important;
+  background: rgba(44, 175, 227,0.1) !important;
 	cursor: pointer !important;
 }
 

@@ -5,10 +5,4 @@ namespace CoolVocabulary.Models {
     public class ApplicationUser : IdentityUser {
         public virtual string DisplayName { get; set; }
     }
-
-    public class UserDbContext : IdentityDbContext<ApplicationUser> {
-        public UserDbContext()
-            : base("DefaultConnection", false) {
-        }
-    }
 }

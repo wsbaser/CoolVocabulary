@@ -4,9 +4,10 @@ using System.Linq;
 using System.Web;
 using System.Data.Entity;
 using System.Threading.Tasks;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace CoolVocabulary.Models {
-    public class VocabularyDbContext : DbContext {
+    public class VocabularyDbContext : IdentityDbContext<ApplicationUser> {
         // You can add custom code to this file. Changes will not be overwritten.
         // 
         // If you want Entity Framework to drop and regenerate your database

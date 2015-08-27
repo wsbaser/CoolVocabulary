@@ -16,7 +16,7 @@ namespace CoolVocabulary.Controllers
     public class AccountController : Controller
     {
         public AccountController()
-            : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new UserDbContext())))
+            : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new VocabularyDbContext())))
         {
         }
 
@@ -72,7 +72,7 @@ namespace CoolVocabulary.Controllers
                 var user = await UserManager.FindAsync(model.Email, model.Password);
                 if (user != null) {
                     await SignInAsync(user, model.RememberMe);
-                    return RedirectToAction("Vocabulary", "Home");
+                    return RedirectToAction("Words", "Home");
                 } else {
                     ModelState.AddModelError("", "Invalid username or password.");
                 }
@@ -226,7 +226,7 @@ namespace CoolVocabulary.Controllers
 
             if (user != null) {
                 await SignInAsync(user, isPersistent: false);
-                return RedirectToAction("Vocabulary", "Home");
+                return RedirectToAction("Words", "Home");
             } else {
                 user = loginInfo.Email == null ?
                     null :
@@ -240,7 +240,7 @@ namespace CoolVocabulary.Controllers
                     var result = await UserManager.AddLoginAsync(user.Id, loginInfo.Login);
                     if (result.Succeeded) {
                         await SignInAsync(user, isPersistent: false);
-                        return RedirectToAction("Vocabulary", "Home");
+                        return RedirectToAction("Words", "Home");
                     }
                     AddErrors(result);
                     ViewBag.ReturnUrl = returnUrl;
@@ -304,7 +304,7 @@ namespace CoolVocabulary.Controllers
                     if (result.Succeeded)
                     {
                         await SignInAsync(user, isPersistent: false);
-                        return RedirectToAction("Vocabulary","Home");
+                        return RedirectToAction("Words","Home");
                     }
                 }
                 AddErrors(result);
