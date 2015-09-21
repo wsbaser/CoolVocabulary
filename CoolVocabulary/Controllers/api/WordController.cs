@@ -44,7 +44,7 @@ namespace CoolVocabulary.Controllers.api
                 return BadRequest(ModelState);
             }
 
-            if (id != word.ID)
+            if (id != word.Id)
             {
                 return BadRequest();
             }
@@ -82,7 +82,7 @@ namespace CoolVocabulary.Controllers.api
             db.Words.Add(word);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = word.ID }, word);
+            return CreatedAtRoute("DefaultApi", new { id = word.Id }, word);
         }
 
         // DELETE api/Word/5
@@ -112,7 +112,7 @@ namespace CoolVocabulary.Controllers.api
 
         private bool WordExists(int id)
         {
-            return db.Words.Count(e => e.ID == id) > 0;
+            return db.Words.Count(e => e.Id == id) > 0;
         }
     }
 }

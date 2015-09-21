@@ -3,10 +3,60 @@ window.Vocabulary = Ember.Application.create({
 });
 
 Vocabulary.Router.map(function(){
-	this.route('words', { path:'/' });
-	this.route('learn');
-	this.route('exam');
+  this.route('book', { path: 'book/:book_id' },function(){
+    this.route('learn');
+    this.route('exam');
+  });
 });
+
+Vocabulary.ApplicationAdapter = DS.RESTAdapter.extend({
+  namespace: 'api',
+  pathForType: function(type) {
+    return type.camelize().capitalize();
+  }
+});
+
+Vocabulary.ApplicationSerializer = DS.RESTSerializer.extend({
+  normalizeResponse: function(store, primaryType, payload, id, requestType) {
+    if(payload.emberDataFormat){
+      return this._super(store, primaryType, payload, id, requestType);
+    }
+    else {
+      var i, record, payloadWithRoot;
+      // if the payload has a length property, then we know it's an array
+      if (payload.length) {
+        for (i = 0; i < payload.length; i++) {
+          record = payload[i];
+          this.mapRecord(record);
+        }
+      } else {
+        // payload is a single object instead of an array
+        this.mapRecord(payload);
+      }
+      payloadWithRoot = {};
+      payloadWithRoot[primaryType.modelName.pluralize()] = payload;
+      return this._super(store, primaryType, payloadWithRoot, id, requestType);
+    }
+  },
+  mapRecord: function(item) {
+    var propertyName, value, newPropertyName;
+    for (propertyName in item){
+      value = item[propertyName];
+      newPropertyName = propertyName.camelize();
+      item[newPropertyName] = value;
+      delete item[propertyName];
+    }
+  },
+  serializeIntoHash: function(hash, type, record, options) {
+    var jsonRecord, propertyName, value;
+    jsonRecord = record.toJSON();
+    for (propertyName in jsonRecord) {
+      value = jsonRecord[propertyName];
+      hash[propertyName.capitalize()] = value;
+    }
+  }
+});
+
 function CTAdapter(){
 	this.extensionIsActive = false;
 }
@@ -52,24 +102,85 @@ Vocabulary.ApplicationController = Ember.Controller.extend({
 	userName: 'wsbaser',
 	langPair: { sourceLang:'en', targetLang:'ru' },
 	book: 'Stranger in a strange land',
-	init: function(){
-		var self = this;
-		$(document).ready(function(){
-			$(window).resize(function(){
-				self.setContentHeight();
-			}.bind(this));
-			self.setContentHeight();
-		});
-	}.on('init'),
-	setContentHeight: function(){
-		var height = $(window).height()-$('#toolbox').height();
-		console.log('setContentHeight');
-		$('#content').css('height',height+'px');
-		var heightChangedEvent = new CustomEvent("heightChanged", {detail: height});
-		$('#content')[0].dispatchEvent(heightChangedEvent);
-	}
 });
 
+Vocabulary.BookController = Ember.Controller.extend({
+	inputWord: "",
+	translator: {},
+	applicationCtrl: Ember.inject.controller('application'),
+	init: function(){
+		this.initSiteDialog();
+	}.on('init'),
+	initSiteDialog: function(){
+		var self = this;
+		var ctAdapter =  new CTAdapter();
+		this.set('ctAdapter', ctAdapter);
+		var langPair = this.get('applicationCtrl').langPair;
+		$('#word_input_form').off('submit', this.showInstallCTAlert);
+		ctAdapter.initSiteDialog(langPair, '#word_input_form', function(){
+			if(ctAdapter.extensionIsActive){
+				return;
+			}
+			$('#word_input_form').on('submit', self.showInstallCTAlert);
+		});
+	},
+	showInstallCTAlert: function(){
+		console.log('show popover');
+		$('#install_ct_alert').modalPopover('show');
+		return false;
+	},
+	books: function () {
+        return this.store.peekAll("book");
+    }.property()
+});
+Vocabulary.BookIndexController = Ember.Controller.extend({
+	setWords: function(bookId){
+		var all = this.store.peekAll('bookWord').toArray();
+		var result = {};
+		for (var i = all.length - 1; i >= 0; i--) {
+			var bookword = all[i];
+			var translations = bookword.get('translations').toArray();
+			for (var j = translations.length - 1; j >= 0; j--) {
+				var translation = translations[j];
+				var speachPart = translation.get('speachPart');
+				var spPairs = result[speachPart];
+				if(!spPairs){
+					spPairs = result[speachPart] = {};
+				}
+				var pair = spPairs[bookword.id];
+				if(!pair){
+					pair = spPairs[bookword.id] = {
+						bookword : bookword,
+						translations : []
+					};
+				}
+				pair.translations.push(translation);
+			}
+		}
+		for (var sp in result){
+			var wordsObj = result[sp];
+			var wordsArr = [];
+			for (var bookwordId in wordsObj) {
+				wordsArr.push(wordsObj[bookwordId]);
+			}
+			result[sp] = wordsArr;
+		}
+		console.log(result);
+		this.set('words', result);
+	},
+	nouns: function(){
+		return this.get('words')[1];
+	}.property(),
+	verbs: function(){
+		return this.get('words')[2];
+	}.property(),
+	adjectives: function(){
+		return this.get('words')[3];
+	}.property(),
+	adverbs: function(){
+		return this.get('words')[4];
+	}.property()
+});
 window.CARD_HEIGHT = 300;
 Vocabulary.LearnController = Ember.Controller.extend({
 	cards:[],
@@ -97,48 +208,71 @@ Vocabulary.LearnController = Ember.Controller.extend({
 	// 	console.log('scoll to card index: '+ index);
 	// },
 });
-Vocabulary.WordsController = Ember.Controller.extend({
-	inputWord: "",
-	translator: {},
-	applicationCtrl: Ember.inject.controller('application'),
-	init: function(){
-		this.initSiteDialog();
-	}.on('init'),
-	initSiteDialog:function(){
-		var self = this;
-		var ctAdapter =  new CTAdapter();
-		this.set('ctAdapter', ctAdapter);
-		var langPair = this.get('applicationCtrl').langPair;
-		$('#word_input_form').off('submit', this.showInstallCTAlert);
-		ctAdapter.initSiteDialog(langPair, '#word_input_form', function(){
-			if(ctAdapter.extensionIsActive){
-				return;
-			}
-			$('#word_input_form').on('submit', self.showInstallCTAlert);
-		});
-	},
-	showInstallCTAlert: function(){
-		console.log('show popover');
-		$('#install_ct_alert').modalPopover('show');
-		return false;
-	}
+Vocabulary.Book = DS.Model.extend({
+    name: DS.attr("string"),
+    language: DS.attr("string"),
+    bookWords: DS.hasMany("bookWord")
 });
-
-Vocabulary.LearnRoute = Ember.Route.extend({
-	renderTemplate: function(){
-		this.render('learnToolbox', {outlet:'toolbox'});
-		this.render('learn',{outlet:'content'});
-	}
+Vocabulary.BookWord = DS.Model.extend({
+    book: DS.belongsTo("book"),
+    word: DS.belongsTo("word"),
+    learnProgress: DS.attr("number"),
+    translations: DS.hasMany("translation")
 });
-Vocabulary.WordsRoute = Ember.Route.extend({
-	renderTemplate: function() {
-		this.render('wordsRoot', { outlet: 'root' });
-		this.render('wordsToolbox', { outlet: 'toolbox' });
-		this.render('words', { outlet: 'content' });
-		},
-		setupController: function(controller, model){
+Vocabulary.Translation = DS.Model.extend({
+    bookWord: DS.belongsTo("bookWord"),
+    value: DS.attr("string"),
+    speachPart: DS.attr("number"),
+    language: DS.attr("string")
+});
+Vocabulary.Word = DS.Model.extend({
+    value: DS.attr("string"),
+    language: DS.attr("string"),
+    pronunciation: DS.attr("string"),
+    soundUrls: DS.attr("string"),
+    pictureUrls: DS.attr("string"),
+    bookWord: DS.belongsTo("bookWord")
+});
+Vocabulary.WordTranslations = DS.Model.extend({
+    word: DS.attr("string"),
+    wordLanguage: DS.attr("string"),
+    translationLanguage: DS.attr("string"),
+    translationWords: DS.attr("string"),
+    translationCards: DS.attr("string")
+});
+Vocabulary.ApplicationRoute = Ember.Route.extend({
+	setupController: function(controller, model){
 	    this._super(controller, model);
+	    var self = this;
 	    Ember.run.schedule('afterRender', this, function () {
+	    	console.log("application after render");
+	    	$(window).resize(function(){
+				self.setContentHeight();
+			}.bind(this));
+			self.setContentHeight();
+	    });
+	},
+	setContentHeight: function(){
+		var height = $(window).height()-$('#toolbox').height();
+		console.log('setContentHeight');
+		$('#content').css('height',height+'px');
+		var heightChangedEvent = new CustomEvent("heightChanged", {detail: height});
+		$('#content')[0].dispatchEvent(heightChangedEvent);
+	}
+});
+Vocabulary.BookRoute = Ember.Route.extend({
+	
+});
+Vocabulary.BookIndexRoute = Ember.Route.extend({
+	renderTemplate: function() {
+		this.render('book/indexRoot', { outlet: 'root' });
+		this.render('book/indexToolbox', { outlet: 'toolbox' });
+		this.render('book/index', { outlet: 'content' });
+	},
+	setupController: function(controller, model){
+		controller.setWords(model.id);
+	    this._super(controller, model);
+	    Ember.run.schedule('afterRender', this, function() {
 	    	console.log('init popover');
 	      	$('#install_ct_alert').modalPopover({
 			    target: '#word_input_form',
@@ -146,47 +280,23 @@ Vocabulary.WordsRoute = Ember.Route.extend({
 			    backdrop: true
 			});
 	    });
-		},
-	model: function(params){
-		return {
-			pronouns:[
-				{word:'kindergarten', translation:'перевод'},
-				{word:'doppelganger',translation:'перевод'},
-				{word:'I',translation:'Я'},
-				{word:'You',translation:'Ты'},
-				{word:'He',translation:'Он'}],
-			prepositions:[
-				{word:'To',translation:'в'},
-				{word:'At',translation:'на'},
-				{word:'On',translation:'на'}],
-			conjunctions:[
-				{word:'And',translation:'и'},
-				{word:'Or',translation:'или'},
-				{word:'But',translation:'но'}],
-			nouns:[
-				{word:'Dog',translation:'Собака'},
-				{word:'Cat',translation:'Кошка'},
-				{word:'Garden',translation:'Сад'}],
-			verbs:[
-				{word:'Run',translation:'Бежать'},
-				{word:'Go',translation:'Идти'},
-				{word:'Have',translation:'Иметь'}],
-			adjectives:[
-				{word:'Angry',translation:'Сердитый'},
-				{word:'Brave',translation:'Храбрый'},
-				{word:'Healthy',translation:'Здоровый'}],
-			adverbs:[
-				{word:'Badly',translation:'Плохо'},
-				{word:'Fully',translation:'Полностью'},
-				{word:'Hardly',translation:'Едва'}],
-			articles:[
-				{word:'A',translation:''},
-				{word:'The',translation:''},
-				{word:'An',translation:''}],
-			interjections:[
-				{word:'aha!',translation:''},
-				{word:'gosh!',translation:''},
-				{word:'hi!',translation:''}]
-		};
 	}
+});
+Vocabulary.LearnRoute = Ember.Route.extend({
+	renderTemplate: function(){
+		this.render('book/learnToolbox', {outlet:'toolbox'});
+		this.render('book/learn',{outlet:'content'});
+	}
+});
+Vocabulary.IndexRoute = Ember.Route.extend({
+	model: function(params){
+		return this.store.query('book', {
+			language: 0
+		});
+	},
+	afterModel: function(books, transition) {
+		console.log('transition to book');
+		var model = books.get('firstObject');
+		this.transitionTo('book', model);
+  	}
 });

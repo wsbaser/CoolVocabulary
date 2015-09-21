@@ -4,7 +4,7 @@
 @{
     ApplicationUser user=null;
     if (Request.IsAuthenticated){
-        var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new UserDbContext()));
+        var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new VocabularyDbContext()));
         user = um.FindById(User.Identity.GetUserId());
     }
     if (user != null) { 

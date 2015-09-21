@@ -11,6 +11,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using CoolVocabulary.Models;
 using Microsoft.AspNet.Identity;
+using AutoMapper;
 
 namespace CoolVocabulary.Controllers.api
 {
@@ -19,8 +20,59 @@ namespace CoolVocabulary.Controllers.api
         private VocabularyDbContext db = new VocabularyDbContext();
 
         // GET api/Book
-        public IQueryable<Book> GetBooks() {
-            return db.Books.Where(v => v.UserID == User.Identity.GetUserId());
+        public dynamic GetBooks(int language) {
+            // . get books of current user
+            var userID = User.Identity.GetUserId();
+            var books = new List<dynamic>();
+            var bookWords = new List<dynamic>();
+            var words = new List<dynamic>();
+            var translations = new List<dynamic>();
+            foreach (var book in db.Books.Where(v => v.UserId == userID && v.Language==language )) {
+                books.Add(new {
+                    id = book.Id,
+                    language = ((LanguageType)book.Language).ToString(),
+                    name = book.Name,
+                    userId = book.UserId,
+                    bookWords = new List<int>()
+                });
+            }
+
+            // . get words of current book
+            var currentBook = books.First();
+            int currentBookId = currentBook.id;
+            foreach (var bookWord in db.BookWords.Where(v => v.BookId == currentBookId).Include("Word").Include("Translations")) {
+                currentBook.bookWords.Add(bookWord.Id);
+                bookWords.Add(new {
+                    id = bookWord.Id,
+                    learnProgress = bookWord.LearnProgress,
+                    word = bookWord.WordId,
+                    book = bookWord.BookId,
+                    translations = bookWord.Translations.Select(t=>t.Id).ToList()
+                });
+                words.Add(new {
+                    id = bookWord.Word.Id,
+                    value =  bookWord.Word.Value,
+                    language = ((LanguageType)bookWord.Word.Language).ToString(),
+                    pictureUrl = bookWord.Word.PictureUrls,
+                    pronunciation = bookWord.Word.Pronunciation,
+                    soundUrls = bookWord.Word.SoundUrls
+                });
+                foreach (Translation translation in bookWord.Translations) {
+                    translations.Add(new {
+                        id = translation.Id,
+                        value = translation.Value,
+                        language = ((LanguageType)translation.Language).ToString(),
+                        speachPart = translation.SpeachPart
+                    });
+                }
+            }
+            return new {
+                emberDataFormat = true,
+                books = books,
+                bookWords = bookWords,
+                words = words,
+                translations = translations
+            };
         }
 
         // GET api/Book/5
@@ -44,7 +96,7 @@ namespace CoolVocabulary.Controllers.api
                 return BadRequest(ModelState);
             }
 
-            if (id != book.ID)
+            if (id != book.Id)
             {
                 return BadRequest();
             }
@@ -82,7 +134,7 @@ namespace CoolVocabulary.Controllers.api
             db.Books.Add(book);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = book.ID }, book);
+            return CreatedAtRoute("DefaultApi", new { id = book.Id }, book);
         }
 
         // DELETE api/Book/5
@@ -112,7 +164,7 @@ namespace CoolVocabulary.Controllers.api
 
         private bool BookExists(int id)
         {
-            return db.Books.Count(e => e.ID == id) > 0;
+            return db.Books.Count(e => e.Id == id) > 0;
         }
     }
 }

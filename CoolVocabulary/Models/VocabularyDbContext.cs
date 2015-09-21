@@ -28,13 +28,13 @@ namespace CoolVocabulary.Models {
         public async Task<Book> GetDefaultVocabulary(string userId, LanguageType language) {
             const string DEFAULT_VOCABULARY = "New words";
             var vocabulary = await Books.SingleOrDefaultAsync(v =>
-                v.UserID == userId &&
+                v.UserId == userId &&
                 v.Language == (int)language &&
                 v.Name == DEFAULT_VOCABULARY);
             if (vocabulary == null) {
                 vocabulary = new Book() {
                     Name = DEFAULT_VOCABULARY,
-                    UserID = userId,
+                    UserId = userId,
                     Language = (int)language
                 };
                 Books.Add(vocabulary);
@@ -60,22 +60,23 @@ namespace CoolVocabulary.Models {
         }
 
 
-        public async Task<Translation> AddTranslation(int bookID, int wordID, string value, LanguageType language) {
+        public async Task<Translation> AddTranslation(int bookID, int wordID, string value, LanguageType language, SpeachPartType speachPart) {
             // . find BookWord entity
             BookWord bookWordEntity = await BookWords.SingleOrDefaultAsync(bw =>
-                bw.BookID == bookID &&
-                bw.WordID == wordID);
+                bw.BookId == bookID &&
+                bw.WordId == wordID);
             // . create if not exists
             if (bookWordEntity == null) {
-                bookWordEntity = new BookWord { WordID = wordID };
+                bookWordEntity = new BookWord { WordId = wordID };
                 BookWords.Add(bookWordEntity);
                 await SaveChangesAsync();
             }
             // . add Translation entity
             Translation translationEntity = new Translation {
-                BookWordID = bookWordEntity.ID,
+                BookWordId = bookWordEntity.Id,
                 Value = value,
-                Language = (int)language
+                Language = (int)language,
+                SpeachPart = (int)speachPart
             };
             Translations.Add(translationEntity);
             await SaveChangesAsync();

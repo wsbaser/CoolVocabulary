@@ -1,13 +1,16 @@
 <div class="sp-block">
 	<div class="sp-header">{{title}}</div>
 	<table class="table table-striped">
-		{{#each words as |pair|}}
-			<tr class='word-translation'>
-				<td class="word" title='{{word}}'>{{pair.word}}</td>
+		{{#each words as |data|}}
+			<tr class="word-translation">
+				<td class="word" title='{{data.bookword.word.value}}'>{{data.bookword.word.value}}</td>
 				<td class="show-details text-center">...</td>
-				<td class="translation text-right" title='{{translation}}'>{{pair.translation}}</td>
+				<td class="translation text-right">
+					{{#each data.translations as |translation|}}
+						{{translation.value}}&nbsp;
+					{{/each}}
+				</td>
 			</tr>
 		{{/each}}
-		
 	</table>
 </div>

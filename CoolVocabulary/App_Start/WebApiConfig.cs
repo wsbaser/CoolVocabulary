@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Formatting;
+using System.Net.Http.Headers;
 using System.Web.Http;
 
 namespace CoolVocabulary
@@ -16,10 +18,6 @@ namespace CoolVocabulary
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-
-            JsonApiFormatter formatter = new JSONAPI.Json.JsonApiFormatter();
-            formatter.PluralizationService = new JSONAPI.Core.PluralizationService();
-            GlobalConfiguration.Configuration.Formatters.Add(formatter);
         }
     }
 }

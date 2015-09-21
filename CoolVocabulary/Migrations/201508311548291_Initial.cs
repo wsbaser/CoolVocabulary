@@ -11,42 +11,42 @@ namespace CoolVocabulary.Migrations
                 "dbo.Books",
                 c => new
                     {
-                        ID = c.Int(nullable: false, identity: true),
-                        UserID = c.String(nullable: false, maxLength: 128),
+                        Id = c.Int(nullable: false, identity: true),
+                        UserId = c.String(nullable: false, maxLength: 128),
                         Name = c.String(nullable: false, maxLength: 100),
                         Language = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.AspNetUsers", t => t.UserID, cascadeDelete: true)
-                .Index(t => new { t.UserID, t.Name, t.Language }, unique: true, name: "UQ_UserID_Name_Language");
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .Index(t => new { t.UserId, t.Name, t.Language }, unique: true, name: "UQ_UserID_Name_Language");
             
             CreateTable(
                 "dbo.BookWords",
                 c => new
                     {
-                        ID = c.Int(nullable: false, identity: true),
-                        BookID = c.Int(nullable: false),
-                        WordID = c.Int(nullable: false),
+                        Id = c.Int(nullable: false, identity: true),
+                        BookId = c.Int(nullable: false),
+                        WordId = c.Int(nullable: false),
                         LearnProgress = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.Books", t => t.BookID, cascadeDelete: true)
-                .ForeignKey("dbo.Words", t => t.WordID, cascadeDelete: true)
-                .Index(t => t.BookID)
-                .Index(t => t.WordID);
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Books", t => t.BookId, cascadeDelete: true)
+                .ForeignKey("dbo.Words", t => t.WordId, cascadeDelete: true)
+                .Index(t => t.BookId)
+                .Index(t => t.WordId);
             
             CreateTable(
                 "dbo.Words",
                 c => new
                     {
-                        ID = c.Int(nullable: false, identity: true),
+                        Id = c.Int(nullable: false, identity: true),
                         Value = c.String(nullable: false, maxLength: 100),
                         Language = c.Int(nullable: false),
                         Pronunciation = c.String(maxLength: 100),
                         SoundUrls = c.String(),
                         PictureUrls = c.String(),
                     })
-                .PrimaryKey(t => t.ID)
+                .PrimaryKey(t => t.Id)
                 .Index(t => new { t.Value, t.Language }, unique: true, name: "UQ_Value_Language");
             
             CreateTable(
@@ -122,28 +122,28 @@ namespace CoolVocabulary.Migrations
                 "dbo.Translations",
                 c => new
                     {
-                        ID = c.Int(nullable: false, identity: true),
-                        BookWordID = c.Int(nullable: false),
+                        Id = c.Int(nullable: false, identity: true),
+                        BookWordId = c.Int(nullable: false),
                         Value = c.String(nullable: false, maxLength: 100),
                         Language = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.BookWords", t => t.BookWordID, cascadeDelete: true)
-                .Index(t => t.BookWordID);
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.BookWords", t => t.BookWordId, cascadeDelete: true)
+                .Index(t => t.BookWordId);
             
         }
         
         public override void Down()
         {
-            DropForeignKey("dbo.Translations", "BookWordID", "dbo.BookWords");
+            DropForeignKey("dbo.Translations", "BookWordId", "dbo.BookWords");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
-            DropForeignKey("dbo.Books", "UserID", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Books", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.BookWords", "WordID", "dbo.Words");
-            DropForeignKey("dbo.BookWords", "BookID", "dbo.Books");
-            DropIndex("dbo.Translations", new[] { "BookWordID" });
+            DropForeignKey("dbo.BookWords", "WordId", "dbo.Words");
+            DropForeignKey("dbo.BookWords", "BookId", "dbo.Books");
+            DropIndex("dbo.Translations", new[] { "BookWordId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
@@ -151,8 +151,8 @@ namespace CoolVocabulary.Migrations
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.Words", "UQ_Value_Language");
-            DropIndex("dbo.BookWords", new[] { "WordID" });
-            DropIndex("dbo.BookWords", new[] { "BookID" });
+            DropIndex("dbo.BookWords", new[] { "WordId" });
+            DropIndex("dbo.BookWords", new[] { "BookId" });
             DropIndex("dbo.Books", "UQ_UserID_Name_Language");
             DropTable("dbo.Translations");
             DropTable("dbo.AspNetRoles");

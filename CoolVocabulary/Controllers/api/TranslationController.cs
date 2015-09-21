@@ -54,11 +54,16 @@ namespace CoolVocabulary.Controllers.api
             // . if book id not specified - get default book
             if (data.bookId == 0) {
                 Book book = await db.GetDefaultVocabulary(User.Identity.GetUserId(), wordLanguage);
-                data.bookId = book.ID;
+                data.bookId = book.Id;
             }
             // . add translation
-            Translation translation = await db.AddTranslation(data.bookId, word.ID, data.translationWord, translationLanguage);
-            return CreatedAtRoute("DefaultApi", new { id = translation.ID }, translation);
+            SpeachPartType sp = GetSpeachPart(data.translationWords,data.translationWord);
+            Translation translation = await db.AddTranslation(data.bookId, word.Id, data.translationWord, translationLanguage, sp);
+            return CreatedAtRoute("DefaultApi", new { id = translation.Id }, translation);
+        }
+
+        public SpeachPartType GetSpeachPart(string translationWords, string translationWord) {
+            return SpeachPartType.noun;
         }
 
         // DELETE api/BookWordTranslation/5
@@ -88,7 +93,7 @@ namespace CoolVocabulary.Controllers.api
 
         private bool BookExists(int id)
         {
-            return db.Translations.Count(e => e.ID == id) > 0;
+            return db.Translations.Count(e => e.Id == id) > 0;
         }
     }
 }

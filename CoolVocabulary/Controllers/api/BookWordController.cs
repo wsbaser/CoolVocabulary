@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using CoolVocabulary.Models;
+using AutoMapper;
 
 namespace CoolVocabulary.Controllers.api
 {
@@ -18,9 +19,11 @@ namespace CoolVocabulary.Controllers.api
         private VocabularyDbContext db = new VocabularyDbContext();
 
         // GET api/BookWord
-        public IQueryable<BookWord> GetBookWords()
-        {
-            return db.BookWords;
+        public dynamic GetBookWords(int bookId) {
+            var bookWords = db.BookWords.Where(v => v.BookId == bookId).Include("Word").ToList();
+            dynamic bookWordsDto = bookWords.Select(bw => Mapper.Map<BookWordDto>(bw)).ToList();
+            dynamic wordsDto = bookWords.Select(bw => Mapper.Map<WordDto>(bw.Word)).ToList();
+            return new { emberDataFormat = true, bookWords = bookWordsDto, words = wordsDto };
         }
 
         // GET api/BookWord/5
@@ -44,7 +47,7 @@ namespace CoolVocabulary.Controllers.api
                 return BadRequest(ModelState);
             }
 
-            if (id != bookword.ID)
+            if (id != bookword.Id)
             {
                 return BadRequest();
             }
@@ -82,7 +85,7 @@ namespace CoolVocabulary.Controllers.api
             db.BookWords.Add(bookword);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = bookword.ID }, bookword);
+            return CreatedAtRoute("DefaultApi", new { id = bookword.Id }, bookword);
         }
 
         // DELETE api/BookWord/5
@@ -112,7 +115,7 @@ namespace CoolVocabulary.Controllers.api
 
         private bool BookWordExists(int id)
         {
-            return db.BookWords.Count(e => e.ID == id) > 0;
+            return db.BookWords.Count(e => e.Id == id) > 0;
         }
     }
 }

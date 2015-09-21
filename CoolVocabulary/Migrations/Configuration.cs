@@ -31,21 +31,6 @@ namespace CoolVocabulary.Migrations
             //
             var outputLines = new System.Collections.Generic.List<string>();
             try {
-
-                var user = context.Users.SingleOrDefault(u => u.UserName == "test@gmail.com");
-                if (user == null) {
-                    var passwordHash = new PasswordHasher();
-                    string password = passwordHash.HashPassword("test");
-                    user = new ApplicationUser {
-                            UserName = "test@gmail.com",
-                            PasswordHash = password
-                        };
-                    context.Users.Add(user);
-                    context.SaveChanges();
-                    outputLines.Add("added user");
-                }
-                outputLines.Add("userid: "+user.Id);
-
                 var dogWord = AddWord(context, "Dog", LanguageType.en);
                 AddWord(context, "Cat", LanguageType.en);
                 AddWord(context, "Garden", LanguageType.en);
@@ -60,22 +45,22 @@ namespace CoolVocabulary.Migrations
                 AddWord(context, "Hungry", LanguageType.en);
                 context.SaveChanges();
 
-                Book book = context.Books.SingleOrDefault(b => 
+                Book book = context.Books.SingleOrDefault(b =>
                     b.Name == "Martin Eden" &&
-                    b.UserID == user.Id &&
+                    b.UserId == "76084e36-84c2-48bb-b411-f6e0ad28164b" &&
                     b.Language == (int)LanguageType.en);
                 if (book == null) {
-                    book = new Book { Name = "Martin Eden", Language = (int)LanguageType.en, UserID = user.Id };
+                    book = new Book { Name = "Martin Eden", Language = (int)LanguageType.en, UserId = "76084e36-84c2-48bb-b411-f6e0ad28164b" };
                     context.Books.Add(book);
                     context.SaveChanges();
                 }
 
-                BookWord bookWord = new BookWord { BookID = book.ID, WordID = dogWord.ID };
-                context.BookWords.AddOrUpdate(b => b.BookID, bookWord);
+                BookWord bookWord = new BookWord { BookId = book.Id, WordId = dogWord.Id };
+                context.BookWords.AddOrUpdate(b => b.BookId, bookWord);
                 context.SaveChanges();
 
                 context.Translations.AddOrUpdate(t => t.Value,
-                    new Translation { Value = "собака", Language = (int)LanguageType.ru, BookWordID = bookWord.ID });
+                    new Translation { Value = "собака", Language = (int)LanguageType.ru, BookWordId = bookWord.Id, SpeachPart = (int)SpeachPartType.noun });
                 context.SaveChanges();
             } catch (DbEntityValidationException e) {
 

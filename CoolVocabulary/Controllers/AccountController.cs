@@ -15,9 +15,14 @@ namespace CoolVocabulary.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        VocabularyDbContext db;
         public AccountController()
-            : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new VocabularyDbContext())))
-        {
+            : this(new VocabularyDbContext()) {
+        }
+
+        public AccountController(VocabularyDbContext db)
+            : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db))) {
+            this.db = db;
         }
 
         public AccountController(UserManager<ApplicationUser> userManager)

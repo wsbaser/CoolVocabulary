@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Web.Http.Description;
 
 namespace CoolVocabulary.Controllers.api {
-    public class WordTranslationsController : ApiController {
+    public class WordTranslationController : ApiController {
         private VocabularyMongoContext mongoDb = new VocabularyMongoContext();
 
         // GET api/WordTranslations
