@@ -300,6 +300,7 @@
     <Content Include="Scripts\vendor\jquery-1.10.2.js" />
     <Content Include="Scripts\vendor\jquery-1.10.2.min.js" />
     <None Include="Scripts\vendor\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\vendor\jquery.cookie.js" />
     <Content Include="Scripts\vendor\jquery.validate.js" />
     <Content Include="Scripts\vendor\jquery.validate.min.js" />
     <Content Include="Scripts\vendor\jquery.validate.unobtrusive.js" />
@@ -335,7 +336,7 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\Duolingo.cshtml" />
-    <Content Include="Views\Home\Words.cshtml" />
+    <Content Include="Views\Home\User.cshtml" />
     <Content Include="Views\Word\Create.cshtml" />
     <Content Include="Views\Word\Delete.cshtml" />
     <Content Include="Views\Word\Details.cshtml" />

@@ -1,6 +1,41 @@
 Vocabulary.BookIndexController = Ember.Controller.extend({
-	setWords: function(bookId){
-		var all = this.store.peekAll('bookWord').toArray();
+	inputWord: "",
+	applicationCtrl: Ember.inject.controller('application'),
+	init: function(){
+		this.initSiteDialog();
+	}.on('init'),
+	books: function () {
+        return this.store.peekAll("book");
+    }.property(),
+	initSiteDialog: function(){
+		var self = this;
+		var ctAdapter =  new CTAdapter();
+		this.set('ctAdapter', ctAdapter);
+		var langPair = this.get('applicationCtrl').langPair;
+		$('#word_input_form').off('submit', this.showInstallCTAlert);
+		var authCookie = {
+			name: '.AspNet.ApplicationCookie',
+			value: null
+		};
+		authCookie.value = $.cookie(authCookie.name);
+		ctAdapter.initSiteDialog(langPair, '#word_input_form', authCookie, function(){
+			if(ctAdapter.extensionIsActive){
+				return;
+			}
+			$('#word_input_form').on('submit', self.showInstallCTAlert);
+		});
+	},
+	showInstallCTAlert: function(){
+		console.log('show popover');
+		$('#install_ct_alert').modalPopover('show');
+		return false;
+	},
+	bookwords: function(){
+		return this.store.peekAll('bookWord');
+	}.property(),
+	words: function(){
+		var bookId = this.get('model').id;
+		var all = this.get('bookwords').toArray();
 		var result = {};
 		for (var i = all.length - 1; i >= 0; i--) {
 			var bookword = all[i];
@@ -31,18 +66,18 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 			result[sp] = wordsArr;
 		}
 		console.log(result);
-		this.set('words', result);
-	},
+		return result;
+	}.property('bookwords'),
 	nouns: function(){
 		return this.get('words')[1];
-	}.property(),
+	}.property('words'),
 	verbs: function(){
 		return this.get('words')[2];
-	}.property(),
+	}.property('words'),
 	adjectives: function(){
 		return this.get('words')[3];
-	}.property(),
+	}.property('words'),
 	adverbs: function(){
 		return this.get('words')[4];
-	}.property()
+	}.property('words')
 });

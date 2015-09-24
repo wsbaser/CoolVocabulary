@@ -1,4 +1,8 @@
 /* COMMON */
+.grey{
+	background: #f6f6f6 !important;
+}
+
 .full-height{
 	height:100%;
 }
@@ -14,13 +18,12 @@
 	align-items: center;
 }
 
-#content,#toolbox{
+#content{
 	position: relative;
-	background-color: #fff;
 }
 
-#content{
-	padding-top: 10px;
+#content,#toolbox{
+	background-color: #fff;
 }
 
 .sp-header{
@@ -29,11 +32,11 @@
 	border:0;
 	border-bottom: solid 1px #e5e5e5;
 	text-transform: uppercase;
-	background: rgb(235,248,253);
+	background: #f0f0f0;
 	margin-bottom: 5px;
 }
 .sp-block td{
-	font-size: 11px;
+	font-size: 13px;
 }
 .words-col{
 	border: 0;
@@ -64,27 +67,27 @@
 	cursor: pointer;
 }
 .show-details:hover{
-	background: rgb(240,173,78);
+	background: #47a447;
 }
 
 /* LEARNING */
-.learning-col{
+#learning-col{
 	position: relative;
 	border: solid 1px #e5e5e5;
 	padding:0;
 	width:600px;
 }
 
-.stencil{
+#stencil{
     background:transparent;
     display: flex;
     z-index: 1989;	/* should overlay learning cards */
     flex-direction:column;
 }
-.top-block, .bottom-block{
+#top-block, #bottom-block{
     flex-grow:1;
 }
-.magnifier-block{
+#magnifier-block{
     height:300px;
     position:relative;
     border-top: solid 1px #e5e5e5;
@@ -97,11 +100,11 @@
 	bottom: 0;
 }
   
-.learning-cards{
+#learning-cards{
 	overflow: hidden;
 }
 
-.learning-cards-shadow{
+#learning-cards-shadow{
 	z-index: 1988;
 	opacity: 0.2;
 	overflow: hidden;
@@ -190,17 +193,14 @@
 #currentBook,
 #newBookName{
   color: #444;
-  font-size:1.3em;
+  font-size: 1.3em;
+  line-height: 40px;
 }
 
 #newBookName {
     border: 0;
     width: 100%;
     display: none;
-}
-
-#currentBookDropdown{
-  margin-top: 6px;
 }
 
 .manageIcons .glyphicon {

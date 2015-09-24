@@ -65,12 +65,13 @@ CTAdapter.prototype.open = function(){
 	console.log('send request to ');
 };
 
-CTAdapter.prototype.initSiteDialog = function(langPair, attachBlockSelector,callback){
+CTAdapter.prototype.initSiteDialog = function(langPair, attachBlockSelector, authCookie, callback){
 	var self = this;
 	chrome.runtime.sendMessage("cljepjpcmioifpcbdblegllafplkdphm", {
 		initDialog: {
 			langPair: langPair,
-			attachBlockSelector: attachBlockSelector
+			attachBlockSelector: attachBlockSelector,
+			authCookie: authCookie
 		}
 	},
 	function(response) {
@@ -99,25 +100,31 @@ Vocabulary.SpechPartBlock = Ember.Component.extend({
 	words:[]
 });
 Vocabulary.ApplicationController = Ember.Controller.extend({
-	userName: 'wsbaser',
-	langPair: { sourceLang:'en', targetLang:'ru' },
-	book: 'Stranger in a strange land',
+	langPair: { sourceLang:'en', targetLang:'ru' }
 });
-
 Vocabulary.BookController = Ember.Controller.extend({
+});
+Vocabulary.BookIndexController = Ember.Controller.extend({
 	inputWord: "",
-	translator: {},
 	applicationCtrl: Ember.inject.controller('application'),
 	init: function(){
 		this.initSiteDialog();
 	}.on('init'),
+	books: function () {
+        return this.store.peekAll("book");
+    }.property(),
 	initSiteDialog: function(){
 		var self = this;
 		var ctAdapter =  new CTAdapter();
 		this.set('ctAdapter', ctAdapter);
 		var langPair = this.get('applicationCtrl').langPair;
 		$('#word_input_form').off('submit', this.showInstallCTAlert);
-		ctAdapter.initSiteDialog(langPair, '#word_input_form', function(){
+		var authCookie = {
+			name: '.AspNet.ApplicationCookie',
+			value: null
+		};
+		authCookie.value = $.cookie(authCookie.name);
+		ctAdapter.initSiteDialog(langPair, '#word_input_form', authCookie, function(){
 			if(ctAdapter.extensionIsActive){
 				return;
 			}
@@ -129,13 +136,12 @@ Vocabulary.BookController = Ember.Controller.extend({
 		$('#install_ct_alert').modalPopover('show');
 		return false;
 	},
-	books: function () {
-        return this.store.peekAll("book");
-    }.property()
-});
-Vocabulary.BookIndexController = Ember.Controller.extend({
-	setWords: function(bookId){
-		var all = this.store.peekAll('bookWord').toArray();
+	bookwords: function(){
+		return this.store.peekAll('bookWord');
+	}.property(),
+	words: function(){
+		var bookId = this.get('model').id;
+		var all = this.get('bookwords').toArray();
 		var result = {};
 		for (var i = all.length - 1; i >= 0; i--) {
 			var bookword = all[i];
@@ -166,20 +172,20 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 			result[sp] = wordsArr;
 		}
 		console.log(result);
-		this.set('words', result);
-	},
+		return result;
+	}.property('bookwords'),
 	nouns: function(){
 		return this.get('words')[1];
-	}.property(),
+	}.property('words'),
 	verbs: function(){
 		return this.get('words')[2];
-	}.property(),
+	}.property('words'),
 	adjectives: function(){
 		return this.get('words')[3];
-	}.property(),
+	}.property('words'),
 	adverbs: function(){
 		return this.get('words')[4];
-	}.property()
+	}.property('words')
 });
 window.CARD_HEIGHT = 300;
 Vocabulary.LearnController = Ember.Controller.extend({
@@ -194,7 +200,7 @@ Vocabulary.LearnController = Ember.Controller.extend({
 		}
 		this.set('curCardIndex', index);
 		var scrollOffset =
-			(dir>0?
+			( dir>0 ?
 			'+='+CARD_HEIGHT:
 			'-='+CARD_HEIGHT)+'px';
 		var SCROLL_TIME = 300;	// мс.
@@ -253,7 +259,7 @@ Vocabulary.ApplicationRoute = Ember.Route.extend({
 	    });
 	},
 	setContentHeight: function(){
-		var height = $(window).height()-$('#toolbox').height();
+		var height = $(window).height()-$('#toolbox').height()-35;
 		console.log('setContentHeight');
 		$('#content').css('height',height+'px');
 		var heightChangedEvent = new CustomEvent("heightChanged", {detail: height});
@@ -261,7 +267,6 @@ Vocabulary.ApplicationRoute = Ember.Route.extend({
 	}
 });
 Vocabulary.BookRoute = Ember.Route.extend({
-	
 });
 Vocabulary.BookIndexRoute = Ember.Route.extend({
 	renderTemplate: function() {
@@ -270,10 +275,11 @@ Vocabulary.BookIndexRoute = Ember.Route.extend({
 		this.render('book/index', { outlet: 'content' });
 	},
 	setupController: function(controller, model){
-		controller.setWords(model.id);
 	    this._super(controller, model);
 	    Ember.run.schedule('afterRender', this, function() {
 	    	console.log('init popover');
+	    	$('#content').removeClass('grey');
+	    	$('#toolbox').removeClass('grey');
 	      	$('#install_ct_alert').modalPopover({
 			    target: '#word_input_form',
 			    placement: 'bottom',
@@ -282,10 +288,28 @@ Vocabulary.BookIndexRoute = Ember.Route.extend({
 	    });
 	}
 });
-Vocabulary.LearnRoute = Ember.Route.extend({
+Vocabulary.BookLearnRoute = Ember.Route.extend({
 	renderTemplate: function(){
 		this.render('book/learnToolbox', {outlet:'toolbox'});
-		this.render('book/learn',{outlet:'content'});
+		this.render('book/learn', {outlet:'content'});
+	},
+	setupController: function(controller, model){
+		this._super(controller, model);
+	    Ember.run.schedule('afterRender', this, function() {
+	    	console.log('bind scroll');
+	    	$('#content').addClass('grey');
+	    	$('#toolbox').addClass('grey');
+	      	$('body').on('mousewheel', function(event){
+				console.log(event.originalEvent.wheelDeltaY);
+				if(event.originalEvent.wheelDeltaY<0) {
+					$('#learning-cards-shadow').scrollTo('+=300px', 300);
+					$('#learning-cards').scrollTo('+=300px', 300);
+				} else {
+					$('#learning-cards-shadow').scrollTo('-=300px', 300);
+					$('#learning-cards').scrollTo('-=300px', 300);
+				}
+	      	});
+	    });
 	}
 });
 Vocabulary.IndexRoute = Ember.Route.extend({

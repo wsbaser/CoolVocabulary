@@ -1,37 +1,6 @@
 {{outlet "root"}}
 <div id='toolbox' class="container toolbox">
 	<div class="row">
-		<div id="bookContainer" class="col-xs-4" >
-		  <div id="currentBookDropdown" class="dropdown">
-		    <input id="newBookName" type="text" value="New words - 1">
-		    <a id="currentBook" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-		      {{model.name}}
-		      {{!-- {{currentBook}} --}}
-		      <span class="caret"></span>
-		    </a>
-		    <ul class="dropdown-menu" aria-labelledby="currentBook">
-		      <li class="dropdown-header">Your books: {{books.length}}</li>
-
-		      {{#each books as |book|}}
-		      <li><a class="bookLink" href="#">
-		        {{book.name}}
-		        <span class="manageIcons">
-		          <span class="glyphicon glyphicon-remove pull-right"  title="Remove book"></span>
-		          <span class="glyphicon glyphicon-pencil pull-right" style="margin-right: 10px" title="Rename book"></span>
-		        </span>
-		      </a></li>
-		      {{/each}}
-
-		      <li role="separator" class="divider"></li>
-		      <li><a class="addBookLink" href="#">
-		        <span class="glyphicon glyphicon-plus" style="margin-right:10px;" aria-hidden="true"></span>Add Empty Book</a>
-		      </li>
-		      <li><a class="findBookLink" href="#">
-		        <span class="glyphicon glyphicon-search" style="margin-right:10px;" aria-hidden="true"></span>Find Book</a>
-		      </li>
-		    </ul>
-		  </div>
-		</div>
 		{{outlet "toolbox"}}
 	</div>
 </div>

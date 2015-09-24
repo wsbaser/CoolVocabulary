@@ -6,12 +6,13 @@ CTAdapter.prototype.open = function(){
 	console.log('send request to ');
 };
 
-CTAdapter.prototype.initSiteDialog = function(langPair, attachBlockSelector,callback){
+CTAdapter.prototype.initSiteDialog = function(langPair, attachBlockSelector, authCookie, callback){
 	var self = this;
 	chrome.runtime.sendMessage("cljepjpcmioifpcbdblegllafplkdphm", {
 		initDialog: {
 			langPair: langPair,
-			attachBlockSelector: attachBlockSelector
+			attachBlockSelector: attachBlockSelector,
+			authCookie: authCookie
 		}
 	},
 	function(response) {

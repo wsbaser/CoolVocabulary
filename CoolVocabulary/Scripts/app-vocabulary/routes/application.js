@@ -11,7 +11,7 @@ Vocabulary.ApplicationRoute = Ember.Route.extend({
 	    });
 	},
 	setContentHeight: function(){
-		var height = $(window).height()-$('#toolbox').height();
+		var height = $(window).height()-$('#toolbox').height()-35;
 		console.log('setContentHeight');
 		$('#content').css('height',height+'px');
 		var heightChangedEvent = new CustomEvent("heightChanged", {detail: height});

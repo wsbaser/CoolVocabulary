@@ -39,77 +39,6 @@ Ember.TEMPLATES["application"] = Ember.HTMLBars.template((function() {
 }()));
 
 Ember.TEMPLATES["book"] = Ember.HTMLBars.template((function() {
-  var child0 = (function() {
-    return {
-      meta: {
-        "revision": "Ember@2.0.0+535f74cc",
-        "loc": {
-          "source": null,
-          "start": {
-            "line": 15,
-            "column": 8
-          },
-          "end": {
-            "line": 23,
-            "column": 8
-          }
-        }
-      },
-      arity: 1,
-      cachedFragment: null,
-      hasRendered: false,
-      buildFragment: function buildFragment(dom) {
-        var el0 = dom.createDocumentFragment();
-        var el1 = dom.createTextNode("		      ");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createElement("li");
-        var el2 = dom.createElement("a");
-        dom.setAttribute(el2,"class","bookLink");
-        dom.setAttribute(el2,"href","#");
-        var el3 = dom.createTextNode("\n		        ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createComment("");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n		        ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("span");
-        dom.setAttribute(el3,"class","manageIcons");
-        var el4 = dom.createTextNode("\n		          ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("span");
-        dom.setAttribute(el4,"class","glyphicon glyphicon-remove pull-right");
-        dom.setAttribute(el4,"title","Remove book");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n		          ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("span");
-        dom.setAttribute(el4,"class","glyphicon glyphicon-pencil pull-right");
-        dom.setAttribute(el4,"style","margin-right: 10px");
-        dom.setAttribute(el4,"title","Rename book");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n		        ");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n		      ");
-        dom.appendChild(el2, el3);
-        dom.appendChild(el1, el2);
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n");
-        dom.appendChild(el0, el1);
-        return el0;
-      },
-      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var morphs = new Array(1);
-        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1, 0]),1,1);
-        return morphs;
-      },
-      statements: [
-        ["content","book.name",["loc",[null,[17,10],[17,23]]]]
-      ],
-      locals: ["book"],
-      templates: []
-    };
-  }());
   return {
     meta: {
       "revision": "Ember@2.0.0+535f74cc",
@@ -120,7 +49,7 @@ Ember.TEMPLATES["book"] = Ember.HTMLBars.template((function() {
           "column": 0
         },
         "end": {
-          "line": 40,
+          "line": 9,
           "column": 6
         }
       }
@@ -141,117 +70,6 @@ Ember.TEMPLATES["book"] = Ember.HTMLBars.template((function() {
       dom.appendChild(el1, el2);
       var el2 = dom.createElement("div");
       dom.setAttribute(el2,"class","row");
-      var el3 = dom.createTextNode("\n		");
-      dom.appendChild(el2, el3);
-      var el3 = dom.createElement("div");
-      dom.setAttribute(el3,"id","bookContainer");
-      dom.setAttribute(el3,"class","col-xs-4");
-      var el4 = dom.createTextNode("\n		  ");
-      dom.appendChild(el3, el4);
-      var el4 = dom.createElement("div");
-      dom.setAttribute(el4,"id","currentBookDropdown");
-      dom.setAttribute(el4,"class","dropdown");
-      var el5 = dom.createTextNode("\n		    ");
-      dom.appendChild(el4, el5);
-      var el5 = dom.createElement("input");
-      dom.setAttribute(el5,"id","newBookName");
-      dom.setAttribute(el5,"type","text");
-      dom.setAttribute(el5,"value","New words - 1");
-      dom.appendChild(el4, el5);
-      var el5 = dom.createTextNode("\n		    ");
-      dom.appendChild(el4, el5);
-      var el5 = dom.createElement("a");
-      dom.setAttribute(el5,"id","currentBook");
-      dom.setAttribute(el5,"href","#");
-      dom.setAttribute(el5,"data-toggle","dropdown");
-      dom.setAttribute(el5,"role","button");
-      dom.setAttribute(el5,"aria-haspopup","true");
-      dom.setAttribute(el5,"aria-expanded","false");
-      var el6 = dom.createTextNode("\n		      ");
-      dom.appendChild(el5, el6);
-      var el6 = dom.createComment("");
-      dom.appendChild(el5, el6);
-      var el6 = dom.createTextNode("\n");
-      dom.appendChild(el5, el6);
-      var el6 = dom.createTextNode("		      ");
-      dom.appendChild(el5, el6);
-      var el6 = dom.createElement("span");
-      dom.setAttribute(el6,"class","caret");
-      dom.appendChild(el5, el6);
-      var el6 = dom.createTextNode("\n		    ");
-      dom.appendChild(el5, el6);
-      dom.appendChild(el4, el5);
-      var el5 = dom.createTextNode("\n		    ");
-      dom.appendChild(el4, el5);
-      var el5 = dom.createElement("ul");
-      dom.setAttribute(el5,"class","dropdown-menu");
-      dom.setAttribute(el5,"aria-labelledby","currentBook");
-      var el6 = dom.createTextNode("\n		      ");
-      dom.appendChild(el5, el6);
-      var el6 = dom.createElement("li");
-      dom.setAttribute(el6,"class","dropdown-header");
-      var el7 = dom.createTextNode("Your books: ");
-      dom.appendChild(el6, el7);
-      var el7 = dom.createComment("");
-      dom.appendChild(el6, el7);
-      dom.appendChild(el5, el6);
-      var el6 = dom.createTextNode("\n\n");
-      dom.appendChild(el5, el6);
-      var el6 = dom.createComment("");
-      dom.appendChild(el5, el6);
-      var el6 = dom.createTextNode("\n		      ");
-      dom.appendChild(el5, el6);
-      var el6 = dom.createElement("li");
-      dom.setAttribute(el6,"role","separator");
-      dom.setAttribute(el6,"class","divider");
-      dom.appendChild(el5, el6);
-      var el6 = dom.createTextNode("\n		      ");
-      dom.appendChild(el5, el6);
-      var el6 = dom.createElement("li");
-      var el7 = dom.createElement("a");
-      dom.setAttribute(el7,"class","addBookLink");
-      dom.setAttribute(el7,"href","#");
-      var el8 = dom.createTextNode("\n		        ");
-      dom.appendChild(el7, el8);
-      var el8 = dom.createElement("span");
-      dom.setAttribute(el8,"class","glyphicon glyphicon-plus");
-      dom.setAttribute(el8,"style","margin-right:10px;");
-      dom.setAttribute(el8,"aria-hidden","true");
-      dom.appendChild(el7, el8);
-      var el8 = dom.createTextNode("Add Empty Book");
-      dom.appendChild(el7, el8);
-      dom.appendChild(el6, el7);
-      var el7 = dom.createTextNode("\n		      ");
-      dom.appendChild(el6, el7);
-      dom.appendChild(el5, el6);
-      var el6 = dom.createTextNode("\n		      ");
-      dom.appendChild(el5, el6);
-      var el6 = dom.createElement("li");
-      var el7 = dom.createElement("a");
-      dom.setAttribute(el7,"class","findBookLink");
-      dom.setAttribute(el7,"href","#");
-      var el8 = dom.createTextNode("\n		        ");
-      dom.appendChild(el7, el8);
-      var el8 = dom.createElement("span");
-      dom.setAttribute(el8,"class","glyphicon glyphicon-search");
-      dom.setAttribute(el8,"style","margin-right:10px;");
-      dom.setAttribute(el8,"aria-hidden","true");
-      dom.appendChild(el7, el8);
-      var el8 = dom.createTextNode("Find Book");
-      dom.appendChild(el7, el8);
-      dom.appendChild(el6, el7);
-      var el7 = dom.createTextNode("\n		      ");
-      dom.appendChild(el6, el7);
-      dom.appendChild(el5, el6);
-      var el6 = dom.createTextNode("\n		    ");
-      dom.appendChild(el5, el6);
-      dom.appendChild(el4, el5);
-      var el5 = dom.createTextNode("\n		  ");
-      dom.appendChild(el4, el5);
-      dom.appendChild(el3, el4);
-      var el4 = dom.createTextNode("\n		");
-      dom.appendChild(el3, el4);
-      dom.appendChild(el2, el3);
       var el3 = dom.createTextNode("\n		");
       dom.appendChild(el2, el3);
       var el3 = dom.createComment("");
@@ -277,29 +95,20 @@ Ember.TEMPLATES["book"] = Ember.HTMLBars.template((function() {
       return el0;
     },
     buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-      var element0 = dom.childAt(fragment, [2, 1]);
-      var element1 = dom.childAt(element0, [1, 1]);
-      var element2 = dom.childAt(element1, [5]);
-      var morphs = new Array(6);
+      var morphs = new Array(3);
       morphs[0] = dom.createMorphAt(fragment,0,0,contextualElement);
-      morphs[1] = dom.createMorphAt(dom.childAt(element1, [3]),1,1);
-      morphs[2] = dom.createMorphAt(dom.childAt(element2, [1]),1,1);
-      morphs[3] = dom.createMorphAt(element2,3,3);
-      morphs[4] = dom.createMorphAt(element0,3,3);
-      morphs[5] = dom.createMorphAt(dom.childAt(fragment, [4]),1,1);
+      morphs[1] = dom.createMorphAt(dom.childAt(fragment, [2, 1]),1,1);
+      morphs[2] = dom.createMorphAt(dom.childAt(fragment, [4]),1,1);
       dom.insertBoundary(fragment, 0);
       return morphs;
     },
     statements: [
       ["inline","outlet",["root"],[],["loc",[null,[1,0],[1,17]]]],
-      ["content","model.name",["loc",[null,[8,8],[8,22]]]],
-      ["content","books.length",["loc",[null,[13,48],[13,64]]]],
-      ["block","each",[["get","books",["loc",[null,[15,16],[15,21]]]]],[],0,null,["loc",[null,[15,8],[23,17]]]],
-      ["inline","outlet",["toolbox"],[],["loc",[null,[35,2],[35,22]]]],
-      ["inline","outlet",["content"],[],["loc",[null,[39,1],[39,21]]]]
+      ["inline","outlet",["toolbox"],[],["loc",[null,[4,2],[4,22]]]],
+      ["inline","outlet",["content"],[],["loc",[null,[8,1],[8,21]]]]
     ],
     locals: [],
-    templates: [child0]
+    templates: []
   };
 }()));
 
@@ -386,9 +195,9 @@ Ember.TEMPLATES["book/index"] = Ember.HTMLBars.template((function() {
     },
     statements: [
       ["inline","speachpart-block",[],["title","Nouns","words",["subexpr","@mut",[["get","nouns",["loc",[null,[3,41],[3,46]]]]],[],[]]],["loc",[null,[3,2],[3,49]]]],
-      ["inline","speachpart-block",[],["title","Verbs","words",["subexpr","@mut",[["get","model.verbs",["loc",[null,[6,41],[6,52]]]]],[],[]]],["loc",[null,[6,2],[6,55]]]],
-      ["inline","speachpart-block",[],["title","Adjectives","words",["subexpr","@mut",[["get","model.adjectives",["loc",[null,[9,46],[9,62]]]]],[],[]]],["loc",[null,[9,2],[9,65]]]],
-      ["inline","speachpart-block",[],["title","Adverbs","words",["subexpr","@mut",[["get","model.adverbs",["loc",[null,[12,43],[12,56]]]]],[],[]]],["loc",[null,[12,2],[12,59]]]]
+      ["inline","speachpart-block",[],["title","Verbs","words",["subexpr","@mut",[["get","verbs",["loc",[null,[6,41],[6,46]]]]],[],[]]],["loc",[null,[6,2],[6,49]]]],
+      ["inline","speachpart-block",[],["title","Adjectives","words",["subexpr","@mut",[["get","adjectives",["loc",[null,[9,46],[9,56]]]]],[],[]]],["loc",[null,[9,2],[9,59]]]],
+      ["inline","speachpart-block",[],["title","Adverbs","words",["subexpr","@mut",[["get","adverbs",["loc",[null,[12,43],[12,50]]]]],[],[]]],["loc",[null,[12,2],[12,53]]]]
     ],
     locals: [],
     templates: []
@@ -406,7 +215,7 @@ Ember.TEMPLATES["book/indexRoot"] = Ember.HTMLBars.template((function() {
           "column": 0
         },
         "end": {
-          "line": 9,
+          "line": 8,
           "column": 0
         }
       }
@@ -424,21 +233,21 @@ Ember.TEMPLATES["book/indexRoot"] = Ember.HTMLBars.template((function() {
       var el2 = dom.createElement("div");
       dom.setAttribute(el2,"class","arrow");
       dom.appendChild(el1, el2);
-      var el2 = dom.createTextNode("\n		");
+      var el2 = dom.createTextNode("\n	");
       dom.appendChild(el1, el2);
       var el2 = dom.createElement("h3");
       dom.setAttribute(el2,"class","popover-title");
-      var el3 = dom.createTextNode("JavaScript Access");
+      var el3 = dom.createTextNode("Install Cool Translator");
       dom.appendChild(el2, el3);
       dom.appendChild(el1, el2);
-      var el2 = dom.createTextNode("\n\n   	");
+      var el2 = dom.createTextNode("\n   	");
       dom.appendChild(el1, el2);
       var el2 = dom.createElement("div");
       dom.setAttribute(el2,"class","popover-content");
       var el3 = dom.createTextNode("\n          You should install ");
       dom.appendChild(el2, el3);
       var el3 = dom.createElement("a");
-      dom.setAttribute(el3,"href","localhost:3000/cooltranslator");
+      dom.setAttribute(el3,"href","localhost:13189/cooltranslator");
       var el4 = dom.createTextNode("Cool Translator");
       dom.appendChild(el3, el4);
       dom.appendChild(el2, el3);
@@ -469,11 +278,82 @@ Ember.TEMPLATES["book/indexToolbox"] = Ember.HTMLBars.template((function() {
         "loc": {
           "source": null,
           "start": {
-            "line": 14,
+            "line": 12,
+            "column": 6
+          },
+          "end": {
+            "line": 20,
+            "column": 6
+          }
+        }
+      },
+      arity: 1,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createTextNode("      ");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("li");
+        var el2 = dom.createElement("a");
+        dom.setAttribute(el2,"class","bookLink");
+        dom.setAttribute(el2,"href","#");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("span");
+        dom.setAttribute(el3,"class","manageIcons");
+        var el4 = dom.createTextNode("\n          ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("span");
+        dom.setAttribute(el4,"class","glyphicon glyphicon-remove pull-right");
+        dom.setAttribute(el4,"title","Remove book");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n          ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("span");
+        dom.setAttribute(el4,"class","glyphicon glyphicon-pencil pull-right");
+        dom.setAttribute(el4,"style","margin-right: 10px");
+        dom.setAttribute(el4,"title","Rename book");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n        ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n      ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1, 0]),1,1);
+        return morphs;
+      },
+      statements: [
+        ["content","book.name",["loc",[null,[14,8],[14,21]]]]
+      ],
+      locals: ["book"],
+      templates: []
+    };
+  }());
+  var child1 = (function() {
+    return {
+      meta: {
+        "revision": "Ember@2.0.0+535f74cc",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 46,
             "column": 1
           },
           "end": {
-            "line": 14,
+            "line": 46,
             "column": 93
           }
         }
@@ -499,18 +379,18 @@ Ember.TEMPLATES["book/indexToolbox"] = Ember.HTMLBars.template((function() {
       templates: []
     };
   }());
-  var child1 = (function() {
+  var child2 = (function() {
     return {
       meta: {
         "revision": "Ember@2.0.0+535f74cc",
         "loc": {
           "source": null,
           "start": {
-            "line": 15,
+            "line": 47,
             "column": 1
           },
           "end": {
-            "line": 15,
+            "line": 47,
             "column": 96
           }
         }
@@ -546,7 +426,7 @@ Ember.TEMPLATES["book/indexToolbox"] = Ember.HTMLBars.template((function() {
           "column": 0
         },
         "end": {
-          "line": 16,
+          "line": 48,
           "column": 6
         }
       }
@@ -556,6 +436,117 @@ Ember.TEMPLATES["book/indexToolbox"] = Ember.HTMLBars.template((function() {
     hasRendered: false,
     buildFragment: function buildFragment(dom) {
       var el0 = dom.createDocumentFragment();
+      var el1 = dom.createElement("div");
+      dom.setAttribute(el1,"id","bookContainer");
+      dom.setAttribute(el1,"class","col-xs-4");
+      var el2 = dom.createTextNode("\n  ");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createElement("div");
+      dom.setAttribute(el2,"id","currentBookDropdown");
+      dom.setAttribute(el2,"class","dropdown");
+      var el3 = dom.createTextNode("\n    ");
+      dom.appendChild(el2, el3);
+      var el3 = dom.createElement("input");
+      dom.setAttribute(el3,"id","newBookName");
+      dom.setAttribute(el3,"type","text");
+      dom.setAttribute(el3,"value","New words - 1");
+      dom.appendChild(el2, el3);
+      var el3 = dom.createTextNode("\n    ");
+      dom.appendChild(el2, el3);
+      var el3 = dom.createElement("a");
+      dom.setAttribute(el3,"id","currentBook");
+      dom.setAttribute(el3,"href","#");
+      dom.setAttribute(el3,"data-toggle","dropdown");
+      dom.setAttribute(el3,"role","button");
+      dom.setAttribute(el3,"aria-haspopup","true");
+      dom.setAttribute(el3,"aria-expanded","false");
+      var el4 = dom.createTextNode("\n      ");
+      dom.appendChild(el3, el4);
+      var el4 = dom.createComment("");
+      dom.appendChild(el3, el4);
+      var el4 = dom.createTextNode("\n");
+      dom.appendChild(el3, el4);
+      var el4 = dom.createTextNode("      ");
+      dom.appendChild(el3, el4);
+      var el4 = dom.createElement("span");
+      dom.setAttribute(el4,"class","caret");
+      dom.appendChild(el3, el4);
+      var el4 = dom.createTextNode("\n    ");
+      dom.appendChild(el3, el4);
+      dom.appendChild(el2, el3);
+      var el3 = dom.createTextNode("\n    ");
+      dom.appendChild(el2, el3);
+      var el3 = dom.createElement("ul");
+      dom.setAttribute(el3,"class","dropdown-menu");
+      dom.setAttribute(el3,"aria-labelledby","currentBook");
+      var el4 = dom.createTextNode("\n      ");
+      dom.appendChild(el3, el4);
+      var el4 = dom.createElement("li");
+      dom.setAttribute(el4,"class","dropdown-header");
+      var el5 = dom.createTextNode("Your books: ");
+      dom.appendChild(el4, el5);
+      var el5 = dom.createComment("");
+      dom.appendChild(el4, el5);
+      dom.appendChild(el3, el4);
+      var el4 = dom.createTextNode("\n\n");
+      dom.appendChild(el3, el4);
+      var el4 = dom.createComment("");
+      dom.appendChild(el3, el4);
+      var el4 = dom.createTextNode("\n      ");
+      dom.appendChild(el3, el4);
+      var el4 = dom.createElement("li");
+      dom.setAttribute(el4,"role","separator");
+      dom.setAttribute(el4,"class","divider");
+      dom.appendChild(el3, el4);
+      var el4 = dom.createTextNode("\n      ");
+      dom.appendChild(el3, el4);
+      var el4 = dom.createElement("li");
+      var el5 = dom.createElement("a");
+      dom.setAttribute(el5,"class","addBookLink");
+      dom.setAttribute(el5,"href","#");
+      var el6 = dom.createTextNode("\n        ");
+      dom.appendChild(el5, el6);
+      var el6 = dom.createElement("span");
+      dom.setAttribute(el6,"class","glyphicon glyphicon-plus");
+      dom.setAttribute(el6,"style","margin-right:10px;");
+      dom.setAttribute(el6,"aria-hidden","true");
+      dom.appendChild(el5, el6);
+      var el6 = dom.createTextNode("Add Empty Book");
+      dom.appendChild(el5, el6);
+      dom.appendChild(el4, el5);
+      var el5 = dom.createTextNode("\n      ");
+      dom.appendChild(el4, el5);
+      dom.appendChild(el3, el4);
+      var el4 = dom.createTextNode("\n      ");
+      dom.appendChild(el3, el4);
+      var el4 = dom.createElement("li");
+      var el5 = dom.createElement("a");
+      dom.setAttribute(el5,"class","findBookLink");
+      dom.setAttribute(el5,"href","#");
+      var el6 = dom.createTextNode("\n        ");
+      dom.appendChild(el5, el6);
+      var el6 = dom.createElement("span");
+      dom.setAttribute(el6,"class","glyphicon glyphicon-search");
+      dom.setAttribute(el6,"style","margin-right:10px;");
+      dom.setAttribute(el6,"aria-hidden","true");
+      dom.appendChild(el5, el6);
+      var el6 = dom.createTextNode("Find Book");
+      dom.appendChild(el5, el6);
+      dom.appendChild(el4, el5);
+      var el5 = dom.createTextNode("\n      ");
+      dom.appendChild(el4, el5);
+      dom.appendChild(el3, el4);
+      var el4 = dom.createTextNode("\n    ");
+      dom.appendChild(el3, el4);
+      dom.appendChild(el2, el3);
+      var el3 = dom.createTextNode("\n  ");
+      dom.appendChild(el2, el3);
+      dom.appendChild(el1, el2);
+      var el2 = dom.createTextNode("\n");
+      dom.appendChild(el1, el2);
+      dom.appendChild(el0, el1);
+      var el1 = dom.createTextNode("\n\n");
+      dom.appendChild(el0, el1);
       var el1 = dom.createElement("div");
       dom.setAttribute(el1,"class","col-xs-6");
       var el2 = dom.createTextNode("\n	");
@@ -612,20 +603,28 @@ Ember.TEMPLATES["book/indexToolbox"] = Ember.HTMLBars.template((function() {
       return el0;
     },
     buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-      var element0 = dom.childAt(fragment, [2]);
-      var morphs = new Array(3);
-      morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0, 1]),1,1);
-      morphs[1] = dom.createMorphAt(element0,1,1);
-      morphs[2] = dom.createMorphAt(element0,3,3);
+      var element0 = dom.childAt(fragment, [0, 1]);
+      var element1 = dom.childAt(element0, [5]);
+      var element2 = dom.childAt(fragment, [4]);
+      var morphs = new Array(6);
+      morphs[0] = dom.createMorphAt(dom.childAt(element0, [3]),1,1);
+      morphs[1] = dom.createMorphAt(dom.childAt(element1, [1]),1,1);
+      morphs[2] = dom.createMorphAt(element1,3,3);
+      morphs[3] = dom.createMorphAt(dom.childAt(fragment, [2, 1]),1,1);
+      morphs[4] = dom.createMorphAt(element2,1,1);
+      morphs[5] = dom.createMorphAt(element2,3,3);
       return morphs;
     },
     statements: [
-      ["inline","input",[],["value",["subexpr","@mut",[["get","inputWord",["loc",[null,[3,16],[3,25]]]]],[],[]],"class","form-control input-sm","placeholder","Word to search or to add..."],["loc",[null,[3,2],[3,100]]]],
-      ["block","link-to",["book.learn"],[],0,null,["loc",[null,[14,1],[14,105]]]],
-      ["block","link-to",["book.exam"],[],1,null,["loc",[null,[15,1],[15,108]]]]
+      ["content","model.name",["loc",[null,[5,6],[5,20]]]],
+      ["content","books.length",["loc",[null,[10,46],[10,62]]]],
+      ["block","each",[["get","books",["loc",[null,[12,14],[12,19]]]]],[],0,null,["loc",[null,[12,6],[20,15]]]],
+      ["inline","input",[],["value",["subexpr","@mut",[["get","inputWord",["loc",[null,[35,16],[35,25]]]]],[],[]],"class","form-control input-sm","placeholder","Word to search or to add..."],["loc",[null,[35,2],[35,100]]]],
+      ["block","link-to",["book.learn"],[],1,null,["loc",[null,[46,1],[46,105]]]],
+      ["block","link-to",["book.exam"],[],2,null,["loc",[null,[47,1],[47,108]]]]
     ],
     locals: [],
-    templates: [child0, child1]
+    templates: [child0, child1, child2]
   };
 }()));
 
@@ -640,8 +639,8 @@ Ember.TEMPLATES["book/learn"] = Ember.HTMLBars.template((function() {
           "column": 0
         },
         "end": {
-          "line": 33,
-          "column": 0
+          "line": 31,
+          "column": 6
         }
       }
     },
@@ -655,24 +654,27 @@ Ember.TEMPLATES["book/learn"] = Ember.HTMLBars.template((function() {
       var el2 = dom.createTextNode("\n	");
       dom.appendChild(el1, el2);
       var el2 = dom.createElement("div");
-      dom.setAttribute(el2,"class","learning-col full-height");
+      dom.setAttribute(el2,"id","learning-col");
+      dom.setAttribute(el2,"class","full-height");
       var el3 = dom.createTextNode("\n	    ");
       dom.appendChild(el2, el3);
       var el3 = dom.createElement("div");
-      dom.setAttribute(el3,"class","stencil fill-absolute");
+      dom.setAttribute(el3,"id","stencil");
+      dom.setAttribute(el3,"class","fill-absolute");
       var el4 = dom.createTextNode("\n	    	");
       dom.appendChild(el3, el4);
       var el4 = dom.createElement("div");
-      dom.setAttribute(el4,"class","top-block");
+      dom.setAttribute(el4,"id","top-block");
       dom.appendChild(el3, el4);
       var el4 = dom.createTextNode("\n	    	");
       dom.appendChild(el3, el4);
       var el4 = dom.createElement("div");
-      dom.setAttribute(el4,"class","magnifier-block");
+      dom.setAttribute(el4,"id","magnifier-block");
       var el5 = dom.createTextNode("\n	    		");
       dom.appendChild(el4, el5);
       var el5 = dom.createElement("div");
-      dom.setAttribute(el5,"class","learning-cards fill-absolute");
+      dom.setAttribute(el5,"id","learning-cards");
+      dom.setAttribute(el5,"class","fill-absolute");
       var el6 = dom.createTextNode("\n					");
       dom.appendChild(el5, el6);
       var el6 = dom.createElement("div");
@@ -738,15 +740,16 @@ Ember.TEMPLATES["book/learn"] = Ember.HTMLBars.template((function() {
       var el4 = dom.createTextNode("\n			");
       dom.appendChild(el3, el4);
       var el4 = dom.createElement("div");
-      dom.setAttribute(el4,"class","bottom-block");
+      dom.setAttribute(el4,"id","bottom-block");
       dom.appendChild(el3, el4);
       var el4 = dom.createTextNode("\n	    ");
       dom.appendChild(el3, el4);
       dom.appendChild(el2, el3);
-      var el3 = dom.createTextNode("\n\n\n		");
+      var el3 = dom.createTextNode("\n\n		");
       dom.appendChild(el2, el3);
       var el3 = dom.createElement("div");
-      dom.setAttribute(el3,"class","learning-cards-shadow fill-absolute");
+      dom.setAttribute(el3,"id","learning-cards-shadow");
+      dom.setAttribute(el3,"class","fill-absolute");
       var el4 = dom.createTextNode("\n			");
       dom.appendChild(el3, el4);
       var el4 = dom.createElement("div");
@@ -794,8 +797,6 @@ Ember.TEMPLATES["book/learn"] = Ember.HTMLBars.template((function() {
       var el2 = dom.createTextNode("\n");
       dom.appendChild(el1, el2);
       dom.appendChild(el0, el1);
-      var el1 = dom.createTextNode("\n");
-      dom.appendChild(el0, el1);
       return el0;
     },
     buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
@@ -807,7 +808,7 @@ Ember.TEMPLATES["book/learn"] = Ember.HTMLBars.template((function() {
     },
     statements: [
       ["content","word-description",["loc",[null,[7,32],[7,52]]]],
-      ["content","word-description",["loc",[null,[25,30],[25,50]]]]
+      ["content","word-description",["loc",[null,[24,30],[24,50]]]]
     ],
     locals: [],
     templates: []
@@ -825,8 +826,8 @@ Ember.TEMPLATES["book/learnToolbox"] = Ember.HTMLBars.template((function() {
           "column": 0
         },
         "end": {
-          "line": 8,
-          "column": 0
+          "line": 10,
+          "column": 6
         }
       }
     },
@@ -835,6 +836,21 @@ Ember.TEMPLATES["book/learnToolbox"] = Ember.HTMLBars.template((function() {
     hasRendered: false,
     buildFragment: function buildFragment(dom) {
       var el0 = dom.createDocumentFragment();
+      var el1 = dom.createElement("div");
+      dom.setAttribute(el1,"class","col-xs-4");
+      var el2 = dom.createTextNode("\n	");
+      dom.appendChild(el1, el2);
+      var el2 = dom.createElement("span");
+      dom.setAttribute(el2,"id","currentBook");
+      dom.setAttribute(el2,"style","margin-top: 6px;");
+      var el3 = dom.createComment("");
+      dom.appendChild(el2, el3);
+      dom.appendChild(el1, el2);
+      var el2 = dom.createTextNode("\n");
+      dom.appendChild(el1, el2);
+      dom.appendChild(el0, el1);
+      var el1 = dom.createTextNode("\n");
+      dom.appendChild(el0, el1);
       var el1 = dom.createElement("div");
       dom.setAttribute(el1,"class","col-xs-8 text-right");
       var el2 = dom.createTextNode("\n	");
@@ -878,13 +894,15 @@ Ember.TEMPLATES["book/learnToolbox"] = Ember.HTMLBars.template((function() {
       var el2 = dom.createTextNode("\n");
       dom.appendChild(el1, el2);
       dom.appendChild(el0, el1);
-      var el1 = dom.createTextNode("\n");
-      dom.appendChild(el0, el1);
       return el0;
     },
-    buildRenderNodes: function buildRenderNodes() { return []; },
+    buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+      var morphs = new Array(1);
+      morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0, 1]),0,0);
+      return morphs;
+    },
     statements: [
-
+      ["content","model.name",["loc",[null,[2,49],[2,63]]]]
     ],
     locals: [],
     templates: []

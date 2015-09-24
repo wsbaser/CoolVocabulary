@@ -11,7 +11,7 @@ Vocabulary.LearnController = Ember.Controller.extend({
 		}
 		this.set('curCardIndex', index);
 		var scrollOffset =
-			(dir>0?
+			( dir>0 ?
 			'+='+CARD_HEIGHT:
 			'-='+CARD_HEIGHT)+'px';
 		var SCROLL_TIME = 300;	// мс.
