@@ -5,8 +5,6 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoolVocabulary", "CoolVocabulary\CoolVocabulary.csproj", "{0DC3C55F-109A-441F-8CB5-10D0D8CAF6E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoolVocabulary.Tests", "CoolVocabulary.Tests\CoolVocabulary.Tests.csproj", "{92757FFB-C98A-437E-A5C7-6D0BE6DC5E6B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{0DC3C55F-109A-441F-8CB5-10D0D8CAF6E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0DC3C55F-109A-441F-8CB5-10D0D8CAF6E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0DC3C55F-109A-441F-8CB5-10D0D8CAF6E9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{92757FFB-C98A-437E-A5C7-6D0BE6DC5E6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{92757FFB-C98A-437E-A5C7-6D0BE6DC5E6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{92757FFB-C98A-437E-A5C7-6D0BE6DC5E6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{92757FFB-C98A-437E-A5C7-6D0BE6DC5E6B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

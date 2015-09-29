@@ -231,7 +231,7 @@ namespace CoolVocabulary.Controllers
 
             if (user != null) {
                 await SignInAsync(user, isPersistent: false);
-                return RedirectToAction("Words", "Home");
+                return RedirectToAction("User", "Home");
             } else {
                 user = loginInfo.Email == null ?
                     null :
@@ -245,7 +245,7 @@ namespace CoolVocabulary.Controllers
                     var result = await UserManager.AddLoginAsync(user.Id, loginInfo.Login);
                     if (result.Succeeded) {
                         await SignInAsync(user, isPersistent: false);
-                        return RedirectToAction("Words", "Home");
+                        return RedirectToAction("User", "Home");
                     }
                     AddErrors(result);
                     ViewBag.ReturnUrl = returnUrl;
@@ -309,7 +309,7 @@ namespace CoolVocabulary.Controllers
                     if (result.Succeeded)
                     {
                         await SignInAsync(user, isPersistent: false);
-                        return RedirectToAction("Words","Home");
+                        return RedirectToAction("User","Home");
                     }
                 }
                 AddErrors(result);

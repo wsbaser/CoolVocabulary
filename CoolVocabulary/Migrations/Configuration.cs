@@ -45,15 +45,16 @@ namespace CoolVocabulary.Migrations
                 words.Add(AddWord(context, "Hungry", LanguageType.en));
                 context.SaveChanges();
 
+                var userId = "6b445576-3bfc-42ae-b3a7-7920fc16837a";
                 Book book = context.Books.SingleOrDefault(b =>
                     b.Name == "Martin Eden" &&
-                    b.UserId == "76084e36-84c2-48bb-b411-f6e0ad28164b" &&
+                    b.UserId == userId &&
                     b.Language == (int)LanguageType.en);
                 if (book == null) {
                     book = new Book {
                         Name = "Martin Eden",
                         Language = (int)LanguageType.en,
-                        UserId = "76084e36-84c2-48bb-b411-f6e0ad28164b"
+                        UserId = userId
                     };
                     context.Books.Add(book);
                     context.SaveChanges();
@@ -157,7 +158,7 @@ namespace CoolVocabulary.Migrations
                 }
             } finally {
                 //Write to file
-                System.IO.File.AppendAllLines(@"d:\errors.txt", outputLines);
+                //System.IO.File.AppendAllLines(@"c:\errors.txt", outputLines);
             }
         }
 
