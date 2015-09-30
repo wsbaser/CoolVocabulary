@@ -109,21 +109,23 @@ AbbyService.prototype.parseSpeachPart = function(text){
 AbbyService.prototype.getTranslations = function(inputData){
     var self = this;
     var card = this.getCachedCard(ContentTypes.TRANSLATIONS, inputData);
-    var translationsEl = $(card);
     var translations = {};
-    var currentSP = SpeachParts.UNKNOWN;
-    translationsEl.find('p').each(function(i, el){
-        el = $(el);
-        var sp = self.parseSpeachPart(el.find('.l-article__abbrev:nth-child(1)').text());
-        if(sp!=SpeachParts.UNKNOWN){
-            currentSP = sp;
-            if(!translations[currentSP])
-                translations[currentSP] = [];
-        }
-        el.find('a.js-show-examples', function(j, translationEl){
-            translations[currentSP] = translationsEl.text();
+    if(card){
+        var translationsEl = $(card);
+        var currentSP = SpeachParts.UNKNOWN;
+        translationsEl.find('p').each(function(i, el){
+            el = $(el);
+            var sp = self.parseSpeachPart(el.find('.l-article__abbrev').text());
+            if(sp!=SpeachParts.UNKNOWN){
+                currentSP = sp;
+                if(!translations[currentSP])
+                    translations[currentSP] = [];
+            }
+            el.find('a.js-show-examples').each(function(j, translationEl){
+                translations[currentSP].push(translationEl.textContent);
+            });
         });
-    });
+    }
     return translations;
 };
 

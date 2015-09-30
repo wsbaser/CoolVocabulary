@@ -36,10 +36,12 @@ namespace CoolVocabulary.Models {
         public int learnProgress { get; set; }
     }
 
-    //public class TranslationDto {
-    //    public int Id { get; set; }
-    //    public int BookWordId { get; set; }
-    //    public string Value { get; set; }
-    //    public int Language { get; set; }
-    //}
+    public class TranslationDto
+    {
+        public int Id { get; set; }
+        public int BookWordId { get; set; }
+        public string Value { get; set; }
+        public int Language { get; set; }
+        public int SpeachPart { get; set; }
+    }
 }

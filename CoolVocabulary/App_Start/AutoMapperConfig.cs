@@ -7,10 +7,12 @@ using CoolVocabulary.Models;
 
 namespace CoolVocabulary {
     public static class AutoMapperConfig {
-        public static void Config() {
+        public static void Config()
+        {
             Mapper.CreateMap<Book, BookDto>();
             Mapper.CreateMap<BookWord, BookWordDto>();
             Mapper.CreateMap<Word, WordDto>();
+            Mapper.CreateMap<Translation, TranslationDto>();
         }
     }
 }

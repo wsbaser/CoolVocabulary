@@ -32,7 +32,7 @@
 	border:0;
 	border-bottom: solid 1px #e5e5e5;
 	text-transform: uppercase;
-	background: #f0f0f0;
+	background: rgb(235,248,253);	/* #f0f0f0; */
 	margin-bottom: 5px;
 }
 .sp-block td{

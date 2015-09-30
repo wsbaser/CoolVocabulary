@@ -66,8 +66,14 @@ namespace CoolVocabulary.Models {
                 bw.BookId == bookID &&
                 bw.WordId == wordID);
             // . create if not exists
-            if (bookWordEntity == null) {
-                bookWordEntity = new BookWord { WordId = wordID };
+            if (bookWordEntity == null)
+            {
+                bookWordEntity = new BookWord
+                {
+                    BookId = bookID,
+                    WordId = wordID,
+                    LearnProgress = 0
+                };
                 BookWords.Add(bookWordEntity);
                 await SaveChangesAsync();
             }

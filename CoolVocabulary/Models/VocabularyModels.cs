@@ -79,7 +79,9 @@ namespace CoolVocabulary.Models {
         es = 2
     }
 
-    public enum SpeachPartType {
+    public enum SpeachPartType
+    {
+        unknown = 0,
         noun = 1,
         verb = 2,
         adjective = 3,

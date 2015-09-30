@@ -7,32 +7,28 @@ function CVService(provider, services){
     }.bind(this));
 }
 
-/* private methods */
-CVService.prototype._addWord = function(inputData, translation, vocabularyID){
-    var word = {
-        Value: inputData.word,
-        Language: inputData.sourceLang,
-        Pronunciation: this.getPronunciation(inputData),
-        SoundUrls: this.getSoundUrls(inputData),
-        PictureUrls: this.getPictureUrls(inputData)
-    };
-    var wordTranslation = {
-        VocabularyID: vocabularyID,
-        Translations: translation,
-        TranslationsLanguage: getIndexByLang(inputData.targetLang)
-    };
-    return this.provider.addWord(word, wordTranslation);
+/* protected methods */
+
+CVService.prototype.getPronunciation = function(inputData, method){
+    return this.services.tfd.getPronunciation(inputData);
 };
 
-CVService.prototype._addWordTranslations = function(inputData){
-    return this.provider.addWordTranslations(inputData.sourceLang, inputData.targetLang, {
-        Word: inputData.word,
-        Translations: this.getTranslations(inputData),
-        TranslationCards: this.getTranslationCards(inputData)
+CVService.prototype.getSoundUrls = function(inputData){
+    var all = [];
+    $.each(this.services, function(i, service){
+        all = all.concat(service.getSoundUrls(inputData));
     });
+    return all.join(',');
 };
 
-/* public methods */
+CVService.prototype.getPictureUrls = function(inputData){
+    var all = [];
+    $.each(this.services, function(i, service){
+        all = all.concat(service.getPictureUrls(inputData));
+    });
+    return all.join(',');
+};
+
 CVService.prototype.getTranslationCards = function(inputData){
     var translationCards = {};
     $.each(this.services, function(id, service){
@@ -43,11 +39,54 @@ CVService.prototype.getTranslationCards = function(inputData){
     return JSON.stringify(translationCards);
 };
 
-CVService.prototype.addTranslation = function(inputData, translation, vocabularyID){
-    var self = this;
-    return this._addWord(inputData, translation, vocabularyID).then(function(){
-        return self._addWordTranslations(inputData);
+CVService.prototype.getTranslations = function(inputData){
+    var allTranslations = {};
+    var allTranslationsArr = [];
+    var unknownTranslationsArr = [];
+    $.each(this.services, function(i, service){
+        var translations = service.getTranslations(inputData);
+        if(translations){
+            $.each(translations, function(speachPart, words){
+                words = words.unique(allTranslationsArr);
+                if(words.length){
+                    if(speachPart==SpeachParts.UNKNOWN){
+                        // add to unknown
+                        words = words.unique(unknownTranslationsArr);
+                        unknownTranslationsArr = unknownTranslationsArr.concat(words);
+                    }
+                    else {
+                        // remove from unknown
+                        unknownTranslationsArr = unknownTranslationsArr.unique(words);
+                        allTranslationsArr = allTranslationsArr.concat(words);
+                        var current = allTranslations[speachPart];
+                        allTranslations[speachPart] = current ?
+                            current.concat(words):
+                            words;
+                    }
+                }
+            });
+        }
     });
+    allTranslations[SpeachParts.UNKNOWN] = unknownTranslationsArr;
+    return JSON.stringify(allTranslations);
+};
+
+/* public methods */
+
+CVService.prototype.addTranslation = function(inputData, translation, bookId){
+    var translationData = {
+        word: inputData.word,
+        wordLanguage: inputData.sourceLang,
+        wordPronunciation: this.getPronunciation(inputData),
+        wordSoundUrls: this.getSoundUrls(inputData),
+        wordPictureUrls: this.getPictureUrls(inputData),
+        bookId: bookId || 0,
+        translationWord: translation,
+        translationLanguage:  inputData.targetLang,
+        translationWords: this.getTranslations(inputData),
+        translationCards: this.getTranslationCards(inputData)
+    };
+    return this.provider.addTranslation(translationData);
 };
 
 CVService.prototype.getBooks = function(language){
@@ -65,40 +104,3 @@ CVService.prototype.login = function(username, password){
     });
     return promise;
 }
-
-CVService.prototype.getTranslations = function(inputData){
-    var allTranslations = {};
-    var allTranslationsArr = [];
-    $.each(this.services, function(i, service){
-        var translations = service.getTranslations(inputData);
-        if(translations){
-            $.each(translations, function(speachPart, words){
-                words = words.unique(allTranslationsArr);
-                if(words.length){
-                    allTranslationsArr = allTranslationsArr.concat(words);
-                    var current = allTranslations[speachPart];
-                    allTranslations[speachPart] = current ?
-                        current.concat(words):
-                        words;
-                }
-            });
-        }
-    });
-    return JSON.stringify(allTranslations);
-};
-
-CVService.prototype.getPronunciation = function(inputData, method){
-    return this.services.tfd.getPronunciation(inputData);
-};
-
-CVService.prototype.getSoundUrls = function(inputData){
-    return this.services.ll.getSoundUrls(inputData);
-};
-
-CVService.prototype.getPictureUrls = function(inputData){
-    var all = [];
-    $.each(this.services, function(i, service){
-        all = all.concat(service.getPictureUrls(inputData));
-    });
-    return all.join(',');
-};

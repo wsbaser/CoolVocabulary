@@ -6,9 +6,8 @@ var CVConfig = function() {
         ajax: {
             isAuthenticated: siteHost + "/account/isAuthenticated",
             login: siteHost + '/account/apilogin',
-            getBooks: siteHost + "/words/api/getbooks",
-            addWord: siteHost + '/words/api/addWord',
-            addWordTranslations: siteHost + '/words/api/addWordTranslations'
+            getBooks: siteHost + "/api/book",
+            addTranslation: siteHost + '/api/translation'
         },
         path: {
             vocabulary: siteHost

@@ -61,46 +61,17 @@ CVProvider.prototype.login = function(username, pass) {
     return deferred.promise();
 };
 
-CVProvider.prototype.addWord = function(word, wordTranslation){
+CVProvider.prototype.addTranslation = function(data){
     var self = this;
     var deferred = $.Deferred();
-    $.ajax(this.config.ajax.addWord,{
+    $.ajax(this.config.ajax.addTranslation, {
         type: "POST",
         contentType: 'application/json',
-        data: JSON.stringify({
-            word: word,
-            wordTranslation: wordTranslation
-        }),
+        data: JSON.stringify(data),
         error: function(error) {
-            deferred.reject(error);
+            deferred.reject(error.responseText);
         },
-        success: function(data,status,xhr) {
-            if(self._rejectUnauthorized(deferred, xhr))
-                return;
-            if(data.error_msg)
-                deferred.reject(data.error_msg);
-            else
-                deferred.resolve(data);
-        }
-    });
-    return deferred.promise();
-};
-
-CVProvider.prototype.addWordTranslations = function(sourceLang, targetLang, wordTranslations){
-    var self = this;
-    var deferred = $.Deferred();
-    $.ajax(this.config.ajax.addWordTranslations,{
-        type: "POST",
-        contentType: 'application/json',
-        data: JSON.stringify({
-            sourceLanguage: sourceLang,
-            targetLanguage: targetLang,
-            wordTranslations: wordTranslations
-        }),
-        error: function(error) {
-            deferred.reject(error);
-        },
-        success: function(data,status,xhr) {
+        success: function(data, status, xhr) {
             if(self._rejectUnauthorized(deferred, xhr))
                 return;
             if(data.error_msg)

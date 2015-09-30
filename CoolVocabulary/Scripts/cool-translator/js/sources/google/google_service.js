@@ -70,9 +70,11 @@ GoogleService.prototype.getTranslations = function(inputData){
     var responseData = this.getCachedCard(ContentTypes.TRANSLATIONS, inputData);
     var translations = {};
     translations[SpeachParts.UNKNOWN] = [];
-    $.each(responseData.entry, function(i, entry){
-        translations[SpeachParts.UNKNOWN].push(entry.word);
-    });
+    if(responseData && responseData.entry){
+        $.each(responseData.entry, function(i, entry){
+            translations[SpeachParts.UNKNOWN].push(entry.word);
+        });
+    }
     return translations;
 };
 

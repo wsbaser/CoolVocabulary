@@ -13,6 +13,7 @@ using CoolVocabulary.Models;
 
 namespace CoolVocabulary.Controllers.api
 {
+    [Authorize]
     public class WordController : ApiController
     {
         private VocabularyDbContext db = new VocabularyDbContext();

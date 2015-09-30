@@ -15,6 +15,7 @@ using AutoMapper;
 
 namespace CoolVocabulary.Controllers.api
 {
+    [Authorize]
     public class BookController : ApiController
     {
         private VocabularyDbContext db = new VocabularyDbContext();
