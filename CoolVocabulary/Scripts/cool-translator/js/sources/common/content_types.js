@@ -31,3 +31,34 @@ SpeachParts.NOUN = 1;
 SpeachParts.VERB = 2;
 SpeachParts.ADJECTIVE = 3;
 SpeachParts.ADVERB = 4;
+
+SpeachParts.parseEn = function(sp){
+    switch(sp){
+        case 'noun':
+            return SpeachParts.NOUN;
+        case 'verb':
+            return SpeachParts.VERB;
+        case 'adjective':
+            return SpeachParts.ADJECTIVE;
+        case 'adverb':
+            return SpeachParts.ADVERVB;
+        default:
+            return SpeachParts.UNKNOWN; 
+    }
+};
+
+SpeachParts.toStringEn = function(sp){
+	sp = +sp;
+	switch(sp){
+		case SpeachParts.NOUN:
+			return 'noun';
+		case SpeachParts.VERB:
+			return 'verb';
+		case SpeachParts.ADJECTIVE:
+			return 'adjective';
+		case SpeachParts.ADVERVB:
+			return 'adverb';
+		default:
+			return 'unknown';
+	}
+}

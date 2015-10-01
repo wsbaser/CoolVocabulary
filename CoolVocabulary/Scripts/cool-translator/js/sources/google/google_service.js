@@ -10,43 +10,55 @@ function GoogleService(provider){
 GoogleService.prototype = Object.create(DictionaryService.prototype);
 
 GoogleService.prototype.generateTranslationsCard = function(data){
-    if(data && data.entry){
-        var translationsListHtml = $.map(data.entry, function (entry) {
-            var reverseTranslationsHtml = $.map(entry.reverse_translation, function (word) {
-                return strHelper.format(GoogleTemplates.REVERSE_TRANSLATION,{word: word});
-            }).join(', ');
-            return strHelper.format(GoogleTemplates.TRANSLATIONS_ITEM, {
-                word: entry.word,
-                reverseTranslations: reverseTranslationsHtml
+    if(data && data.translations && Object.keys(data.translations).length){
+        var translationsHtml = '';
+        for (var sp in data.translations) {
+            var spTranslations = data.translations[sp];
+            var listHtml = $.map(spTranslations, function (entry) {
+                var reverseTranslationsHtml = $.map(entry.reverse_translation, function (word) {
+                    return strHelper.format(GoogleTemplates.REVERSE_TRANSLATION,{word: word});
+                }).join(', ');
+                return strHelper.format(GoogleTemplates.TRANSLATIONS_ITEM, {
+                    word: entry.word,
+                    reverseTranslations: reverseTranslationsHtml
+                });
+            }).join('');
+            translationsHtml += strHelper.format(GoogleTemplates.TRANSLATIONS_LIST, {
+                pos: SpeachParts.toStringEn(sp),
+                translationsListHtml: listHtml
             });
-        }).join('');
-        var translationsHtml = strHelper.format(GoogleTemplates.TRANSLATIONS, {
-            word: data.word,
-            pos: data.pos,
-            translationsListHtml: translationsListHtml
+        };
+        var headerHtml = strHelper.format(GoogleTemplates.TRANSLATIONS_HEADER,{
+            word: data.word
         });
-        var contentEl = $('<section/>', { html:translationsHtml });
+        var contentEl = $('<section/>', { html: headerHtml+translationsHtml });
         this.addTranslateContentEvent(contentEl, '.gt-baf-back');
-
         return contentEl.outerHTML();
     }
     return null;
 };
 
 GoogleService.prototype.generateDefinitionsCard = function(data){
-    if (data && data.definitions.length > 0) {
-        var definitionsListHtml = $.map(data.definitions, function (item) {
-            return strHelper.format(GoogleTemplates.DEFINITION_ITEM, {
-                definition: item.definition,
-                example: item.example
+    if (data && data.definitions && Object.keys(data.definitions).length) {
+        var definitionsHtml = '';
+        for (var sp in data.definitions) {
+            var spDefinitions = data.definitions[sp];
+            var listHtml = $.map(spDefinitions, function (item) {
+                return strHelper.format(GoogleTemplates.DEFINITION_ITEM, {
+                    definition: item.definition,
+                    example: item.example
+                });
+            }).join('');
+            definitionsHtml += strHelper.format(GoogleTemplates.DEFINITIONS, {
+                pos: SpeachParts.toStringEn(sp),
+                definitionsListHtml: listHtml
             });
-        }).join('');
-        var definitionsHtml = strHelper.format(GoogleTemplates.DEFINITIONS, {
-            word: data.word,
-            pos: data.pos,
-            definitionsListHtml: definitionsListHtml
+        };
+        var headerHtml = strHelper.format(GoogleTemplates.DEFINITIONS_HEADER,{
+            word: data.word
         });
-        return $('<section/>', {html: definitionsHtml}).outerHTML();
+
+        return $('<section/>', { html: headerHtml+definitionsHtml }).outerHTML();
     }
     return null;
 };
@@ -81,8 +93,12 @@ GoogleService.prototype.getTranslations = function(inputData){
 //===== GoogleTemplates ================================================================================================
 GoogleTemplates = {};
 
-GoogleTemplates.TRANSLATIONS =
-'<div class="gt-cd-t"><span class="gt-card-ttl-txt" style="direction: ltr;">{word}</span>: варианты перевода</div>'+
+GoogleTemplates.TRANSLATIONS_HEADER = 
+    '<div class="gt-cd-t">'+
+    '<span class="gt-card-ttl-txt" style="direction: ltr;">{word}</span>: варианты перевода'+
+    '</div>';
+
+GoogleTemplates.TRANSLATIONS_LIST =
 '<div class="gt-cd-c"><table class="gt-baf-table"><tbody>'+
 '<tr><td colspan="4"><div class="gt-baf-cell gt-baf-pos-head"><span class="gt-cd-pos">{pos}</span></div></td></tr>'+
 '{translationsListHtml}'+
@@ -96,8 +112,12 @@ GoogleTemplates.TRANSLATIONS_ITEM =
 '</tr>';
 GoogleTemplates.REVERSE_TRANSLATION ='<span class="gt-baf-back">{word}</span>';
 
+GoogleTemplates.DEFINITIONS_HEADER =
+    '<div class="gt-cd-t">'+
+    '<span class="gt-card-ttl-txt" style="direction: ltr;">{word}</span>&nbsp;&ndash; определения'+
+    '</div>';
+
 GoogleTemplates.DEFINITIONS =
-'<div class="gt-cd-t"><span class="gt-card-ttl-txt" style="direction: ltr;">{word}</span>&nbsp;&ndash; определения</div>'+
 '<div class="gt-cd-c">' +
 '<div class="gt-cd-pos">{pos}</div>' +
 '<div class="gt-def-list" style="direction: ltr;">{definitionsListHtml}</div>' +

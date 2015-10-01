@@ -23,36 +23,52 @@ GoogleProvider.prototype.processResponse = function(response) {
         throw new Error('Error. Invalid server response.');
     }
     var jsonObject = {};
+
     try {
-        jsonObject.pos = arr[1][0][0];
         jsonObject.word = arr[1][0][3];
     }
     catch (e){
         return null;
     }
+
+    // .TRANSLATIONS
     try {
-        jsonObject.entry = $.map(arr[1][0][2], function (entry) {
-            return {
-                word: entry[0],
-                reverse_translation: entry[1],
-                score: entry[3] || 0
-            }
-        });
+        jsonObject.translations = {};
+        var translations = arr[1];
+        for (var i = translations.length - 1; i >= 0; i--) {
+            var sp = SpeachParts.parseEn(translations[i][0]);
+            jsonObject.translations[sp] = $.map(translations[i][2], function (entry) {
+                return {
+                    word: entry[0],
+                    reverse_translation: entry[1],
+                    score: entry[3] || 0
+                }
+            });
+        }; 
     }
     catch (e) {
-        jsonObject.entry = [];
+        console.error(e);
     }
+    
+    // .DEFINITIONS
     try {
-        jsonObject.definitions = $.map(arr[10][0][1], function (item) {
-            return {
-                definition: item[0],
-                example: item[2]
-            };
-        });
+        jsonObject.definitions = {};
+        var definitions = arr[10];
+        for (var i = definitions.length - 1; i >= 0; i--) {
+            var sp = SpeachParts.parseEn(definitions[i][0]);
+            jsonObject.definitions[sp] = $.map(definitions[i][1], function (item) {
+                return {
+                    definition: item[0],
+                    example: item[2]
+                };
+            }); 
+        };
     }
     catch (e) {
-        jsonObject.definitions = [];
+        console.error(e);
     }
+
+    // .EXAMPLES
     try {
         jsonObject.examples = $.map(arr[11][0], function (item) {
             return item[0];
