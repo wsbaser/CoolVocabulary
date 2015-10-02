@@ -15,6 +15,16 @@ Vocabulary.BookIndexRoute = Ember.Route.extend({
 			    placement: 'bottom',
 			    backdrop: true
 			});
+			window.addEventListener("message", function(event){
+				if(event.origin!==window.location.origin ||
+					event.data.type!=='addTranslation'){
+					return;
+				}
+				controller.addTranslation(event.data.book,
+					event.data.word,
+					event.data.bookWord,
+					event.data.translation);
+			});
 	    });
 	}
 });

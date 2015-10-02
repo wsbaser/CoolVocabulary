@@ -58,16 +58,26 @@ namespace CoolVocabulary.Controllers.api
                 data.translationWords,
                 data.translationCards);
             // . if book id not specified - get default book
+            Book book;
             if (data.bookId == 0)
             {
-                Book book = await db.GetDefaultVocabulary(User.Identity.GetUserId(), wordLanguage);
+                book = await db.GetDefaultVocabulary(User.Identity.GetUserId(), wordLanguage);
                 data.bookId = book.Id;
+            }
+            else
+            {
+                book = db.Books.Find(data.bookId);
             }
             // . add translation
             SpeachPartType sp = GetSpeachPart(data.translationWords, data.translationWord);
-            Translation translation = await db.AddTranslation(data.bookId, word.Id, data.translationWord, translationLanguage, sp);
-            TranslationDto translationDto = Mapper.Map<TranslationDto>(translation);
-            return CreatedAtRoute("DefaultApi", new { id = translation.Id }, translationDto);
+            Tuple<BookWord, Translation> bwt = await db.AddTranslation(data.bookId, word.Id, data.translationWord, translationLanguage, sp);
+            return CreatedAtRoute("DefaultApi", new { id = bwt.Item2.Id }, new
+            {
+                book = new BookDto(book),
+                word = new WordDto(word),
+                bookWord = new BookWordDto(bwt.Item1),
+                translation = new TranslationDto(bwt.Item2)
+            });
         }
 
         public SpeachPartType GetSpeachPart(string translationWords, string translationWord)

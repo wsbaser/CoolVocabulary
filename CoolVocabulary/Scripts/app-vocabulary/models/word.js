@@ -3,6 +3,5 @@ Vocabulary.Word = DS.Model.extend({
     language: DS.attr("string"),
     pronunciation: DS.attr("string"),
     soundUrls: DS.attr("string"),
-    pictureUrls: DS.attr("string"),
-    bookWord: DS.belongsTo("bookWord")
+    pictureUrls: DS.attr("string")
 });

@@ -60,14 +60,16 @@ namespace CoolVocabulary.Models {
         }
 
 
-        public async Task<Translation> AddTranslation(int bookID, int wordID, string value, LanguageType language, SpeachPartType speachPart) {
-            // . find BookWord entity
-            BookWord bookWordEntity = await BookWords.SingleOrDefaultAsync(bw =>
+        public async Task<Tuple<BookWord, Translation>> AddTranslation(int bookID, int wordID, string value, LanguageType language, SpeachPartType speachPart)
+        {
+            // . search for BookWord
+            BookWord bookWordEntity = await BookWords.Include("Translations").SingleOrDefaultAsync(bw =>
                 bw.BookId == bookID &&
                 bw.WordId == wordID);
-            // . create if not exists
+            Translation translationEntity = null;
             if (bookWordEntity == null)
             {
+                // . create BookWord if not exists
                 bookWordEntity = new BookWord
                 {
                     BookId = bookID,
@@ -77,16 +79,27 @@ namespace CoolVocabulary.Models {
                 BookWords.Add(bookWordEntity);
                 await SaveChangesAsync();
             }
-            // . add Translation entity
-            Translation translationEntity = new Translation {
-                BookWordId = bookWordEntity.Id,
-                Value = value,
-                Language = (int)language,
-                SpeachPart = (int)speachPart
-            };
-            Translations.Add(translationEntity);
-            await SaveChangesAsync();
-            return translationEntity;
+            else
+            {
+                // . search for Translation
+                translationEntity = bookWordEntity.Translations.SingleOrDefault(t => t.Value == value &&
+                    t.Language == (int)language &&
+                    t.SpeachPart == (int)speachPart);
+            }
+            // . add Translation if not exists
+            if (translationEntity == null)
+            {
+                translationEntity = new Translation
+                {
+                    BookWordId = bookWordEntity.Id,
+                    Value = value,
+                    Language = (int)language,
+                    SpeachPart = (int)speachPart
+                };
+                Translations.Add(translationEntity);
+                await SaveChangesAsync();
+            }
+            return new Tuple<BookWord, Translation>(bookWordEntity, translationEntity);
         }
     }
 }

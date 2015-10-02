@@ -79,5 +79,18 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 	}.property('words'),
 	adverbs: function(){
 		return this.get('words')[4];
-	}.property('words')
+	}.property('words'),
+	addTranslation: function(bookDto, wordDto, bookWordDto, translationDto){
+		function findOrAdd(store, type, data){
+			var record = store.peekRecord(type, data.id);
+			if(!record){
+				record = store.push(store.normalize(type, data));
+			}
+			return record;
+		}
+		findOrAdd(this.store, 'book', bookDto);
+		findOrAdd(this.store, 'word', wordDto);
+		findOrAdd(this.store, 'bookWord', bookWordDto);
+		findOrAdd(this.store, 'translation', translationDto);
+	}
 });

@@ -185,8 +185,22 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 	}.property('words'),
 	adverbs: function(){
 		return this.get('words')[4];
-	}.property('words')
+	}.property('words'),
+	addTranslation: function(bookDto, wordDto, bookWordDto, translationDto){
+		function findOrAdd(store, type, data){
+			var record = store.peekRecord(type, data.id);
+			if(!record){
+				record = store.push(store.normalize(type, data));
+			}
+			return record;
+		}
+		findOrAdd(this.store, 'book', bookDto);
+		findOrAdd(this.store, 'word', wordDto);
+		findOrAdd(this.store, 'bookWord', bookWordDto);
+		findOrAdd(this.store, 'translation', translationDto);
+	}
 });
+
 window.CARD_HEIGHT = 300;
 Vocabulary.LearnController = Ember.Controller.extend({
 	cards:[],
@@ -236,8 +250,7 @@ Vocabulary.Word = DS.Model.extend({
     language: DS.attr("string"),
     pronunciation: DS.attr("string"),
     soundUrls: DS.attr("string"),
-    pictureUrls: DS.attr("string"),
-    bookWord: DS.belongsTo("bookWord")
+    pictureUrls: DS.attr("string")
 });
 Vocabulary.WordTranslations = DS.Model.extend({
     word: DS.attr("string"),
@@ -284,6 +297,16 @@ Vocabulary.BookIndexRoute = Ember.Route.extend({
 			    target: '#word_input_form',
 			    placement: 'bottom',
 			    backdrop: true
+			});
+			window.addEventListener("message", function(event){
+				if(event.origin!==window.location.origin ||
+					event.data.type!=='addTranslation'){
+					return;
+				}
+				controller.addTranslation(event.data.book,
+					event.data.word,
+					event.data.bookWord,
+					event.data.translation);
 			});
 	    });
 	}

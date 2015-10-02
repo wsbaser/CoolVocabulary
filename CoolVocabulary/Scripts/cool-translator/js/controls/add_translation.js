@@ -188,6 +188,13 @@ AddTranslationControl.prototype._addTranslation = function() {
             if(isInputDataEqual(self.translationsList.data, inputData))
                 self._highlightAddedTranslation(translation);
             self.setTranslation('');
+            // . generate addtranslation event
+            window.postMessage({
+                type: 'addTranslation',
+                book: response.book,
+                word: response.word,
+                bookWord: response.bookWord,
+                translation: response.translation }, 'http://localhost:13189');
         }).fail(function(response){
             self._hideLoading();
             if (response.notAuthenticated)
@@ -199,7 +206,7 @@ AddTranslationControl.prototype._addTranslation = function() {
 };
 
 AddTranslationControl.prototype._showTranslationAddedNotification = function(inputData,translation) {
-    Dialog.showNotification('Translation added to LinguaLeo',
+    Dialog.showNotification('Translation added' ,
         inputData.word + ' - ' + translation);
 };
 
