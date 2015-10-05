@@ -33,11 +33,11 @@ CVProvider.prototype.getBooks = function(){
 CVProvider.prototype.checkAuthentication = function () {
     var self = this;
     var deferred = $.Deferred();
-    $.post(this.config.ajax.isAuthenticated).done(function(data){
+    $.post(this.config.ajax.checkAuthentication).done(function(data){
         if(data.error_msg)
             deferred.reject(data.error_msg);
         else
-            deferred.resolve(data.is_authenticated);
+            deferred.resolve(data);
     }).fail(function(jqXHR){
         deferred.reject('Error. Status(' + jqXHR.status+')');
     });

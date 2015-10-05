@@ -4,94 +4,101 @@ function AddTranslationControl(vocabulary) {
     this.vocabulary = vocabulary;
     this.translationsList = null;
     this.translationItemSelector = null;
+    this.isAuthenticated = false;
     this._createEl();
-    var self = this;
-    document.addEventListener('ctrbookchanged', function(event, bookName){
-        self._selectBook(bookName)
-    });
-    this.books = null;
+    this.vocabulary.addEventListener(Vocabulary.CHECK_AUTH_START, this._onCheckAuthStart.bind(this));
+    this.vocabulary.addEventListener(Vocabulary.CHECK_AUTH_END, this._onCheckAuthEnd.bind(this));
 };
 
-AddTranslationControl.TRANSL_ITEM_CLASS ='ctr-translItem';
+AddTranslationControl.TRANSL_ITEM_CLASS = 'ctr-translItem';
 
 //===== Private ==========
-AddTranslationControl.prototype._selectBook = function(bookName){
-    this.booksEl.find('option:contains(' + bookName + ')').prop('selected', true);
+AddTranslationControl.prototype._onCheckAuthStart = function(){
+    this._showLoading();
+    this.userNameEl.hide();
 };
 
-AddTranslationControl.prototype._getSelectedBookId = function(){
-    return this.booksEl.is(':visible')?
-        this.booksEl.find('option:selected').data('bookid'):
-        null;
-};
-
-AddTranslationControl.prototype._getBooks = function(callback){
-    var self = this;
-    if(this.books)
-        callback();
-    else {
-        this.vocabulary.getBooks(function(promise){
-            promise.done(function(books){
-                self.books = books;
-                callback();
-            }).fail(function(){
-                self._hideLoading();
-            });
-        });
+AddTranslationControl.prototype._onCheckAuthEnd = function(){
+    this._hideLoading();
+    this.isAuthenticated = !!this.vocabulary.user; 
+    if(this.isAuthenticated){
+        this.userNameEl.find('span').text(this.vocabulary.user);
+        this.loginCaptionEl.hide();
+        this.addCaptionEl.showImportant();
+    }
+    else{
+        this.userNameEl.hide();
+        this.loginCaptionEl.showImportant();
+        this.addCaptionEl.hide();
     }
 };
 
-AddTranslationControl.prototype._showDefaultBook= function(language){
-    var DEFAULT_BOOK_NAME = 'New words';
-    this.booksEl.append('<option>'+DEFAULT_BOOK_NAME+'</option>');
-};
+// AddTranslationControl.prototype._selectBook = function(bookName){
+//     this.booksEl.find('option:contains(' + bookName + ')').prop('selected', true);
+// };
 
-AddTranslationControl.prototype._showBooks= function(language){
-    var self = this;
-    this.booksEl.empty();
-    if(this.books && this.books.length){
-        $.each(this.books, function(i, book){
-            if(getLangByIndex(book.Language)==language);{
-                var bookEl = $('<select>' + book.Name + '</select>');
-                bookEl.data('bookid', book.ID);
-                self.booksEl.append(bookEl);
-            }
-        });
-    }
-    else
-        this._showDefaultBook();
-    self.booksEl.showImportant();
-};
+// AddTranslationControl.prototype._getSelectedBookId = function(){
+//     return this.booksEl.is(':visible')?
+//         this.booksEl.find('option:selected').data('bookid'):
+//         null;
+// };
 
+// AddTranslationControl.prototype._getBooks = function(callback){
+//     var self = this;
+//     if(this.books)
+//         callback();
+//     else {
+//         this.vocabulary.getBooks(function(promise){
+//             promise.done(function(books){
+//                 self.books = books;
+//                 callback();
+//             }).fail(function(){
+//                 self._hideLoading();
+//             });
+//         });
+//     }
+// };
+
+// AddTranslationControl.prototype._showBooks= function(language){
+//     var self = this;
+//     this.booksEl.empty();
+//     if(this.books && this.books.length){
+//         $.each(this.books, function(i, book){
+//             if(getLangByIndex(book.Language)==language);{
+//                 var bookEl = $('<select>' + book.Name + '</select>');
+//                 bookEl.data('bookid', book.ID);
+//                 self.booksEl.append(bookEl);
+//             }
+//         });
+//     }
+//     else
+//         this._showDefaultBook();
+//     self.booksEl.showImportant();
+// };
 
 AddTranslationControl.prototype._createEl = function(){
+    var self = this;
     this.el = $('<div/>', {'class':'ctr-addTransl-block'});
     this.el.html(AddTranslationControl.TEMPLATE);
     this.selectedTranslationEl = this.el.find('.ctr-selectedTransl');
     this.buttonEl = this.el.find('.ctr-button');
     this.btnCaptionEl = this.buttonEl.find('.ctr-btnCaption');
     this.spinnerEl = this.buttonEl.find('.ctr-spinnerSmall');
-    this.booksEl = this.el.find('.ctr-vocabularyBooks');
-
-    var vocabularyEl = this.el.find('.ctr-vocabulary-col');
+    this.loginCaptionEl = this.buttonEl.find('#ctr_loginCaption');
+    this.addCaptionEl = this.buttonEl.find('#ctr_addCaption');
+    this.userNameEl = this.el.find('.ctr-userName');
     if(this.vocabulary.config.iconBase64){
-        var iconEl = vocabularyEl.find('.ctr-vocabularyIcon');
-        iconEl.attr('src', this.vocabulary.config.iconBase64);
-        iconEl.showImportant();
+        this.el.find('.ctr-actions-col .ctr-vocabularyIcon').each(function(i, iconEl){
+            iconEl = $(iconEl);
+            iconEl.attr('src', self.vocabulary.config.iconBase64);
+            iconEl.showImportant();
+        });
     }
-    var vocabularyNameEl = vocabularyEl.find('.ctr-vocabularyName');
-    vocabularyNameEl.text(this.vocabulary.config.name);
-    vocabularyNameEl.attr('href', this.vocabulary.config.path.vocabulary);
-    this._showDefaultBook();
 };
 
 AddTranslationControl.prototype._bindEvents = function() {
     var self = this;
     this.buttonEl.bind('click', this._onButtonClick.bind(this));
-    this.booksEl.change(function(){
-        var bookName = self.booksEl.find('option:selected').text();
-        $(document).trigger('ctrbookchanged', bookName);
-    });
 };
 
 AddTranslationControl.TEMPLATE = 
@@ -102,11 +109,17 @@ AddTranslationControl.TEMPLATE =
             <td class="ctr-transl-col">\
                 <input class="ctr-selectedTransl" readonly type="textbox" placeholder="Select translation">\
             </td>\
-            <td class="ctr-button-col">\
+            <td class="ctr-actions-col">\
                 <a class="ctr-button">\
-                    <span class="ctr-btnCaption">\
-                        <span class="ctr-addIcon"></span>\
-                        &nbsp;Add\
+                    <span class="ctr-caption">\
+                        <span id="ctr_addCaption" style="display: none !important">\
+                            <span class="ctr-addIcon"></span>\
+                            &nbsp;Add\
+                        </span>\
+                        <span id="ctr_loginCaption">\
+                            Login\
+                            <img class="ctr-vocabularyIcon" src=""/>\
+                        </span>\
                     </span>\
                     <div class="ctr-spinnerSmall">\
                       <div></div>\
@@ -114,43 +127,21 @@ AddTranslationControl.TEMPLATE =
                       <div></div>\
                     </div>\
                 </a>\
-            </td>\
-            <td class="ctr-vocabulary-col">\
-                <span>&nbsp;&nbsp;&nbsp;to</span>\
-                <img class="ctr-vocabularyIcon" src=""/>\
-                <a class="ctr-vocabularyName" target="_blank" href=""></a>\
-                <select class="ctr-vocabularyBooks"></select>\
+                <a class="ctr-userName" href="" style="display: none !important">\
+                    <img class="ctr-vocabularyIcon" src=""/>\
+                    <span></span>\
+                </a>\
             </td>\
         </tr>\
     </tbody>\
 </table>';
 
-AddTranslationControl.prototype.checkAuthentication = function() {
-    var self = this;
-    this._showLoading();
-    this.vocabulary.checkAuthentication(function(promise){
-        promise.done(function(isAuthenticated){
-            if (isAuthenticated){
-                self.logedIn = true;
-                self._getBooks(function(){
-                    self._showBooks(self.translationsList.data.sourceLang);
-                    self._hideLoading();
-                });
-            }
-            else{
-                self._hideLoading();
-                self.logedIn = false;
-            }
-        });
-    });
-}
-
 AddTranslationControl.prototype._onButtonClick = function() {
     var self = this;
-    // if(this.logedIn)
+    if(this.isAuthenticated)
         self._addTranslation()
-    // else
-    //     self._showLoginForm();
+    else
+        self._showLoginForm();
 };
 
 AddTranslationControl.prototype._showLoginForm = function(){
@@ -253,7 +244,7 @@ AddTranslationControl.prototype._highlightAddedTranslation = function (translati
 
 //===== Public ==========
 
-AddTranslationControl.prototype.init = function(translationsList, translationItemSelector,translationWordSelector) {
+AddTranslationControl.prototype.init = function(translationsList, translationItemSelector, translationWordSelector) {
     this.setTranslation('');
     var self = this;
     this.translationsList = translationsList;
@@ -266,7 +257,7 @@ AddTranslationControl.prototype.init = function(translationsList, translationIte
     });
     this._bindEvents();
     //this.checkAuthentication();
-}
+};
 
 AddTranslationControl.prototype.setTranslation = function(word) {
     this.selectedTranslationEl.val(word);

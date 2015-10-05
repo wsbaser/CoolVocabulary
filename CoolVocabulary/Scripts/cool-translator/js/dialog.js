@@ -331,6 +331,7 @@ TranslationDialog.prototype.showForExtension = function(word) {
   this.inputFormEl.showImportant();
   this.isExtension = true;
   this.selectionBackup = selectionHelper.saveSelection();
+  this.vocabulary.checkAuthentication();
   this.show(word);
 };
 

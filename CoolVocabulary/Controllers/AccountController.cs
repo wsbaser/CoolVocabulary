@@ -38,8 +38,30 @@ namespace CoolVocabulary.Controllers
         // GET: /Account/IsAuthenticated
         [AllowAnonymous]
         [HttpPost]
-        public JsonResult IsAuthenticated() {
-            return Json(new { is_authenticated = User.Identity.IsAuthenticated });
+        public JsonResult CheckAuthentication()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var userId = User.Identity.GetUserId();
+                var user = UserManager.FindById(userId);
+                dynamic books = db.Books.Where(b => b.UserId == userId).Select(b => new
+                {
+                    id = b.Id,
+                    name = b.Name,
+                    language = b.Language
+                });
+                return Json(new
+                {
+                    isAuthenticated = true,
+                    user = new
+                    {
+                        id = userId,
+                        name = user.DisplayName,
+                        books = books
+                    }
+                });
+            }
+            return Json(new { isAuthenticated = false });
         }
 
         //
