@@ -12,7 +12,7 @@
         @Html.AntiForgeryToken()
         <ul class="nav navbar-nav navbar-right">
             <li>
-                @Html.ActionLink(user.DisplayName, "CoolVocabulary", "Home", routeValues: null, htmlAttributes: new { title = "Управление" })
+                @Html.ActionLink(user.DisplayName, "CoolVocabulary", "Home", routeValues: null, htmlAttributes: new { title = "Управление", id="userName" })
             </li>
             <li><a href="javascript:document.getElementById('logoutForm').submit()">Выйти</a></li>
         </ul>

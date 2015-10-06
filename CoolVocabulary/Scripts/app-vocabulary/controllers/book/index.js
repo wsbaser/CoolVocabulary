@@ -1,24 +1,31 @@
 Vocabulary.BookIndexController = Ember.Controller.extend({
 	inputWord: "",
 	applicationCtrl: Ember.inject.controller('application'),
-	init: function(){
-		this.initSiteDialog();
-	}.on('init'),
 	books: function () {
         return this.store.peekAll("book");
     }.property(),
 	initSiteDialog: function(){
 		var self = this;
 		var ctAdapter =  new CTAdapter();
-		this.set('ctAdapter', ctAdapter);
 		var langPair = this.get('applicationCtrl').langPair;
-		$('#word_input_form').off('submit', this.showInstallCTAlert);
-		var authCookie = {
-			name: '.AspNet.ApplicationCookie',
-			value: null
+		// var authCookie = {
+		// 	name: '.AspNet.ApplicationCookie',
+		// 	value: null
+		// };
+		// authCookie.value = $.cookie(authCookie.name);
+		var books = this.get('books').map(function(book){ 
+			return {
+				id: book.get('id'),
+				name: book.get('name')
+			};
+		});
+		var user = {
+			name: $('#userName').text(),
+			language: langPair.sourceLang,
+			books: books
 		};
-		authCookie.value = $.cookie(authCookie.name);
-		ctAdapter.initSiteDialog(langPair, '#word_input_form', authCookie, function(){
+		var bookId = this.get('model').id;
+		ctAdapter.initSiteDialog(langPair, '#word_input_form', user, bookId, function(){
 			if(ctAdapter.extensionIsActive){
 				return;
 			}

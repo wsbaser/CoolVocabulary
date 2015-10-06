@@ -60,11 +60,13 @@ chrome.runtime.onMessageExternal.addListener(
   function(request, sender, sendResponse) {
     console.log('message from ' + sender.tab.id);
     if(request.initDialog){
-        $.cookie(request.initDialog.authCookie.name, request.initDialog.authCookie.value);
+        //$.cookie(request.initDialog.authCookie.name, request.initDialog.authCookie.value);
         chrome.tabs.sendMessage(sender.tab.id, {
             type: MessageTypes.InitSiteDialog,
             langPair: request.initDialog.langPair,
             attachBlockSelector: request.initDialog.attachBlockSelector,
+            bookId: request.initDialog.bookId,
+            user: request.initDialog.user
         });
         sendResponse(true);
     }

@@ -324,6 +324,7 @@ TranslationDialog.prototype.mousedown = function(e){
 };
 
 TranslationDialog.prototype.showForExtension = function(word) {
+  this.vocabulary.setBook(0);
   this.el[0].removeAttribute('style');
   this.inputEl = $('#ctr_wordInput');
   this.el.removeClass('ctr-site');
@@ -335,15 +336,17 @@ TranslationDialog.prototype.showForExtension = function(word) {
   this.show(word);
 };
 
-TranslationDialog.prototype.showForSite = function(langPair, attachBlockSelector, word) {
+TranslationDialog.prototype.showForSite = function(langPair, attachBlockSelector, word, bookId, user) {
   this.setLangPair(langPair);
   this.attachBlockEl = $(attachBlockSelector);
+  this.vocabulary.setBook(bookId);
   this.inputEl = this.attachBlockEl.find('input');
   this.attach();
   this.el.removeClass('ctr-extension');
   this.el.addClass('ctr-site');
   this.inputFormEl.hideImportant();
   this.isExtension = false;
+  this.vocabulary.authenticate(user);
   this.show(word);
 };
 

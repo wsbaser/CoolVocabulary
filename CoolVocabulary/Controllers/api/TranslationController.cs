@@ -57,11 +57,11 @@ namespace CoolVocabulary.Controllers.api
                 data.translationLanguage,
                 data.translationWords,
                 data.translationCards);
-            // . if book id not specified - get default book
+            // . if book id is not specified - add translation to 'Cool Translator' book
             Book book;
             if (data.bookId == 0)
             {
-                book = await db.GetDefaultVocabulary(User.Identity.GetUserId(), wordLanguage);
+                book = await db.GetCTBook(User.Identity.GetUserId(), wordLanguage);
                 data.bookId = book.Id;
             }
             else

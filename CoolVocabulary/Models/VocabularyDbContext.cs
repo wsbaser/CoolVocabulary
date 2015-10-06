@@ -25,22 +25,22 @@ namespace CoolVocabulary.Models {
         public System.Data.Entity.DbSet<BookWord> BookWords { get; set; }
         public System.Data.Entity.DbSet<Translation> Translations { get; set; }
 
-        public async Task<Book> GetDefaultVocabulary(string userId, LanguageType language) {
-            const string DEFAULT_VOCABULARY = "New words";
-            var vocabulary = await Books.SingleOrDefaultAsync(v =>
+        public async Task<Book> GetCTBook(string userId, LanguageType language) {
+            const string DEFAULT_BOOK_NAME = "Cool Translator";
+            var book = await Books.SingleOrDefaultAsync(v =>
                 v.UserId == userId &&
                 v.Language == (int)language &&
-                v.Name == DEFAULT_VOCABULARY);
-            if (vocabulary == null) {
-                vocabulary = new Book() {
-                    Name = DEFAULT_VOCABULARY,
+                v.Name == DEFAULT_BOOK_NAME);
+            if (book == null) {
+                book = new Book() {
+                    Name = DEFAULT_BOOK_NAME,
                     UserId = userId,
                     Language = (int)language
                 };
-                Books.Add(vocabulary);
+                Books.Add(book);
                 await SaveChangesAsync();
             }
-            return vocabulary;
+            return book;
         }
 
         public async Task<Word> AddWord(string word, LanguageType language, string pronunciation, string soundUrls, string pictureUrls) {

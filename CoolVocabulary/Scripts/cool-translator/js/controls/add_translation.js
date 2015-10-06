@@ -173,7 +173,7 @@ AddTranslationControl.prototype._addTranslation = function() {
     var inputData = this.translationsList.data;
     var translation = this.selectedTranslationEl.val();
     this._showLoading();
-    this.vocabulary.addTranslation(inputData,translation,function(promise){
+    this.vocabulary.addTranslation(inputData, translation, function(promise){
         promise.done(function(response){
             response = response || {};
             self._hideLoading();

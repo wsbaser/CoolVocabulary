@@ -5,7 +5,8 @@ function Vocabulary(config, connection, supportsBooks){
     this.user = {};
 	this.reactor = new Reactor();
     this.reactor.registerEvent(Vocabulary.CHECK_AUTH_START);
-    this.reactor.registerEvent(Vocabulary.CHECK_AUTH_END);  
+    this.reactor.registerEvent(Vocabulary.CHECK_AUTH_END);
+    this.bookId = 0; 
 };
 
 Vocabulary.CHECK_AUTH_START = 'authstart';
@@ -13,6 +14,11 @@ Vocabulary.CHECK_AUTH_END = 'authend';
 
 Vocabulary.prototype.addEventListener = function(eventType, handler){
 	this.reactor.addEventListener(eventType, handler)
+};
+
+Vocabulary.prototype.authenticate = function(user){
+    this.user = user;
+    this.reactor.dispatchEvent(Vocabulary.CHECK_AUTH_END);
 };
 
 Vocabulary.prototype.checkAuthentication = function(){
@@ -31,13 +37,13 @@ Vocabulary.prototype.makeCall = function(method, params, callback){
 };
 
 Vocabulary.prototype.addTranslation = function(inputData,translation,callback){
-    this.makeCall('addTranslation', [inputData,translation], callback);
+    this.makeCall('addTranslation', [inputData, translation, this.bookId], callback);
 };
 
 Vocabulary.prototype.login = function(username,password,callback){
 	this.makeCall('login', [username, password], callback);
 };
 
-Vocabulary.prototype.getBooks = function(callback){
-	this.makeCall('getBooks', [], callback);
+Vocabulary.prototype.setBook = function(bookId){
+    this.bookId = bookId;
 };

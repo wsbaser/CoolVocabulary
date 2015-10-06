@@ -1,5 +1,4 @@
 window.Dialog = null;
-window.SiteDialogData = null;
 /***** ctrContent *****************************************************************************************************/
 
 var ctrContent = {};
@@ -140,11 +139,11 @@ ctrContent.handlers.keyDown = function(e) {
     }
 };
 
-ctrContent.initSiteDialog = function(langPair, attachBlockSelector){
+ctrContent.initSiteDialog = function(langPair, attachBlockSelector, bookId, user){
     var attachBlockEl = $(attachBlockSelector);
     var inputEl = attachBlockEl.find('input');
     attachBlockEl.on('submit', function(event){
-        Dialog.showForSite(langPair, attachBlockSelector, inputEl.val());
+        Dialog.showForSite(langPair, attachBlockSelector, inputEl.val(), bookId, user);
         return false;
     });
 };
@@ -157,7 +156,7 @@ chrome.runtime.onMessage.addListener(
   function(message, sender, sendResponse) {
     switch(message.type){
         case MessageTypes.InitSiteDialog:
-            ctrContent.initSiteDialog(message.langPair, message.attachBlockSelector);
+            ctrContent.initSiteDialog(message.langPair, message.attachBlockSelector, message.bookId, message.user);
             break;
         default:
             console.error('Unknown message type:' + message.type);

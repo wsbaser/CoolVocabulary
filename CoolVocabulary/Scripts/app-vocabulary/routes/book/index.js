@@ -6,6 +6,7 @@ Vocabulary.BookIndexRoute = Ember.Route.extend({
 	},
 	setupController: function(controller, model){
 	    this._super(controller, model);
+	    controller.initSiteDialog();
 	    Ember.run.schedule('afterRender', this, function() {
 	    	console.log('init popover');
 	    	$('#content').removeClass('grey');
