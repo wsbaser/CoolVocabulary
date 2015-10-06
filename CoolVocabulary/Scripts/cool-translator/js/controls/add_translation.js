@@ -15,19 +15,20 @@ AddTranslationControl.TRANSL_ITEM_CLASS = 'ctr-translItem';
 //===== Private ==========
 AddTranslationControl.prototype._onCheckAuthStart = function(){
     this._showLoading();
-    this.userNameEl.hide();
+    this.userColEl.hide();
 };
 
 AddTranslationControl.prototype._onCheckAuthEnd = function(){
     this._hideLoading();
     this.isAuthenticated = !!this.vocabulary.user; 
     if(this.isAuthenticated){
-        this.userNameEl.find('span').text(this.vocabulary.user);
+        this.userNameEl.text(this.vocabulary.user.name);
+        this.userColEl.showImportant();
         this.loginCaptionEl.hide();
         this.addCaptionEl.showImportant();
     }
     else{
-        this.userNameEl.hide();
+        this.userColEl.hide();
         this.loginCaptionEl.showImportant();
         this.addCaptionEl.hide();
     }
@@ -82,13 +83,14 @@ AddTranslationControl.prototype._createEl = function(){
     this.el.html(AddTranslationControl.TEMPLATE);
     this.selectedTranslationEl = this.el.find('.ctr-selectedTransl');
     this.buttonEl = this.el.find('.ctr-button');
-    this.btnCaptionEl = this.buttonEl.find('.ctr-btnCaption');
+    this.btnCaptionEl = this.buttonEl.find('.ctr-caption');
     this.spinnerEl = this.buttonEl.find('.ctr-spinnerSmall');
     this.loginCaptionEl = this.buttonEl.find('#ctr_loginCaption');
     this.addCaptionEl = this.buttonEl.find('#ctr_addCaption');
-    this.userNameEl = this.el.find('.ctr-userName');
+    this.userColEl = this.el.find('.ctr-user-col');
+    this.userNameEl = this.el.find('#ctr_userName');
     if(this.vocabulary.config.iconBase64){
-        this.el.find('.ctr-actions-col .ctr-vocabularyIcon').each(function(i, iconEl){
+        this.el.find('.ctr-vocabularyIcon').each(function(i, iconEl){
             iconEl = $(iconEl);
             iconEl.attr('src', self.vocabulary.config.iconBase64);
             iconEl.showImportant();
@@ -109,7 +111,7 @@ AddTranslationControl.TEMPLATE =
             <td class="ctr-transl-col">\
                 <input class="ctr-selectedTransl" readonly type="textbox" placeholder="Select translation">\
             </td>\
-            <td class="ctr-actions-col">\
+            <td class="ctr-button-col">\
                 <a class="ctr-button">\
                     <span class="ctr-caption">\
                         <span id="ctr_addCaption" style="display: none !important">\
@@ -127,10 +129,10 @@ AddTranslationControl.TEMPLATE =
                       <div></div>\
                     </div>\
                 </a>\
-                <a class="ctr-userName" href="" style="display: none !important">\
-                    <img class="ctr-vocabularyIcon" src=""/>\
-                    <span></span>\
-                </a>\
+            </td>\
+            <td class="ctr-user-col" style="display: none !important">\
+                <img class="ctr-vocabularyIcon" src=""/>\
+                <span id="ctr_userName"></span>\
             </td>\
         </tr>\
     </tbody>\

@@ -468,9 +468,9 @@
 }
 /*******************************************/
 #ctr_dialog .ctr-button-col{
-  width:100px !important;
-  text-align: center !important;
+  padding-right: 10px !important;
 }
+
 #ctr_dialog .ctr-addIcon{
   display: inline-block !important;
   width: 16px !important;
@@ -549,20 +549,16 @@
 }
 
 /*******************************************/
-#ctr_dialog .ctr-vocabulary-col{
+#ctr_dialog .ctr-user-col{
   padding-right: 20px !important;
   white-space: nowrap !important;
+  cursor: default !important;
 }
 
-#ctr_dialog .ctr-vocabulary-col *{
+#ctr_dialog .ctr-user-col *{
   color: #777 !important;
   font-size: 11px !important;
   white-space: nowrap !important;
-}
-
-#ctr_dialog .ctr-vocabularyName{
-  font-weight: bold !important;
-  color: #444 !important;
 }
 
 #ctr_dialog .ctr-vocabularyIcon{
@@ -571,9 +567,6 @@
     display: none !important;
 }
 
-#ctr_dialog .ctr-vocabularyBooks{
-  cursor: pointer !important;
-}
 /*******************************************/
 #ctr_dialog .ctr-translItem:hover {
 	border: solid 1px #9FC2C9 !important;

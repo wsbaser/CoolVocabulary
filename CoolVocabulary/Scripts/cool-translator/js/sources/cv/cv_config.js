@@ -4,7 +4,7 @@ var CVConfig = function() {
         id: "cv",
         name: "Cool Vocabulary",
         ajax: {
-            isAuthenticated: siteHost + "/account/checkAuthentication",
+            checkAuthentication: siteHost + "/account/checkAuthentication",
             login: siteHost + '/account/apilogin',
             getBooks: siteHost + "/api/book",
             addTranslation: siteHost + '/api/translation'

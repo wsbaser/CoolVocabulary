@@ -21,7 +21,7 @@ Vocabulary.prototype.checkAuthentication = function(){
     this.makeCall('checkAuthentication', [], function(promise){
         promise.done(function(data){
         	self.user = data.user;
-        	self.dispatchEvent(Vocabulary.CHECK_AUTH_END);
+        	self.reactor.dispatchEvent(Vocabulary.CHECK_AUTH_END);
         });
     });
 };
