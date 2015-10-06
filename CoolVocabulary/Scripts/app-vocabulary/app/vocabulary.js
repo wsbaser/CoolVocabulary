@@ -115,11 +115,6 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 		var self = this;
 		var ctAdapter =  new CTAdapter();
 		var langPair = this.get('applicationCtrl').langPair;
-		// var authCookie = {
-		// 	name: '.AspNet.ApplicationCookie',
-		// 	value: null
-		// };
-		// authCookie.value = $.cookie(authCookie.name);
 		var books = this.get('books').map(function(book){ 
 			return {
 				id: book.get('id'),
@@ -147,7 +142,7 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 	bookwords: function(){
 		return this.store.peekAll('bookWord');
 	}.property(),
-	words: function(){
+	words: Ember.computed('bookwords.[]', function(){
 		var bookId = this.get('model').id;
 		var all = this.get('bookwords').toArray();
 		var result = {};
@@ -179,21 +174,22 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 			}
 			result[sp] = wordsArr;
 		}
+		console.log('words recalculated...');
 		console.log(result);
 		return result;
-	}.property('bookwords'),
-	nouns: function(){
+	}),
+	nouns: Ember.computed('words', function(){
 		return this.get('words')[1];
-	}.property('words'),
-	verbs: function(){
+	}),
+	verbs: Ember.computed('words', function(){
 		return this.get('words')[2];
-	}.property('words'),
-	adjectives: function(){
+	}),
+	adjectives: Ember.computed('words', function(){
 		return this.get('words')[3];
-	}.property('words'),
-	adverbs: function(){
+	}),
+	adverbs: Ember.computed('words', function(){
 		return this.get('words')[4];
-	}.property('words'),
+	}),
 	addTranslation: function(bookDto, wordDto, bookWordDto, translationDto){
 		function findOrAdd(store, type, data){
 			var record = store.peekRecord(type, data.id);

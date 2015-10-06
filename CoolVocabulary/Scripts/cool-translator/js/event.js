@@ -60,7 +60,6 @@ chrome.runtime.onMessageExternal.addListener(
   function(request, sender, sendResponse) {
     console.log('message from ' + sender.tab.id);
     if(request.initDialog){
-        //$.cookie(request.initDialog.authCookie.name, request.initDialog.authCookie.value);
         chrome.tabs.sendMessage(sender.tab.id, {
             type: MessageTypes.InitSiteDialog,
             langPair: request.initDialog.langPair,

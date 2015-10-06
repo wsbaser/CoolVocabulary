@@ -12,6 +12,7 @@ using System.Web.Http.Description;
 using CoolVocabulary.Models;
 using Microsoft.AspNet.Identity;
 using AutoMapper;
+using Newtonsoft.Json.Linq;
 
 namespace CoolVocabulary.Controllers.api
 {
@@ -82,7 +83,15 @@ namespace CoolVocabulary.Controllers.api
 
         public SpeachPartType GetSpeachPart(string translationWords, string translationWord)
         {
-            return SpeachPartType.noun;
+            var root = JObject.Parse(translationWords);
+            foreach (SpeachPartType sp in Enum.GetValues(typeof(SpeachPartType)))
+            {
+                if (sp == SpeachPartType.unknown)
+                    continue;
+                if (root[((int)sp).ToString()].Any(w => w.ToString() == translationWord))
+                    return sp;
+            }
+            return SpeachPartType.unknown;
         }
 
         // DELETE api/Translation/5
