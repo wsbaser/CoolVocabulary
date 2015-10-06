@@ -115,7 +115,7 @@ AbbyService.prototype.getTranslations = function(inputData){
         var currentSP = SpeachParts.UNKNOWN;
         translationsEl.find('p').each(function(i, el){
             el = $(el);
-            var sp = self.parseSpeachPart(el.find('.l-article__abbrev').text());
+            var sp = self.parseSpeachPart(el.find('.l-article__abbrev:nth-of-type(1)').text());
             if(sp!=SpeachParts.UNKNOWN){
                 currentSP = sp;
                 if(!translations[currentSP])

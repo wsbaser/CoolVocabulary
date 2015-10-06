@@ -46,13 +46,13 @@ namespace CoolVocabulary.Controllers.api
             }
 
             // . add word
-            Word word = await db.AddWord(data.word,
+            Word word = await db.AddWord(data.word.ToLower(),
                 wordLanguage,
                 data.wordPronunciation,
                 data.wordSoundUrls,
                 data.wordPictureUrls);
             // . add word translations to mongo
-            await mongoDb.AddTranslations(data.word,
+            await mongoDb.AddTranslations(data.word.ToLower(),
                 data.wordLanguage,
                 data.translationLanguage,
                 data.translationWords,
