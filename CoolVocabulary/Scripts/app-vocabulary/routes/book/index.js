@@ -4,6 +4,9 @@ Vocabulary.BookIndexRoute = Ember.Route.extend({
 		this.render('book/indexToolbox', { outlet: 'toolbox' });
 		this.render('book/index', { outlet: 'content' });
 	},
+	// model: function(params){
+	// 	console.log('model hook is called for BookIndexRoute');
+	// },
 	setupController: function(controller, model){
 	    this._super(controller, model);
 	    controller.recalculateWords();
