@@ -88,7 +88,8 @@ namespace CoolVocabulary.Controllers.api
             {
                 if (sp == SpeachPartType.unknown)
                     continue;
-                if (root[((int)sp).ToString()].Any(w => w.ToString() == translationWord))
+                var spWords = root[((int)sp).ToString()];
+                if (spWords != null && spWords.Any(w => w.ToString() == translationWord))
                     return sp;
             }
             return SpeachPartType.unknown;

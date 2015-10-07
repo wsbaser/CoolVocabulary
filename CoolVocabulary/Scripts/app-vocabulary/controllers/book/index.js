@@ -32,12 +32,9 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 		$('#install_ct_alert').modalPopover('show');
 		return false;
 	},
-	bookwords: function(){
-		return this.store.peekAll('bookWord');
-	}.property(),
-	words: Ember.computed('bookwords.[]', function(){
+	recalculateWords: function(){
 		var bookId = this.get('model').id;
-		var all = this.get('bookwords').toArray();
+		var all = this.store.peekAll('bookWord').toArray();
 		var result = {};
 		for (var i = all.length - 1; i >= 0; i--) {
 			var bookword = all[i];
@@ -69,8 +66,8 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 		}
 		console.log('words recalculated...');
 		console.log(result);
-		return result;
-	}),
+		this.set('words', result);
+	},
 	nouns: Ember.computed('words', function(){
 		return this.get('words')[1];
 	}),
@@ -95,5 +92,6 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 		findOrAdd(this.store, 'word', wordDto);
 		findOrAdd(this.store, 'bookWord', bookWordDto);
 		findOrAdd(this.store, 'translation', translationDto);
+		this.recalculateWords();
 	}
 });

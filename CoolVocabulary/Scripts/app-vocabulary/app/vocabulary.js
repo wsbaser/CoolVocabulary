@@ -139,12 +139,9 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 		$('#install_ct_alert').modalPopover('show');
 		return false;
 	},
-	bookwords: function(){
-		return this.store.peekAll('bookWord');
-	}.property(),
-	words: Ember.computed('bookwords.[]', function(){
+	recalculateWords: function(){
 		var bookId = this.get('model').id;
-		var all = this.get('bookwords').toArray();
+		var all = this.store.peekAll('bookWord').toArray();
 		var result = {};
 		for (var i = all.length - 1; i >= 0; i--) {
 			var bookword = all[i];
@@ -176,8 +173,8 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 		}
 		console.log('words recalculated...');
 		console.log(result);
-		return result;
-	}),
+		this.set('words', result);
+	},
 	nouns: Ember.computed('words', function(){
 		return this.get('words')[1];
 	}),
@@ -202,6 +199,7 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 		findOrAdd(this.store, 'word', wordDto);
 		findOrAdd(this.store, 'bookWord', bookWordDto);
 		findOrAdd(this.store, 'translation', translationDto);
+		this.recalculateWords();
 	}
 });
 
@@ -293,27 +291,29 @@ Vocabulary.BookIndexRoute = Ember.Route.extend({
 	},
 	setupController: function(controller, model){
 	    this._super(controller, model);
+	    controller.recalculateWords();
 	    controller.initSiteDialog();
-	    Ember.run.schedule('afterRender', this, function() {
-	    	console.log('init popover');
-	    	$('#content').removeClass('grey');
-	    	$('#toolbox').removeClass('grey');
-	      	$('#install_ct_alert').modalPopover({
-			    target: '#word_input_form',
-			    placement: 'bottom',
-			    backdrop: true
-			});
-			window.addEventListener("message", function(event){
-				if(event.origin!==window.location.origin ||
-					event.data.type!=='addTranslation'){
-					return;
-				}
-				controller.addTranslation(event.data.book,
-					event.data.word,
-					event.data.bookWord,
-					event.data.translation);
-			});
-	    });
+	    Ember.run.schedule('afterRender', this, this.afterRender);
+	},
+	afterRender: function(controller){
+		var self = this;
+    	$('#content').removeClass('grey');
+    	$('#toolbox').removeClass('grey');
+      	$('#install_ct_alert').modalPopover({
+		    target: '#word_input_form',
+		    placement: 'bottom',
+		    backdrop: true
+		});
+		window.addEventListener("message", function(event){
+			if(event.origin!==window.location.origin ||
+				event.data.type!=='addTranslation'){
+				return;
+			}
+			self.get('controller').addTranslation(event.data.book,
+				event.data.word,
+				event.data.bookWord,
+				event.data.translation);
+		});
 	}
 });
 Vocabulary.BookLearnRoute = Ember.Route.extend({

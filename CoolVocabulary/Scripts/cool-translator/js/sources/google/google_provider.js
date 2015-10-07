@@ -34,7 +34,7 @@ GoogleProvider.prototype.processResponse = function(response) {
     // .TRANSLATIONS
     try {
         jsonObject.translations = {};
-        var translations = arr[1];
+        var translations = arr[1] || [];
         for (var i = translations.length - 1; i >= 0; i--) {
             var sp = SpeachParts.parseEn(translations[i][0]);
             jsonObject.translations[sp] = $.map(translations[i][2], function (entry) {
@@ -53,7 +53,7 @@ GoogleProvider.prototype.processResponse = function(response) {
     // .DEFINITIONS
     try {
         jsonObject.definitions = {};
-        var definitions = arr[10];
+        var definitions = arr[10] || [];
         for (var i = definitions.length - 1; i >= 0; i--) {
             var sp = SpeachParts.parseEn(definitions[i][0]);
             jsonObject.definitions[sp] = $.map(definitions[i][1], function (item) {
