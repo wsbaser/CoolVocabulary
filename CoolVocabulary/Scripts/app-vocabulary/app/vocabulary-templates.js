@@ -349,8 +349,8 @@ Ember.TEMPLATES["book/indexToolbox"] = Ember.HTMLBars.template((function() {
             "column": 1
           },
           "end": {
-            "line": 46,
-            "column": 93
+            "line": 49,
+            "column": 2
           }
         }
       },
@@ -362,8 +362,15 @@ Ember.TEMPLATES["book/indexToolbox"] = Ember.HTMLBars.template((function() {
         var el1 = dom.createElement("button");
         dom.setAttribute(el1,"class","btn btn-sm btn-success");
         dom.setAttribute(el1,"type","button");
-        var el2 = dom.createTextNode("Learn");
+        var el2 = dom.createTextNode("\n    ");
         dom.appendChild(el1, el2);
+        var el2 = dom.createElement("span");
+        dom.setAttribute(el2,"class","glyphicon glyphicon-book");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n    LEARN");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
         return el0;
       },
@@ -382,12 +389,12 @@ Ember.TEMPLATES["book/indexToolbox"] = Ember.HTMLBars.template((function() {
         "loc": {
           "source": null,
           "start": {
-            "line": 47,
+            "line": 50,
             "column": 1
           },
           "end": {
-            "line": 47,
-            "column": 96
+            "line": 52,
+            "column": 18
           }
         }
       },
@@ -399,7 +406,12 @@ Ember.TEMPLATES["book/indexToolbox"] = Ember.HTMLBars.template((function() {
         var el1 = dom.createElement("button");
         dom.setAttribute(el1,"class","btn btn-sm btn-warning");
         dom.setAttribute(el1,"type","button");
-        var el2 = dom.createTextNode("Examenate");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("span");
+        dom.setAttribute(el2,"class","glyphicon glyphicon-check");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n    CHECK");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
         return el0;
@@ -422,7 +434,7 @@ Ember.TEMPLATES["book/indexToolbox"] = Ember.HTMLBars.template((function() {
           "column": 0
         },
         "end": {
-          "line": 48,
+          "line": 53,
           "column": 6
         }
       }
@@ -566,10 +578,10 @@ Ember.TEMPLATES["book/indexToolbox"] = Ember.HTMLBars.template((function() {
       var el5 = dom.createTextNode("\n    		");
       dom.appendChild(el4, el5);
       var el5 = dom.createElement("span");
-      dom.setAttribute(el5,"class","glyphicon glyphicon-add");
+      dom.setAttribute(el5,"class","glyphicon glyphicon-plus");
       dom.setAttribute(el5,"aria-hidden","true");
       dom.appendChild(el4, el5);
-      var el5 = dom.createTextNode("\n    		Add\n    	");
+      var el5 = dom.createTextNode("\n    		ADD\n    	");
       dom.appendChild(el4, el5);
       dom.appendChild(el3, el4);
       var el4 = dom.createTextNode("\n  	");
@@ -589,7 +601,7 @@ Ember.TEMPLATES["book/indexToolbox"] = Ember.HTMLBars.template((function() {
       dom.appendChild(el1, el2);
       var el2 = dom.createComment("");
       dom.appendChild(el1, el2);
-      var el2 = dom.createTextNode("\n	");
+      var el2 = dom.createTextNode("	");
       dom.appendChild(el1, el2);
       var el2 = dom.createComment("");
       dom.appendChild(el1, el2);
@@ -615,9 +627,9 @@ Ember.TEMPLATES["book/indexToolbox"] = Ember.HTMLBars.template((function() {
       ["content","model.name",["loc",[null,[5,6],[5,20]]]],
       ["content","books.length",["loc",[null,[10,46],[10,62]]]],
       ["block","each",[["get","books",["loc",[null,[12,14],[12,19]]]]],[],0,null,["loc",[null,[12,6],[20,15]]]],
-      ["inline","input",[],["value",["subexpr","@mut",[["get","inputWord",["loc",[null,[35,16],[35,25]]]]],[],[]],"class","form-control input-sm","placeholder","Word to search or to add..."],["loc",[null,[35,2],[35,100]]]],
-      ["block","link-to",["book.learn"],[],1,null,["loc",[null,[46,1],[46,105]]]],
-      ["block","link-to",["book.exam"],[],2,null,["loc",[null,[47,1],[47,108]]]]
+      ["inline","input",[],["value",["subexpr","@mut",[["get","inputWord",["loc",[null,[35,16],[35,25]]]]],[],[]],"class","form-control input-sm","placeholder","Enter word here..."],["loc",[null,[35,2],[35,91]]]],
+      ["block","link-to",["book.learn"],[],1,null,["loc",[null,[46,1],[49,14]]]],
+      ["block","link-to",["book.exam"],[],2,null,["loc",[null,[50,1],[52,30]]]]
     ],
     locals: [],
     templates: [child0, child1, child2]

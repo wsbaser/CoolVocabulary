@@ -32,17 +32,22 @@
 
 <div class="col-xs-6">
 	<form id="word_input_form" class="input-group">
-		{{input value=inputWord class="form-control input-sm"  placeholder="Word to search or to add..."}}
+		{{input value=inputWord class="form-control input-sm"  placeholder="Enter word here..."}}
   	<span class="input-group-btn">
     	<button class="btn btn-sm btn-info" type="submit" >
-    		<span class="glyphicon glyphicon-add" aria-hidden="true"></span>
-    		Add
+    		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+    		ADD
     	</button>
   	</span>
   </form>
 </div>
 
 <div class="col-xs-2">
-	{{#link-to "book.learn"}}<button class="btn btn-sm btn-success" type="button">Learn</button>{{/link-to}}
-	{{#link-to "book.exam"}}<button class="btn btn-sm btn-warning" type="button">Examenate</button>{{/link-to}}
+	{{#link-to "book.learn"}}<button class="btn btn-sm btn-success" type="button">
+    <span class="glyphicon glyphicon-book"></span>
+    LEARN</button>
+  {{/link-to}}
+	{{#link-to "book.exam"}}<button class="btn btn-sm btn-warning" type="button">
+    <span class="glyphicon glyphicon-check"></span>
+    CHECK</button>{{/link-to}}
 </div>
