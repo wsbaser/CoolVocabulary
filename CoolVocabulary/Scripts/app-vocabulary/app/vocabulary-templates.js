@@ -306,16 +306,12 @@ Ember.TEMPLATES["book/indexToolbox"] = Ember.HTMLBars.template((function() {
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("span");
         dom.setAttribute(el3,"class","manageIcons");
-        var el4 = dom.createTextNode("\n          ");
+        var el4 = dom.createTextNode("\n");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("          ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("span");
-        dom.setAttribute(el4,"class","glyphicon glyphicon-remove pull-right");
-        dom.setAttribute(el4,"title","Remove book");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n          ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("span");
-        dom.setAttribute(el4,"class","glyphicon glyphicon-pencil pull-right");
+        dom.setAttribute(el4,"class","glyphicon glyphicon-cog pull-right");
         dom.setAttribute(el4,"style","margin-right: 10px");
         dom.setAttribute(el4,"title","Rename book");
         dom.appendChild(el3, el4);
@@ -918,11 +914,11 @@ Ember.TEMPLATES["components/speachpart-block"] = Ember.HTMLBars.template((functi
           "loc": {
             "source": null,
             "start": {
-              "line": 9,
+              "line": 10,
               "column": 5
             },
             "end": {
-              "line": 11,
+              "line": 12,
               "column": 5
             }
           }
@@ -946,7 +942,7 @@ Ember.TEMPLATES["components/speachpart-block"] = Ember.HTMLBars.template((functi
           return morphs;
         },
         statements: [
-          ["content","translation.value",["loc",[null,[10,6],[10,27]]]]
+          ["content","translation.value",["loc",[null,[11,6],[11,27]]]]
         ],
         locals: ["translation"],
         templates: []
@@ -958,11 +954,11 @@ Ember.TEMPLATES["components/speachpart-block"] = Ember.HTMLBars.template((functi
         "loc": {
           "source": null,
           "start": {
-            "line": 4,
+            "line": 5,
             "column": 2
           },
           "end": {
-            "line": 14,
+            "line": 15,
             "column": 2
           }
         }
@@ -1018,9 +1014,9 @@ Ember.TEMPLATES["components/speachpart-block"] = Ember.HTMLBars.template((functi
         return morphs;
       },
       statements: [
-        ["attribute","title",["concat",[["get","data.bookword.word.value",["loc",[null,[6,30],[6,54]]]]]]],
-        ["content","data.bookword.word.value",["loc",[null,[6,58],[6,86]]]],
-        ["block","each",[["get","data.translations",["loc",[null,[9,13],[9,30]]]]],[],0,null,["loc",[null,[9,5],[11,14]]]]
+        ["attribute","title",["concat",[["get","data.bookword.word.value",["loc",[null,[7,30],[7,54]]]]]]],
+        ["content","data.bookword.word.value",["loc",[null,[7,58],[7,86]]]],
+        ["block","each",[["get","data.translations",["loc",[null,[10,13],[10,30]]]]],[],0,null,["loc",[null,[10,5],[12,14]]]]
       ],
       locals: ["data"],
       templates: [child0]
@@ -1036,7 +1032,7 @@ Ember.TEMPLATES["components/speachpart-block"] = Ember.HTMLBars.template((functi
           "column": 0
         },
         "end": {
-          "line": 16,
+          "line": 18,
           "column": 6
         }
       }
@@ -1058,12 +1054,18 @@ Ember.TEMPLATES["components/speachpart-block"] = Ember.HTMLBars.template((functi
       var el2 = dom.createTextNode("\n	");
       dom.appendChild(el1, el2);
       var el2 = dom.createElement("table");
-      dom.setAttribute(el2,"class","table table-striped");
-      var el3 = dom.createTextNode("\n");
+      dom.setAttribute(el2,"class","sp-words table");
+      var el3 = dom.createTextNode("\n		");
       dom.appendChild(el2, el3);
-      var el3 = dom.createComment("");
+      var el3 = dom.createElement("tbody");
+      var el4 = dom.createTextNode("\n");
+      dom.appendChild(el3, el4);
+      var el4 = dom.createComment("");
+      dom.appendChild(el3, el4);
+      var el4 = dom.createTextNode("		");
+      dom.appendChild(el3, el4);
       dom.appendChild(el2, el3);
-      var el3 = dom.createTextNode("	");
+      var el3 = dom.createTextNode("\n	");
       dom.appendChild(el2, el3);
       dom.appendChild(el1, el2);
       var el2 = dom.createTextNode("\n");
@@ -1075,12 +1077,12 @@ Ember.TEMPLATES["components/speachpart-block"] = Ember.HTMLBars.template((functi
       var element2 = dom.childAt(fragment, [0]);
       var morphs = new Array(2);
       morphs[0] = dom.createMorphAt(dom.childAt(element2, [1]),0,0);
-      morphs[1] = dom.createMorphAt(dom.childAt(element2, [3]),1,1);
+      morphs[1] = dom.createMorphAt(dom.childAt(element2, [3, 1]),1,1);
       return morphs;
     },
     statements: [
       ["content","title",["loc",[null,[2,24],[2,33]]]],
-      ["block","each",[["get","words",["loc",[null,[4,10],[4,15]]]]],[],0,null,["loc",[null,[4,2],[14,11]]]]
+      ["block","each",[["get","words",["loc",[null,[5,10],[5,15]]]]],[],0,null,["loc",[null,[5,2],[15,11]]]]
     ],
     locals: [],
     templates: [child0]

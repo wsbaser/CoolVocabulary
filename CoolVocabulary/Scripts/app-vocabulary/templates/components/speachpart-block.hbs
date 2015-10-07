@@ -1,6 +1,7 @@
 <div class="sp-block">
 	<div class="sp-header">{{title}}</div>
-	<table class="table table-striped">
+	<table class="sp-words table">
+		<tbody>
 		{{#each words as |data|}}
 			<tr class="word-translation">
 				<td class="word" title='{{data.bookword.word.value}}'>{{data.bookword.word.value}}</td>
@@ -12,5 +13,6 @@
 				</td>
 			</tr>
 		{{/each}}
+		</tbody>
 	</table>
 </div>
