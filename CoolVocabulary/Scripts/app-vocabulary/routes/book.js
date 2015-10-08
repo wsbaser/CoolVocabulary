@@ -1,6 +1,7 @@
 Vocabulary.BookRoute = Ember.Route.extend({
 	model: function(params){
 		this.set('id', params.book_id);
+		// . load data for existing book
 		return this.store.query('book', {
 			language: 0,
 			bookId: params.book_id

@@ -6,7 +6,9 @@ Vocabulary.Router.map(function(){
   this.route('book', { path: 'book/:book_id' },function(){
     this.route('learn');
     this.route('exam');
+    this.route('edit');
   });
+  this.route('createBook');
 });
 
 Vocabulary.ApplicationAdapter = DS.RESTAdapter.extend({

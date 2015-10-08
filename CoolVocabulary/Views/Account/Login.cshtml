@@ -5,15 +5,15 @@
 }
 <link href="~/Content/account.css" rel="stylesheet" />
 
-<div class="login-container">
-    <div class="login-ui">
-        <div class="call-to-action">
+<div class="centered-container">
+    <div class="centered-ui">
+        <div class="centered-header">
             Sign in to continue to <div class="site-name-container">
                 <img class="site-logo" src="//cdn.sstatic.net/stackoverflow/img/apple-touch-icon.png">
                 <div class="site-name">Cool Vocabulary</div>
             </div>
         </div>
-        <div id="formContainer">
+        <div class="form-container">
             @using (Html.BeginForm("ExternalLogin", "Account", new { returnUrl = ViewBag.ReturnUrl })){
                 @Html.AntiForgeryToken()
                 <div id="openid-buttons">

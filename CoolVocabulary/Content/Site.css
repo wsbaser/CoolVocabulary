@@ -88,3 +88,75 @@ input[type="checkbox"].input-validation-error {
     margin-right:15px;
     float:left;
 }
+
+/* CENTERED. STRUCTURE */
+
+.centered-container {
+    width: 980px;
+    margin: 30px auto;
+}
+.centered-ui {
+    padding-top: 20px;
+    text-align: center;
+}
+.centered-ui .form-container {
+    width: 280px;
+    margin: 0 auto;
+    padding: 30px;
+    border: 1px solid #e6e6e6;
+    background: #fff;
+    box-sizing: content-box;
+}
+
+.centered-header {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+
+/* CENTERED. FORM */
+
+.form-container form {
+    text-align: left;
+}
+
+.form-container form input {
+    margin: 5px 0 5px 0;
+    transition: none;
+}
+
+.form-container form input[type=text],
+.form-container form input[type=email],
+.form-container form input[type=password] {
+    color: #2a2a28;
+    width: 263px;
+    line-height: 1.3;
+    font-size: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    height: 18px;
+    border: 1px solid #e6e6e6;
+    border-radius: 0;
+    cursor: auto !important;
+    box-sizing: content-box;
+}
+
+.form-container form input[type=button],
+.form-container form input[type=submit] {
+    text-align: center;
+    background: #07c;
+    color: #fff;
+    border-radius: 3px;
+    width: 120px;
+    padding: 12px 40px;
+    box-shadow: none;
+    text-shadow: none;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 0 !important;
+}
+
+.form-container form > label {
+    margin: 0;
+}

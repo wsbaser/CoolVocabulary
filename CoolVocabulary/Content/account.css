@@ -1,37 +1,17 @@
-﻿.login-container {
-    width: 980px;
-    margin: 30px auto;
-}
-.login-ui {
-    padding-top: 20px;
-    text-align: center;
-}
-.call-to-action {
-    margin-bottom: 10px;
-    font-size: 16px;
-}
-.call-to-action .site-name-container {
+﻿.centered-header .site-name-container {
     display: inline-block;
 }
-.call-to-action .site-logo {
+.centered-header .site-logo {
     vertical-align: middle;
     width: 24px;
     height: 24px;
     margin-right: 0;
 }
-.call-to-action .site-name {
+.centered-header .site-name {
     display: inline-block;
     font-weight: bold;
 }
 
-#formContainer {
-    width: 280px;
-    margin: 0 auto;
-    padding: 30px;
-    border: 1px solid #e6e6e6;
-    background: #fff;
-    box-sizing: content-box;
-}
 #openid-buttons {
     text-align: left;
 }
@@ -120,10 +100,6 @@
     background-color: #fff;
 }
 
-#cv-login-form {
-    text-align: left;
-}
-
 #switch {
     padding: 20px;
     border: 1px solid #e6e6e6;
@@ -131,47 +107,6 @@
     margin: 20px auto;
     background: #fff;
     box-sizing: content-box;
-}
-
-#cv-login-form input {
-    margin: 5px 0 5px 0;
-    transition: none;
-}
-
-#cv-login-form input[type=text],
-#cv-login-form input[type=email],
-#cv-login-form input[type=password] {
-    color: #2a2a28;
-    width: 263px;
-    line-height: 1.3;
-    font-size: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    height: 18px;
-    border: 1px solid #e6e6e6;
-    border-radius: 0;
-    cursor: auto !important;
-    box-sizing: content-box;
-}
-
-#cv-login-form input[type=button],
-#cv-login-form input[type=submit] {
-    text-align: center;
-    background: #07c;
-    color: #fff;
-    border-radius: 3px;
-    width: 120px;
-    padding: 12px 40px;
-    box-shadow: none;
-    text-shadow: none;
-    text-decoration: none;
-    border: none;
-    cursor: pointer;
-    margin-bottom: 0 !important;
-}
-
-#cv-login-form > label {
-    margin: 0;
 }
 
 /* External Login Confirmation */

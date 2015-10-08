@@ -21,13 +21,16 @@
       {{/each}}
 
       <li role="separator" class="divider"></li>
-      <li><a class="addBookLink" href="#">
-        <span class="glyphicon glyphicon-plus" style="margin-right:10px;" aria-hidden="true"></span>Add Empty Book</a>
+      <li>
+        {{#link-to "createBook" class="addBookLink"}}
+          <span class="glyphicon glyphicon-plus" style="margin-right:10px; color:#5bc0de;" aria-hidden="true"></span>
+          Add Book
+        {{/link-to}}
       </li>
-      <li><a class="findBookLink" href="#">
+{{!--       <li><a class="findBookLink" href="#">
         <span class="glyphicon glyphicon-search" style="margin-right:10px;" aria-hidden="true"></span>Find Book</a>
       </li>
-    </ul>
+ --}}    </ul>
   </div>
 </div>
 
