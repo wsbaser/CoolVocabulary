@@ -34,7 +34,7 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 	},
 	recalculateWords: function(){
 		var bookId = this.get('model').id;
-		var all = this.store.peekAll('bookWord').toArray();
+		var all = this.store.peekAll('bookWord').filterBy('book.id', bookId);
 		var result = {};
 		for (var i = all.length - 1; i >= 0; i--) {
 			var bookword = all[i];

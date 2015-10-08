@@ -1,7 +1,8 @@
 Vocabulary.IndexRoute = Ember.Route.extend({
 	model: function(params){
 		return this.store.query('book', {
-			language: 0
+			language: 0,
+			bookId: 0
 		});
 	},
 	afterModel: function(books, transition) {

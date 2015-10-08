@@ -21,7 +21,7 @@ namespace CoolVocabulary.Controllers.api
         private VocabularyDbContext db = new VocabularyDbContext();
 
         // GET api/Book
-        public dynamic GetBooks(int language) {
+        public dynamic GetBooks(int language, int bookId) {
             // . get books of current user
             var userID = User.Identity.GetUserId();
             var books = new List<dynamic>();
@@ -39,27 +39,36 @@ namespace CoolVocabulary.Controllers.api
             }
 
             // . get words of current book
-            var currentBook = books.First();
+            dynamic currentBook = bookId == 0?
+                currentBook = books.First():
+                books.SingleOrDefault(b=>b.id==bookId);
+            if(currentBook==null)
+                return BadRequest("Invalid bookId");
             int currentBookId = currentBook.id;
-            foreach (var bookWord in db.BookWords.Where(v => v.BookId == currentBookId).Include("Word").Include("Translations")) {
+            foreach (var bookWord in db.BookWords.Where(v => v.BookId == currentBookId).Include("Word").Include("Translations"))
+            {
                 currentBook.bookWords.Add(bookWord.Id);
-                bookWords.Add(new {
+                bookWords.Add(new
+                {
                     id = bookWord.Id,
                     learnProgress = bookWord.LearnProgress,
                     word = bookWord.WordId,
                     book = bookWord.BookId,
-                    translations = bookWord.Translations.Select(t=>t.Id).ToList()
+                    translations = bookWord.Translations.Select(t => t.Id).ToList()
                 });
-                words.Add(new {
+                words.Add(new
+                {
                     id = bookWord.Word.Id,
-                    value =  bookWord.Word.Value,
+                    value = bookWord.Word.Value,
                     language = ((LanguageType)bookWord.Word.Language).ToString(),
                     pictureUrl = bookWord.Word.PictureUrls,
                     pronunciation = bookWord.Word.Pronunciation,
                     soundUrls = bookWord.Word.SoundUrls
                 });
-                foreach (Translation translation in bookWord.Translations) {
-                    translations.Add(new {
+                foreach (Translation translation in bookWord.Translations)
+                {
+                    translations.Add(new
+                    {
                         id = translation.Id,
                         value = translation.Value,
                         language = ((LanguageType)translation.Language).ToString(),

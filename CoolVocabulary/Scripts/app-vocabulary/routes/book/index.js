@@ -8,6 +8,7 @@ Vocabulary.BookIndexRoute = Ember.Route.extend({
 	// 	console.log('model hook is called for BookIndexRoute');
 	// },
 	setupController: function(controller, model){
+		model = this.controllerFor('book').get('model');
 	    this._super(controller, model);
 	    controller.recalculateWords();
 	    controller.initSiteDialog();

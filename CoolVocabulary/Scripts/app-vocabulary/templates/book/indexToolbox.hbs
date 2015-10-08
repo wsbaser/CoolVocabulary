@@ -3,20 +3,21 @@
     <input id="newBookName" type="text" value="New words - 1">
     <a id="currentBook" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
       {{model.name}}
-      {{!-- {{currentBook}} --}}
       <span class="caret"></span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="currentBook">
       <li class="dropdown-header">Your books: {{books.length}}</li>
 
       {{#each books as |book|}}
-      <li><a class="bookLink" href="#">
+      <li>
+        {{#link-to "book" book.id class="bookLink"}}
         {{book.name}}
         <span class="manageIcons">
           {{!-- <span class="glyphicon glyphicon-remove pull-right"  title="Remove book"></span> --}}
           <span class="glyphicon glyphicon-cog pull-right" style="margin-right: 10px" title="Rename book"></span>
         </span>
-      </a></li>
+        {{/link-to}}
+      </li>
       {{/each}}
 
       <li role="separator" class="divider"></li>
