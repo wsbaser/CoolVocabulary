@@ -133,17 +133,34 @@ ctrContent.handlers.keyDown = function(e) {
     else {
         // Dialog is Hidden
         if (e.ctrlKey && e.keyCode === 32) {      // Ctrl + Space
-             Dialog.showForExtension();
+            if(ctrContent.dataFromSite)
+                ctrContent.showDialogForSite();
+            else
+                Dialog.showForExtension();
             return cancelEvent(e);
         }
     }
 };
 
+ctrContent.dataFromSite = null;
+ctrContent.showDialogForSite = function(word){
+    Dialog.showForSite(ctrContent.dataFromSite.langPair, 
+        ctrContent.dataFromSite.attachBlockSelector, 
+        word, 
+        ctrContent.dataFromSite.bookId, 
+        ctrContent.dataFromSite.user);
+};
+
 ctrContent.initSiteDialog = function(langPair, attachBlockSelector, bookId, user){
+    ctrContent.dataFromSite = {
+        langPair: langPair,
+        attachBlockSelector: attachBlockSelector,
+        bookId: bookId,
+        user: user
+    };
     var attachBlockEl = $(attachBlockSelector);
-    var inputEl = attachBlockEl.find('input');
     attachBlockEl.on('submit', function(event){
-        Dialog.showForSite(langPair, attachBlockSelector, inputEl.val(), bookId, user);
+        ctrContent.showDialogForSite(attachBlockEl.find('input').val());
         return false;
     });
 };
