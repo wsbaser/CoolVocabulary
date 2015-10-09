@@ -133,18 +133,33 @@ namespace CoolVocabulary.Controllers.api
         }
 
         // POST api/Book
-        [ResponseType(typeof(Book))]
-        public async Task<IHttpActionResult> PostBook(Book book)
+        public async Task<IHttpActionResult> PostBook(BookDto bookDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
+            LanguageType bookLanguage;
+            if (!Enum.TryParse<LanguageType>(bookDto.language, out bookLanguage))
+            {
+                return BadRequest("Invalid book language");
+            }
+            var book = new Book
+            {
+                UserId = User.Identity.GetUserId(),
+                Name = bookDto.name,
+                Language = (int)bookLanguage
+            };
             db.Books.Add(book);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = book.Id }, book);
+            return CreatedAtRoute("DefaultApi", new { id = book.Id },
+                new
+                {
+                    emberDataFormat = true,
+                    books = new List<dynamic> { new BookDto(book) }
+                });
         }
 
         // DELETE api/Book/5

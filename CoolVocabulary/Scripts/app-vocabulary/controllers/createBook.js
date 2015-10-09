@@ -1,7 +1,12 @@
 Vocabulary.CreateBookController = Ember.Controller.extend({
 	actions: {
 		createBook: function(){
-			console.log('create book action activated');
+			var self = this;
+			console.log('create book action called');
+			this.model.save().then(function(createdBook){
+				console.log('book saved');
+				self.transitionToRoute('book', createdBook);
+			});
 		}
 	}
 });

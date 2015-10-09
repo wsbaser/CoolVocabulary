@@ -34,6 +34,7 @@ namespace CoolVocabulary.Models {
 
     public class BookDto
     {
+        public BookDto() { }
         public BookDto(Book book)
         {
             this.id = book.Id;
@@ -43,7 +44,9 @@ namespace CoolVocabulary.Models {
         }
         public int id { get; set; }
         public string userId { get; set; }
+        [Required, MaxLength(100)]
         public string name { get; set; }
+        [Required, MaxLength(2)]
         public string language { get; set; }
     }
 

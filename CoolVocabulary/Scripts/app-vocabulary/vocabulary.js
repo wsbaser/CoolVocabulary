@@ -51,10 +51,10 @@ Vocabulary.ApplicationSerializer = DS.RESTSerializer.extend({
   },
   serializeIntoHash: function(hash, type, record, options) {
     var jsonRecord, propertyName, value;
-    jsonRecord = record.toJSON();
+    jsonRecord = record.record.toJSON();
     for (propertyName in jsonRecord) {
       value = jsonRecord[propertyName];
-      hash[propertyName.capitalize()] = value;
+      hash[propertyName] = value;
     }
   }
 });
