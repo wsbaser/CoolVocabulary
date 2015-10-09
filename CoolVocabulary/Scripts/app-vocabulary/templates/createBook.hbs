@@ -6,8 +6,9 @@
         <div class="form-container">
             <form {{action "createBook" on="submit"}} class="clearfix">
                 <label for="Name">Name</label>
-                {{input preventDefault=true value=model.name id="Name" name="Name"  type="text" required="true" placeholder="Type in book name"}}
+                {{focus-input value=model.name id="Name" name="Name"  type="text" required="true" placeholder="Type in book name"}}
                 <div class="validation-summary">{{validationError}}</div>
+                <input type="button" {{action "cancel"}} value="Cancel"/>
                 {{input type="submit" class="pull-right" value="Create"}}
             </form>
         </div>

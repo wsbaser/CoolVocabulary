@@ -7,6 +7,10 @@ Vocabulary.CreateBookController = Ember.Controller.extend({
 				console.log('book saved');
 				self.transitionToRoute('book', createdBook);
 			});
+		},
+		cancel: function(){
+			console.log('cancel');
+			window.history.go(-1);
 		}
 	}
 });

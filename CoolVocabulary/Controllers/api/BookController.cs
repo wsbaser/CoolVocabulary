@@ -99,19 +99,16 @@ namespace CoolVocabulary.Controllers.api
         }
 
         // PUT api/Book/5
-        public async Task<IHttpActionResult> PutBook(int id, Book book)
+        public async Task<IHttpActionResult> PutBook(int id, BookDto bookDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != book.Id)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(book).State = EntityState.Modified;
+            var book = db.Books.Find(id);
+            book.Name = bookDto.name;
+            //db.Entry(book).State = EntityState.Modified;
 
             try
             {

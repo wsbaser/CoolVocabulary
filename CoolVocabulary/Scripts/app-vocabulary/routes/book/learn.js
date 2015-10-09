@@ -1,7 +1,7 @@
 Vocabulary.BookLearnRoute = Ember.Route.extend({
 	renderTemplate: function(){
-		this.render('book/learnToolbox', {outlet:'toolbox'});
-		this.render('book/learn', {outlet:'content'});
+		this.render('book/learnToolbox', {outlet: 'toolbox'});
+		this.render('book/learn', {outlet: 'content'});
 	},
 	setupController: function(controller, model){
 		this._super(controller, model);

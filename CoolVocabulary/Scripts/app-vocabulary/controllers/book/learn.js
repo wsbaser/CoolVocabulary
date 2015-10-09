@@ -17,7 +17,7 @@ Vocabulary.LearnController = Ember.Controller.extend({
 		var SCROLL_TIME = 300;	// мс.
 		$('.learning-cards-shadow').scrollTo(scrollOffset, SCROLL_TIME);
 		$('.learning-cards').scrollTo(scrollOffset, SCROLL_TIME);
-	},
+	}
 	// function(index){
 	// 	if(index<0 || index>(this.get('cards').length-1))
 	// 		return;

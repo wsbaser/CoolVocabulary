@@ -13,8 +13,9 @@
         {{#link-to "book" book.id class="bookLink"}}
         {{book.name}}
         <span class="manageIcons">
-          {{!-- <span class="glyphicon glyphicon-remove pull-right"  title="Remove book"></span> --}}
+          {{#link-to "book.edit" book}}
           <span class="glyphicon glyphicon-cog pull-right" style="margin-right: 10px" title="Rename book"></span>
+          {{/link-to}}
         </span>
         {{/link-to}}
       </li>
