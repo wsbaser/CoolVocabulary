@@ -1,6 +1,10 @@
 <div id="bookContainer" class="col-xs-4" >
   <div id="currentBookDropdown" class="dropdown">
-    <input id="newBookName" type="text" value="New words - 1">
+    <span style="line-height:34px">
+      {{#link-to "book.edit" model}}
+        <span class="glyphicon glyphicon-cog" style="margin-right: 10px;color:#5bc0de;" title="Edit book"></span>
+      {{/link-to}}
+    </span>
     <a id="currentBook" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
       {{model.name}}
       <span class="caret"></span>
@@ -12,11 +16,7 @@
       <li>
         {{#link-to "book" book.id class="bookLink"}}
         {{book.name}}
-        <span class="manageIcons">
-          {{#link-to "book.edit" book}}
-          <span class="glyphicon glyphicon-cog pull-right" style="margin-right: 10px" title="Rename book"></span>
-          {{/link-to}}
-        </span>
+        <span class="manageIcons"></span>
         {{/link-to}}
       </li>
       {{/each}}

@@ -6,6 +6,8 @@ Vocabulary.CreateBookController = Ember.Controller.extend({
 			this.model.save().then(function(createdBook){
 				console.log('book saved');
 				self.transitionToRoute('book', createdBook);
+			}, function(error){
+				console.log(error);
 			});
 		},
 		cancel: function(){

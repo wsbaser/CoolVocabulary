@@ -3,7 +3,7 @@ Vocabulary.BookEditController = Ember.Controller.extend({
 		save: function(){
 			var self = this;
 			this.model.save().then(function(savedBook){
-				self.transitionToRoute('book', savedBook);
+				self.transitionToRoute('book', savedBook.get('id'));
 			});
 		},
 		cancel: function(){
