@@ -6,7 +6,7 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
     }.property(),
 	initSiteDialog: function(){
 		var self = this;
-		var ctAdapter =  new CTAdapter();
+		var ctAdapter = new CTAdapter();	
 		var langPair = this.get('applicationCtrl').langPair;
 		var books = this.get('books').map(function(book){ 
 			return {
@@ -21,14 +21,12 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 		};
 		var bookId = this.get('model').id;
 		ctAdapter.initSiteDialog(langPair, '#word_input_form', user, bookId, function(){
-			if(ctAdapter.extensionIsActive){
-				return;
+			if(!ctAdapter.extensionIsActive){
+				$('#word_input_form').on('submit', self.showInstallCTAlert.bind(self));
 			}
-			$('#word_input_form').on('submit', self.showInstallCTAlert);
 		});
 	},
 	showInstallCTAlert: function(){
-		console.log('show popover');
 		$('#install_ct_alert').modalPopover('show');
 		return false;
 	},
