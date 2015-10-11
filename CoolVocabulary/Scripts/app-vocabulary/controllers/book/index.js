@@ -30,13 +30,20 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 		$('#install_ct_alert').modalPopover('show');
 		return false;
 	},
+	// . create an object, containing words separated by speach part
+	// {
+	//	noun: [{bookword,translations},...],
+	//	adjective: [{bookword,translations},...],
+	//	verb: [{bookword,translations},...],
+	//	adverb: [{bookword,translations},...]	
+	// }
 	recalculateWords: function(){
 		var bookId = this.get('model').id;
 		var all = this.store.peekAll('bookWord').filterBy('book.id', bookId);
 		var result = {};
 		for (var i = all.length - 1; i >= 0; i--) {
-			var bookword = all[i];
-			var translations = bookword.get('translations').toArray();
+			var bookWord = all[i];
+			var translations = bookWord.get('translations').toArray();
 			for (var j = translations.length - 1; j >= 0; j--) {
 				var translation = translations[j];
 				var speachPart = translation.get('speachPart');
@@ -44,21 +51,22 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 				if(!spPairs){
 					spPairs = result[speachPart] = {};
 				}
-				var pair = spPairs[bookword.id];
+				var pair = spPairs[bookWord.id];
 				if(!pair){
-					pair = spPairs[bookword.id] = {
-						bookword : bookword,
+					pair = spPairs[bookWord.id] = {
+						bookWord : bookWord,
 						translations : []
 					};
 				}
 				pair.translations.push(translation);
 			}
 		}
+		// . make an array of words from object, so we'll be able to use it in handlebars
 		for (var sp in result){
 			var wordsObj = result[sp];
 			var wordsArr = [];
-			for (var bookwordId in wordsObj) {
-				wordsArr.push(wordsObj[bookwordId]);
+			for (var bookWordId in wordsObj) {
+				wordsArr.push(wordsObj[bookWordId]);
 			}
 			result[sp] = wordsArr;
 		}
@@ -91,5 +99,10 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 		findOrAdd(this.store, 'bookWord', bookWordDto);
 		findOrAdd(this.store, 'translation', translationDto);
 		this.recalculateWords();
+	},
+	actions: {
+		showWordDetails: function(bookWordId){
+			this.transitionToRoute('wordTranslation', bookWordId);
+		}
 	}
 });
