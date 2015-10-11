@@ -111,13 +111,15 @@
         return this.each(function () {
             var $this = $(this);
             var data = $this.data('modal-popover');
-            var options = $.extend({}, $.fn.modalPopover.defaults, $this.data(), typeof option == 'object' && option);
-            // todo need to replace 'parent' with 'target'
-            options['$parent'] = (data && data.$parent) || option.$parent || $(options.target);
-
-            if (!data) $this.data('modal-popover', (data = new ModalPopover(this, options)))
-
-            if (typeof option == 'string') data[option]()
+            if (typeof option == 'string')
+                data[option]();
+            else {
+                var options = $.extend({}, $.fn.modalPopover.defaults, $this.data(), typeof option == 'object' && option);
+                // todo need to replace 'parent' with 'target'
+                options['$parent'] = option.$parent || $(options.target) || (data && data.$parent);
+                //if (!data)
+                $this.data('modal-popover', (data = new ModalPopover(this, options)))
+            }
         })
     }
 
