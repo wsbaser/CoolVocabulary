@@ -7,8 +7,7 @@ Vocabulary.BookEditController = Ember.Controller.extend({
 			});
 		},
 		cancel: function(){
-			console.log('cancel');
-			window.history.go(-1);
+			this.transitionToRoute('book');
 		},
 		delete: function(){
 			this.model.destroyRecord();

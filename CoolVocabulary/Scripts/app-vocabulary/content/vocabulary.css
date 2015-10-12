@@ -3,6 +3,14 @@
 	background: #f6f6f6 !important;
 }
 
+.color-blue{
+	color: #5bc0de
+}
+
+.light-shadow{
+	box-shadow: 0px 2px 10px #999;
+}
+
 .full-height{
 	height:100%;
 }
@@ -30,8 +38,6 @@
 	padding-left: 5px;
 	font-size:14px;
 	border:0;
-	box-shadow: 0px 2px 10px #999;
-	/*border-bottom: solid 1px #e5e5e5;*/
 	text-transform: uppercase;
 	background: #E0EAEA; /*#5bc0de;*/ /*rgb(235,248,253);*/	/* #f0f0f0; */
 	opacity: 0.7;
@@ -96,11 +102,14 @@
 .word-translation .show-details{
 	width: 10%;
 	cursor: pointer;
+	padding: 3px;
+	text-decoration: none;
 }
-.word-translation .show-details:hover{
-	background: #5bc0de; /*#47a447;*/
-	opacity: 0.88;
 
+.word-translation .show-details.active,
+.word-translation .show-details:hover{
+	background: #5bc0de;
+	opacity: 0.88;
 }
 
 /* LEARNING */
@@ -254,4 +263,58 @@ a:hover .manageIcons .glyphicon {
 .addBookLink .glyphicon,
 .bookLink .glyphicon-pencil {
     margin-right: 10px;
+}
+
+/* Word Details Popover */
+#word_details_popover{
+	position: absolute;
+	background: #fafafa;
+	border-radius: 0 0 5px 5px;
+	border-top: 3px solid #080808;
+	margin-top: -1px;
+}
+
+#word_details_popover:focus{
+	outline: none;
+}
+
+.word-info{
+	margin: 10px;
+	font-size: 16px;
+}
+
+.word-sound{
+	cursor: pointer;
+	padding-left: 5px;
+	display: inline-block;
+}
+
+.pronunciation-wrap{
+	margin-left: 10px;
+}
+
+.pronunciation{
+	color: #777;
+	font-size: 0.85em;
+	font-family:'Lucida Console', monospace;
+}
+
+.word-pictures{
+	padding: 0;
+	margin: 0 10px;
+	text-align: center;
+}
+
+.word-pictures > li{
+	display: inline-block;
+	list-style-type: none;
+	padding: 3px;
+	cursor: pointer;
+}
+
+.word-pictures > li > img {
+ 	height: auto; 
+    width: auto; 
+    max-width: 30px; 
+    max-height: 30px;
 }

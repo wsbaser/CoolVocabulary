@@ -1,8 +1,19 @@
-<div tabIndex="1" id="word_details_popover" class="popover">
-   	<div class="arrow"></div>
-   	<div class="popover-content">
-          BookWord
-          id:{{model.id}}
-          name:{{model.name}}
+<div tabIndex="1" id="word_details_popover" class="light-shadow">
+   	<div class="popover-content clearfix">
+   		{{word-pictures word=model.word}}
+   		<div class="word-info">
+	   		<div class="word-wrap">
+          <span class="word">{{model.word.value}}</span>
+          {{word-sound word=model.word}}
+        </div>
+        <div class="pronunciation-wrap">
+	   		  [<span class="pronunciation">{{model.word.pronunciation}}</span>]
+        </div>
+		</div>
+        {{word-translations model.translations}}
+        {{#link-to "book.learn" model}}<button class="btn btn-xs btn-success pull-right" type="button">
+    		<span class="glyphicon glyphicon-book"></span>
+    		Learn word</button>
+  		{{/link-to}}
    	</div>
 </div>

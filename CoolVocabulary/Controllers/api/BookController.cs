@@ -61,7 +61,7 @@ namespace CoolVocabulary.Controllers.api
                     id = bookWord.Word.Id,
                     value = bookWord.Word.Value,
                     language = ((LanguageType)bookWord.Word.Language).ToString(),
-                    pictureUrl = bookWord.Word.PictureUrls,
+                    pictureUrls = bookWord.Word.PictureUrls,
                     pronunciation = bookWord.Word.Pronunciation,
                     soundUrls = bookWord.Word.SoundUrls
                 });

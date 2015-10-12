@@ -99,10 +99,5 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 		findOrAdd(this.store, 'bookWord', bookWordDto);
 		findOrAdd(this.store, 'translation', translationDto);
 		this.recalculateWords();
-	},
-	actions: {
-		showWordDetails: function(bookWordId){
-			this.transitionToRoute('wordTranslation', bookWordId);
-		}
 	}
 });

@@ -1,6 +1,5 @@
 Vocabulary.WordTranslationRoute = Ember.Route.extend({
 	renderTemplate: function() {
-		console.log('render wordTranslation template');
 		this.render('wordTranslation', { into: "book", outlet: 'wordTranslation' });
 	},
 	model: function(params){
@@ -12,6 +11,7 @@ Vocabulary.WordTranslationRoute = Ember.Route.extend({
 		Ember.run.schedule('afterRender', this, this.afterRender);
 	},
 	afterRender: function(){
+		var self = this;
 		var bookWordId = this.modelFor('wordTranslation').id;
 		var popoverEl = $('#word_details_popover');
 		// . initialize popover
@@ -23,12 +23,15 @@ Vocabulary.WordTranslationRoute = Ember.Route.extend({
 		    keyboard: true
 		});
 
+		// . set popover width
+		popoverEl.css('width', ($('.sp-block').width()-10)+'px');
+
 		// . show popover
 		popoverEl.modalPopover('show');
 
 		// . listen for events to hide "Word Details" popover
-		popoverEl.on('blur', function(){
-			popoverEl.modalPopover('hide');
-		});
+		// popoverEl.on('blur', function(){
+		// 	self.transitionTo('book');
+		// });
 	}
 });

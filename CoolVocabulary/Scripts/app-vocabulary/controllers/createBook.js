@@ -11,7 +11,6 @@ Vocabulary.CreateBookController = Ember.Controller.extend({
 			});
 		},
 		cancel: function(){
-			console.log('cancel');
 			window.history.go(-1);
 		}
 	}
