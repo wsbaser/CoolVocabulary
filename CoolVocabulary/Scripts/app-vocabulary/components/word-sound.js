@@ -13,9 +13,17 @@ Vocabulary.WordSoundComponent = Ember.Component.extend({
 		}
 		return result;
 	}),
+	didInsertElement: function(){
+		this.playSound();
+	},
+	playSound: function(){
+		if(this.get('hasSound')){
+			this.$('audio')[0].play();
+		}
+	},
 	actions: {
 		play: function(){
-			this.$('audio')[0].play();
+			this.playSound();
 		}
 	}
 });
