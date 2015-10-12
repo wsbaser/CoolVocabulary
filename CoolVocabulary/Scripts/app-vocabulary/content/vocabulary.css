@@ -318,11 +318,25 @@ a:hover .manageIcons .glyphicon {
 	list-style-type: none;
 	padding: 3px;
 	cursor: pointer;
+	position: relative;
 }
 
-.word-pictures > li > img {
- 	height: auto; 
-    width: auto; 
-    max-width: 30px; 
-    max-height: 30px;
+.word-pictures .picSmall {
+ 	height: 30px; 
+}
+
+.word-pictures .picBig {
+ 	position: absolute;
+ 	visibility: hidden;
+ 	opacity: 0;
+ 	left: 3px;
+ 	top: 34px;
+ 	z-index: 1;
+}
+
+.word-pictures>li:hover>.picBig{
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.3s;
+    transition-delay: 0.3s;
 }
