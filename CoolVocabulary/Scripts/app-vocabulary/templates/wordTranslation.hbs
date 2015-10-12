@@ -1,7 +1,9 @@
 <div tabIndex="1" id="word_details_popover" class="light-shadow">
    	<div class="popover-content clearfix">
-   		{{word-pictures word=model.word}}
-      <hr class="splitter"/>
+      {{#if hasPictures}}
+     		{{word-pictures word=model.word}}
+        <hr class="splitter"/>
+      {{/if}}
    		<div class="word-info">
 	   		<div class="word-wrap">
           <span class="word">{{model.word.value}}</span>
@@ -10,8 +12,10 @@
         <div class="pronunciation-wrap">
 	   		  <span class="pronunciation">{{model.word.pronunciation}}</span>
         </div>
-		</div>
-      {{word-translations model.translations}}
+		  </div>
+      <hr class="splitter"/>
+      {{word-translations translations=model.translations}}
+      <hr class="splitter"/>
       {{#link-to "book.learn" model class="learn-btn-wrap"}}
         <button class="btn btn-xs btn-success" type="button">
       		<span class="glyphicon glyphicon-book"></span>

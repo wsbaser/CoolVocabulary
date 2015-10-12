@@ -30,8 +30,8 @@ Vocabulary.WordTranslationRoute = Ember.Route.extend({
 		popoverEl.modalPopover('show');
 
 		// . listen for events to hide "Word Details" popover
-		// popoverEl.on('blur', function(){
-		// 	self.transitionTo('book');
-		// });
+		popoverEl.on('blur', function(){
+			self.transitionTo('book');
+		});
 	}
 });

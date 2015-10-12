@@ -318,9 +318,8 @@ a:hover .manageIcons .glyphicon {
 
 .word-pictures{
 	padding: 0;
-	margin: 0 10px;
+	margin: 0 10px 5px;
 	text-align: center;
-	padding-bottom: 5px;
 }
 
 .word-pictures > li{
@@ -355,9 +354,20 @@ a:hover .manageIcons .glyphicon {
 }
 
 .learn-btn-wrap{
-	display: flex;
+	display: block;
+	text-decoration: none !important;
 }
 
 .learn-btn-wrap>button{
-	margin: 0 auto;
+	margin: 9px auto 0;
+	display: block;
+}
+
+.word-translations{
+	margin: 5px 10px;
+	padding-left: 20px;
+}
+
+.word-translations>li{
+	/*list-style-type: none;*/
 }
