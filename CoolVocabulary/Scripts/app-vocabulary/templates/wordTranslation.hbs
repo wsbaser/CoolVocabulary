@@ -11,10 +11,12 @@
 	   		  <span class="pronunciation">{{model.word.pronunciation}}</span>
         </div>
 		</div>
-        {{word-translations model.translations}}
-        {{#link-to "book.learn" model}}<button class="btn btn-xs btn-success pull-right" type="button">
-    		<span class="glyphicon glyphicon-book"></span>
-    		Learn word</button>
+      {{word-translations model.translations}}
+      {{#link-to "book.learn" model class="learn-btn-wrap"}}
+        <button class="btn btn-xs btn-success" type="button">
+      		<span class="glyphicon glyphicon-book"></span>
+      		Learn
+        </button>
   		{{/link-to}}
    	</div>
 </div>
