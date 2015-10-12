@@ -13,18 +13,22 @@ Vocabulary.WordTranslationRoute = Ember.Route.extend({
 	},
 	afterRender: function(){
 		var bookWordId = this.modelFor('wordTranslation').id;
-		var popoverEl = $('#word_details_popover'); 
+		var popoverEl = $('#word_details_popover');
 		// . initialize popover
-		//popoverEl.modalPopover('hide');
 		popoverEl.modalPopover({
 		    target: '#word_translation_' + bookWordId,
 		    placement: 'bottom',
-		    backdrop: true,
+		    backdrop: false,
 		    animation: true,
 		    keyboard: true
 		});
 
 		// . show popover
 		popoverEl.modalPopover('show');
+
+		// . listen for events to hide "Word Details" popover
+		popoverEl.on('blur', function(){
+			popoverEl.modalPopover('hide');
+		});
 	}
 });

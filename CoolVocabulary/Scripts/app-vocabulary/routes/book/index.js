@@ -23,6 +23,7 @@ Vocabulary.BookIndexRoute = Ember.Route.extend({
 		    placement: 'bottom',
 		    backdrop: true
 		});
+		// . listen for messages from CoolTranslator
 		window.addEventListener("message", function(event){
 			if(event.origin!==window.location.origin ||
 				event.data.type!=='addTranslation'){
