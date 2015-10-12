@@ -346,10 +346,10 @@ a:hover .manageIcons .glyphicon {
  	z-index: 1;
 }
 
-.word-pictures>li:hover>.picBig{
+.word-pictures .picSmall:hover+.picBig{
     visibility: visible;
     opacity: 1;
-    transition: opacity 0.3s ease 0.7s;
+    transition: opacity 0.3s ease 0.3s;
     transform: translate(-50%,0%);
 }
 
