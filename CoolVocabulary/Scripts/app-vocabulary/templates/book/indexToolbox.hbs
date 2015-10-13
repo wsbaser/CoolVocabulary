@@ -1,10 +1,8 @@
 <div id="bookContainer" class="col-xs-4" >
   <div id="currentBookDropdown" class="dropdown">
-    <span style="line-height:34px">
-      {{#link-to "book.edit" model}}
-        <span class="glyphicon glyphicon-cog color-blue" style="margin-right: 10px;" title="Edit book"></span>
-      {{/link-to}}
-    </span>
+    {{#link-to "book.edit" model}}
+      <span class="glyphicon glyphicon-cog color-blue" style="margin-right: 10px;" title="Edit book"></span>
+    {{/link-to}}
     <a id="currentBook" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
       {{model.name}}
       <span class="caret"></span>
