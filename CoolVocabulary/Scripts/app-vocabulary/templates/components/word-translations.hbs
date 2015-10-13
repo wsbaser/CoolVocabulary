@@ -1,7 +1,8 @@
 <ul class="word-translations">
 {{#each translations as |translation|}}
   <li>
-    {{translation.value}}
+    {{translation.value}} 
+    <span {{action "remove"}} class="glyphicon glyphicon glyphicon-remove btn-sm color-grey pull-right" title="Remove translation"></span>
   </li>
 {{/each}}
 </ul>

@@ -313,13 +313,13 @@ a:hover .manageIcons .glyphicon {
 }
 
 .word-sound>img{
-	width: 14px;
-	height: 14px;
+	width: 13px;
+	height: 13px;
 }
 
 .word-sound:hover>img{
-	width: 16px;
-	height: 16px;
+	width: 15px;
+	height: 15px;
 }
 
 .pronunciation-wrap{
@@ -380,4 +380,15 @@ a:hover .manageIcons .glyphicon {
 
 .word-translations>li{
 	/*list-style-type: none;*/
+}
+
+.word-translations>li .glyphicon-remove{
+	visibility: hidden;
+	display: inline-block;
+	padding-top: 5px;
+	font-size: 0.7em;
+}
+
+.word-translations>li:hover .glyphicon-remove{
+	visibility: visible;
 }
