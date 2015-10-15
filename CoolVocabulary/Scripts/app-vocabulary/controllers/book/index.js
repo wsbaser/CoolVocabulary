@@ -30,61 +30,16 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 		$('#install_ct_alert').modalPopover('show');
 		return false;
 	},
-	// . create an object, containing words separated by speach part
-	// {
-	//	noun: [{bookword,translations},...],
-	//	adjective: [{bookword,translations},...],
-	//	verb: [{bookword,translations},...],
-	//	adverb: [{bookword,translations},...]	
-	// }
-	recalculateWords: function(){
-		var bookId = this.get('model').id;
-		var all = this.store.peekAll('bookWord').filterBy('book.id', bookId);
-		var result = {};
-		for (var i = all.length - 1; i >= 0; i--) {
-			var bookWord = all[i];
-			var translations = bookWord.get('translations').toArray();
-			for (var j = translations.length - 1; j >= 0; j--) {
-				var translation = translations[j];
-				var speachPart = translation.get('speachPart');
-				var spPairs = result[speachPart];
-				if(!spPairs){
-					spPairs = result[speachPart] = {};
-				}
-				var pair = spPairs[bookWord.id];
-				if(!pair){
-					pair = spPairs[bookWord.id] = {
-						bookWord : bookWord,
-						translations : []
-					};
-				}
-				pair.translations.push(translation);
-			}
-		}
-		// . make an array of words from object, so we'll be able to use it in handlebars
-		for (var sp in result){
-			var wordsObj = result[sp];
-			var wordsArr = [];
-			for (var bookWordId in wordsObj) {
-				wordsArr.push(wordsObj[bookWordId]);
-			}
-			result[sp] = wordsArr;
-		}
-		console.log('words recalculated...');
-		console.log(result);
-		this.set('words', result);
-	},
-	nouns: Ember.computed('words', function(){
-		return this.get('words')[1];
+	words: Ember.computed('model.bookWords.[]', function(){
+		var bookId = this.get('model.id');
+		return this.store.peekAll('bookWord').filterBy('book.id', bookId);
 	}),
-	verbs: Ember.computed('words', function(){
-		return this.get('words')[2];
-	}),
-	adjectives: Ember.computed('words', function(){
-		return this.get('words')[3];
-	}),
-	adverbs: Ember.computed('words', function(){
-		return this.get('words')[4];
+	nouns: Ember.computed.filterBy('words', 'speachPart', 1),
+	verbs: Ember.computed.filterBy('words', 'speachPart', 2),
+	adjectives: Ember.computed.filterBy('words', 'speachPart', 3),
+	adverbs: Ember.computed.filter('words', function(item){ 
+		var sp = item.get('speachPart');
+		return sp===4 || sp ===0;
 	}),
 	addTranslation: function(bookDto, wordDto, bookWordDto, translationDto){
 		function findOrAdd(store, type, data){
@@ -98,6 +53,5 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 		findOrAdd(this.store, 'word', wordDto);
 		findOrAdd(this.store, 'bookWord', bookWordDto);
 		findOrAdd(this.store, 'translation', translationDto);
-		this.recalculateWords();
 	}
 });

@@ -1,3 +1,3 @@
 Vocabulary.SpeachpartBlockComponent = Ember.Component.extend({
-	words: []
+	bookWwords: null
 });

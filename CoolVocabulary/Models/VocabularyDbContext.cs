@@ -25,21 +25,30 @@ namespace CoolVocabulary.Models {
         public System.Data.Entity.DbSet<BookWord> BookWords { get; set; }
         public System.Data.Entity.DbSet<Translation> Translations { get; set; }
 
-        public async Task<Book> GetCTBook(string userId, LanguageType language) {
-            const string DEFAULT_BOOK_NAME = "Cool Translator";
+        public async Task<Book> GetCTBook(string userId, LanguageType language)
+        {
+            const string CT_BOOK_NAME = "Cool Translator";
             var book = await Books.SingleOrDefaultAsync(v =>
                 v.UserId == userId &&
                 v.Language == (int)language &&
-                v.Name == DEFAULT_BOOK_NAME);
-            if (book == null) {
-                book = new Book() {
-                    Name = DEFAULT_BOOK_NAME,
-                    UserId = userId,
-                    Language = (int)language
-                };
-                Books.Add(book);
-                await SaveChangesAsync();
+                v.Name == CT_BOOK_NAME);
+            if (book == null)
+            {
+                book = await CreateBook(userId, language, CT_BOOK_NAME);
             }
+            return book;
+        }
+
+        public async Task<Book> CreateBook(string userId, LanguageType language, string name)
+        {
+            var book = new Book()
+            {
+                Name = name,
+                UserId = userId,
+                Language = (int)language
+            };
+            Books.Add(book);
+            await SaveChangesAsync();
             return book;
         }
 
@@ -65,7 +74,8 @@ namespace CoolVocabulary.Models {
             // . search for BookWord
             BookWord bookWordEntity = await BookWords.Include("Translations").SingleOrDefaultAsync(bw =>
                 bw.BookId == bookID &&
-                bw.WordId == wordID);
+                bw.WordId == wordID &&
+                bw.SpeachPart == (int)speachPart);
             Translation translationEntity = null;
             if (bookWordEntity == null)
             {
@@ -74,7 +84,7 @@ namespace CoolVocabulary.Models {
                 {
                     BookId = bookID,
                     WordId = wordID,
-                    LearnProgress = 0
+                    SpeachPart = (int)speachPart
                 };
                 BookWords.Add(bookWordEntity);
                 await SaveChangesAsync();
@@ -83,8 +93,7 @@ namespace CoolVocabulary.Models {
             {
                 // . search for Translation
                 translationEntity = bookWordEntity.Translations.SingleOrDefault(t => t.Value == value &&
-                    t.Language == (int)language &&
-                    t.SpeachPart == (int)speachPart);
+                    t.Language == (int)language);
             }
             // . add Translation if not exists
             if (translationEntity == null)
@@ -94,7 +103,7 @@ namespace CoolVocabulary.Models {
                     BookWordId = bookWordEntity.Id,
                     Value = value,
                     Language = (int)language,
-                    SpeachPart = (int)speachPart
+                    LearnProgress = 0
                 };
                 Translations.Add(translationEntity);
                 await SaveChangesAsync();

@@ -1,14 +1,14 @@
 <div class="sp-block">
 	<div class="sp-header light-shadow">{{title}}</div>
 	<ul class="sp-words table">
-		{{#each words as |data|}}
-			<li id='word_translation_{{data.bookWord.id}}' class="word-translation">
-				<span class="word" title='{{data.bookWord.word.value}}'>{{data.bookWord.word.value}}</span>
-				{{#link-to 'wordTranslation' data.bookWord.id class="show-details text-center"}}
+		{{#each bookWords as |bookWord|}}
+			<li id='word_translation_{{bookWord.id}}' class="word-translation">
+				<span class="word" title='{{bookWord.word.value}}'>{{bookWord.word.value}}</span>
+				{{#link-to 'wordTranslation' bookWord.id class="show-details text-center"}}
 				...
 				{{/link-to}}
 				<span class="translation text-right">
-					{{#each data.translations as |translation|}}
+					{{#each bookWord.translations as |translation|}}
 						{{translation.value}}&nbsp;
 					{{/each}}
 				</span>

@@ -22,9 +22,9 @@ namespace CoolVocabulary.Controllers {
         }
 
         [Authorize]
-        public ActionResult User() {
+        public ActionResult User()
+        {
             return View();
         }
-
     }
 }

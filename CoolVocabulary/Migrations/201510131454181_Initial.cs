@@ -27,13 +27,27 @@ namespace CoolVocabulary.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         BookId = c.Int(nullable: false),
                         WordId = c.Int(nullable: false),
-                        LearnProgress = c.Int(nullable: false),
+                        SpeachPart = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Books", t => t.BookId, cascadeDelete: true)
                 .ForeignKey("dbo.Words", t => t.WordId, cascadeDelete: true)
-                .Index(t => t.BookId)
-                .Index(t => t.WordId);
+                .Index(t => new { t.BookId, t.WordId, t.SpeachPart }, unique: true, name: "UQ_BookID_WordID_SpeachPart");
+            
+            CreateTable(
+                "dbo.Translations",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        BookWordId = c.Int(nullable: false),
+                        Value = c.String(nullable: false, maxLength: 100),
+                        Language = c.Int(nullable: false),
+                        LearnProgress = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.BookWords", t => t.BookWordId, cascadeDelete: true)
+                .Index(t => t.BookWordId)
+                .Index(t => new { t.Value, t.Language }, unique: true, name: "UQ_Value_Language");
             
             CreateTable(
                 "dbo.Words",
@@ -118,32 +132,18 @@ namespace CoolVocabulary.Migrations
                 .PrimaryKey(t => t.Id)
                 .Index(t => t.Name, unique: true, name: "RoleNameIndex");
             
-            CreateTable(
-                "dbo.Translations",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        BookWordId = c.Int(nullable: false),
-                        Value = c.String(nullable: false, maxLength: 100),
-                        Language = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.BookWords", t => t.BookWordId, cascadeDelete: true)
-                .Index(t => t.BookWordId);
-            
         }
         
         public override void Down()
         {
-            DropForeignKey("dbo.Translations", "BookWordId", "dbo.BookWords");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
             DropForeignKey("dbo.Books", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.BookWords", "WordId", "dbo.Words");
+            DropForeignKey("dbo.Translations", "BookWordId", "dbo.BookWords");
             DropForeignKey("dbo.BookWords", "BookId", "dbo.Books");
-            DropIndex("dbo.Translations", new[] { "BookWordId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
@@ -151,16 +151,17 @@ namespace CoolVocabulary.Migrations
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.Words", "UQ_Value_Language");
-            DropIndex("dbo.BookWords", new[] { "WordId" });
-            DropIndex("dbo.BookWords", new[] { "BookId" });
+            DropIndex("dbo.Translations", "UQ_Value_Language");
+            DropIndex("dbo.Translations", new[] { "BookWordId" });
+            DropIndex("dbo.BookWords", "UQ_BookID_WordID_SpeachPart");
             DropIndex("dbo.Books", "UQ_UserID_Name_Language");
-            DropTable("dbo.Translations");
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
             DropTable("dbo.Words");
+            DropTable("dbo.Translations");
             DropTable("dbo.BookWords");
             DropTable("dbo.Books");
         }

@@ -29,20 +29,16 @@ namespace CoolVocabulary.Controllers.api
         }
 
         // POST api/Translation
-        public async Task<IHttpActionResult> PostTranslation(TranslationData data)
-        {
-            if (!ModelState.IsValid)
-            {
+        public async Task<IHttpActionResult> PostTranslation(TranslationData data) {
+            if (!ModelState.IsValid) {
                 return BadRequest(ModelState);
             }
             LanguageType wordLanguage;
             LanguageType translationLanguage;
-            if (!Enum.TryParse<LanguageType>(data.wordLanguage, out wordLanguage))
-            {
+            if (!Enum.TryParse<LanguageType>(data.wordLanguage, out wordLanguage)) {
                 return BadRequest("Invalid word language");
             }
-            if (!Enum.TryParse<LanguageType>(data.translationLanguage, out translationLanguage))
-            {
+            if (!Enum.TryParse<LanguageType>(data.translationLanguage, out translationLanguage)) {
                 return BadRequest("Invalid translation language");
             }
 
@@ -60,20 +56,20 @@ namespace CoolVocabulary.Controllers.api
                 data.translationCards);
             // . if book id is not specified - add translation to 'Cool Translator' book
             Book book;
-            if (data.bookId == 0)
-            {
+            if (data.bookId == 0) {
                 book = await db.GetCTBook(User.Identity.GetUserId(), wordLanguage);
                 data.bookId = book.Id;
-            }
-            else
-            {
+            } else {
                 book = db.Books.Find(data.bookId);
+                if (book == null) {
+                    return BadRequest("Invalid bookId");
+                }
             }
+
             // . add translation
             SpeachPartType sp = GetSpeachPart(data.translationWords, data.translationWord);
             Tuple<BookWord, Translation> bwt = await db.AddTranslation(data.bookId, word.Id, data.translationWord, translationLanguage, sp);
-            return CreatedAtRoute("DefaultApi", new { id = bwt.Item2.Id }, new
-            {
+            return CreatedAtRoute("DefaultApi", new { id = bwt.Item2.Id }, new {
                 book = new BookDto(book),
                 word = new WordDto(word),
                 bookWord = new BookWordDto(bwt.Item1),

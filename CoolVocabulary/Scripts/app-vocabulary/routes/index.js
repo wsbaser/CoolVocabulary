@@ -6,8 +6,16 @@ Vocabulary.IndexRoute = Ember.Route.extend({
 		});
 	},
 	afterModel: function(books, transition) {
-		console.log('transition to book');
-		var model = books.get('firstObject');
+		var model;
+		var currentBookId = $.cookie('currentBook');
+		if(currentBookId){
+			// . get current book
+			model = books.findBy('id', currentBookId);
+		}
+		if(!model){
+			// .get first book
+			model = books.get('firstObject');
+		}
 		this.transitionTo('book', model);
   	}
 });

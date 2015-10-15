@@ -386,7 +386,7 @@ a:hover .manageIcons .glyphicon {
 	visibility: hidden;
 	display: inline-block;
 	padding-top: 5px;
-	font-size: 0.7em;
+	font-size: 0.65em;
 }
 
 .word-translations>li:hover .glyphicon-remove{

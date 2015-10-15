@@ -143,90 +143,90 @@ namespace CoolVocabulary.Controllers
             return View(model);
         }
 
-        //
-        // POST: /Account/Disassociate
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Disassociate(string loginProvider, string providerKey)
-        {
-            ManageMessageId? message = null;
-            IdentityResult result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(), new UserLoginInfo(loginProvider, providerKey));
-            if (result.Succeeded)
-            {
-                message = ManageMessageId.RemoveLoginSuccess;
-            }
-            else
-            {
-                message = ManageMessageId.Error;
-            }
-            return RedirectToAction("Manage", new { Message = message });
-        }
+        ////
+        //// POST: /Account/Disassociate
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> Disassociate(string loginProvider, string providerKey)
+        //{
+        //    ManageMessageId? message = null;
+        //    IdentityResult result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(), new UserLoginInfo(loginProvider, providerKey));
+        //    if (result.Succeeded)
+        //    {
+        //        message = ManageMessageId.RemoveLoginSuccess;
+        //    }
+        //    else
+        //    {
+        //        message = ManageMessageId.Error;
+        //    }
+        //    return RedirectToAction("Manage", new { Message = message });
+        //}
 
-        //
-        // GET: /Account/Manage
-        public ActionResult Manage(ManageMessageId? message)
-        {
-            ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Ваш пароль изменен."
-                : message == ManageMessageId.SetPasswordSuccess ? "Пароль задан."
-                : message == ManageMessageId.RemoveLoginSuccess ? "Внешнее имя входа удалено."
-                : message == ManageMessageId.Error ? "Произошла ошибка."
-                : "";
-            ViewBag.HasLocalPassword = HasPassword();
-            ViewBag.ReturnUrl = Url.Action("Manage");
-            return View();
-        }
+        ////
+        //// GET: /Account/Manage
+        //public ActionResult Manage(ManageMessageId? message)
+        //{
+        //    ViewBag.StatusMessage =
+        //        message == ManageMessageId.ChangePasswordSuccess ? "Ваш пароль изменен."
+        //        : message == ManageMessageId.SetPasswordSuccess ? "Пароль задан."
+        //        : message == ManageMessageId.RemoveLoginSuccess ? "Внешнее имя входа удалено."
+        //        : message == ManageMessageId.Error ? "Произошла ошибка."
+        //        : "";
+        //    ViewBag.HasLocalPassword = HasPassword();
+        //    ViewBag.ReturnUrl = Url.Action("Manage");
+        //    return View();
+        //}
 
-        //
-        // POST: /Account/Manage
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Manage(ManageUserViewModel model)
-        {
-            bool hasPassword = HasPassword();
-            ViewBag.HasLocalPassword = hasPassword;
-            ViewBag.ReturnUrl = Url.Action("Manage");
-            if (hasPassword)
-            {
-                if (ModelState.IsValid)
-                {
-                    IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
-                    if (result.Succeeded)
-                    {
-                        return RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
-                    }
-                    else
-                    {
-                        AddErrors(result);
-                    }
-                }
-            }
-            else
-            {
-                // User does not have a password so remove any validation errors caused by a missing OldPassword field
-                ModelState state = ModelState["OldPassword"];
-                if (state != null)
-                {
-                    state.Errors.Clear();
-                }
+        ////
+        //// POST: /Account/Manage
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> Manage(ManageUserViewModel model)
+        //{
+        //    bool hasPassword = HasPassword();
+        //    ViewBag.HasLocalPassword = hasPassword;
+        //    ViewBag.ReturnUrl = Url.Action("Manage");
+        //    if (hasPassword)
+        //    {
+        //        if (ModelState.IsValid)
+        //        {
+        //            IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+        //            if (result.Succeeded)
+        //            {
+        //                return RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
+        //            }
+        //            else
+        //            {
+        //                AddErrors(result);
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        // User does not have a password so remove any validation errors caused by a missing OldPassword field
+        //        ModelState state = ModelState["OldPassword"];
+        //        if (state != null)
+        //        {
+        //            state.Errors.Clear();
+        //        }
 
-                if (ModelState.IsValid)
-                {
-                    IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
-                    if (result.Succeeded)
-                    {
-                        return RedirectToAction("Manage", new { Message = ManageMessageId.SetPasswordSuccess });
-                    }
-                    else
-                    {
-                        AddErrors(result);
-                    }
-                }
-            }
+        //        if (ModelState.IsValid)
+        //        {
+        //            IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
+        //            if (result.Succeeded)
+        //            {
+        //                return RedirectToAction("Manage", new { Message = ManageMessageId.SetPasswordSuccess });
+        //            }
+        //            else
+        //            {
+        //                AddErrors(result);
+        //            }
+        //        }
+        //    }
 
-            // Появление этого сообщения означает наличие ошибки; повторное отображение формы
-            return View(model);
-        }
+        //    // Появление этого сообщения означает наличие ошибки; повторное отображение формы
+        //    return View(model);
+        //}
 
         //
         // POST: /Account/ExternalLogin
@@ -276,32 +276,32 @@ namespace CoolVocabulary.Controllers
             }
         }
 
-        //
-        // POST: /Account/LinkLogin
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult LinkLogin(string provider)
-        {
-            // Request a redirect to the external login provider to link a login for the current user
-            return new ChallengeResult(provider, Url.Action("LinkLoginCallback", "Account"), User.Identity.GetUserId());
-        }
+        ////
+        //// POST: /Account/LinkLogin
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult LinkLogin(string provider)
+        //{
+        //    // Request a redirect to the external login provider to link a login for the current user
+        //    return new ChallengeResult(provider, Url.Action("LinkLoginCallback", "Account"), User.Identity.GetUserId());
+        //}
 
-        //
-        // GET: /Account/LinkLoginCallback
-        public async Task<ActionResult> LinkLoginCallback()
-        {
-            var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync(XsrfKey, User.Identity.GetUserId());
-            if (loginInfo == null)
-            {
-                return RedirectToAction("Manage", new { Message = ManageMessageId.Error });
-            }
-            var result = await UserManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
-            if (result.Succeeded)
-            {
-                return RedirectToAction("Manage");
-            }
-            return RedirectToAction("Manage", new { Message = ManageMessageId.Error });
-        }
+        ////
+        //// GET: /Account/LinkLoginCallback
+        //public async Task<ActionResult> LinkLoginCallback()
+        //{
+        //    var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync(XsrfKey, User.Identity.GetUserId());
+        //    if (loginInfo == null)
+        //    {
+        //        return RedirectToAction("Manage", new { Message = ManageMessageId.Error });
+        //    }
+        //    var result = await UserManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
+        //    if (result.Succeeded)
+        //    {
+        //        return RedirectToAction("Manage");
+        //    }
+        //    return RedirectToAction("Manage", new { Message = ManageMessageId.Error });
+        //}
 
         //
         // POST: /Account/ExternalLoginConfirmation
@@ -312,7 +312,7 @@ namespace CoolVocabulary.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Manage");
+                return RedirectToAction("User", "Home");
             }
 
             if (ModelState.IsValid)
@@ -323,18 +323,27 @@ namespace CoolVocabulary.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, DisplayName = model.DisplayName };
-                var result = await UserManager.CreateAsync(user);
-                if (result.Succeeded)
+                var user = await UserManager.FindByNameAsync(model.Email);
+                if (user != null)
+                    ModelState.AddModelError("", string.Format("User with email {0} already exists.", model.Email));
+                else
                 {
-                    result = await UserManager.AddLoginAsync(user.Id, info.Login);
+                    user = new ApplicationUser() { 
+                        UserName = model.Email, 
+                        Email = model.Email, 
+                        DisplayName = model.DisplayName };
+                    var result = await UserManager.CreateAsync(user);
                     if (result.Succeeded)
                     {
-                        await SignInAsync(user, isPersistent: false);
-                        return RedirectToAction("User","Home");
+                        result = await UserManager.AddLoginAsync(user.Id, info.Login);
+                        if (result.Succeeded)
+                        {
+                            await SignInAsync(user, isPersistent: false);
+                            return RedirectToAction("User", "Home");
+                        }
                     }
+                    AddErrors(result);
                 }
-                AddErrors(result);
             }
 
             ViewBag.ReturnUrl = returnUrl;

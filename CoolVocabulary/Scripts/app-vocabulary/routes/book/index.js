@@ -10,7 +10,6 @@ Vocabulary.BookIndexRoute = Ember.Route.extend({
 	setupController: function(controller, model){
 		model = this.controllerFor('book').get('model');
 	    this._super(controller, model);
-	    controller.recalculateWords();
 	    controller.initSiteDialog();
 	    Ember.run.schedule('afterRender', this, this.afterRender);
 	},

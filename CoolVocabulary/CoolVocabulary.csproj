@@ -230,16 +230,13 @@
     <Compile Include="Controllers\api\WordTranslationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Custom\AjaxAuthorize.cs" />
+    <Compile Include="Extensions\HttpRequestExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201508311548291_Initial.cs" />
-    <Compile Include="Migrations\201508311548291_Initial.Designer.cs">
-      <DependentUpon>201508311548291_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509211230118_SpeachPart.cs" />
-    <Compile Include="Migrations\201509211230118_SpeachPart.Designer.cs">
-      <DependentUpon>201509211230118_SpeachPart.cs</DependentUpon>
+    <Compile Include="Migrations\201510131454181_Initial.cs" />
+    <Compile Include="Migrations\201510131454181_Initial.Designer.cs">
+      <DependentUpon>201510131454181_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -364,11 +361,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201508311548291_Initial.resx">
-      <DependentUpon>201508311548291_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509211230118_SpeachPart.resx">
-      <DependentUpon>201509211230118_SpeachPart.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201510131454181_Initial.resx">
+      <DependentUpon>201510131454181_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

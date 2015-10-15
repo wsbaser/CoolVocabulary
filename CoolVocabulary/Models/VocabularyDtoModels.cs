@@ -5,7 +5,8 @@ using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CoolVocabulary.Models {
+namespace CoolVocabulary.Models
+{
     //public class WordTranslations {
     //    public string Id { get; set; }
     //    public string Word { get; set; }
@@ -41,6 +42,7 @@ namespace CoolVocabulary.Models {
             this.userId = book.UserId;
             this.name = book.Name;
             this.language = ((LanguageType)book.Language).ToString();
+            this.bookWords = new List<int>();
         }
         public int id { get; set; }
         public string userId { get; set; }
@@ -48,6 +50,7 @@ namespace CoolVocabulary.Models {
         public string name { get; set; }
         [Required, MaxLength(2)]
         public string language { get; set; }
+        public List<int> bookWords;
     }
 
     public class BookWordDto
@@ -57,13 +60,13 @@ namespace CoolVocabulary.Models {
             this.id = bookWord.Id;
             this.book = bookWord.BookId;
             this.word = bookWord.WordId;
-            this.learnProgress = bookWord.LearnProgress;
-            this.translations = new List<int>();
+            this.speachPart = bookWord.SpeachPart;
+            this.translations = bookWord.Translations.Select(t => t.Id).ToList();
         }
         public int id { get; set; }
         public int book { get; set; }
         public int word { get; set; }
-        public int learnProgress { get; set; }
+        public int speachPart { get; set; }
         public List<int> translations { get; set; }
     }
 
@@ -75,12 +78,12 @@ namespace CoolVocabulary.Models {
             this.bookWord = translation.BookWordId;
             this.value = translation.Value;
             this.language = ((LanguageType)translation.Language).ToString();
-            this.speachPart = translation.SpeachPart;
+            this.learnProgress = translation.LearnProgress;
         }
         public int id { get; set; }
         public int bookWord { get; set; }
         public string value { get; set; }
         public string language { get; set; }
-        public int speachPart { get; set; }
+        public int learnProgress { get; set; }
     }
 }

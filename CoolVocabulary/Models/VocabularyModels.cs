@@ -49,27 +49,33 @@ namespace CoolVocabulary.Models {
         [Required]
         public int Id { get; set; }
         [Required]
+        [Index("UQ_BookID_WordID_SpeachPart", 1, IsUnique = true)]
         public int BookId { get; set; }
         [Required]
+        [Index("UQ_BookID_WordID_SpeachPart", 2, IsUnique = true)]
         public int WordId { get; set; }
-        [Range(0, 4)]
-        public int LearnProgress { get; set; }
+        [Required]
+        [Index("UQ_BookID_WordID_SpeachPart", 3, IsUnique = true)]
+        public int SpeachPart { get; set; }
         public virtual Word Word { get; set; }
         public virtual Book Book { get; set; }
         public ICollection<Translation> Translations { get; set; }
     }
 
-    public class Translation {
+    public class Translation
+    {
         [Required]
         public int Id { get; set; }
         [Required]
         public int BookWordId { get; set; }
         [Required, MaxLength(100)]
+        [Index("UQ_Value_Language", 1, IsUnique = true)]
         public string Value { get; set; }
         [Required]
+        [Index("UQ_Value_Language", 2, IsUnique = true)]
         public int Language { get; set; }
-        [Required]
-        public int SpeachPart { get; set; }
+        [Range(0, 4)]
+        public int LearnProgress { get; set; }
         public virtual BookWord BookWord { get; set; }
     }
 
