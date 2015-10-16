@@ -310,10 +310,10 @@ namespace CoolVocabulary.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("User", "Home");
-            }
+            //if (User.Identity.IsAuthenticated)
+            //{
+            //    return RedirectToAction("User", "Home");
+            //}
 
             if (ModelState.IsValid)
             {

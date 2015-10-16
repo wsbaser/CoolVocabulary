@@ -81,24 +81,6 @@
 .cbt {
     clear: both;
 }
-.or-container {
-    text-align: center;
-    margin-top: 20px;
-    color: #808080;
-    font-variant: small-caps;
-}
-.or-hr {
-    margin-bottom: -20px;
-    height: 0;
-    border: 0;
-    border-top: 1px solid #e6e6e6;
-}
-#or {
-    display: inline-block;
-    position: relative;
-    padding: 10px;
-    background-color: #fff;
-}
 
 #switch {
     padding: 20px;
@@ -231,4 +213,23 @@
 #confirm-form input[type=button]:hover{
     color: #fff;
     background: #0087de;
+}
+
+.or-container {
+    text-align: center;
+    margin-top: 20px;
+    color: #808080;
+    font-variant: small-caps;
+}
+.or-hr {
+    margin-bottom: -20px;
+    height: 0;
+    border: 0;
+    border-top: 1px solid #e6e6e6;
+}
+#or {
+    display: inline-block;
+    position: relative;
+    padding: 10px;
+    background-color: #fff;
 }

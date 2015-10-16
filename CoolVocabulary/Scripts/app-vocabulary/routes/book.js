@@ -10,6 +10,7 @@ Vocabulary.BookRoute = Ember.Route.extend({
 		model = model && model.id?
 			model:
 			this.store.peekRecord('book', this.get('id'));
+		$.cookie('currentBook', model.id);
 		this._super(controller, model);
 	}
 }); 

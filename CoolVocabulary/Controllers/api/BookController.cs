@@ -38,7 +38,7 @@ namespace CoolVocabulary.Controllers.api
                     return BadRequest("Invalid bookId");
                 const string FIRST_BOOK_NAME = "Martin Eden";
                 var book = await db.CreateBook(userID, (LanguageType)language, FIRST_BOOK_NAME);
-                currentBook = new BookDto(currentBook);
+                currentBook = new BookDto(book);
                 books.Add(currentBook);
             } else {
                 if (bookId == 0) {

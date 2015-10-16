@@ -9,7 +9,6 @@ Vocabulary.WordTranslationRoute = Ember.Route.extend({
 	setupController: function(controller, model){
 		this._super(controller, model);
 		Ember.run.schedule('afterRender', this, this.afterRender);
-		Ember.run.schedule('destroy', this, this.destroy);
 	},
 	// closePopover: function(event){
 	// 	var $rt = $(event.relatedTarget);
@@ -28,7 +27,7 @@ Vocabulary.WordTranslationRoute = Ember.Route.extend({
 		    placement: 'bottom',
 		    backdrop: false,
 		    animation: true,
-		    keyboard: true
+		    keyboard: false
 		});
 
 		// . set popover width
