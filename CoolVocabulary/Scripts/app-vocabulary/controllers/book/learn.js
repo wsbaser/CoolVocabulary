@@ -1,17 +1,45 @@
 window.CARD_HEIGHT = 300;
+
+Vocabulary.WordToLearn = Ember.Object.extend({
+	bookWords: [],
+	learnedAt: 0,
+	addBookWord: function(bookWord){
+		this.set('learnedAt', bookWord.get('learnedAt'));
+		this.get('bookWords').push(bookWord);
+	},
+	currentCard: null,
+	cards: []
+});
+
 Vocabulary.BookLearnController = Ember.Controller.extend({
-	cards: [],
-	curCardIndex: 0,
-	sessionBookWords: null,
+	sessionWords: null,
 	setupSession: function(){
+		// . agregate data
+		var wordsDictionary = {};
+		var wordsArr = [];
+		this.get('model.bookWords').forEach(function(item){
+			var word = item.get('word');
+			var wordToLearn = wordsDictionary[word.id];
+			if(!wordToLearn){
+				wordToLearn = wordsDictionary[wordId] = Vocabulary.WordToLearn.create({word:word});
+			}
+			wordToLearn.addBookWord(item);
+		});
+		for(var wordId in wordsDictionary){
+			wordsArr.push(wordsDictionary[wordId]);
+		}
+
+		// . filter data
 		var DAY = 60*60*24*1000;
 		var now = Date.now();
-		var sessionBookWords = this.get('model.bookWords')
-			.filter(function(item){ 
-				return now - (item.get('lernedAt') || 0) > DAY; 
-			})
-			.sortBy('lernedAt').splice(0, 30);
-		this.set('sessionBookWords', sessionBookWords);
+		wordsArr = $.grep(wordsArr, function(item){
+			var learnedAt = item.get('learnedAt') || 0;
+			return (now-learnedAt)>DAY;
+		});
+
+		// . get first 30
+		var sessionWords = wordsArr.splice(0, 30);
+		this.set('sessionWords', sessionWords);
 	},
 	showNeighbourCard: function(dir){
 		var cardsCount = 3;// this.get('cards').length;

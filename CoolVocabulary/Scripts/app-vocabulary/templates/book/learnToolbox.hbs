@@ -5,8 +5,8 @@
 </div>
 <div class="col-xs-8 text-right">
 	<nav class="words-nav flex-centered">
-		{{#each sessionBookWords as |bookWord|}}
-			<span class="word-circle" title="{{bookWord.word.value}}"></span>
+		{{#each sessionWords as |wordToLearn|}}
+			<span class="word-circle" title="{{wordToLearn.word.value}}"></span>
 		{{/each}}
 	</nav>
 </div>
