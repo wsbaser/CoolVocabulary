@@ -1,10 +1,12 @@
 <div class="col-xs-4">
-	<span id="currentBook" style="margin-top: 6px;">{{model.name}}</span>
+	{{#link-to 'book' id="currentBook"}}
+	{{model.name}}
+	{{/link-to}}
 </div>
 <div class="col-xs-8 text-right">
-	<nav class="words-nav">
-		<button class="btn btn-primary btn-sm" type="button">Previous word</button>
-		<span class="words-progress"><b>8</b> of <b>20</b></span>
-		<button class="btn btn-primary btn-sm" type="button">Next word</button>
+	<nav class="words-nav flex-centered">
+		{{#each sessionBookWords as |bookWord|}}
+			<span class="word-circle" title="{{bookWord.word.value}}"></span>
+		{{/each}}
 	</nav>
 </div>

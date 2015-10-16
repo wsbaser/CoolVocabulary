@@ -40,7 +40,6 @@
 .splitter-block {
     text-align: center;
     margin-top: 10px;
-    color: #ccc;
 }
 
 .splitter-caption {
@@ -49,6 +48,7 @@
     position: relative;
     padding: 0 10px;
     background-color: #fff;
+    color: #ccc;
 }
 
 .full-height{
@@ -215,7 +215,15 @@
 }
 
 .words-nav{
-	line-height:36px;
+	height: 36px;
+}
+
+.word-circle{
+	width: 10px;
+	height: 10px;
+	margin: 5px;
+	border-radius: 50%;
+	background-color: #777;
 }
 
 .word-description{
@@ -235,12 +243,14 @@
 	height: 100px;
 	margin: 5px 0;
 }
+
 .speach-part{
 	color: #2d8d17;
 		font-style: italic;
 		margin-right:4px;
 		font-size: 0.9em;
 }
+
 .word-translations{
 	margin-left: 10px;
 }
@@ -274,17 +284,10 @@
 	color: #000;
 }
 
-#currentBook,
-#newBookName{
+#currentBook{
   color: #444;
   font-size: 1.3em;
   line-height: 40px;
-}
-
-#newBookName {
-    border: 0;
-    width: 100%;
-    display: none;
 }
 
 .manageIcons .glyphicon {

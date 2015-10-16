@@ -57,6 +57,8 @@ namespace CoolVocabulary.Models {
         [Required]
         [Index("UQ_BookID_WordID_SpeachPart", 3, IsUnique = true)]
         public int SpeachPart { get; set; }
+        public int LearnedAt { get; set; }
+        public int CheckedAt { get; set; }
         public virtual Word Word { get; set; }
         public virtual Book Book { get; set; }
         public ICollection<Translation> Translations { get; set; }

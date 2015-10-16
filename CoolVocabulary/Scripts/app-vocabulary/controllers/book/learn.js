@@ -1,12 +1,23 @@
 window.CARD_HEIGHT = 300;
-Vocabulary.LearnController = Ember.Controller.extend({
-	cards:[],
-	curCardIndex:0,
+Vocabulary.BookLearnController = Ember.Controller.extend({
+	cards: [],
+	curCardIndex: 0,
+	sessionBookWords: null,
+	setupSession: function(){
+		var DAY = 60*60*24*1000;
+		var now = Date.now();
+		var sessionBookWords = this.get('model.bookWords')
+			.filter(function(item){ 
+				return now - (item.get('lernedAt') || 0) > DAY; 
+			})
+			.sortBy('lernedAt').splice(0, 30);
+		this.set('sessionBookWords', sessionBookWords);
+	},
 	showNeighbourCard: function(dir){
 		var cardsCount = 3;// this.get('cards').length;
 		var index = this.get('curCardIndex')+dir;
 		console.log('nextCardIndex: '+index);
-		if(index<0||index>=cardsCount){
+		if( index<0 || index>=cardsCount ){
 			return;
 		}
 		this.set('curCardIndex', index);

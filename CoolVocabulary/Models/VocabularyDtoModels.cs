@@ -53,20 +53,22 @@ namespace CoolVocabulary.Models
         public List<int> bookWords;
     }
 
-    public class BookWordDto
-    {
-        public BookWordDto(BookWord bookWord)
-        {
+    public class BookWordDto {
+        public BookWordDto(BookWord bookWord) {
             this.id = bookWord.Id;
             this.book = bookWord.BookId;
             this.word = bookWord.WordId;
             this.speachPart = bookWord.SpeachPart;
+            this.learnedAt = bookWord.LearnedAt;
+            this.checkedAt = bookWord.LearnedAt;
             this.translations = bookWord.Translations.Select(t => t.Id).ToList();
         }
         public int id { get; set; }
         public int book { get; set; }
         public int word { get; set; }
         public int speachPart { get; set; }
+        public int learnedAt { get; set; }
+        public int checkedAt { get; set; }
         public List<int> translations { get; set; }
     }
 

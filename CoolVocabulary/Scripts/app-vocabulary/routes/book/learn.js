@@ -4,21 +4,22 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 		this.render('book/learn', {outlet: 'content'});
 	},
 	setupController: function(controller, model){
+		model = this.controllerFor('book').get('model');
 		this._super(controller, model);
-	    Ember.run.schedule('afterRender', this, function() {
-	    	console.log('bind scroll');
-	    	$('#content').addClass('grey');
-	    	$('#toolbox').addClass('grey');
-	      	$('body').on('mousewheel', function(event){
-				console.log(event.originalEvent.wheelDeltaY);
-				if(event.originalEvent.wheelDeltaY<0) {
-					$('#learning-cards-shadow').scrollTo('+=300px', 300);
-					$('#learning-cards').scrollTo('+=300px', 300);
-				} else {
-					$('#learning-cards-shadow').scrollTo('-=300px', 300);
-					$('#learning-cards').scrollTo('-=300px', 300);
-				}
-	      	});
-	    });
+		controller.setupSession();
+	    Ember.run.schedule('afterRender', this, this.afterRender);
+	},
+	afterRender: function(){
+	    $('#content').addClass('grey');
+    	$('#toolbox').addClass('grey');
+      	$('body').on('mousewheel', function(event){
+			if(event.originalEvent.wheelDeltaY<0) {
+				$('#learning-cards-shadow').scrollTo('+=300px', 300);
+				$('#learning-cards').scrollTo('+=300px', 300);
+			} else {
+				$('#learning-cards-shadow').scrollTo('-=300px', 300);
+				$('#learning-cards').scrollTo('-=300px', 300);
+			}
+      	});
 	}
 });

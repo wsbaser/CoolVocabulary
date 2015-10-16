@@ -133,7 +133,8 @@ ctrContent.handlers.keyDown = function(e) {
     else {
         // Dialog is Hidden
         if (e.ctrlKey && e.keyCode === 32) {      // Ctrl + Space
-            if(ctrContent.dataFromSite)
+            if(ctrContent.dataFromSite && 
+                $(ctrContent.dataFromSite.attachBlockSelector).length)
                 ctrContent.showDialogForSite();
             else
                 Dialog.showForExtension();
