@@ -7,12 +7,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CoolVocabulary.Models
 {
-    //public class WordTranslations {
-    //    public string Id { get; set; }
-    //    public string Word { get; set; }
-    //    public string TranslationWords { get; set; }
-    //    public string TranslationCards { get; set; }
-    //}
+    public class WordTranslationsDto {
+        public WordTranslationsDto(WordTranslations wt) {
+            this.id = wt.Id.ToString();
+            this.word = wt.Word;
+            this.translationWords = wt.TranslationWords;
+            this.translationCards = wt.TranslationCards;
+        }
+        public string id { get; set; }
+        public string word { get; set; }
+        public string translationWords { get; set; }
+        public string translationCards { get; set; }
+    }
 
     public class WordDto
     {

@@ -10,7 +10,7 @@ using System.Web.Http.Description;
 
 namespace CoolVocabulary.Controllers.api {
     [Authorize]
-    public class WordTranslationController : ApiController {
+    public class WordTranslationsController : ApiController {
         private VocabularyMongoContext mongoDb = new VocabularyMongoContext();
         private VocabularyDbContext db = new VocabularyDbContext();
 
@@ -38,8 +38,14 @@ namespace CoolVocabulary.Controllers.api {
 
             var words = wordEntities.Select(w => w.Value);
             var result = await mongoDb.GetWordTranslations(words, sourceLanguage, targetLanguage);
+            if (result.Count != ids.Count) {
+                return BadRequest("Word translations not found");
+            }
 
-            return Ok(result);
+            return Ok(new {
+                emberDataFormat = true,
+                wordTranslations = result.Select(wt => new WordTranslationsDto(wt))
+            });
         }
 
         //// GET api/WordTranslations

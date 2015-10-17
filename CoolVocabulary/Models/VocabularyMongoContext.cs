@@ -24,19 +24,20 @@ namespace CoolVocabulary.Models {
         }
 
         public async Task<List<WordTranslations>> GetWordTranslations(IEnumerable<string> words, string sourceLanguage, string targetLanguage) {
-            var collection = GetCollection(sourceLanguage, targetLanguage);
-            var x = await collection.FindAsync(wt => words.Contains(wt.Word));
-            return x.Current.ToList();
+            var collection = (IMongoCollection<WordTranslations>)GetCollection(sourceLanguage, targetLanguage);
+            return await collection.Find(wt => words.Contains(wt.Word)).ToListAsync();
         }
 
         public async Task AddTranslations(string word, string wordLanguage, string translationsLanguage, string translationWords, string transaltionCards) {
-            var collection = GetCollection(wordLanguage, translationsLanguage);
+            IMongoCollection<WordTranslations> collection = GetCollection(wordLanguage, translationsLanguage);
             WordTranslations entity = new WordTranslations {
+                Id = MongoDB.Bson.ObjectId.GenerateNewId(),
                 Word = word,
                 TranslationWords = translationWords,
                 TranslationCards = transaltionCards
             };
-            await collection.FindOneAndReplaceAsync(wt => wt.Word == word, entity);
+            var filter = Builders<WordTranslations>.Filter.Eq(wt => wt.Word, word);
+            await collection.ReplaceOneAsync(filter, entity, options: new UpdateOptions { IsUpsert = true });
         }
     }
 }

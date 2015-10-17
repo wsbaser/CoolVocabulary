@@ -3,17 +3,69 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 		this.render('book/learnToolbox', {outlet: 'toolbox'});
 		this.render('book/learn', {outlet: 'content'});
 	},
-	// model: function(){
-	// 	return this.store.query('word',{
-	// 		ids: [1,2,3]
-	// 	}).then(function(data){
-	// 		console.log(data);
-	// 	});
-	// },
+	sessionWords: null,
+	model: function(){
+		var book = this.modelFor('book');
+		var sessionWords = this.getSessionWords(book);
+		this.set('sessionWords', sessionWords);
+		return this.requestWordTranslations(sessionWords,0,3);
+	},
+	requestWordTranslations: function(sessionWords, start , count){
+		var wordsRange = sessionWords.splice(start, count);
+		var wordsRangeIds = wordsRange.map(function(item){ 
+			return item.get('word.id'); 
+		});
+		return this.store.query('wordTranslations', { 
+			ids: wordsRangeIds,
+			targetLanguage: 'ru' 
+		}).then(function(data){
+			var dict = {};
+			wordsRange.forEach(function(wtl){
+				dict[wtl.get('word.value')] = wtl;
+			});
+			data.content.forEach(function(wt){
+				dict[wt.get('word')].set('wordTranslation', wt);
+			});
+		});
+	},
+	getSessionWords: function(book){
+		// . agregate data
+		var wordsDictionary = {};
+		var wordsArr = [];
+		book.get('bookWords').forEach(function(item){
+			var word = item.get('word');
+			var wordId = word.get('id');
+			var wordToLearn = wordsDictionary[wordId];
+			if(!wordToLearn){
+				wordToLearn = wordsDictionary[wordId] = Vocabulary.WordToLearn.create({ word: word });
+			}
+			wordToLearn.addBookWord(item);
+		});
+		for(var wordId in wordsDictionary){
+			wordsArr.push(wordsDictionary[wordId]);
+		}
+
+		// . filter data
+		var DAY = 60*60*24*1000;
+		var now = Date.now();
+		wordsArr = $.grep(wordsArr, function(item){
+			var learnedAt = item.get('learnedAt') || 0;
+			return (now-learnedAt)>DAY;
+		});
+
+		// . get first 30
+		return wordsArr.splice(0, 30);
+	},
 	setupController: function(controller, model){
+		// .set model
 		model = this.modelFor('book');
 		this._super(controller, model);
-		controller.setupSession();
+		// .set session data
+		var sessionWords = this.get('sessionWords');
+		controller.set('sessionWords', sessionWords);
+		// . request for additional word translations
+		this.requestWordTranslations(sessionWords,3,27);
+
 	    Ember.run.schedule('afterRender', this, this.afterRender);
 	},
 	afterRender: function(){

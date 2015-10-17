@@ -12,6 +12,7 @@ using System.Web.Http.Description;
 using CoolVocabulary.Models;
 using Microsoft.AspNet.Identity;
 using AutoMapper;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace CoolVocabulary.Controllers.api
 {
@@ -23,12 +24,16 @@ namespace CoolVocabulary.Controllers.api
         // GET api/Book
         public async Task<dynamic> GetBooks(int language, int bookId) {
             // . get books of current user
-            var userID = User.Identity.GetUserId();
+            var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new VocabularyDbContext()));
+            var user = um.FindById(User.Identity.GetUserId());
+            if (user == null)
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.Unauthorized));
+
             var books = new List<BookDto>();
             var bookWords = new List<BookWordDto>();
             var words = new List<WordDto>();
             var translations = new List<TranslationDto>();
-            foreach (var book in db.Books.Where(v => v.UserId == userID && v.Language == language)) {
+            foreach (var book in db.Books.Where(v => v.UserId == user.Id && v.Language == language)) {
                 books.Add(new BookDto(book));
             }
             dynamic currentBook = null;
@@ -37,7 +42,7 @@ namespace CoolVocabulary.Controllers.api
                 if (bookId != 0)
                     return BadRequest("Invalid bookId");
                 const string FIRST_BOOK_NAME = "Martin Eden";
-                var book = await db.CreateBook(userID, (LanguageType)language, FIRST_BOOK_NAME);
+                var book = await db.CreateBook(user.Id, (LanguageType)language, FIRST_BOOK_NAME);
                 currentBook = new BookDto(book);
                 books.Add(currentBook);
             } else {

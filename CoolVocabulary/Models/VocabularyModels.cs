@@ -4,10 +4,13 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson;
 
 namespace CoolVocabulary.Models {
     public class WordTranslations {
-        public string Id { get; set; }
+        [BsonId]
+        public ObjectId Id { get; set; }
         public string Word { get; set; }
         public string TranslationWords { get; set; }
         public string TranslationCards { get; set; }
