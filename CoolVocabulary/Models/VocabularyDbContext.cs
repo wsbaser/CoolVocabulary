@@ -5,6 +5,7 @@ using System.Web;
 using System.Data.Entity;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.EntityFramework;
+using CoolVocabulary.Extensions;
 
 namespace CoolVocabulary.Models {
     public class VocabularyDbContext : IdentityDbContext<ApplicationUser> {
@@ -109,6 +110,11 @@ namespace CoolVocabulary.Models {
                 await SaveChangesAsync();
             }
             return new Tuple<BookWord, Translation>(bookWordEntity, translationEntity);
+        }
+
+        public async Task<List<Word>> GetWords(List<string> ids) {
+            var range = ids.ToIntList();
+            return await Words.Where(w => range.Contains(w.Id)).ToListAsync();
         }
     }
 }

@@ -22,7 +22,7 @@ Vocabulary.BookLearnController = Ember.Controller.extend({
 			var wordId = word.get('id');
 			var wordToLearn = wordsDictionary[wordId];
 			if(!wordToLearn){
-				wordToLearn = wordsDictionary[wordId] = Vocabulary.WordToLearn.create({word:word});
+				wordToLearn = wordsDictionary[wordId] = Vocabulary.WordToLearn.create({ word: word });
 			}
 			wordToLearn.addBookWord(item);
 		});

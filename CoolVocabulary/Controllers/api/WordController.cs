@@ -18,11 +18,10 @@ namespace CoolVocabulary.Controllers.api
     {
         private VocabularyDbContext db = new VocabularyDbContext();
 
-        // GET api/Word
-        public IQueryable<Word> GetWords()
-        {
-            return db.Words;
-        }
+        //public IQueryable<Word> GetWords([FromUri]string[] ids) {
+        //    List<int> idsRange = ids.Select(id => Int32.Parse(id)).ToList();
+        //    return db.Words.Where(w => idsRange.Contains(w.Id));
+        //}
 
         // GET api/Word/5
         [ResponseType(typeof(Word))]

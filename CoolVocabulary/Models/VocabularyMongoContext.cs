@@ -23,11 +23,10 @@ namespace CoolVocabulary.Models {
             return db.GetCollection<WordTranslations>(collectionName);
         }
 
-        public async Task<WordTranslations> GetWordTranslations(string word, string sourceLanguage, string targetLanguage) {
+        public async Task<List<WordTranslations>> GetWordTranslations(IEnumerable<string> words, string sourceLanguage, string targetLanguage) {
             var collection = GetCollection(sourceLanguage, targetLanguage);
-            // .find record for word
-            var x = await collection.FindAsync(wt => wt.Word == word);
-            return x.Current.SingleOrDefault<WordTranslations>();
+            var x = await collection.FindAsync(wt => words.Contains(wt.Word));
+            return x.Current.ToList();
         }
 
         public async Task AddTranslations(string word, string wordLanguage, string translationsLanguage, string translationWords, string transaltionCards) {
