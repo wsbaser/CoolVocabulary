@@ -19,7 +19,8 @@ Vocabulary.BookLearnController = Ember.Controller.extend({
 		var wordsArr = [];
 		this.get('model.bookWords').forEach(function(item){
 			var word = item.get('word');
-			var wordToLearn = wordsDictionary[word.id];
+			var wordId = word.get('id');
+			var wordToLearn = wordsDictionary[wordId];
 			if(!wordToLearn){
 				wordToLearn = wordsDictionary[wordId] = Vocabulary.WordToLearn.create({word:word});
 			}

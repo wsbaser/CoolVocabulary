@@ -10,8 +10,6 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 	    Ember.run.schedule('afterRender', this, this.afterRender);
 	},
 	afterRender: function(){
-	    $('#content').addClass('grey');
-    	$('#toolbox').addClass('grey');
       	$('body').on('mousewheel', function(event){
 			if(event.originalEvent.wheelDeltaY<0) {
 				$('#learning-cards-shadow').scrollTo('+=300px', 300);

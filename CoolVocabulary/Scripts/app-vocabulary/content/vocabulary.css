@@ -1,8 +1,4 @@
-learn-toolbox/* COMMON */
-.grey{
-	background: #f6f6f6 !important;
-}
-
+/* COMMON */
 .color-blue {
 	color: #5bc0de
 }
@@ -154,9 +150,19 @@ learn-toolbox/* COMMON */
 }
 
 /* LEARNING */
+#toolbox .learn,
+#content .learn{
+	background: #f6f6f6 !important;
+}
+
+#toolbox .learn>div{
+	border-bottom: solid 1px #e5e5e5;	
+}
+
 #learning-col{
 	position: relative;
-	border: solid 1px #e5e5e5;
+	border-left: solid 1px #e5e5e5;
+	border-right: solid 1px #e5e5e5;
 	padding:0;
 	width:600px;
 }
@@ -206,7 +212,7 @@ learn-toolbox/* COMMON */
 }
 
 .words-nav{
-	height: 36px;
+	height: 40px;
 }
 
 .word-circle{

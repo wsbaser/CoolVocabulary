@@ -16,7 +16,8 @@ module.exports = function (grunt) {
                   "controllers/**/*.js",
                   "helpers/**/*.js",
                   "models/**/*.js",
-                  "routes/**/*.js"
+                  "routes/**/*.js",
+                  "views/**/*.js"
              ]
         },
         clean: ["app/"],
@@ -28,7 +29,8 @@ module.exports = function (grunt) {
 	              "controllers/**/*.js",
 	              "helpers/**/*.js",
 	              "models/**/*.js",
-	              "routes/**/*.js"
+	              "routes/**/*.js",
+                      "views/**/*.js"
 		     ],
                 dest: 'app/vocabulary.js'
             },
@@ -80,7 +82,8 @@ module.exports = function (grunt) {
             "controllers/**/*.js",
             "helpers/**/*.js",
             "models/**/*.js",
-            "routes/**/*.js"],
+            "routes/**/*.js",
+            "views/**/*.js"],
             tasks : ["jshint", "clean", "concat", "emberTemplates", "uglify", "cssmin"]
         }
     });
