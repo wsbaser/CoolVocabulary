@@ -10,7 +10,7 @@ using System.Web.Http.Description;
 
 namespace CoolVocabulary.Controllers.api {
     [Authorize]
-    public class WordTranslationsController : ApiController {
+    public class WordTranslationController : ApiController {
         private VocabularyMongoContext mongoDb = new VocabularyMongoContext();
         private VocabularyDbContext db = new VocabularyDbContext();
 

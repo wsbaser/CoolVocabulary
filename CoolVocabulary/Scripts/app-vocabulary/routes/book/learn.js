@@ -15,7 +15,7 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 		var wordsRangeIds = wordsRange.map(function(item){ 
 			return item.get('word.id'); 
 		});
-		return this.store.query('wordTranslations', { 
+		return this.store.query('wordTranslation', { 
 			ids: wordsRangeIds,
 			targetLanguage: 'ru' 
 		}).then(function(data){
@@ -24,7 +24,7 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 				dict[wtl.get('word.value')] = wtl;
 			});
 			data.content.forEach(function(wt){
-				dict[wt.get('word')].set('wordTranslation', wt);
+				dict[wt.get('word')].set('wordTranslation', wt.record);
 			});
 		});
 	},

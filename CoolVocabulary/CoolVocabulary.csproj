@@ -227,7 +227,7 @@
     <Compile Include="Controllers\api\BookWordController.cs" />
     <Compile Include="Controllers\api\TranslationController.cs" />
     <Compile Include="Controllers\api\WordController.cs" />
-    <Compile Include="Controllers\api\WordTranslationsController.cs" />
+    <Compile Include="Controllers\api\WordTranslationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Custom\AjaxAuthorize.cs" />
     <Compile Include="Extensions\HttpRequestExtensions.cs" />
