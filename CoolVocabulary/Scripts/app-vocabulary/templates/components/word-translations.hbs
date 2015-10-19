@@ -2,9 +2,9 @@
   	<hr class="splitter with-caption">
   	<div class="splitter-caption">{{speachPartText}}</div>
 </div>
-<ul class="word-translations">
+<ul class="word-translations-sp">
 	{{#each translations as |translation|}}
-  	<li>
+  	<li class="translation">
     	{{translation.value}}
     	{{#if showRemoveButton}} 
 	    <span {{action "remove"}} class="glyphicon glyphicon glyphicon-remove btn-sm color-grey pull-right" title="Remove translation"></span>

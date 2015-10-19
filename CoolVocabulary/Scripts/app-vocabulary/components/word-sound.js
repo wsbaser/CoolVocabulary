@@ -14,7 +14,9 @@ Vocabulary.WordSoundComponent = Ember.Component.extend({
 		return result;
 	}),
 	didInsertElement: function(){
-		this.playSound();
+		if(this.get('autoPlay')){
+			this.playSound();
+		}
 	},
 	playSound: function(){
 		if(this.get('hasSound')){

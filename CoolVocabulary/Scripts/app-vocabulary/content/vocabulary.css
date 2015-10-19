@@ -196,6 +196,8 @@
   
 #learning-cards{
 	overflow: hidden;
+	background-color: #aaa;
+	z-index: 2000;
 }
 
 #learning-cards-shadow{
@@ -205,9 +207,11 @@
 }
 
 .learning-card{
-	padding: 5px;
-	height: 300px;	/* same size as mignifier window */
+	margin: 5px;
+	height: 288px;	/* same size as mignifier window */
 	position: relative;
+	border-radius: 12px;
+	background-color: #fff;
 }
 
 /* CARDS NAVIGATION */
@@ -256,6 +260,41 @@
 	border-radius: 50%;
 	background-color: #777;
 }
+
+/* CARDS */
+
+.word-translations-all{
+	width: 50%;
+}
+
+.learning-card .word-info{
+	width: 50%;
+	margin-left: 20px;
+}
+
+.word-info-wrap{
+	margin: 10px;
+	display: flex;
+	justify-content: center;
+}
+
+.enlarge .word{
+	font-size: 1.5em;
+}
+
+.enlarge .pronunciation{
+	font-size: 1em;
+}
+
+.enlarge .translation{
+	font-size: 1.2em;
+}
+
+.learning-card .word-pictures-block{
+	padding-top: 5px;
+	margin: 0 10px;
+}
+
 
 /* Book */
 
@@ -367,6 +406,11 @@ a:hover .manageIcons .glyphicon {
  	max-width: 30px;
 }
 
+.enlarge .word-pictures .picSmall{
+ 	max-height: 50px;
+ 	max-width: 50px;
+}
+
 .word-pictures .picBig {
  	position: absolute;
  	visibility: hidden;
@@ -374,6 +418,11 @@ a:hover .manageIcons .glyphicon {
  	left: 15px;
  	top: 34px;
  	z-index: 1;
+}
+
+.enlarge .word-pictures .picBig{
+ 	left: 25px;
+ 	top: 54px;
 }
 
 .word-pictures .picSmall:hover+.picBig{

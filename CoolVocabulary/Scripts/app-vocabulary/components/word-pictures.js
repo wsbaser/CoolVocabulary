@@ -1,5 +1,5 @@
 Vocabulary.WordPicturesComponent = Ember.Component.extend({
-	word: null,
+	classNames: ['word-pictures-block'],
 	hasPictures: Ember.computed('word', function(){
 		var pictureUrls = this.get('word.pictureUrls');
 		return pictureUrls && pictureUrls.trim()!=='';
