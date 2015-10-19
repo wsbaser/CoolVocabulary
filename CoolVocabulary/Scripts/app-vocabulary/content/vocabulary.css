@@ -123,18 +123,18 @@
 	margin: 0 5px;
 }
 
-.word,
-.translation{
+.word{
+	color: #F55;
+}
+
+.sp-words .word,
+.sp-words .translations{
 	width: 45%;
 	opacity: 0.9;
 	cursor: pointer;
 }
 
-.word{
-	color: #F55;
-}
-
-.translation{
+.sp-words .translations{
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
@@ -196,7 +196,7 @@
   
 #learning-cards{
 	overflow: hidden;
-	background-color: #aaa;
+	background: #e5e5e5;
 	z-index: 2000;
 }
 
@@ -207,10 +207,10 @@
 }
 
 .learning-card{
-	margin: 5px;
-	height: 288px;	/* same size as mignifier window */
+	margin: 0 6px;
+	height: 298px;	/* same size as mignifier window */
 	position: relative;
-	border-radius: 12px;
+	border-radius: 6px;
 	background-color: #fff;
 }
 
