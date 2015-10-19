@@ -8,24 +8,26 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 		var book = this.modelFor('book');
 		var sessionWords = this.getSessionWords(book);
 		this.set('sessionWords', sessionWords);
-		return this.requestWordTranslations(sessionWords,0,3);
+		return this.requestWordTranslations(sessionWords, 0, 3);
 	},
 	requestWordTranslations: function(sessionWords, start , count){
-		var wordsRange = sessionWords.splice(start, count);
+		var wordsRange = sessionWords.slice(start, count);
 		var wordsRangeIds = wordsRange.map(function(item){ 
 			return item.get('word.id'); 
 		});
 		return this.store.query('wordTranslation', { 
 			ids: wordsRangeIds,
 			targetLanguage: 'ru' 
-		}).then(function(data){
-			var dict = {};
-			wordsRange.forEach(function(wtl){
-				dict[wtl.get('word.value')] = wtl;
-			});
-			data.content.forEach(function(wt){
-				dict[wt.get('word')].set('wordTranslation', wt.record);
-			});
+		});
+	},
+	setWordTranslations: function(wordTranslations){
+		var dict = {};
+		var sessionWords = this.get('sessionWords');
+		sessionWords.forEach(function(wtl){
+			dict[wtl.get('word.value')] = wtl;
+		});
+		wordTranslations.forEach(function(wt){
+			dict[wt.record.get('word')].setWordTranslations(wt.record);
 		});
 	},
 	getSessionWords: function(book){
@@ -54,17 +56,19 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 		});
 
 		// . get first 30
-		return wordsArr.splice(0, 30);
+		return wordsArr.slice(0, 30);
 	},
 	setupController: function(controller, model){
-		// .set model
+		// . set wordsTranslations
+		this.setWordTranslations(model.content);
+		// . set model
 		model = this.modelFor('book');
 		this._super(controller, model);
-		// .set session data
+		// . set session data
 		var sessionWords = this.get('sessionWords');
 		controller.set('sessionWords', sessionWords);
 		// . request for additional word translations
-		this.requestWordTranslations(sessionWords,3,27);
+		//this.requestWordTranslations(sessionWords,3,27);
 
 	    Ember.run.schedule('afterRender', this, this.afterRender);
 	},
