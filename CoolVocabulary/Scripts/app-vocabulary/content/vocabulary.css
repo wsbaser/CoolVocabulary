@@ -210,7 +210,6 @@
 	margin: 0 6px;
 	height: 298px;	/* same size as mignifier window */
 	position: relative;
-	border-radius: 6px;
 	background-color: #fff;
 }
 
@@ -242,11 +241,12 @@
 
 /* WORDS NAVIGATION */
 
-#learn_toolbox{
-	position: absolute;
-	width:100%;
-	bottom: 0;
-	padding-bottom: 10px;
+#next_word{
+    z-index: 2001;
+    position: absolute;
+    right: 0;
+    margin: 6px 12px;
+    bottom: 0;
 }
 
 .words-nav{
