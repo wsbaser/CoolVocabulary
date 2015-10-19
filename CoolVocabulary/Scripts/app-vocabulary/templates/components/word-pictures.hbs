@@ -1,8 +1,11 @@
-<ul class="word-pictures">
-	{{#each pictures as |picture|}}
-		<li>
-			<img class="picSmall" src="{{picture}}"/>
-			<img class="picBig" src="{{picture}}"/>
-		</li>
-	{{/each}}
-</ul>
+{{#if hasPictures}}
+	<ul class="word-pictures">
+		{{#each pictures as |picture|}}
+			<li>
+				<img class="picSmall" src="{{picture}}"/>
+				<img class="picBig" src="{{picture}}"/>
+			</li>
+		{{/each}}
+	</ul>
+	<hr class="splitter"/>
+{{/if}}

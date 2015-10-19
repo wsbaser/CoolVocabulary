@@ -13,13 +13,21 @@ ServiceTypes.TFD = 'tfd';
 ServiceTypes.ABBY = 'abby';
 
 Vocabulary.WordCard = Ember.Object.extend({
-	type: null,
-	wordToLearn: null,
-	serviceType: null,
-	data: null
 });
 
 Vocabulary.WordToLearn = Ember.Object.extend({
+	mainCard: Ember.computed('cards.[]', function(){
+		return this.get('cards').filterBy('type', CardTypes.MAIN)[0];
+	}),
+	translationCards: Ember.computed('cards.[]', function(){
+		return this.get('cards').filterBy('type', CardTypes.TRANSLATIONS);
+	}),
+	exampleCards: Ember.computed('cards.[]', function(){
+		return this.get('cards').filterBy('type', CardTypes.EXAMPLES);
+	}),
+	definitionCards: Ember.computed('cards.[]', function(){
+		return this.get('cards').filterBy('type', CardTypes.DEFINITIONS);
+	}),
 	addBookWord: function(bookWord){
 		this.set('learnedAt', bookWord.get('learnedAt'));
 		this.get('bookWords').pushObject(bookWord);
@@ -30,12 +38,12 @@ Vocabulary.WordToLearn = Ember.Object.extend({
 		var translationCards = JSON.parse(wordTranslations.get('translationCards'));
 		cards.pushObject(Vocabulary.WordCard.create({
 			type: CardTypes.MAIN,
-			WordToLearn: this
+			wordToLearn: this
 		}));
 		cards.pushObject(Vocabulary.WordCard.create({
 			type: CardTypes.TRANSLATIONS,
 			serviceType: ServiceTypes.GOOGLE,
-			WordToLearn: this
+			wordToLearn: this
 		}));
 		cards.pushObjects(this.generateExampleCards());
 		cards.pushObjects(this.generateDefinitionCards());

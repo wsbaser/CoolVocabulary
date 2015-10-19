@@ -1,1 +1,12 @@
-{{learning-card-navigation cards=wordToLearn.cards}}
+{{word-main-card card=wordToLearn.mainCard}}
+{{!-- {{#each wordToLearn.translaitonCards as |card|}}
+	{{word-translations-card card}}
+{{/each}}
+{{#each wordToLearn.exampleCards as |card|}}
+	{{word-examples-card card}}
+{{/each}}
+{{#each wordToLearn.definitionCards as |card|}}
+	{{word-definitions-card card}}
+{{/each}}
+ --}}
+ {{learning-card-navigation cards=wordToLearn.cards}}

@@ -1,11 +1,11 @@
 Vocabulary.WordSoundComponent = Ember.Component.extend({
-	word: null,
-	tagName:'span',
-	hasSound: Ember.computed('sound', function(){
-		return this.get('sound')!==null;
+	tagName: 'span',
+	hasSound: Ember.computed('word', function(){
+		var soundUrls = this.get('word.soundUrls');
+		return soundUrls && soundUrls.trim()!=='';
 	}),
 	sound: Ember.computed('word', function(){
-		var soundUrls = this.get('word').get('soundUrls');
+		var soundUrls = this.get('word.soundUrls');
 		var result = null;
 		if(soundUrls){
 			// . just getring the first one

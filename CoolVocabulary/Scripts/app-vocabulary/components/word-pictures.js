@@ -1,7 +1,11 @@
 Vocabulary.WordPicturesComponent = Ember.Component.extend({
 	word: null,
+	hasPictures: Ember.computed('word', function(){
+		var pictureUrls = this.get('word.pictureUrls');
+		return pictureUrls && pictureUrls.trim()!=='';
+	}),
 	pictures: Ember.computed('word', function(){
-		var pictureUrls = this.get('word').get('pictureUrls');
+		var pictureUrls = this.get('word.pictureUrls');
 		var result = [];
 		if(pictureUrls) {
 			result = pictureUrls.split(',');

@@ -1,0 +1,13 @@
+{{word-pictures word=card.wordToLearn.word}}
+<div class="word-info">
+	<div class="word-wrap">
+        <span class="word">{{card.wordToLearn.word.value}}</span>
+        	{{word-sound word=card.wordToLearn.word}}
+	</div>
+	<div class="pronunciation-wrap">
+		<span class="pronunciation">{{card.wordToLearn.word.pronunciation}}</span>
+	</div>
+</div>
+{{#each card.wordToLearn.bookWords as |bookWord|}}
+	{{word-translations showRemoveButton=false translations=bookWord.translations speachPart=bookWord.speachPart}}
+{{/each}}

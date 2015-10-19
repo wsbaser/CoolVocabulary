@@ -154,6 +154,7 @@
 }
 
 /* LEARNING */
+
 #toolbox .learn,
 #content .learn{
 	background: #f6f6f6 !important;
@@ -170,6 +171,46 @@
 	padding:0;
 	width:600px;
 }
+
+#stencil{
+    background:transparent;
+    display: flex;
+    z-index: 1989;	/* should overlay learning cards */
+    flex-direction:column;
+}
+
+#top-block,
+#bottom-block{
+    flex-grow:1;
+}
+
+#magnifier-block{
+    height:300px;
+    position:relative;
+    border-top: solid 1px #e5e5e5;
+    border-bottom: solid 1px #e5e5e5;
+    background: #FFF;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+  
+#learning-cards{
+	overflow: hidden;
+}
+
+#learning-cards-shadow{
+	z-index: 1988;
+	opacity: 0.2;
+	overflow: hidden;
+}
+
+.learning-card{
+	padding: 5px;
+	height: 300px;	/* same size as mignifier window */
+	position: relative;
+}
+
+/* CARDS NAVIGATION */
 
 #cards_navigation{
 	margin: 10px 30px;
@@ -195,49 +236,13 @@
 	background-color: orange;
 }
 
-#stencil{
-    background:transparent;
-    display: flex;
-    z-index: 1989;	/* should overlay learning cards */
-    flex-direction:column;
-}
-#top-block, #bottom-block{
-    flex-grow:1;
-}
-#magnifier-block{
-    height:300px;
-    position:relative;
-    border-top: solid 1px #e5e5e5;
-    border-bottom: solid 1px #e5e5e5;
-    background: #FFF;
-    box-sizing: border-box;
-    overflow:hidden;
-}
+/* WORDS NAVIGATION */
 
-.pull-bottom{
+#learn_toolbox{
+	position: absolute;
+	width:100%;
 	bottom: 0;
-}
-  
-#learning-cards{
-	overflow: hidden;
-}
-
-#learning-cards-shadow{
-	z-index: 1988;
-	opacity: 0.2;
-	overflow: hidden;
-}
-
-.learning-card{
-	padding:5px;
-	height: 300px;	/* same size as mignifier window */
-	position: relative;
-}
-
-.words-progress{
-	font-size: 16px;
-	padding: 0 20px;
-	vertical-align: middle;
+	padding-bottom: 10px;
 }
 
 .words-nav{
@@ -250,54 +255,6 @@
 	margin: 5px;
 	border-radius: 50%;
 	background-color: #777;
-}
-
-.word-description{
-	padding-left: 20px;
-}
-
-.word-original-wrap{
-	vertical-align: middle;
-	margin: 10px 0;
-}
-
-.word-original{
-	font-size: 21px;
-}
-
-.word-picture{
-	height: 100px;
-	margin: 5px 0;
-}
-
-.speach-part{
-	color: #2d8d17;
-		font-style: italic;
-		margin-right:4px;
-		font-size: 0.9em;
-}
-
-.word-translations{
-	margin-left: 10px;
-}
-
-.word-audio{
-	width:24px;
-	height:24px;
-	display: inline-block;
-	background: url('../../Content/images/sound.png');
-	background-size: contain;
-	vertical-align: -7px;
-}  
-
-
-/* CARDS NAVIGATION */
-
-#learn_toolbox{
-	position: absolute;
-	width:100%;
-	bottom: 0;
-	padding-bottom: 10px;
 }
 
 /* Book */

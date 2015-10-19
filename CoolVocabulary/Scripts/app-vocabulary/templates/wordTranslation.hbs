@@ -1,9 +1,6 @@
 <div tabIndex="1" id="word_details_popover" class="light-shadow">
    	<div class="popover-content clearfix">
-      {{#if hasPictures}}
-     		{{word-pictures word=model.word}}
-        <hr class="splitter"/>
-      {{/if}}
+   		{{word-pictures word=model.word}}
    		<div class="word-info">
 	   		<div class="word-wrap">
           <span class="word">{{model.word.value}}</span>
@@ -13,11 +10,7 @@
 	   		  <span class="pronunciation">{{model.word.pronunciation}}</span>
         </div>
 		  </div>
-      <div class="splitter-block">
-          <hr class="splitter with-caption">
-          <div class="splitter-caption">{{speachPartText}}</div>
-      </div>
-      {{word-translations translations=model.translations}}
+      {{word-translations showRemoveButton=true translations=model.translations speachPart=model.speachPart}}
       <hr class="splitter"/>
       <div class="actions-block">
         <span {{action "remove"}} class="glyphicon glyphicon-trash btn-sm color-grey" title="Remove word from book"></span>
