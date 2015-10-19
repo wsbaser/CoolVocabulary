@@ -20,24 +20,13 @@ Vocabulary.WordCard = Ember.Object.extend({
 });
 
 Vocabulary.WordToLearn = Ember.Object.extend({
-	word: null,
-	bookWords: Ember.A(),
-	wordTranslations: null,
-	cards: Ember.A(),
-	learnedAt: null,
-	currentCard: null,
 	addBookWord: function(bookWord){
 		this.set('learnedAt', bookWord.get('learnedAt'));
 		this.get('bookWords').pushObject(bookWord);
 	},
-	myObserver: function(){
-		console.log('wordTranslations observer');
-	}.observes('wordTranslations'),
-	setWordTranslations: function(wordTranslations){
-		// . set wordTranslations property
-		this.set('wordTranslations', wordTranslations);
-		// . generate cards
+	onWordTranslationsChanged: function(){
 		var cards = this.get('cards');
+		var wordTranslations = this.get('wordTranslations');
 		var translationCards = JSON.parse(wordTranslations.get('translationCards'));
 		cards.pushObject(Vocabulary.WordCard.create({
 			type: CardTypes.MAIN,
@@ -50,11 +39,16 @@ Vocabulary.WordToLearn = Ember.Object.extend({
 		}));
 		cards.pushObjects(this.generateExampleCards());
 		cards.pushObjects(this.generateDefinitionCards());
-		this.set('cards', cards);
+	}.observes('wordTranslations'),
+	setWordTranslations: function(wordTranslations){
+		// . set wordTranslations property
+		this.set('wordTranslations', wordTranslations);
 	},
 	generateExampleCards: function(){ return []; },
 	generateDefinitionCards: function(){ return []; }
 });
+
+
 
 Vocabulary.BookLearnController = Ember.Controller.extend({
 	sessionWords: null,

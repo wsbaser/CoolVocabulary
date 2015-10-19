@@ -39,7 +39,12 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 			var wordId = word.get('id');
 			var wordToLearn = wordsDictionary[wordId];
 			if(!wordToLearn){
-				wordToLearn = wordsDictionary[wordId] = Vocabulary.WordToLearn.create({ word: word });
+				wordToLearn = wordsDictionary[wordId] = Vocabulary.WordToLearn.create({ 
+					word: word,
+					bookWords: Ember.A(),
+					//wordTranslations: null,
+					cards: Ember.A()
+				});
 			}
 			wordToLearn.addBookWord(item);
 		});
