@@ -7,6 +7,10 @@
 	background-color: #5bc0de !important;
 }
 
+.bg-green{
+	background-color: #5cb85c !important;
+}
+
 .bg-grey{
 	background-color: #e6e6e6 !important;
 }
@@ -293,11 +297,12 @@ body.learn{
 }
 
 .word-circle{
-	width: 12px;
-	height: 12px;
+	width: 14px;
+	height: 14px;
 	margin: 5px;
 	border-radius: 50%;
-	background-color: #777;
+	background-color: #fff;
+	border: 1px solid #d5d5d5;
 }
 
 /* CARDS */
@@ -373,7 +378,8 @@ a:hover .manageIcons .glyphicon {
     margin-right: 10px;
 }
 
-/* Word Details Popover */
+/* POPOVER */
+
 #word_details_popover{
 	position: absolute;
 	background: #fafafa;
@@ -387,8 +393,11 @@ a:hover .manageIcons .glyphicon {
 }
 
 .word-info{
-	/*margin: 10px;*/
 	font-size: 16px;
+}
+
+#word_details_popover .word-info{
+	margin: 10px;
 }
 
 .word-sound{
