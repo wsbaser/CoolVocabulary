@@ -78,9 +78,9 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 	    Ember.run.schedule('afterRender', this, this.afterRender);
 	},
 	afterRender: function(){
-		// . bind touch events here
+	// . bind touch events here
 
-   //    	$('body').on('mousewheel', function(event){
+   	//    	$('body').on('mousewheel', function(event){
 			// if(event.originalEvent.wheelDeltaY<0) {
 			// 	$('#learning-cards-shadow').scrollTo('+=300px', 300);
 			// 	$('#learning-cards').scrollTo('+=300px', 300);

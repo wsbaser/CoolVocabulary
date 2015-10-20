@@ -1,4 +1,8 @@
 Vocabulary.BookLearnView = Ember.Component.extend({
-	classNameBindings: ['viewName'],
-	viewName: 'learn'
+	didInsertElement: function(){
+		$('body').addClass('learn');
+	},
+	willDestroyElement: function(){
+		$('body').removeClass('learn');	
+	}
 });

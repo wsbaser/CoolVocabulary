@@ -1,17 +1,19 @@
 {{word-pictures word=card.wordToLearn.word}}
-<div class="word-info-wrap">
-	<div class="word-info">
-		<div class="word-wrap">
-	        <span class="word">{{card.wordToLearn.word.value}}</span>
-	        	{{word-sound autoPlay=false word=card.wordToLearn.word}}
+<div class="container word-info-wrap">
+	<div class="row">
+		<div class="col-xs-6 word-info">
+			<div class="word-wrap">
+		        <span class="word">{{card.wordToLearn.word.value}}</span>
+		        	{{word-sound autoPlay=false word=card.wordToLearn.word}}
+			</div>
+			<div class="pronunciation-wrap">
+				<span class="pronunciation">{{card.wordToLearn.word.pronunciation}}</span>
+			</div>
 		</div>
-		<div class="pronunciation-wrap">
-			<span class="pronunciation">{{card.wordToLearn.word.pronunciation}}</span>
+		<div class="col-xs-6 word-translations-all">
+		{{#each card.wordToLearn.bookWords as |bookWord|}}
+			{{word-translations showRemoveButton=false translations=bookWord.translations speachPart=bookWord.speachPart}}
+		{{/each}}
 		</div>
-	</div>
-	<div class="word-translations-all">
-	{{#each card.wordToLearn.bookWords as |bookWord|}}
-		{{word-translations showRemoveButton=false translations=bookWord.translations speachPart=bookWord.speachPart}}
-	{{/each}}
 	</div>
 </div>

@@ -1,10 +1,14 @@
 /* COMMON */
 .color-blue {
-	color: #5bc0de
+	color: #5bc0de;
 }
 
 .bg-blue{
 	background-color: #5bc0de !important;
+}
+
+.bg-grey{
+	background-color: #e6e6e6 !important;
 }
 
 .light-shadow {
@@ -67,12 +71,24 @@
 	align-items: center;
 }
 
+/* STRUCTURE */
+
+body{
+	background-color: #e6e6e6;	
+}
+
 #content{
 	position: relative;
 }
 
-#content,#toolbox{
+#content, #toolbox{
 	background-color: #fff;
+	border-left: 1px solid #d5d5d5;
+	border-right: 1px solid #d5d5d5;
+}
+
+#toolbox{
+	line-height: 26px;
 }
 
 .sp-header{
@@ -86,6 +102,7 @@
 }
 
 .words-col{
+	padding-top: 8px;
 	border: 0;
 	border-right: solid 1px #e5e5e5;
 }
@@ -155,15 +172,23 @@
 
 /* LEARNING */
 
-#toolbox .learn,
-#content .learn{
-	background: #f6f6f6 !important;
+body.learn{
+	background-color: #ddd;
 }
 
-#toolbox .learn>div{
+.learn #toolbox,
+.learn #content{
+	background-color: #e6e6e6;
+}
+
+.learn #toolbox{
+	border-bottom: 1px solid #d5d5d5;
+}
+
+/*.learn #toolbox >div{
 	border-bottom: solid 1px #e5e5e5;	
 }
-
+*/
 #learning-col{
 	position: relative;
 	border-left: solid 1px #e5e5e5;
@@ -187,16 +212,13 @@
 #magnifier-block{
     height:300px;
     position:relative;
-    border-top: solid 1px #e5e5e5;
-    border-bottom: solid 1px #e5e5e5;
-    background: #FFF;
+	/*background: #FFF;*/
     box-sizing: border-box;
     overflow: hidden;
 }
   
 #learning-cards{
 	overflow: hidden;
-	background: #e5e5e5;
 	z-index: 2000;
 }
 
@@ -207,8 +229,8 @@
 }
 
 .learning-card{
-	margin: 0 6px;
-	height: 298px;	/* same size as mignifier window */
+	margin: 4px 6px;
+	height: 292px;	/* same size as mignifier window */
 	position: relative;
 	background-color: #fff;
 }
@@ -216,19 +238,27 @@
 /* CARDS NAVIGATION */
 
 #cards_navigation{
-	margin: 10px 30px;
-	width: 200px;
+	margin: 10px 0;
 	height: 22px;
 	position: absolute;
 	bottom: 0;
+	width: 100%;
 }
 
 .card-circle{
-	width: 10px;
-	height: 10px;
+	width: 12px;
+	height: 12px;
 	border-radius: 50%;
 	margin: 0 5px;
 	cursor: pointer;
+	opacity: 0.5;
+}
+
+.card-circle.active,
+.card-circle:hover{
+	opacity: 1;
+	width: 15px;
+	height: 15px;
 }
 
 .card-circle.main{
@@ -239,23 +269,32 @@
 	background-color: orange;
 }
 
+.card-circle.examples{
+	background-color: #5cb85c;
+}
+
+.card-circle.definitions{
+	background-color: #5bc0de;
+}
+
+
 /* WORDS NAVIGATION */
 
 #next_word{
     z-index: 2001;
     position: absolute;
     right: 0;
-    margin: 6px 12px;
+    margin: 10px 12px;
     bottom: 0;
 }
 
 .words-nav{
-	height: 40px;
+	height: 32px;
 }
 
 .word-circle{
-	width: 10px;
-	height: 10px;
+	width: 12px;
+	height: 12px;
 	margin: 5px;
 	border-radius: 50%;
 	background-color: #777;
@@ -263,19 +302,12 @@
 
 /* CARDS */
 
-.word-translations-all{
-	width: 50%;
+.word-info-wrap{
+	margin: 10px;
 }
 
 .learning-card .word-info{
-	width: 50%;
-	margin-left: 20px;
-}
-
-.word-info-wrap{
-	margin: 10px;
-	display: flex;
-	justify-content: center;
+	padding: 10px 20px;
 }
 
 .enlarge .word{
@@ -304,7 +336,7 @@
 
 #bookContainer .dropdown-menu{
   min-width:300px;
-  border-left: 10px solid #080808;
+  border-left: 6px solid #080808;
 }
 
 #bookContainer li>a{
@@ -319,7 +351,7 @@
 #currentBook{
   color: #444;
   font-size: 1.3em;
-  line-height: 40px;
+  line-height: 31px;
 }
 
 .manageIcons .glyphicon {
@@ -355,7 +387,7 @@ a:hover .manageIcons .glyphicon {
 }
 
 .word-info{
-	margin: 10px;
+	/*margin: 10px;*/
 	font-size: 16px;
 }
 

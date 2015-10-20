@@ -1,3 +1,3 @@
 Vocabulary.LearningCardComponent = Ember.Component.extend({
-	classNames: ['learning-card']	
+	classNames: ['learning-card', 'light-shadow']	
 });
