@@ -1,8 +1,12 @@
-{{word-main-card card=wordToLearn.mainCard}}
-{{!-- {{#each wordToLearn.translaitonCards as |card|}}
-	{{word-translations-card card}}
+{{!-- {{word-main-card card=wordToLearn.mainCard}}
+ --}}
+{{google-translations-card card=wordToLearn.googleTranslationsCard}}
+
+{{!-- {{#each wordToLearn.translationCards as |card|}}
+	{{word-translations-card card=card}}
 {{/each}}
-{{#each wordToLearn.exampleCards as |card|}}
+ --}}
+{{!-- {{#each wordToLearn.exampleCards as |card|}}
 	{{word-examples-card card}}
 {{/each}}
 {{#each wordToLearn.definitionCards as |card|}}

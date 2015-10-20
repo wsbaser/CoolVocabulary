@@ -281,7 +281,6 @@ body.learn{
 	background-color: #5bc0de;
 }
 
-
 /* WORDS NAVIGATION */
 
 #next_word{
@@ -330,6 +329,112 @@ body.learn{
 .learning-card .word-pictures-block{
 	padding-top: 5px;
 	margin: 0 10px;
+}
+
+
+
+
+/* GOOGLE CARDS*/
+
+.google-translations-card{
+	padding: 10px 20px 10px 50px;
+}
+
+.gt-cd-t {
+    color: #777 !important;
+    font-size: 16px !important;
+    padding-bottom: 4px !important;
+}
+
+.gt-card-ttl-txt {
+    color: #222 !important;
+    font-size: 16px !important;
+    unicode-bidi: embed !important;
+}
+
+.gt-def-info {
+    margin-bottom: 12px !important;
+}
+
+.gt-ex-info {
+    margin: 4px 0 12px 0 !important;
+}
+
+.gt-def-example {
+    color: #777 !important;
+    margin-top: 2px !important;
+    unicode-bidi: inherit !important;
+}
+
+table.gt-baf-table {
+    border-spacing: 0 !important;
+}
+
+table.gt-baf-table td {
+    padding: 0 !important;
+    vertical-align: middle !important;
+}
+
+div.gt-baf-pos-head {
+    color: #222222 !important;
+    font-size: 13px !important;
+    margin: 4px 0 2px !important;
+    text-align: left !important;
+}
+
+.gt-cd-pos {
+    color: #777 !important;
+    font-style: italic !important;
+}
+
+div.gt-baf-marker-container {
+    height: 18px !important;
+    margin: 1px 0 !important;
+    overflow: hidden !important;
+    padding: 0 0.1em 0 0.7em !important;
+    text-align: right !important;
+    vertical-align: top !important;
+    width: 27px !important;
+}
+
+div.gt-baf-cts {
+    background: none repeat scroll 0 0 #aaa !important;
+    display: inline-block !important;
+    height: 7px !important;
+    margin: 6px 2px 5px 0 !important;
+}
+
+.gt-baf-word-clickable,.gt-baf-translations{
+    font-family: arial,sans-serif !important;
+}
+
+.gt-baf-word-clickable {
+    color: #000 !important;
+    cursor: pointer !important;
+    overflow: hidden !important;
+    unicode-bidi: embed !important;
+    vertical-align: top !important;
+    white-space: nowrap !important;
+    border: 1px solid rgba(0,0,0,0) !important;
+}
+
+.gt-baf-word-clickable, .gt-baf-translations{
+    height: 18px !important;
+    margin: 1px 0 0 4px !important;
+}
+
+div.gt-baf-translations {
+    overflow: hidden !important;
+    padding: 0 0 0 1em !important;
+    unicode-bidi: embed !important;
+    vertical-align: top !important;
+    min-height: 18px !important;
+}
+
+.gt-baf-back {
+    cursor: pointer !important;
+    unicode-bidi: inherit !important;
+    color: #777 !important;
 }
 
 
