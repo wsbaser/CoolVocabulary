@@ -19,7 +19,7 @@ namespace CoolVocabulary.Models {
             // .each source language has it's own database
             var db = _mongoClient.GetDatabase("vocabulary_" + sourceLanguage);
             // .each target language has it's own collection
-            string collectionName = typeof(WordTranslations).Name.ToLower() + targetLanguage;
+            string collectionName = typeof(WordTranslations).Name.ToLower() + "_" + targetLanguage;
             return db.GetCollection<WordTranslations>(collectionName);
         }
 

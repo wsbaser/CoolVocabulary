@@ -108,7 +108,7 @@ AbbyService.prototype.parseSpeachPart = function(text){
 
 AbbyService.prototype.getTranslations = function(inputData){
     var self = this;
-    var card = this.getCachedCard(ContentTypes.TRANSLATIONS, inputData);
+    var card = this.getCachedCard(inputData,ContentTypes.TRANSLATIONS);
     var translations = {};
     if(card){
         var translationsEl = $(card);

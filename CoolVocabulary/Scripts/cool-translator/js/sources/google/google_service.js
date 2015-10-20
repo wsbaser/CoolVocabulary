@@ -5,6 +5,7 @@
 function GoogleService(provider){
     DictionaryService.call(this, provider.config, provider);
     this.cacheResponseData = true;
+    this.singleCacheObject = true;
 };
 
 GoogleService.prototype = Object.create(DictionaryService.prototype);
@@ -79,7 +80,7 @@ GoogleService.prototype.generateExamplesCard = function(data){
 };
 
 GoogleService.prototype.getTranslations = function(inputData){
-    var responseData = this.getCachedCard(ContentTypes.TRANSLATIONS, inputData);
+    var responseData = this.getCachedCard(inputData, ContentTypes.TRANSLATIONS);
     var translations = {};
     translations[SpeachParts.UNKNOWN] = [];
     if(responseData && responseData.entry){

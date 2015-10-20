@@ -93,10 +93,10 @@ TfdService.prototype.generateVerbtableCard = function(contentEl){
 };
 
 TfdService.prototype.getPronunciation = function(inputData){
-    var cards = this.getCachedCards(inputData);
+    var card = this.getCachedCard(inputData, ContentTypes.DEFINITIONS);
     var pronunciation = null;
-    if(cards){
-        var definitionsEl = $(cards[ContentTypes.DEFINITIONS]);
+    if(card){
+        var definitionsEl = $(card);
         var pronEl = definitionsEl.find('section[data-src="hc_dict"] .pron');
         if(pronEl.length)
             pronunciation = pronEl.text();
@@ -105,10 +105,10 @@ TfdService.prototype.getPronunciation = function(inputData){
 };
 
 TfdService.prototype.getPictureUrls = function(inputData){
-    var cards = this.getCachedCards(inputData);
+    var card = this.getCachedCard(inputData, ContentTypes.THESAURUS);
     var urls = [];
-    if(cards){
-        var thesaurusEl = $(cards[ContentTypes.THESAURUS]);    
+    if(card){
+        var thesaurusEl = $(card);    
         thesaurusEl.find('img').each(function(i, imgEl){
             urls.push($(imgEl).prop('src'));
         });

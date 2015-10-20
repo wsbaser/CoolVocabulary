@@ -4,8 +4,8 @@ Vocabulary.GoogleTranslationsCardComponent = Ember.Component.extend({
 		var data = this.get('card.data');
         var result = [];
         if(data){
-            for (var sp in data.translations) {
-                var translations = data.translations[sp]; 
+            for (var sp in data) {
+                var translations = data[sp]; 
                 result.push({
                     sp: sp,
                     translations: translations

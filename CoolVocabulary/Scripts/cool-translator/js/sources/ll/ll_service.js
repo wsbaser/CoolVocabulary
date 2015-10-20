@@ -162,21 +162,21 @@ function length(obj){
 }
 
 LLService.prototype.getSoundUrls = function(inputData){
-    var responseData = this.getCachedCard(ContentTypes.TRANSLATIONS, inputData);
+    var responseData = this.getCachedCard(inputData,ContentTypes.TRANSLATIONS);
     return responseData && responseData.sound_url?
         [responseData.sound_url] :
         [];
 };
 
 LLService.prototype.getPictureUrls = function(inputData){
-    var responseData = this.getCachedCard(ContentTypes.TRANSLATIONS, inputData);
+    var responseData = this.getCachedCard(inputData,ContentTypes.TRANSLATIONS);
     return responseData && responseData.pic_url ? 
         [responseData.pic_url] :
         [];
 };
 
 LLService.prototype.getTranslations = function(inputData){
-    var responseData = this.getCachedCard(ContentTypes.TRANSLATIONS, inputData);
+    var responseData = this.getCachedCard(inputData,ContentTypes.TRANSLATIONS);
     var translations = {};
     translations[SpeachParts.UNKNOWN] = [];
     if(responseData && responseData.translate){

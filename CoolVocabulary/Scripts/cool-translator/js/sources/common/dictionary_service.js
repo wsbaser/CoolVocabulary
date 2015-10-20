@@ -3,22 +3,24 @@ function DictionaryService(config, provider){
 	this.provider = provider;
 	this.requestCache = {};
 	this.cacheResponseData = false;
+	this.singleCacheObject = false;
 }
 
-DictionaryService.prototype.getCardHash = function(contentType, requestData) {
-    var hash = '';
+DictionaryService.prototype.getCardHash = function(requestData, contentType) {
+	var hash = '';
     for (var key in requestData)
         hash += key + ':' + requestData[key] + ',';
+    contentType = this.singleCacheObject?'':contentType;
     return contentType + ':' + hash.substr(0, hash.length - 1);
 };
 
-DictionaryService.prototype.getCachedCard = function(contentType, requestData){
-	var hash = this.getCardHash(contentType, requestData);
+DictionaryService.prototype.getCachedCard = function(requestData, contentType){
+	var hash = this.getCardHash(requestData, contentType);
 	return this.requestCache[hash];
 };
 
-DictionaryService.prototype.saveToCache = function(contentType, requestData, card){
-	var requestHash = this.getCardHash(contentType, requestData);
+DictionaryService.prototype.saveToCache = function(requestData, contentType, card){
+	var requestHash = this.getCardHash(requestData, contentType);
 	this.requestCache[requestHash] = card;
 };
 
@@ -40,12 +42,16 @@ DictionaryService.prototype.generatePrompts = function(contentType, data){
 };
 
 DictionaryService.prototype.getCachedCards = function(requestData){
-	var self = this;
-	var cards = {};
-	$.each(this.config.contentTypes, function(i, contentType){
-		cards[contentType] = self.getCachedCard(contentType, requestData);
-	});
-	return cards;
+	if(this.singleCacheObject)
+		return this.getCachedCard(requestData);
+	else{
+		var self = this;
+		var cards = {};
+		$.each(this.config.contentTypes, function(i, contentType){
+			cards[contentType] = self.getCachedCard(requestData, contentType);
+		});
+		return cards;
+	}
 };
 
 DictionaryService.prototype.getCards = function(requestData){
@@ -62,7 +68,7 @@ DictionaryService.prototype.getCards = function(requestData){
 				cards: card,
 				prompts: self.generatePrompts(contentType, data)});
 			var cachedData = self.cacheResponseData ? data : card;
-			self.saveToCache(contentType, requestData, cachedData);
+			self.saveToCache(requestData, contentType, cachedData);
 		})
 		.fail(function(error){
 			deferred.reject({
