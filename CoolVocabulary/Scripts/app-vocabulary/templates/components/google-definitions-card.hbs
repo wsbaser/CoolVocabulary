@@ -1,0 +1,15 @@
+{{#each data as |spDefinitions|}}
+<div class="gt-cd-c">
+    <div class="gt-cd-pos">
+        {{speach-part spDefinitions.sp}}
+    </div>
+    <div class="gt-def-list" style="direction: ltr;">
+    {{#each spDefinitions.definitions as |definition| }}
+        <div class="gt-def-info">
+            <div class="gt-def-row">{{{definition.definition}}}</div>
+            <div class="gt-def-example">{{{definition.example}}}</div>
+        </div>
+    {{/each}}
+    </div>
+</div>
+{{/each}}

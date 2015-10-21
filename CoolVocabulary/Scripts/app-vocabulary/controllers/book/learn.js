@@ -20,13 +20,16 @@ Vocabulary.WordToLearn = Ember.Object.extend({
 		return this.get('cards').filterBy('type', CardTypes.MAIN)[0];
 	}),
 	googleTranslationsCard: Ember.computed('cards.[]', function(){
-		return this.get('cards')
-			.filterBy('type', CardTypes.TRANSLATIONS)
-			.filterBy('serviceType', ServiceTypes.GOOGLE)[0];
+		return this.getCard(CardTypes.TRANSLATIONS, ServiceTypes.GOOGLE);
 	}),
-	// translationCards: Ember.computed('cards.[]', function(){
-	// 	return this.get('cards').filterBy('type', CardTypes.TRANSLATIONS);
-	// }),
+	googleDefinitionsCard: Ember.computed('cards.[]', function(){
+		return this.getCard(CardTypes.DEFINITIONS, ServiceTypes.GOOGLE);
+	}),
+	getCard: function(cardType, serviceType){
+		return this.get('cards')
+			.filterBy('type', cardType)
+			.filterBy('serviceType', serviceType)[0];
+	},
 	exampleCards: Ember.computed('cards.[]', function(){
 		return this.get('cards').filterBy('type', CardTypes.EXAMPLES);
 	}),
@@ -47,30 +50,37 @@ Vocabulary.WordToLearn = Ember.Object.extend({
 		}));
 		cards.pushObjects(this.generateTranslationCards(cardsJson));
 		cards.pushObjects(this.generateExampleCards());
-		cards.pushObjects(this.generateDefinitionCards());
+		cards.pushObjects(this.generateDefinitionCards(cardsJson));
 	}.observes('wordTranslations'),
 	setWordTranslations: function(wordTranslations){
 		// . set wordTranslations property
 		this.set('wordTranslations', wordTranslations);
 	},
-	generateTranslationCards: function(cardsJson){
-		var result = [];
-		var googleCards = cardsJson[ServiceTypes.GOOGLE]; 
-		if(googleCards){
-			var translationCard = googleCards[CardTypes.TRANSLATIONS];
-			if(translationCard){
-				result.push(Vocabulary.WordCard.create({
-					type: CardTypes.TRANSLATIONS,
-					serviceType: ServiceTypes.GOOGLE,
+	generateTranslationCards: function(json){
+		var cards = [];
+		this.addSimpleCard(cards, json, ServiceTypes.GOOGLE, CardTypes.TRANSLATIONS);
+		return cards;
+	},
+	generateExampleCards: function(){ return []; },
+	generateDefinitionCards: function(json){ 
+		var cards = [];
+		this.addSimpleCard(cards, json, ServiceTypes.GOOGLE, CardTypes.DEFINITIONS);
+		return cards;
+	},
+	addSimpleCard: function(cards, json, serviceType, cardType){
+		var serviceJson = json[serviceType]; 
+		if(serviceJson){
+			var cardJson = serviceJson[cardType];
+			if(cardJson){
+				cards.push(Vocabulary.WordCard.create({
+					type: cardType,
+					serviceType: serviceType,
 					wordToLearn: this,
-					data: translationCard
+					data: cardJson
 				}));
 			}
 		}
-		return result;
-	},
-	generateExampleCards: function(){ return []; },
-	generateDefinitionCards: function(){ return []; }
+	}
 });
 
 

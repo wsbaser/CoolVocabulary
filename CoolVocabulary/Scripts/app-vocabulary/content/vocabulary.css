@@ -332,12 +332,15 @@ body.learn{
 }
 
 
-
-
 /* GOOGLE CARDS*/
 
-.google-translations-card{
+.google-translations-card,
+.google-definitions-card{
 	padding: 10px 20px 10px 50px;
+}
+
+.gt-cd-c{
+	margin-top: 10px;
 }
 
 .gt-cd-t {

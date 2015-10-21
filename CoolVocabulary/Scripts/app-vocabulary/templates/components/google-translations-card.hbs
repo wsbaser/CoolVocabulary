@@ -12,12 +12,12 @@
 			{{#each spTranslations.translations as |translation|}}
 			<tr>
 				<td colspan="2">
-					<div class="gt-baf-cell gt-baf-word-clickable">{{translation.word}}</div>
+					<div class="gt-baf-cell gt-baf-word-clickable">{{{translation.word}}}</div>
 				</td>
 				<td style="width: 100%;">
 					<div class="gt-baf-cell gt-baf-translations">
 						{{#each translation.reverseTranslations as |reverseTranslation|}}
-							<span class="gt-baf-back">{{reverseTranslation.value}}</span>
+							<span class="gt-baf-back">{{{reverseTranslation.value}}}</span>
 							{{#unless reverseTranslation.isLast}},
 							{{/unless}}
 						{{/each}}
