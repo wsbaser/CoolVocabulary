@@ -16,8 +16,14 @@ Vocabulary.WordCard = Ember.Object.extend({
 });
 
 
-var EXAMPLES_PER_CARD = 3;
+var EXAMPLES_PER_CARD = 2;
 Vocabulary.WordToLearn = Ember.Object.extend({
+	statusChanged: Ember.observer('isActive','isLearned', function(){
+		return Ember.run.once(this,'setIsHighlighted');
+	}),
+	setIsHighlighted: function(){
+		this.set('isHighlighted', this.get('isActive') || this.get('isLearned'));
+	},
 	mainCard: Ember.computed('cards.[]', function(){
 		return this.get('cards').filterBy('type', CardTypes.MAIN)[0];
 	}),
@@ -45,7 +51,8 @@ Vocabulary.WordToLearn = Ember.Object.extend({
 		var cardsJson = JSON.parse(wordTranslations.get('translationCards'));
 		cards.pushObject(Vocabulary.WordCard.create({
 			type: CardTypes.MAIN,
-			wordToLearn: this
+			wordToLearn: this,
+			isActive: true
 		}));
 		cards.pushObjects(this.generateTranslationCards(cardsJson));
 		cards.pushObjects(this.generateExampleCards(cardsJson));
@@ -105,8 +112,9 @@ Vocabulary.WordToLearn = Ember.Object.extend({
 				type: CardTypes.EXAMPLES,
 				serviceType: serviceType,
 				wordToLearn: this,
-				data: examples.slice(startIndex, EXAMPLES_PER_CARD)
+				data: examples.slice(startIndex, startIndex+EXAMPLES_PER_CARD)
 			}));
+			startIndex+=EXAMPLES_PER_CARD;
 		}
 		return cards;
 	},
@@ -134,24 +142,45 @@ Vocabulary.WordToLearn = Ember.Object.extend({
 	}
 });
 
-
-
 Vocabulary.BookLearnController = Ember.Controller.extend({
 	sessionWords: null,
-	showNeighbourCard: function(dir){
-		var cardsCount = 3; // this.get('cards').length;
-		var index = this.get('curCardIndex')+dir;
-		console.log('nextCardIndex: '+index);
-		if( index<0 || index>=cardsCount ){
-			return;
+	activeWord: Ember.computed('activeWordIndex', function(){
+		var sessionWords = this.get('sessionWords');
+		var activeWordIndex = this.get('activeWordIndex');
+		var activeWord = sessionWords.objectAt(activeWordIndex);
+		activeWord.set('isActive', true);
+		return activeWord;
+	}),
+	isLastWord: Ember.computed('activeWordIndex', function(){
+		var activeWordIndex = this.get('activeWordIndex');
+		var sessionWords = this.get('sessionWords');
+		return activeWordIndex===(sessionWords.length-1);
+	}),
+	activateFirstWord: function(){
+		this.set('activeWordIndex', 0);
+	},
+	// showNeighbourCard: function(dir){
+	// 	var cardsCount = 3; // this.get('cards').length;
+	// 	var index = this.get('curCardIndex')+dir;
+	// 	console.log('nextCardIndex: '+index);
+	// 	if( index<0 || index>=cardsCount ){
+	// 		return;
+	// 	}
+	// 	this.set('curCardIndex', index);
+	// 	var scrollOffset =
+	// 		( dir>0 ?
+	// 		'+='+CARD_HEIGHT:
+	// 		'-='+CARD_HEIGHT)+'px';
+	// 	var SCROLL_TIME = 300;	// мс.
+	// 	$('.learning-cards-shadow').scrollTo(scrollOffset, SCROLL_TIME);
+	// 	$('.learning-cards').scrollTo(scrollOffset, SCROLL_TIME);
+	// },
+	actions:{
+		nextWord: function(){
+			var activeWord = this.get('activeWord');
+			activeWord.set('isLearned', true);
+			activeWord.set('isActive', false);
+			this.incrementProperty('activeWordIndex');
 		}
-		this.set('curCardIndex', index);
-		var scrollOffset =
-			( dir>0 ?
-			'+='+CARD_HEIGHT:
-			'-='+CARD_HEIGHT)+'px';
-		var SCROLL_TIME = 300;	// мс.
-		$('.learning-cards-shadow').scrollTo(scrollOffset, SCROLL_TIME);
-		$('.learning-cards').scrollTo(scrollOffset, SCROLL_TIME);
 	}
 });

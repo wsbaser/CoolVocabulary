@@ -4,11 +4,14 @@
 	    	<div id="top-block"></div>
 	    	<div id="magnifier-block">
 	    		<div id="learning-cards" class="fill-absolute">
-					{{#each sessionWords as |wordToLearn|}}
+					{{learning-card wordToLearn=activeWord}}
+{{!-- 					{{#each sessionWords as |wordToLearn|}}
 						{{learning-card wordToLearn=wordToLearn}}
 					{{/each}}
-				</div>
-				<button id="next_word" class="btn btn-success btn-xs">Next word</button>
+ --}}				</div>
+ 				{{#unless isLastWord}}
+				<button {{action 'nextWord'}} id="next_word" class="btn btn-success btn-xs">Next word</button>
+				{{/unless}}
 			</div>
 			<div id="bottom-block"></div>
 	    </div>

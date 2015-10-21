@@ -1,5 +1,7 @@
 Vocabulary.GoogleTranslationsCardComponent = Ember.Component.extend({
     classNames: ['google-translations-card'],
+    classNameBindings:['isActive::hidden'],
+    isActive: Ember.computed.alias('card.isActive'),
     data: Ember.computed('card', function(){
 		var data = this.get('card.data');
         var result = [];

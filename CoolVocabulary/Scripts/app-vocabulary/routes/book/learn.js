@@ -66,6 +66,8 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 	setupController: function(controller, model){
 		// . set wordsTranslations
 		this.setWordTranslations(model.content);
+		// . set active word
+		controller.activateFirstWord();
 		// . set model
 		model = this.modelFor('book');
 		this._super(controller, model);

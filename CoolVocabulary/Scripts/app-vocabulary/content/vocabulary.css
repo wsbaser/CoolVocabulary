@@ -255,37 +255,25 @@ body.learn{
 	border-radius: 50%;
 	margin: 0 5px;
 	cursor: pointer;
-	opacity: 0.8;
+	opacity: 0.5;
 	box-shadow: 1px 1px 5px 1px #bbb;
+	background: #5cb85c;
 }
 
 .card-circle.active,
 .card-circle:hover{
-	transition: background-color 0.3s;	
+	transition: background-color 0.3s;
+	opacity: 1;	
 }
 
 .card-circle.active{
 	border: 0;
 }
 
-.card-circle.main.active,
-.card-circle.main:hover{
-	background-color: red;
-}
-
-.card-circle.translations.active,
-.card-circle.translations:hover{
-	background-color: orange;
-}
-
-.card-circle.examples.active,
-.card-circle.examples:hover{
-	background-color: #5bc0de;
-}
-
-.card-circle.definitions.active,
-.card-circle.definitions:hover{
-	background-color: #5cb85c;
+.card-circle.main{
+	width: 13px;
+	height: 13px;
+	margin-top: -1px;	
 }
 
 /* WORDS NAVIGATION */
@@ -309,6 +297,10 @@ body.learn{
 	border-radius: 50%;
 	background-color: #fff;
 	border: 1px solid #dcdde1;
+}
+
+.word-circle.highlighted{
+	background-color: #5cb85c;
 }
 
 /* CARDS */
@@ -338,10 +330,41 @@ body.learn{
 	margin: 0 10px;
 }
 
+/* EXAMPLES CARDS*/
+
+.word-examples-card{
+	padding: 20px;
+}
+
+.examples-list{
+	padding: 0;
+	border: 1px solid rgb(207, 207, 207);
+}
+
+.example-item{
+	list-style-type: none;
+    border-top: 1px solid rgb(207, 207, 207);
+    display: flex;
+}
+
+.example-item:first-child{
+    border-top: 0;	
+}
+
+.examples-list .original,
+.examples-list .translation{
+	padding: 10px 14px;
+    flex-basis: 50%;
+    font: 13px/16px Arial, Verdana, Geneva, sans-serif;
+}
+
+.examples-list .l-examples__found{
+	background: none 0px 0px repeat scroll rgb(255, 220, 127);
+    font-style: normal;
+}
 
 /* GOOGLE CARDS*/
 
-.word-examples-card,
 .google-translations-card,
 .google-definitions-card{
 	padding: 10px 20px 10px 50px;

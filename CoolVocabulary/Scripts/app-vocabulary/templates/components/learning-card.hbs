@@ -1,8 +1,8 @@
-{{!-- {{word-main-card card=wordToLearn.mainCard}}
- --}}
-{{!-- {{google-translations-card card=wordToLearn.googleTranslationsCard}} --}}
+{{word-main-card card=wordToLearn.mainCard}}
 
-{{!-- {{google-definitions-card card=wordToLearn.googleDefinitionsCard}} --}}
+{{google-translations-card card=wordToLearn.googleTranslationsCard}}
+
+{{google-definitions-card card=wordToLearn.googleDefinitionsCard}}
 
 {{#each wordToLearn.exampleCards as |card|}}
 	{{word-examples-card card=card}}
