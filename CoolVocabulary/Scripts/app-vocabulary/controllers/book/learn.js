@@ -15,6 +15,8 @@ ServiceTypes.ABBY = 'abby';
 Vocabulary.WordCard = Ember.Object.extend({
 });
 
+
+var EXAMPLES_PER_CARD = 3;
 Vocabulary.WordToLearn = Ember.Object.extend({
 	mainCard: Ember.computed('cards.[]', function(){
 		return this.get('cards').filterBy('type', CardTypes.MAIN)[0];
@@ -33,9 +35,6 @@ Vocabulary.WordToLearn = Ember.Object.extend({
 	exampleCards: Ember.computed('cards.[]', function(){
 		return this.get('cards').filterBy('type', CardTypes.EXAMPLES);
 	}),
-	definitionCards: Ember.computed('cards.[]', function(){
-		return this.get('cards').filterBy('type', CardTypes.DEFINITIONS);
-	}),
 	addBookWord: function(bookWord){
 		this.set('learnedAt', bookWord.get('learnedAt'));
 		this.get('bookWords').pushObject(bookWord);
@@ -49,7 +48,7 @@ Vocabulary.WordToLearn = Ember.Object.extend({
 			wordToLearn: this
 		}));
 		cards.pushObjects(this.generateTranslationCards(cardsJson));
-		cards.pushObjects(this.generateExampleCards());
+		cards.pushObjects(this.generateExampleCards(cardsJson));
 		cards.pushObjects(this.generateDefinitionCards(cardsJson));
 	}.observes('wordTranslations'),
 	setWordTranslations: function(wordTranslations){
@@ -61,25 +60,77 @@ Vocabulary.WordToLearn = Ember.Object.extend({
 		this.addSimpleCard(cards, json, ServiceTypes.GOOGLE, CardTypes.TRANSLATIONS);
 		return cards;
 	},
-	generateExampleCards: function(){ return []; },
+	generateExampleCards: function(json){
+		var cards = [];
+		var cardJson = this.getCardJson(json, ServiceTypes.ABBY, CardTypes.EXAMPLES);
+		if(cardJson){
+			cards.pushObjects(this.generateAbbyExampleCards(cardJson));
+		}
+		if(cards.length<3){
+			cardJson = this.getCardJson(json, ServiceTypes.GOOGLE, CardTypes.EXAMPLES);
+			if(cardJson){
+				cards.pushObjects(this.generateGoogleExampleCards(cardJson));
+			}
+		}
+		return cards.slice(0, 3); 
+	},
+	generateAbbyExampleCards: function(cardJson){
+		var all = $(cardJson).find('.js-examples-table-trans').map(function(index, item){
+			var $item = $(item);
+			return {
+				original: $item.find('.orig>div').html(),
+				translation: $item.find('.transl>div').html(),
+				sourceOriginal: $item.next().find('.l-examples__lcol').html(),
+				sourceTranslation: $item.next().find('.l-examples__rcol').html()
+			};
+		});
+		return this.generateRandomExampleCards(all, ServiceTypes.ABBY);
+	},
+	generateGoogleExampleCards: function(cardJson){
+		var all = cardJson.map(function(index, item){
+			return {
+				original: item
+			};
+		});
+		return this.generateRandomExampleCards(all, ServiceTypes.GOOGLE);
+	},
+	generateRandomExampleCards: function(examples, serviceType, count){
+		var cards = [];
+		examples = examples.sort(function() { return 0.5 - Math.random(); });
+		var startIndex = 0;
+		var index = 0;
+		count = count || 3;
+		while(startIndex+EXAMPLES_PER_CARD<=examples.length && index++<count){
+			cards.push(Vocabulary.WordCard.create({
+				type: CardTypes.EXAMPLES,
+				serviceType: serviceType,
+				wordToLearn: this,
+				data: examples.slice(startIndex, EXAMPLES_PER_CARD)
+			}));
+		}
+		return cards;
+	},
 	generateDefinitionCards: function(json){ 
 		var cards = [];
 		this.addSimpleCard(cards, json, ServiceTypes.GOOGLE, CardTypes.DEFINITIONS);
 		return cards;
 	},
 	addSimpleCard: function(cards, json, serviceType, cardType){
-		var serviceJson = json[serviceType]; 
-		if(serviceJson){
-			var cardJson = serviceJson[cardType];
-			if(cardJson){
-				cards.push(Vocabulary.WordCard.create({
-					type: cardType,
-					serviceType: serviceType,
-					wordToLearn: this,
-					data: cardJson
-				}));
-			}
+		var cardJson = this.getCardJson(json, serviceType, cardType);
+		if(cardJson){
+			cards.push(Vocabulary.WordCard.create({
+				type: cardType,
+				serviceType: serviceType,
+				wordToLearn: this,
+				data: cardJson
+			}));
 		}
+	},
+	getCardJson: function(json, serviceType, cardType){
+		var serviceJson = json[serviceType]; 
+		return serviceJson?
+			serviceJson[cardType]:
+			null;
 	}
 });
 

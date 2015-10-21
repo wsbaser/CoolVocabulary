@@ -2,17 +2,10 @@
  --}}
 {{!-- {{google-translations-card card=wordToLearn.googleTranslationsCard}} --}}
 
-{{google-definitions-card card=wordToLearn.googleDefinitionsCard}}
+{{!-- {{google-definitions-card card=wordToLearn.googleDefinitionsCard}} --}}
 
-{{!-- {{#each wordToLearn.translationCards as |card|}}
-	{{word-translations-card card=card}}
+{{#each wordToLearn.exampleCards as |card|}}
+	{{word-examples-card card=card}}
 {{/each}}
- --}}
-{{!-- {{#each wordToLearn.exampleCards as |card|}}
-	{{word-examples-card card}}
-{{/each}}
-{{#each wordToLearn.definitionCards as |card|}}
-	{{word-definitions-card card}}
-{{/each}}
- --}}
+
  {{learning-card-navigation cards=wordToLearn.cards}}
