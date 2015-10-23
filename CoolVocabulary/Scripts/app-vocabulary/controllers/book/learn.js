@@ -16,7 +16,9 @@ Vocabulary.WordCard = Ember.Object.extend({
 });
 
 
-var EXAMPLES_PER_CARD = 2;
+var EXAMPLES_PER_CARD = 1;
+var EXAMPLE_CARDS_COUNT = 5;
+
 Vocabulary.WordToLearn = Ember.Object.extend({
 	statusChanged: Ember.observer('isActive','isLearned', function(){
 		return Ember.run.once(this,'setIsHighlighted');
@@ -45,7 +47,7 @@ Vocabulary.WordToLearn = Ember.Object.extend({
 		this.set('learnedAt', bookWord.get('learnedAt'));
 		this.get('bookWords').pushObject(bookWord);
 	},
-	onWordTranslationsChanged: function(){
+	wordTranslationsObserver: Ember.observer('wordTranslations', function(){
 		var cards = this.get('cards');
 		var wordTranslations = this.get('wordTranslations');
 		var cardsJson = JSON.parse(wordTranslations.get('translationCards'));
@@ -57,7 +59,8 @@ Vocabulary.WordToLearn = Ember.Object.extend({
 		cards.pushObjects(this.generateTranslationCards(cardsJson));
 		cards.pushObjects(this.generateExampleCards(cardsJson));
 		cards.pushObjects(this.generateDefinitionCards(cardsJson));
-	}.observes('wordTranslations'),
+		this.activateFirstCard();
+	}),
 	setWordTranslations: function(wordTranslations){
 		// . set wordTranslations property
 		this.set('wordTranslations', wordTranslations);
@@ -73,13 +76,13 @@ Vocabulary.WordToLearn = Ember.Object.extend({
 		if(cardJson){
 			cards.pushObjects(this.generateAbbyExampleCards(cardJson));
 		}
-		if(cards.length<3){
+		if(cards.length<EXAMPLE_CARDS_COUNT){
 			cardJson = this.getCardJson(json, ServiceTypes.GOOGLE, CardTypes.EXAMPLES);
 			if(cardJson){
 				cards.pushObjects(this.generateGoogleExampleCards(cardJson));
 			}
 		}
-		return cards.slice(0, 3); 
+		return cards.slice(0, EXAMPLE_CARDS_COUNT);
 	},
 	generateAbbyExampleCards: function(cardJson){
 		var all = $(cardJson).find('.js-examples-table-trans').map(function(index, item){
@@ -94,7 +97,7 @@ Vocabulary.WordToLearn = Ember.Object.extend({
 		return this.generateRandomExampleCards(all, ServiceTypes.ABBY);
 	},
 	generateGoogleExampleCards: function(cardJson){
-		var all = cardJson.map(function(index, item){
+		var all = cardJson.map(function(item){
 			return {
 				original: item
 			};
@@ -106,7 +109,7 @@ Vocabulary.WordToLearn = Ember.Object.extend({
 		examples = examples.sort(function() { return 0.5 - Math.random(); });
 		var startIndex = 0;
 		var index = 0;
-		count = count || 3;
+		count = count || EXAMPLE_CARDS_COUNT;
 		while(startIndex+EXAMPLES_PER_CARD<=examples.length && index++<count){
 			cards.push(Vocabulary.WordCard.create({
 				type: CardTypes.EXAMPLES,
@@ -139,6 +142,40 @@ Vocabulary.WordToLearn = Ember.Object.extend({
 		return serviceJson?
 			serviceJson[cardType]:
 			null;
+	},
+	nextCard: function(){
+		var nextCardIndex = this.get('activeCardIndex')+1;
+		var cards = this.get('cards');
+		if(nextCardIndex < cards.length){
+			this.set('activeCardIndex', nextCardIndex);
+		}
+	},
+	prevCard: function(){
+		var nextCardIndex = this.get('activeCardIndex')-1;
+		if(nextCardIndex >=0){
+			this.set('activeCardIndex', nextCardIndex);
+		}
+	},
+	activeCard: Ember.computed('activeCardIndex', function(){
+		return this.get('cards').objectAt(this.get('activeCardIndex'));
+	}),
+	activeCard_old: Ember.computed('activeCardIndex_old', function(){
+		return this.get('cards').objectAt(this.get('activeCardIndex_old'));		
+	}),
+	activeCardIndexObserver: Ember.observer('activeCardIndex', function(){
+		this.get('activeCard').set('isActive', true);
+		var activeCard_old = this.get('activeCard_old');
+		if(activeCard_old){
+			activeCard_old.set('isActive', false);
+		}
+		this.set('activeCardIndex_old', this.get('activeCardIndex'));
+	}),
+	activateCard: function(card){
+		var cardIndex = this.get('cards').indexOf(card);
+		this.set('activeCardIndex', cardIndex);
+	},
+	activateFirstCard: function(){
+		this.set('activeCardIndex', 0);
 	}
 });
 
@@ -148,7 +185,9 @@ Vocabulary.BookLearnController = Ember.Controller.extend({
 		var sessionWords = this.get('sessionWords');
 		var activeWordIndex = this.get('activeWordIndex');
 		var activeWord = sessionWords.objectAt(activeWordIndex);
-		activeWord.set('isActive', true);
+		if(activeWord){
+			activeWord.set('isActive', true);
+		}
 		return activeWord;
 	}),
 	isLastWord: Ember.computed('activeWordIndex', function(){
@@ -175,12 +214,22 @@ Vocabulary.BookLearnController = Ember.Controller.extend({
 	// 	$('.learning-cards-shadow').scrollTo(scrollOffset, SCROLL_TIME);
 	// 	$('.learning-cards').scrollTo(scrollOffset, SCROLL_TIME);
 	// },
-	actions:{
+	actions: {
 		nextWord: function(){
 			var activeWord = this.get('activeWord');
 			activeWord.set('isLearned', true);
 			activeWord.set('isActive', false);
 			this.incrementProperty('activeWordIndex');
+			activeWord = this.get('activeWord');
+			if(!activeWord){
+				this.transitionToRoute('book');
+			}
+		},
+		nextCard: function(){
+			this.get('activeWord').nextCard();
+		},
+		prevCard: function(){
+			this.get('activeWord').prevCard();
 		}
 	}
 });

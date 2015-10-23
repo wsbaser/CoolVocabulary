@@ -276,13 +276,19 @@ body.learn{
 	margin-top: -1px;	
 }
 
+.card-circle.examples{
+	width: 8px;
+	height: 8px;
+}
+
 /* WORDS NAVIGATION */
 
-#next_word{
+#next_word,
+#finish{
     z-index: 2001;
     position: absolute;
     right: 0;
-    margin: 14px 18px;
+    margin: 15px 20px;
     bottom: 0;
 }
 
@@ -326,7 +332,7 @@ body.learn{
 }
 
 .learning-card .word-pictures-block{
-	padding-top: 5px;
+	padding-top: 15px;
 	margin: 0 10px;
 }
 
@@ -338,7 +344,8 @@ body.learn{
 
 .examples-list{
 	padding: 0;
-	border: 1px solid rgb(207, 207, 207);
+	border-left: 1px solid rgb(207, 207, 207);
+	border-right: 1px solid rgb(207, 207, 207);
 }
 
 .example-item{

@@ -1,10 +1,8 @@
 Vocabulary.LearningCardNavigationComponent = Ember.Component.extend({
+	cards: Ember.computed.alias('wordToLearn.cards'),
 	actions:{
 		select: function(card){
-			this.get('cards').forEach(function(card){
-				card.set('isActive', false);
-			});
-			card.set('isActive', true);
+			this.get('wordToLearn').activateCard(card);
 		}
 	}
 });

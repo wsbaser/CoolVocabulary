@@ -1,0 +1,12 @@
+<div class="col-xs-4">
+	{{#link-to 'book' id="currentBook"}}
+	{{model.name}}
+	{{/link-to}}
+</div>
+<div class="col-xs-8 text-right">
+	<nav class="words-nav flex-centered">
+		{{#each sessionWords as |wordToLearn|}}
+			<span class="{{if wordToLearn.isHighlighted 'highlighted'}} word-circle" title="{{wordToLearn.word.value}}"></span>
+		{{/each}}
+	</nav>
+</div>

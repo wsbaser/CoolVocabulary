@@ -1,34 +1,14 @@
-Vocabulary.BookLearnRoute = Ember.Route.extend({
+Vocabulary.BookExamRoute = Ember.Route.extend({
 	renderTemplate: function(){
-		this.render('book/learnToolbox', {outlet: 'toolbox'});
-		this.render('book/learn', {outlet: 'content'});
+		this.render('book/examToolbox', {outlet: 'toolbox'});
+		this.render('book/exam', {outlet: 'content'});
 	},
 	sessionWords: null,
 	model: function(){
 		var book = this.modelFor('book');
 		var sessionWords = this.getSessionWords(book);
 		this.set('sessionWords', sessionWords);
-		return this.requestWordTranslations(sessionWords, 0, 3);
-	},
-	requestWordTranslations: function(sessionWords, start , count){
-		var wordsRange = sessionWords.slice(start, count);
-		var wordsRangeIds = wordsRange.map(function(item){ 
-			return item.get('word.id'); 
-		});
-		return this.store.query('wordTranslation', { 
-			ids: wordsRangeIds,
-			targetLanguage: 'ru' 
-		});
-	},
-	setWordTranslations: function(wordTranslations){
-		var dict = {};
-		var sessionWords = this.get('sessionWords');
-		sessionWords.forEach(function(wtl){
-			dict[wtl.get('word.value')] = wtl;
-		});
-		wordTranslations.forEach(function(wt){
-			dict[wt.record.get('word')].setWordTranslations(wt.record);
-		});
+		return book;
 	},
 	getSessionWords: function(book){
 		// . agregate data
@@ -42,7 +22,6 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 				wordToLearn = wordsDictionary[wordId] = Vocabulary.WordToLearn.create({ 
 					word: word,
 					bookWords: Ember.A(),
-					//wordTranslations: null,
 					cards: Ember.A()
 				});
 			}
@@ -66,16 +45,14 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 	setupController: function(controller, model){
 		// . set wordsTranslations
 		this.setWordTranslations(model.content);
+		// . set active word
+		controller.activateFirstWord();
 		// . set model
 		model = this.modelFor('book');
 		this._super(controller, model);
 		// . set session data
 		var sessionWords = this.get('sessionWords');
 		controller.set('sessionWords', sessionWords);
-		// . set active word
-		controller.activateFirstWord();
-		// . request for additional word translations
-		//this.requestWordTranslations(sessionWords,3,27);
 
 	    Ember.run.schedule('afterRender', this, this.afterRender);
 	},

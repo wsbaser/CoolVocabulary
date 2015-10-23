@@ -1,4 +1,3 @@
-{{learn-hotkeys onNextCard=(action "nextCard") onPrevCard=(action "prevCard") onNextWord=(action "nextWord")}}
 <div class="flex-centered fill-absolute">
 	<div id="learning-col" class="full-height">
 	    <div id="stencil" class="fill-absolute">
@@ -9,14 +8,10 @@
 {{!-- 					{{#each sessionWords as |wordToLearn|}}
 						{{learning-card wordToLearn=wordToLearn}}
 					{{/each}}
- --}}				</div>
- 				{{#if isLastWord}}
-					{{#link-to 'book'}}
-					<button id="finish" class="btn btn-info btn-xs">Finish</button>
-					{{/link-to}}
-				{{else}}
-					<button {{action 'nextWord'}} id="next_word" class="btn btn-success btn-xs">Next word</button>
-				{{/if}}
+ --}}			</div>
+ 				{{#unless isLastWord}}
+				<button {{action 'nextWord'}} id="next_word" class="btn btn-success btn-xs">Next word</button>
+				{{/unless}}
 			</div>
 			<div id="bottom-block"></div>
 	    </div>
