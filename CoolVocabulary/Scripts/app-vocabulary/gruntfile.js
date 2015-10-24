@@ -17,7 +17,8 @@ module.exports = function (grunt) {
                   "helpers/**/*.js",
                   "models/**/*.js",
                   "routes/**/*.js",
-                  "views/**/*.js"
+                  "views/**/*.js",
+                  "mixins/**/*.js"
              ]
         },
         clean: ["app/"],
@@ -25,6 +26,7 @@ module.exports = function (grunt) {
             js: {
                 src: ["vocabulary.js",
 		          "ct_adapter.js",
+                      "mixins/**/*.js",
 	              "components/**/*.js",
 	              "controllers/**/*.js",
 	              "helpers/**/*.js",
@@ -78,6 +80,7 @@ module.exports = function (grunt) {
             "templates/**/*.hbs",
 		    "vocabulary.js",
 		    "ct_adapter.js",
+            "mixins/**/*.js",
             "components/**/*.js",
             "controllers/**/*.js",
             "helpers/**/*.js",
