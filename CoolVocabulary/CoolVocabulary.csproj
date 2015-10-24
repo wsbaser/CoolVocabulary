@@ -225,6 +225,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\api\BookController.cs" />
     <Compile Include="Controllers\api\BookWordController.cs" />
+    <Compile Include="Controllers\api\ExamWordController.cs" />
     <Compile Include="Controllers\api\TranslationController.cs" />
     <Compile Include="Controllers\api\WordController.cs" />
     <Compile Include="Controllers\api\WordTranslationController.cs" />
