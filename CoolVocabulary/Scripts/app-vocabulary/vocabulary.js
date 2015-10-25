@@ -39,7 +39,7 @@ Vocabulary.ApplicationSerializer = DS.RESTSerializer.extend({
         this.mapRecord(payload);
       }
       payloadWithRoot = {};
-      payloadWithRoot[primaryType.modelName.pluralize()] = payload;
+      payloadWithRoot[primaryType.modelName.camelize().pluralize()] = payload;
       return this._super(store, primaryType, payloadWithRoot, id, requestType);
     }
   },
@@ -48,8 +48,10 @@ Vocabulary.ApplicationSerializer = DS.RESTSerializer.extend({
     for (propertyName in item){
       value = item[propertyName];
       newPropertyName = propertyName.camelize();
-      item[newPropertyName] = value;
-      delete item[propertyName];
+      if(newPropertyName!==propertyName){
+        item[newPropertyName] = value;
+        delete item[propertyName];
+      }
     }
   },
   serializeIntoHash: function(hash, type, record, options) {

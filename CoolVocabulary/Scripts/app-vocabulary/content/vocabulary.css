@@ -174,17 +174,16 @@ body{
 	opacity: 0.88;
 }
 
+
 /* LEARNING */
-
-body.learn{
-	background-color: #ddd;
-}
-
+.exam #toolbox,
+.exam #content,
 .learn #toolbox,
 .learn #content{
 	background-color: #ebeef2;
 }
 
+.exam #toolbox,
 .learn #toolbox{
 	border-bottom: 1px solid #dcdde1;/* #d5d5d5;*/
 }
@@ -232,12 +231,6 @@ body.learn{
 	overflow: hidden;
 }
 
-.learning-card{
-	margin: 4px 6px;
-	height: 292px;	/* same size as mignifier window */
-	position: relative;
-	background-color: #fff;
-}
 
 /* CARDS NAVIGATION */
 
@@ -305,13 +298,29 @@ body.learn{
 	border: 1px solid #dcdde1;
 }
 
-.word-circle.highlighted{
+.learn .word-circle.highlighted{
 	background-color: #5cb85c;
 }
 
-/* CARDS */
+.exam .word-circle.highlighted{
+	background-color: #f0ad4e;
+}
 
-.word-info-wrap{
+.exam .word-circle.highlighted.mistake{
+	background-color: #c9302c;
+}
+
+/* LEARNING CARD, EXAMINATION CARD */
+
+.examination-card,
+.learning-card{
+	margin: 4px 6px;
+	height: 292px;	/* same size as mignifier window */
+	position: relative;
+	background-color: #fff;
+}
+
+.learning-card .word-info-wrap{
 	margin: 10px;
 }
 
@@ -319,21 +328,63 @@ body.learn{
 	padding: 10px 20px;
 }
 
-.enlarge .word{
+.word-main-card .word{
 	font-size: 1.5em;
 }
 
-.enlarge .pronunciation{
+.word-main-card .pronunciation{
 	font-size: 1em;
 }
 
-.enlarge .translation{
+.examination-card .translation, 
+.word-main-card .translation{
 	font-size: 1.2em;
 }
 
 .learning-card .word-pictures-block{
 	padding-top: 15px;
 	margin: 0 10px;
+}
+
+/* EXAMINATION CARD */
+
+.examination-card>.container{
+	padding: 20px 30px;
+}
+
+.examination-card .word{
+
+}
+
+.examination-card .word{
+	font-size: 2em;
+}
+
+.examination-card ul{
+	padding: 0;
+	margin: 0;
+}
+
+.examination-card ul>li{
+	list-style-type: none;
+    background: #ebeef2;
+    margin: 5px 0;
+    border-radius: 3px;
+    padding: 10px 15px;
+    cursor: pointer;
+    border: 1px solid #dcdde1;
+}
+
+.examination-card ul>li:hover{
+	background-color: #f0ad4e;
+}
+
+.examination-card ul>li.mistake{
+	background-color: #c9302c;
+}
+
+.examination-card ul>li.correct{
+	background-color: #5cb85c;
 }
 
 /* EXAMPLES CARDS*/
@@ -478,8 +529,7 @@ div.gt-baf-translations {
     color: #777 !important;
 }
 
-
-/* Book */
+/* BOOK */
 
 #bookContainer{
   padding: 0 20px;

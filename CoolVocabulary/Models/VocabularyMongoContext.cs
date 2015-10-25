@@ -37,7 +37,10 @@ namespace CoolVocabulary.Models {
                 TranslationCards = transaltionCards
             };
             var filter = Builders<WordTranslations>.Filter.Eq(wt => wt.Word, word);
-            await collection.ReplaceOneAsync(filter, entity, options: new UpdateOptions { IsUpsert = true });
+            WordTranslations wordTranslations = await collection.Find(filter).SingleOrDefaultAsync();
+            if (wordTranslations == null) {
+                await collection.InsertOneAsync(entity);
+            }
         }
     }
 }

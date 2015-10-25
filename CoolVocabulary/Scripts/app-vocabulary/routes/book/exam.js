@@ -1,4 +1,34 @@
+// . amount of wrong translations for one exam card
+var WRONG_TRANSLATIONS_COUNT = 4;
+
 Vocabulary.WordToExam = Ember.Object.extend({
+	statusChanged: Ember.observer('isActive','isExamined', function(){
+		return Ember.run.once(this,'setIsHighlighted');
+	}),
+	setIsHighlighted: function(){
+		this.set('isHighlighted', this.get('isActive') || this.get('isExamined'));
+	},
+	setWrongTranslations: function(wrongTranslations){
+		// . set wordTranslations property
+		if(wrongTranslations && wrongTranslations.length){
+			this.set('wrongTranslations', wrongTranslations);
+			this.set('isValid', true);	
+		}
+	},
+	translations: Ember.computed('wrongTranslations', function(){
+		// . clone wrongTranslations array
+		var translations = this.get('wrongTranslations').map(function(item){
+			return Ember.Object.create({
+				word: item.get('word') 
+			});
+		});
+		// . correct translation
+		translations.push(Ember.Object.create({
+			word: this.get('translation')
+		}));
+		// . shuffle and return
+		return translations.sort(function(){ return 0.5-Math.random(); });
+	})
 });
 
 Vocabulary.BookExamRoute = Ember.Route.extend({
@@ -19,21 +49,21 @@ Vocabulary.BookExamRoute = Ember.Route.extend({
 		var DAY = 60*60*24*1000;
 		var now = Date.now();
 		book.get('bookWords').filter(function(item){ 
-			var learnedAt = item.get('learnedAt') || 0;
-			return (now-learnedAt)>DAY;
+			var examinedAt = item.get('examinedAt') || 0;
+			return (now-examinedAt)>DAY;
 		}).forEach(function(bookWord){
-			item.get('translations').forEach(function(translation){
-				wordsArr.push(Vocabulary.WordToExam({
+			bookWord.get('translations').forEach(function(translation){
+				wordsArr.push(Vocabulary.WordToExam.create({
 					word: bookWord.get('word.value'),
 					sourceLanguage: bookWord.get('word.language'),
-					speachPart: translation.get('speachPart'),
+					speachPart: bookWord.get('speachPart'),
 					translation: translation.get('value'),
 					targetLanguage: translation.get('language')
 				}));
-				wordsArr.push(Vocabulary.WordToExam({
+				wordsArr.push(Vocabulary.WordToExam.create({
 					word:translation.get('value'),
 					sourceLanguage: translation.get('language'),
-					speachPart: translation.get('speachPart'),
+					speachPart: bookWord.get('speachPart'),
 					translation: bookWord.get('word.value'),
 					targetLanguage: bookWord.get('word.language')
 				}));
@@ -53,49 +83,53 @@ Vocabulary.BookExamRoute = Ember.Route.extend({
 		nounsCount = verbsCount = adjectivesCount = adverbsCount = 0;
 		sessionWords.forEach(function(item){
 			switch(item.get('speachPart')){
-				case SpeachPart.NOUN:
+				case SpeachParts.NOUN:
 					nounsCount++;
 					break;
-				case SpeachPart.VERB:
+				case SpeachParts.VERB:
 					verbsCount++;
 					break;
-				case SpeachPart.ADJECTIVE:
+				case SpeachParts.ADJECTIVE:
 					adjectivesCount++;
 					break;
-				case SpeachPart.ADVERB:
+				case SpeachParts.ADVERB:
 					adverbsCount++;
 					break;
 				default:
-					throw new Error('Unknow speach part');
+					adverbsCount++;
+					break;
+					//throw new Error('Unknow speach part');
 			}
 		});
 		// . request exam words
 		return this.store.query('examWord', { 
 			sourceLanguage: sourceLanguage,
 			targetLanguage: targetLanguage,
-			nounsCount: nounsCount,
-			verbsCount: verbsCount,
-			adjectivesCount: adjectivesCount,
-			adverbsCount: adjectivesCount });
+			nounsCount: nounsCount*WRONG_TRANSLATIONS_COUNT,
+			verbsCount: verbsCount*WRONG_TRANSLATIONS_COUNT,
+			adjectivesCount: adjectivesCount*WRONG_TRANSLATIONS_COUNT,
+			adverbsCount: adverbsCount*WRONG_TRANSLATIONS_COUNT });
 	},
 	setWrongTranslations: function(examWords){
+		var self = this;
 		var sessionWords = this.get('sessionWords');
 		examWords = examWords.sort(function() { return 0.5 - Math.random(); });
 		sessionWords.forEach(function(item){
-			// . for each word find 4 wrong translations of the same spech part
-			var wrongTranslations = this.findWrongTranslaions(examWords, 
-				item.get('targetLanguage'), item.get('speachPart'), item.get('translation'), 4);
+			// . for each word find WRONG_TRANSLATIONS_COUNT wrong translations of the same spech part
+			var wrongTranslations = self.findWrongTranslaions(examWords, 
+				item.get('targetLanguage'), item.get('speachPart'), item.get('translation'),
+				WRONG_TRANSLATIONS_COUNT);
 			item.setWrongTranslations(wrongTranslations);
 		});
 	},
-	findWrongTranslaions: function(examWords, language, speachPart, correctTranslation count){
+	findWrongTranslaions: function(examWords, language, speachPart, correctTranslation, count){
 		var result = [];
-		for(var i=examWords.length; i>=0 && result.length<count; i--){
-			var ew = examWords[i];
+		for(var i=examWords.length-1; i>=0 && result.length<count; i--){
+			var ew = examWords[i].record;
 			if( ew.get('language')===language && 
 				ew.get('speachPart')===speachPart && 
 				ew.get('word')!==correctTranslation){
-				result.push(examWords.splice(i, i+1));
+				result.push(examWords.splice(i, 1)[0].record);
 			}
 		}
 		return result;
@@ -107,7 +141,8 @@ Vocabulary.BookExamRoute = Ember.Route.extend({
 		model = this.modelFor('book');
 		this._super(controller, model);
 		// . set session data
-		controller.set('sessionWords', this.get('sessionWords'));
+		var sessionWords = this.get('sessionWords').filterBy('isValid', true);
+		controller.set('sessionWords', sessionWords);
 		// . set active word
 		controller.activateFirstWord();
 		

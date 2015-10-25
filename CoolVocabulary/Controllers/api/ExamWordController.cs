@@ -15,8 +15,8 @@ namespace CoolVocabulary.Controllers.api {
     public class ExamWordController : ApiController {
         private VocabularyDbContext db = new VocabularyDbContext();
 
-        private void AddRandomWords(List<dynamic> words, LanguageType language, SpeachPartType speachPart, int count) {
-            IEnumerable<string> list = Redis.GetRandomWords(language, speachPart, count);
+        private async Task AddRandomWordsAsync(List<dynamic> words, LanguageType language, SpeachPartType speachPart, int count) {
+            List<string> list = await Redis.GetRandomWordsAsync(language, speachPart, count);
             foreach (string word in list) {
                 words.Add(new {
                     id = ObjectId.GenerateNewId().ToString(),
@@ -39,14 +39,14 @@ namespace CoolVocabulary.Controllers.api {
                 return BadRequest("Invalid target language");
             }
             var words = new List<dynamic>();
-            AddRandomWords(words, sourceLanguageType, SpeachPartType.noun, nounsCount);
-            AddRandomWords(words, sourceLanguageType, SpeachPartType.verb, verbsCount);
-            AddRandomWords(words, sourceLanguageType, SpeachPartType.adjective, adjectivesCount);
-            AddRandomWords(words, sourceLanguageType, SpeachPartType.adverb, adverbsCount);
-            AddRandomWords(words, targetLanguageType, SpeachPartType.noun, nounsCount);
-            AddRandomWords(words, targetLanguageType, SpeachPartType.verb, verbsCount);
-            AddRandomWords(words, targetLanguageType, SpeachPartType.adjective, adjectivesCount);
-            AddRandomWords(words, targetLanguageType, SpeachPartType.adverb, adverbsCount);
+            await AddRandomWordsAsync(words, sourceLanguageType, SpeachPartType.noun, nounsCount);
+            await AddRandomWordsAsync(words, sourceLanguageType, SpeachPartType.verb, verbsCount);
+            await AddRandomWordsAsync(words, sourceLanguageType, SpeachPartType.adjective, adjectivesCount);
+            await AddRandomWordsAsync(words, sourceLanguageType, SpeachPartType.adverb, adverbsCount);
+            await AddRandomWordsAsync(words, targetLanguageType, SpeachPartType.noun, nounsCount);
+            await AddRandomWordsAsync(words, targetLanguageType, SpeachPartType.verb, verbsCount);
+            await AddRandomWordsAsync(words, targetLanguageType, SpeachPartType.adjective, adjectivesCount);
+            await AddRandomWordsAsync(words, targetLanguageType, SpeachPartType.adverb, adverbsCount);
             return words;
         }
     }
