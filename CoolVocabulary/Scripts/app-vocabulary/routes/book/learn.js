@@ -34,7 +34,13 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 		// . agregate data
 		var wordsDictionary = {};
 		var wordsArr = [];
-		book.get('bookWords').forEach(function(item){
+		// . filter data
+		var DAY = 60*60*24*1000;
+		var now = Date.now();
+		book.get('bookWords').filter(function(item){ 
+			var learnedAt = item.get('learnedAt') || 0;
+			return (now-learnedAt)>DAY;
+		}).forEach(function(item){
 			var word = item.get('word');
 			var wordId = word.get('id');
 			var wordToLearn = wordsDictionary[wordId];
@@ -51,14 +57,7 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 		for(var wordId in wordsDictionary){
 			wordsArr.push(wordsDictionary[wordId]);
 		}
-
-		// . filter data
-		var DAY = 60*60*24*1000;
-		var now = Date.now();
-		wordsArr = $.grep(wordsArr, function(item){
-			var learnedAt = item.get('learnedAt') || 0;
-			return (now-learnedAt)>DAY;
-		});
+		wordsArr = wordsArr.sort(function(){ return 0.5 - Math.random(); });
 
 		// . get first 30
 		return wordsArr.slice(0, 30);

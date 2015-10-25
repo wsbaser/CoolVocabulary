@@ -135,6 +135,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="StackExchange.Redis">
+      <HintPath>..\packages\StackExchange.Redis.1.0.481\lib\net45\StackExchange.Redis.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -236,13 +239,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201510161605559_Initial.cs" />
-    <Compile Include="Migrations\201510161605559_Initial.Designer.cs">
-      <DependentUpon>201510161605559_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201510251239174_Initial.cs" />
+    <Compile Include="Migrations\201510251239174_Initial.Designer.cs">
+      <DependentUpon>201510251239174_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Redis.cs" />
     <Compile Include="Models\VocabularyBindingModels.cs" />
     <Compile Include="Models\VocabularyDbContext.cs" />
     <Compile Include="Models\VocabularyDtoModels.cs" />
@@ -363,8 +367,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201510161605559_Initial.resx">
-      <DependentUpon>201510161605559_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201510251239174_Initial.resx">
+      <DependentUpon>201510251239174_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

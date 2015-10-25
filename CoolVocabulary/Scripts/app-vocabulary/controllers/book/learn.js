@@ -44,7 +44,6 @@ Vocabulary.WordToLearn = Ember.Object.extend(Vocabulary.HasActiveObject, {
 		return this.get('cards').filterBy('type', CardTypes.EXAMPLES);
 	}),
 	addBookWord: function(bookWord){
-		this.set('learnedAt', bookWord.get('learnedAt'));
 		this.get('bookWords').pushObject(bookWord);
 	},
 	wordTranslationsObserver: Ember.observer('wordTranslations', function(){

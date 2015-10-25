@@ -1,1 +1,18 @@
-Examination card
+<div class="container">
+	<div class="row">
+		<div class="col-xs-6">
+			<span class="word">
+			{{wordToLearn.word}}
+			</span>
+		</div>
+		<div class="col-xs-6">
+			<ul class="translations-list">
+			{{#each wordToLearn.translations as |translation|}}
+				<li {{action "select" translation}} class="translation">
+					{{translation}}
+				</li>
+			{{/each}}
+			</ul>
+		</div>
+	</div>
+</div>

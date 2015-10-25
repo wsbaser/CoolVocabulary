@@ -29,7 +29,7 @@ namespace CoolVocabulary.Migrations
                         WordId = c.Int(nullable: false),
                         SpeachPart = c.Int(nullable: false),
                         LearnedAt = c.Int(nullable: false),
-                        CheckedAt = c.Int(nullable: false),
+                        ExaminedAt = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Books", t => t.BookId, cascadeDelete: true)

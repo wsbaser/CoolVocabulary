@@ -66,7 +66,7 @@ namespace CoolVocabulary.Models
             this.word = bookWord.WordId;
             this.speachPart = bookWord.SpeachPart;
             this.learnedAt = bookWord.LearnedAt;
-            this.checkedAt = bookWord.LearnedAt;
+            this.examinedAt = bookWord.ExaminedAt;
             this.translations = bookWord.Translations.Select(t => t.Id).ToList();
         }
         public int id { get; set; }
@@ -74,7 +74,7 @@ namespace CoolVocabulary.Models
         public int word { get; set; }
         public int speachPart { get; set; }
         public int learnedAt { get; set; }
-        public int checkedAt { get; set; }
+        public int examinedAt { get; set; }
         public List<int> translations { get; set; }
     }
 

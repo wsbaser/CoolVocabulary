@@ -13,7 +13,7 @@ namespace CoolVocabulary.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201510161605559_Initial"; }
+            get { return "201510251239174_Initial"; }
         }
         
         string IMigrationMetadata.Source
