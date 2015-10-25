@@ -307,7 +307,7 @@ body{
 }
 
 .exam .word-circle.highlighted.mistake{
-	background-color: #c9302c;
+	background-color: #dcdde1;
 }
 
 /* LEARNING CARD, EXAMINATION CARD */
@@ -373,6 +373,7 @@ body{
     padding: 10px 15px;
     cursor: pointer;
     border: 1px solid #dcdde1;
+    transition: background-color 0.3s;
 }
 
 .examination-card ul>li:hover{

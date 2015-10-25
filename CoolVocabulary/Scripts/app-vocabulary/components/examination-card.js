@@ -10,6 +10,7 @@ Vocabulary.ExaminationCardComponent = Ember.Component.extend({
 			}
 			else{
 				translation.set('isMistake', true);
+				wordToExam.set('isMistake', true);
 				var translations = wordToExam.get('translations');
 				for (var i = translations.length - 1; i >= 0; i--) {
 					if(translations[i].get('word')===correctWord){
