@@ -4,9 +4,6 @@ Vocabulary.BookIndexRoute = Ember.Route.extend({
 		this.render('book/indexToolbox', { outlet: 'toolbox' });
 		this.render('book/index', { outlet: 'content' });
 	},
-	// model: function(params){
-	// 	console.log('model hook is called for BookIndexRoute');
-	// },
 	setupController: function(controller, model){
 		model = this.controllerFor('book').get('model');
 	    this._super(controller, model);
@@ -15,8 +12,6 @@ Vocabulary.BookIndexRoute = Ember.Route.extend({
 	},
 	afterRender: function(controller){
 		var self = this;
-    	$('#content').removeClass('grey');
-    	$('#toolbox').removeClass('grey');
       	$('#install_ct_alert').modalPopover({
 		    target: '#word_input_form',
 		    placement: 'bottom',

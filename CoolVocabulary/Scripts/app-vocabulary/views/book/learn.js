@@ -1,9 +1,6 @@
 Vocabulary.BookLearnView = Ember.Component.extend({
 	didInsertElement: function(){
 		$('body').addClass('learn');
-		$('#content')[0].addEventListener('heightChanged', function(){
-			console.log('sdfsdfs');
-		});
     	$(window).on('resize', this, this.setupShadowPosition);
     	this.setupShadowPosition();
 	},

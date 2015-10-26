@@ -10,17 +10,10 @@ Vocabulary.WordTranslationRoute = Ember.Route.extend({
 		this._super(controller, model);
 		Ember.run.schedule('afterRender', this, this.afterRender);
 	},
-	// closePopover: function(event){
-	// 	var $rt = $(event.relatedTarget);
-	// 	if($rt.find('#word_details_popover').length||
-	// 		$rt.find('.show-details.active').length){
-	// 		return;
-	// 	}
-	// 	this.transitionTo('book');
-	// },
 	afterRender: function(){
 		var self = this;
 		var popoverEl = $('#word_details_popover');
+		
 		// . initialize popover
 		popoverEl.modalPopover({
 		    target: '.show-details.active',
@@ -35,9 +28,6 @@ Vocabulary.WordTranslationRoute = Ember.Route.extend({
 
 		// . show popover
 		popoverEl.modalPopover('show');
-
-		// popoverEl.on('mouseout', this.closePopover.bind(this));
-		// $('.show-details.active').on('mouseout', this.closePopover.bind(this));
 
 		// . listen for events to hide "Word Details" popover
 		// popoverEl.on('blur', function(){

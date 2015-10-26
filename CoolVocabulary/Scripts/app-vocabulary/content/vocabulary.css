@@ -176,6 +176,11 @@ body{
 
 
 /* LEARNING */
+body.learn,
+body.exam{
+	background-color: #ccc;
+}
+
 .exam #toolbox,
 .exam #content,
 .learn #toolbox,

@@ -5,6 +5,9 @@ Vocabulary.WordTranslationController = Ember.Controller.extend({
 		},
 		move: function(){
 			console.log('move word to another book');
+		},
+		hideWordDetails: function(){
+			this.transitionToRoute('book');
 		}
 	}
 });
