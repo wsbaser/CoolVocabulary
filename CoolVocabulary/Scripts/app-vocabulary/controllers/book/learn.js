@@ -127,7 +127,7 @@ Vocabulary.WordToLearn = Ember.Object.extend(Vocabulary.HasActiveObject, {
 	},
 	addSimpleCard: function(cards, json, serviceType, cardType){
 		var cardJson = this.getCardJson(json, serviceType, cardType);
-		if(cardJson){
+		if(cardJson && Object.keys(cardJson).length){
 			cards.push(Vocabulary.WordCard.create({
 				type: cardType,
 				serviceType: serviceType,
@@ -160,7 +160,7 @@ Vocabulary.WordToLearn = Ember.Object.extend(Vocabulary.HasActiveObject, {
 });
 
 var CARD_HEIGHT = 346;	// . 346 because of margin collapse
-var SCROLL_TIME = 500;	// мс.
+var SCROLL_TIME = 400;	// мс.
 
 $.extend($.scrollTo.defaults, {
   axis: 'y',
@@ -176,12 +176,18 @@ Vocabulary.BookLearnController = Ember.Controller.extend(Vocabulary.HasActiveObj
 	},
 	isLastWord: Ember.computed.alias('isLastObject'),
 	scrollToNextWord: function(){
+		this.set('isScrolling', true);
 		var scrollOffset = '+=' + CARD_HEIGHT + 'px';
-		$('#learning-cards-shadow').scrollTo(scrollOffset);
+		$('#learning-cards-shadow').scrollTo(scrollOffset,{onAfter:function(){
+			this.set('isScrolling', false);
+		}.bind(this)});
 		$('#learning-cards').scrollTo(scrollOffset);
 	},
 	actions: {
 		nextWord: function(){
+			if(this.get('isScrolling')){
+				return;
+			}
 			var activeWord = this.get('activeWord');
 			activeWord.set('isLearned', true);
 			this.scrollToNextWord();

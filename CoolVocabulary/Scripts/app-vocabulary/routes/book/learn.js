@@ -11,7 +11,7 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 		return this.requestWordTranslations(sessionWords, 0, 3);
 	},
 	requestWordTranslations: function(sessionWords, start , count){
-		var wordsRange = sessionWords.slice(start, count);
+		var wordsRange = sessionWords.slice(start, start+count);
 		var wordsRangeIds = wordsRange.map(function(item){ 
 			return item.get('word.id'); 
 		});
