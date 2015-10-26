@@ -411,33 +411,29 @@ body.exam{
 /* EXAMPLES CARDS*/
 
 .word-examples-card{
-	padding: 20px;
+	padding: 30px;
+	line-height: 1.5;
 }
 
-.examples-list{
-	padding: 0;
-	border-left: 1px solid rgb(207, 207, 207);
-	border-right: 1px solid rgb(207, 207, 207);
+.word-examples-card .example{
+	margin: 20px;
 }
 
-.example-item{
-	list-style-type: none;
-    border-top: 1px solid rgb(207, 207, 207);
-    display: flex;
-}
-
-.example-item:first-child{
-    border-top: 0;	
-}
-
-.examples-list .original,
-.examples-list .translation{
+.word-examples-card .example .original,
+.word-examples-card .example .translation{
 	padding: 10px 14px;
-    flex-basis: 50%;
-    font: 13px/16px Arial, Verdana, Geneva, sans-serif;
 }
 
-.examples-list .l-examples__found{
+.word-examples-card .original{
+	font-size: 16px;
+}
+
+.word-examples-card .translation{
+	font-style: italic;
+	color: #888;
+}
+
+.word-examples-card .l-examples__found{
 	background: none 0px 0px repeat scroll rgb(255, 220, 127);
     font-style: normal;
 }
@@ -466,7 +462,14 @@ body.exam{
 }
 
 .gt-def-info {
-    margin-bottom: 12px !important;
+    font-size: 1.1em;
+    line-height: 1.5;
+    margin: 4px 0 12px 12px;
+}
+
+.gt-def-header{
+	padding-top: 4px;
+	font-size: 13px;
 }
 
 .gt-ex-info {
@@ -475,7 +478,6 @@ body.exam{
 
 .gt-def-example {
     color: #777 !important;
-    margin-top: 2px !important;
     unicode-bidi: inherit !important;
 }
 
@@ -496,12 +498,12 @@ div.gt-baf-pos-head {
 }
 
 .gt-cd-pos {
-    color: #777 !important;
+    color: #888 !important;
     font-style: italic !important;
 }
 
 div.gt-baf-marker-container {
-    height: 18px !important;
+    height: 20px !important;
     margin: 1px 0 !important;
     overflow: hidden !important;
     padding: 0 0.1em 0 0.7em !important;
@@ -532,8 +534,9 @@ div.gt-baf-cts {
 }
 
 .gt-baf-word-clickable, .gt-baf-translations{
-    height: 18px !important;
-    margin: 1px 0 0 4px !important;
+    height: 20px !important;
+    margin: 1px 0 0 12px !important;
+    font-size: 1.1em;
 }
 
 div.gt-baf-translations {
@@ -541,7 +544,7 @@ div.gt-baf-translations {
     padding: 0 0 0 1em !important;
     unicode-bidi: embed !important;
     vertical-align: top !important;
-    min-height: 18px !important;
+    min-height: 20px !important;
 }
 
 .gt-baf-back {

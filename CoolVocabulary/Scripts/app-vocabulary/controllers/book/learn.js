@@ -84,7 +84,6 @@ Vocabulary.WordToLearn = Ember.Object.extend(Vocabulary.HasActiveObject, {
 		return cards.slice(0, EXAMPLE_CARDS_COUNT);
 	},
 	generateAbbyExampleCards: function(cardJson){
-		console.log('EXAMPLE LENGTHS:');
 		var all = $(cardJson).find('.js-examples-table-trans').map(function(index, item){
 			var $item = $(item);
 			return {

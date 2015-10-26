@@ -1,14 +1,13 @@
-<ul class="examples-list">
 {{#each data as |example|}}
-	<li class="example-item">
-		<span class='original'>
+	<div class="example">
+		<div class='original'>
 			{{{example.original}}}
-		</span>
+		</div>
 		{{#if example.translation}}
-			<span class='translation'>
+			<hr class="splitter"/>
+			<div class='translation'>
 				{{{example.translation}}}
-			</span>
+			</div>
 		{{/if}}
-	</li>
+	</div>
 {{/each}}
-</ul>

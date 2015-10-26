@@ -6,7 +6,7 @@
 	{{#each translations as |translation|}}
   	<li class="translation">
     	{{translation.value}}
-    	{{#if showRemoveButton}} 
+    	{{#if showRemoveButton}}
 	    <span {{action "remove"}} class="glyphicon glyphicon glyphicon-remove btn-sm color-grey pull-right" title="Remove translation"></span>
 		{{/if}}
   	</li>
