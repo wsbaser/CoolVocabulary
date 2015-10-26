@@ -16,8 +16,8 @@ Vocabulary.WordCard = Ember.Object.extend({
 });
 
 
-var EXAMPLES_PER_CARD = 1;
 var EXAMPLE_CARDS_COUNT = 3;
+var MAX_EXAMPLE_LENGTH = 150;
 
 Vocabulary.WordToLearn = Ember.Object.extend(Vocabulary.HasActiveObject, {
 	statusChanged: Ember.observer('isActive','isLearned', function(){
@@ -87,15 +87,13 @@ Vocabulary.WordToLearn = Ember.Object.extend(Vocabulary.HasActiveObject, {
 		console.log('EXAMPLE LENGTHS:');
 		var all = $(cardJson).find('.js-examples-table-trans').map(function(index, item){
 			var $item = $(item);
-			console.log($item.find('.orig>div').html().length);
 			return {
-				original: $item.find('.orig>div').html(),
-				translation: $item.find('.transl>div').html(),
-				sourceOriginal: $item.next().find('.l-examples__lcol').html(),
-				sourceTranslation: $item.next().find('.l-examples__rcol').html()
+				original: $item.find('.orig>div').html().trim(),
+				translation: $item.find('.transl>div').html().trim(),
+				sourceOriginal: $item.next().find('.l-examples__lcol').html().trim(),
+				sourceTranslation: $item.next().find('.l-examples__rcol').html().trim()
 			};
-		});
-
+		}).toArray();
 		return this.generateRandomExampleCards(all, ServiceTypes.ABBY);
 	},
 	generateGoogleExampleCards: function(cardJson){
@@ -107,19 +105,30 @@ Vocabulary.WordToLearn = Ember.Object.extend(Vocabulary.HasActiveObject, {
 		return this.generateRandomExampleCards(all, ServiceTypes.GOOGLE);
 	},
 	generateRandomExampleCards: function(examples, serviceType, count){
-		var cards = [];
+		// . examples should be short if it possible
+		var shortExamples = examples.filter(function(item){
+			return item.original.length<MAX_EXAMPLE_LENGTH;
+		});
+		if(shortExamples.length>=EXAMPLE_CARDS_COUNT){
+			examples = shortExamples;
+		}
+		
+		// .examples should be random
 		examples = examples.sort(function() { return 0.5 - Math.random(); });
+
+		// .generate example cards
+		var cards = [];
 		var startIndex = 0;
 		var index = 0;
 		count = count || EXAMPLE_CARDS_COUNT;
-		while(startIndex+EXAMPLES_PER_CARD<=examples.length && index++<count){
+		while(startIndex+1<=examples.length && index++<count){
 			cards.push(Vocabulary.WordCard.create({
 				type: CardTypes.EXAMPLES,
 				serviceType: serviceType,
 				wordToLearn: this,
-				data: examples.slice(startIndex, startIndex+EXAMPLES_PER_CARD)
+				data: examples.slice(startIndex, startIndex+1)
 			}));
-			startIndex+=EXAMPLES_PER_CARD;
+			startIndex+=1;
 		}
 		return cards;
 	},
