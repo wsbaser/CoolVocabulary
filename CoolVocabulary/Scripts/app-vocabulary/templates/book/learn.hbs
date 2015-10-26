@@ -5,11 +5,10 @@
 	    	<div id="top-block"></div>
 	    	<div id="magnifier-block">
 	    		<div id="learning-cards" class="fill-absolute">
-					{{learning-card wordToLearn=activeWord}}
-{{!-- 					{{#each sessionWords as |wordToLearn|}}
+					{{#each sessionWords as |wordToLearn|}}
 						{{learning-card wordToLearn=wordToLearn}}
 					{{/each}}
- --}}				</div>
+				</div>
  				{{#if isLastWord}}
 					{{#link-to 'book'}}
 					<button id="finish" class="btn btn-info btn-xs">Finish</button>
@@ -21,6 +20,7 @@
 			<div id="bottom-block"></div>
 	    </div>
 		<div id="learning-cards-shadow" class="fill-absolute">
+			<div class="learning-card" style="background: transparent;"></div>
 			{{#each sessionWords as |wordToLearn|}}
 				{{learning-card wordToLearn=wordToLearn}}
 			{{/each}}

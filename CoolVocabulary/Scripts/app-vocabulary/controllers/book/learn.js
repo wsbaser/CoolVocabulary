@@ -159,6 +159,14 @@ Vocabulary.WordToLearn = Ember.Object.extend(Vocabulary.HasActiveObject, {
 	}
 });
 
+var CARD_HEIGHT = 346;	// . 346 because of margin collapse
+var SCROLL_TIME = 500;	// мс.
+
+$.extend($.scrollTo.defaults, {
+  axis: 'y',
+  duration: SCROLL_TIME
+});
+
 Vocabulary.BookLearnController = Ember.Controller.extend(Vocabulary.HasActiveObject, {
 	// . HasActiveObject mixin support 
 	collection: Ember.computed.alias('sessionWords'),
@@ -167,29 +175,21 @@ Vocabulary.BookLearnController = Ember.Controller.extend(Vocabulary.HasActiveObj
 		this.activateFirstObject();
 	},
 	isLastWord: Ember.computed.alias('isLastObject'),
-	// showNeighbourCard: function(dir){
-	// 	var cardsCount = 3; // this.get('cards').length;
-	// 	var index = this.get('curCardIndex')+dir;
-	// 	console.log('nextCardIndex: '+index);
-	// 	if( index<0 || index>=cardsCount ){
-	// 		return;
-	// 	}
-	// 	this.set('curCardIndex', index);
-	// 	var scrollOffset =
-	// 		( dir>0 ?
-	// 		'+='+CARD_HEIGHT:
-	// 		'-='+CARD_HEIGHT)+'px';
-	// 	var SCROLL_TIME = 300;	// мс.
-	// 	$('.learning-cards-shadow').scrollTo(scrollOffset, SCROLL_TIME);
-	// 	$('.learning-cards').scrollTo(scrollOffset, SCROLL_TIME);
-	// },
+	scrollToNextWord: function(){
+		var scrollOffset = '+=' + CARD_HEIGHT + 'px';
+		$('#learning-cards-shadow').scrollTo(scrollOffset);
+		$('#learning-cards').scrollTo(scrollOffset);
+	},
 	actions: {
 		nextWord: function(){
 			var activeWord = this.get('activeWord');
 			activeWord.set('isLearned', true);
-			if(!this.nextObject()){
-				this.transitionToRoute('book');
-			}
+			this.scrollToNextWord();
+			setTimeout(function(){
+				if(!this.nextObject()){
+					this.transitionToRoute('book');
+				}
+			}.bind(this), SCROLL_TIME);
 		},
 		nextCard: function(){
 			if(!this.get('activeWord').nextCard()){

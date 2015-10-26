@@ -213,7 +213,7 @@ body{
 }
 
 #magnifier-block{
-    height:300px;
+    height:350px;
     position:relative;
 	/*background: #FFF;*/
     box-sizing: border-box;
@@ -227,7 +227,7 @@ body{
 
 #learning-cards-shadow{
 	z-index: 1988;
-	opacity: 0.2;
+	opacity: 0.1;
 	overflow: hidden;
 }
 
@@ -314,9 +314,9 @@ body{
 
 .examination-card,
 .learning-card{
-	margin: 4px 6px;
-	height: 292px;	/* same size as mignifier window */
+	height: 342px;	/* same size as mignifier window */
 	position: relative;
+	margin: 4px 6px;
 	background-color: #fff;
 }
 
@@ -336,8 +336,7 @@ body{
 	font-size: 1em;
 }
 
-.examination-card .translation, 
-.word-main-card .translation{
+.examination-card .translation{
 	font-size: 1.2em;
 }
 
@@ -346,7 +345,23 @@ body{
 	margin: 0 10px;
 }
 
+.learning-card .word-pictures .picSmall{
+ 	max-height: 60px;
+ 	max-width: 60px;
+}
+
+.learning-card .word-pictures .picBig{
+ 	left: 25px;
+ 	top: 64px;
+}
+
+
 /* EXAMINATION CARD */
+
+.word-main-card .translation{
+	font-size: 1.2em;
+	color: #444;	
+}
 
 .examination-card>.container{
 	padding: 20px 30px;
@@ -370,7 +385,7 @@ body{
     background: #ebeef2;
     margin: 5px 0;
     border-radius: 3px;
-    padding: 10px 15px;
+    padding: 17px 20px;
     cursor: pointer;
     border: 1px solid #dcdde1;
     transition: background-color 0.3s;
@@ -644,11 +659,6 @@ a:hover .manageIcons .glyphicon {
  	max-width: 30px;
 }
 
-.enlarge .word-pictures .picSmall{
- 	max-height: 50px;
- 	max-width: 50px;
-}
-
 .word-pictures .picBig {
  	position: absolute;
  	visibility: hidden;
@@ -656,11 +666,6 @@ a:hover .manageIcons .glyphicon {
  	left: 15px;
  	top: 34px;
  	z-index: 1;
-}
-
-.enlarge .word-pictures .picBig{
- 	left: 25px;
- 	top: 54px;
 }
 
 .word-pictures .picSmall:hover+.picBig{
