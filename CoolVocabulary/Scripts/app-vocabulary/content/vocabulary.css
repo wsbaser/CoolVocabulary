@@ -75,6 +75,20 @@
 	align-items: center;
 }
 
+/* http://davidwalsh.name/css-slide */
+
+.slider {
+	overflow-y: hidden;
+	max-height: 500px; /* approximate max height */
+	transition-property: max-height;
+	transition-duration: 0.2s;
+	transition-timing-function: linear;
+}
+
+.slider.closed {
+	max-height: 0;
+}
+
 /* http://weblog.west-wind.com/posts/2014/Feb/22/Using-CSS-Transitions-to-SlideUp-and-SlideDown */
 
 .fadein, .fadeout {

@@ -28,6 +28,7 @@ Vocabulary.WordTranslationRoute = Ember.Route.extend({
 
 		// . show popover
 		popoverEl.modalPopover('show');
-		popoverEl.removeClass('fadeout').addClass('fadein');
+		popoverEl.removeClass('closed');
+		//popoverEl.removeClass('fadeout').addClass('fadein');
 	}
 });

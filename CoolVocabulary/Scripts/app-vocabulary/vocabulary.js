@@ -5,7 +5,7 @@
 Vocabulary.Router.map(function(){
   this.route('book', { path: 'book/:book_id' }, function(){
     this.route('index', {path:'/'}, function(){
-      this.route('wordTranslation', { path:'wordTranslation/:bookWord_id', resetNamespace: true });
+      this.route('wordTranslation', { path:'word/:bookWord_id', resetNamespace: true });
     });
     this.route('learn');
     this.route('exam');
