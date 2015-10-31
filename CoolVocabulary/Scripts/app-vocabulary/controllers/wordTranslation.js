@@ -7,7 +7,7 @@ Vocabulary.WordTranslationController = Ember.Controller.extend({
 			console.log('move word to another book');
 		},
 		hideWordDetails: function(){
-			//$('#word_details_popover').removeClass('fadein').addClass('fadeout');
+			$('#word_details_popover').removeClass('fadein').addClass('fadeout');
 			this.transitionToRoute('book');
 		}
 	}
