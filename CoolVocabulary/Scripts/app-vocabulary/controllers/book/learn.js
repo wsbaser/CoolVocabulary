@@ -222,6 +222,9 @@ Vocabulary.BookLearnController = Ember.Controller.extend(Vocabulary.HasActiveObj
 		},
 		prevCard: function(){
 			this.get('activeWord').prevCard();
+		},
+		playSound: function(){
+			this.get('activeWord').playSound();
 		}
 	}
 });

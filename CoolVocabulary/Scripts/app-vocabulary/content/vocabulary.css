@@ -75,6 +75,17 @@
 	align-items: center;
 }
 
+/* http://weblog.west-wind.com/posts/2014/Feb/22/Using-CSS-Transitions-to-SlideUp-and-SlideDown */
+
+.fadein, .fadeout {
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+}
+
+.fadein {
+    opacity: 1;
+}
+
 /****** scrollbar style from http://maxvoltar.com/, http://almaer.com/scrollbar/debug.html ****************************/
 
 ::-webkit-scrollbar {

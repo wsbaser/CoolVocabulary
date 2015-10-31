@@ -28,10 +28,6 @@ Vocabulary.WordTranslationRoute = Ember.Route.extend({
 
 		// . show popover
 		popoverEl.modalPopover('show');
-
-		// . listen for events to hide "Word Details" popover
-		// popoverEl.on('blur', function(){
-		// 	self.transitionTo('book');
-		// });
+		popoverEl.removeClass('fadeout').addClass('fadein');
 	}
 });

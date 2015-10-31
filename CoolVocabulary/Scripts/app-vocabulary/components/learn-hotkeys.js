@@ -15,6 +15,9 @@ Vocabulary.LearnHotkeysComponent = Ember.Component.extend({
 			case 13:
 				self.get('onNextWord')();
 				break;
+			case 32:
+				self.get('onPlaySound')();
+				break;
 		}
 	},
 	willDestroyElement: function(){
