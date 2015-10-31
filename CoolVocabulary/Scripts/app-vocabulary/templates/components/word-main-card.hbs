@@ -1,19 +1,23 @@
-{{word-pictures word=card.wordToLearn.word}}
-<div class="container word-info-wrap">
-	<div class="row">
-		<div class="col-xs-6 word-info">
-			<div class="word-wrap">
-		        <span class="word">{{card.wordToLearn.word.value}}</span>
-		        	{{word-sound autoPlay=false word=card.wordToLearn.word}}
+<div class="card-content">
+	{{word-pictures word=card.wordToLearn.word}}
+	<div class="container word-info-wrap">
+		<div class="row">
+			<div class="col-xs-6 word-info">
+				<div class="word-wrap">
+			        <span class="word">
+			        	{{card.wordToLearn.word.value}}
+			        	{{word-sound autoPlay=false word=card.wordToLearn.word playSoundCounter=card.wordToLearn.playSoundCounter}}
+			        </span>
+				</div>
+				<div class="pronunciation-wrap">
+					<span class="pronunciation">{{card.wordToLearn.word.pronunciation}}</span>
+				</div>
 			</div>
-			<div class="pronunciation-wrap">
-				<span class="pronunciation">{{card.wordToLearn.word.pronunciation}}</span>
+			<div class="col-xs-6 word-translations-all">
+			{{#each card.wordToLearn.bookWords as |bookWord|}}
+				{{word-translations showRemoveButton=false translations=bookWord.translations speachPart=bookWord.speachPart}}
+			{{/each}}
 			</div>
-		</div>
-		<div class="col-xs-6 word-translations-all">
-		{{#each card.wordToLearn.bookWords as |bookWord|}}
-			{{word-translations showRemoveButton=false translations=bookWord.translations speachPart=bookWord.speachPart}}
-		{{/each}}
 		</div>
 	</div>
 </div>

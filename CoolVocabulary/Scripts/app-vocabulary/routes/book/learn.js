@@ -71,8 +71,6 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 		// . set session data
 		var sessionWords = this.get('sessionWords');
 		controller.set('sessionWords', sessionWords);
-		// . set active word
-		controller.activateFirstWord();
 		// . request for additional word translations
 		this.requestWordTranslations(sessionWords, 3, 27).then(function(data){
 			this.setWordTranslations(data.content);
@@ -81,8 +79,9 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 	    Ember.run.schedule('afterRender', this, this.afterRender);
 	},
 	afterRender: function(){
-	// . bind touch events here
-
+		// . set active word
+		this.controller.activateFirstWord();
+		
    	//    	$('body').on('mousewheel', function(event){
 			// if(event.originalEvent.wheelDeltaY<0) {
 			// 	$('#learning-cards-shadow').scrollTo('+=300px', 300);

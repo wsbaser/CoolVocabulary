@@ -75,6 +75,32 @@
 	align-items: center;
 }
 
+/****** scrollbar style from http://maxvoltar.com/, http://almaer.com/scrollbar/debug.html ****************************/
+
+::-webkit-scrollbar {
+    width: 6px; 
+    height: 6px;
+}
+
+::-webkit-scrollbar-track-piece {
+    background: #fff;
+}
+
+::-webkit-scrollbar-button:start:decrement,
+::-webkit-scrollbar-button:end:increment {
+    display: none;
+}
+
+::-webkit-scrollbar-thumb:vertical {
+    height: 25px;
+    -webkit-border-radius: 5px;
+    background-color: #d5d9df;
+}
+
+::-webkit-scrollbar-thumb:vertical:hover {
+    background-color: #C1C5C9;
+}
+
 /* STRUCTURE */
 
 body{
@@ -232,10 +258,14 @@ body.exam{
 
 #learning-cards-shadow{
 	z-index: 1988;
-	opacity: 0.1;
+	opacity: 0.15;
 	overflow: hidden;
 }
 
+.word.header{
+	text-align: center;
+    font-size: 1.5em;
+}
 
 /* CARDS NAVIGATION */
 
@@ -317,12 +347,33 @@ body.exam{
 
 /* LEARNING CARD, EXAMINATION CARD */
 
+.word-main-card,
+.google-translations-card,
+.google-definitions-card,
+.word-examples-card{
+	padding: 10px 20px;
+}
+
 .examination-card,
 .learning-card{
 	height: 342px;	/* same size as mignifier window */
 	position: relative;
-	margin: 4px 6px;
+	margin: 4px 6px 8px 6px;
 	background-color: #fff;
+}
+
+.card-content{
+	overflow: auto;
+}
+
+.word-main-card .card-content{
+	height: 305px;
+}
+
+.google-translations-card .card-content,
+.google-definitions-card .card-content,
+.word-examples-card .card-content{
+	height: 263px;
 }
 
 .learning-card .word-info-wrap{
@@ -345,11 +396,11 @@ body.exam{
 	font-size: 1.2em;
 }
 
-.learning-card .word-pictures-block{
-	padding-top: 15px;
+/*.learning-card .word-pictures-block{
+	padding-top: 5px;
 	margin: 0 10px;
 }
-
+*/
 .learning-card .word-pictures .picSmall{
  	max-height: 100px;
  	max-width: 100px;
@@ -357,16 +408,28 @@ body.exam{
 }
 
 .learning-card .word-pictures .picBig{
- 	left: 25px;
+ 	left: 50px;
  	top: 104px;
 }
 
-/* EXAMINATION CARD */
 
 .word-main-card .translation{
 	font-size: 1.2em;
 	color: #444;	
 }
+
+.word-main-card .word-sound>img{
+	width: 15px;
+	height: 15px;
+}
+
+.word-main-card .word-sound:hover>img{
+	width: 16px;
+	height: 16px;
+}
+
+
+/* EXAMINATION CARD */
 
 .examination-card>.container{
 	padding: 20px 30px;
@@ -410,13 +473,9 @@ body.exam{
 
 /* EXAMPLES CARDS*/
 
-.word-examples-card{
-	padding: 30px;
-	line-height: 1.5;
-}
-
 .word-examples-card .example{
-	margin: 20px;
+	line-height: 1.5;
+	margin: 20px 30px;
 }
 
 .word-examples-card .example .original,
@@ -440,13 +499,9 @@ body.exam{
 
 /* GOOGLE CARDS*/
 
-.google-translations-card,
-.google-definitions-card{
-	padding: 10px 20px 10px 50px;
-}
-
 .gt-cd-c{
 	margin-top: 10px;
+	margin-left: 30px;
 }
 
 .gt-cd-t {

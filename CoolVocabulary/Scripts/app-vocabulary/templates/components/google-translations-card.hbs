@@ -1,31 +1,36 @@
-{{#each data as |spTranslations|}}
-<div class="gt-cd-c">
-	<table class="gt-baf-table">
-		<tbody>
-			<tr>
-				<td colspan="4">
-					<div class="gt-baf-cell gt-baf-pos-head"><span class="gt-cd-pos">
-						{{speach-part spTranslations.sp}}
-					</span></div>
-				</td>
-			</tr>
-			{{#each spTranslations.translations as |translation|}}
-			<tr>
-				<td colspan="2">
-					<div class="gt-baf-cell gt-baf-word-clickable">{{{translation.word}}}</div>
-				</td>
-				<td style="width: 100%;">
-					<div class="gt-baf-cell gt-baf-translations">
-						{{#each translation.reverseTranslations as |reverseTranslation|}}
-							<span class="gt-baf-back">{{{reverseTranslation.value}}}</span>
-							{{#unless reverseTranslation.isLast}},
-							{{/unless}}
-						{{/each}}
-					</div>
-				</td>
-			</tr>
-			{{/each}}
-		</tbody>
-	</table>
+<div class="word header">
+	{{card.wordToLearn.word.value}}
 </div>
-{{/each}}
+<div class="card-content">
+	{{#each data as |spTranslations|}}
+	<div class="gt-cd-c">
+		<table class="gt-baf-table">
+			<tbody>
+				<tr>
+					<td colspan="4">
+						<div class="gt-baf-cell gt-baf-pos-head"><span class="gt-cd-pos">
+							{{speach-part spTranslations.sp}}
+						</span></div>
+					</td>
+				</tr>
+				{{#each spTranslations.translations as |translation|}}
+				<tr>
+					<td colspan="2">
+						<div class="gt-baf-cell gt-baf-word-clickable">{{{translation.word}}}</div>
+					</td>
+					<td style="width: 100%;">
+						<div class="gt-baf-cell gt-baf-translations">
+							{{#each translation.reverseTranslations as |reverseTranslation|}}
+								<span class="gt-baf-back">{{{reverseTranslation.value}}}</span>
+								{{#unless reverseTranslation.isLast}},
+								{{/unless}}
+							{{/each}}
+						</div>
+					</td>
+				</tr>
+				{{/each}}
+			</tbody>
+		</table>
+	</div>
+	{{/each}}
+</div>

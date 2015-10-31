@@ -1,13 +1,18 @@
-{{#each data as |example|}}
-	<div class="example">
-		<div class='original'>
-			{{{example.original}}}
-		</div>
-		{{#if example.translation}}
-			<hr class="splitter"/>
-			<div class='translation'>
-				{{{example.translation}}}
+<div class="word header">
+	{{card.wordToLearn.word.value}}
+</div>
+<div class="card-content">
+	{{#each data as |example|}}
+		<div class="example">
+			<div class='original'>
+				{{{example.original}}}
 			</div>
-		{{/if}}
-	</div>
-{{/each}}
+			{{#if example.translation}}
+				<hr class="splitter"/>
+				<div class='translation'>
+					{{{example.translation}}}
+				</div>
+			{{/if}}
+		</div>
+	{{/each}}
+</div>

@@ -20,6 +20,9 @@ var EXAMPLE_CARDS_COUNT = 3;
 var MAX_EXAMPLE_LENGTH = 150;
 
 Vocabulary.WordToLearn = Ember.Object.extend(Vocabulary.HasActiveObject, {
+	playSound: function(){
+		this.set('playSoundCounter', Math.random());
+	},
 	statusChanged: Ember.observer('isActive','isLearned', function(){
 		return Ember.run.once(this,'setIsHighlighted');
 	}),
@@ -170,7 +173,7 @@ Vocabulary.WordToLearn = Ember.Object.extend(Vocabulary.HasActiveObject, {
 	}
 });
 
-var CARD_HEIGHT = 346;	// . 346 because of margin collapse
+var CARD_HEIGHT = 350;	// . 346 because of margin collapse
 var SCROLL_TIME = 400;	// мс.
 
 $.extend($.scrollTo.defaults, {
@@ -184,6 +187,7 @@ Vocabulary.BookLearnController = Ember.Controller.extend(Vocabulary.HasActiveObj
 	activeWord: Ember.computed.alias('activeObject'),
 	activateFirstWord: function(){
 		this.activateFirstObject();
+		this.get('activeWord').playSound();
 	},
 	isLastWord: Ember.computed.alias('isLastObject'),
 	scrollToNextWord: function(){
@@ -205,6 +209,9 @@ Vocabulary.BookLearnController = Ember.Controller.extend(Vocabulary.HasActiveObj
 			setTimeout(function(){
 				if(!this.nextObject()){
 					this.transitionToRoute('book');
+				}
+				else{
+					this.get('activeWord').playSound();
 				}
 			}.bind(this), SCROLL_TIME);
 		},

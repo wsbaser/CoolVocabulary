@@ -13,6 +13,12 @@ Vocabulary.WordSoundComponent = Ember.Component.extend({
 		}
 		return result;
 	}),
+	playSoundHandler: Ember.observer('playSoundCounter', function(){
+		var counter = this.get('playSoundCounter');
+		if(counter){
+			this.playSound();
+		}
+	}),
 	didInsertElement: function(){
 		if(this.get('autoPlay')){
 			this.playSound();
