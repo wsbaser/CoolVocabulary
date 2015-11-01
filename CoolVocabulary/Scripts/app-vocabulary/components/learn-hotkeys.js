@@ -8,16 +8,16 @@ Vocabulary.LearnHotkeysComponent = Ember.Component.extend({
 		switch(e.keyCode){
 			case 37:
 				self.get('onPrevCard')();
-				break;
+				return false;
 			case 39:
 				self.get('onNextCard')();
-				break;
+				return false;
 			case 13:
 				self.get('onNextWord')();
-				break;
+				return false;
 			case 32:
 				self.get('onPlaySound')();
-				break;
+				return false;
 		}
 	},
 	willDestroyElement: function(){

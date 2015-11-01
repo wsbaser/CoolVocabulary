@@ -13,7 +13,7 @@
 	   		  <span class="pronunciation">{{model.word.pronunciation}}</span>
         </div>
 		  </div>
-      {{word-translations showRemoveButton=true translations=model.translations speachPart=model.speachPart}}
+      {{word-translations showRemoveButton=true translations=model.translations speachPart=model.speachPart onTranslationRemoved=(action "translationRemoved")}}
       <hr class="splitter"/>
       <div class="actions-block">
         <span {{action "remove"}} class="glyphicon glyphicon-trash btn-sm color-grey" title="Remove word from book"></span>
