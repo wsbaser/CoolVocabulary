@@ -75,6 +75,12 @@
 	align-items: center;
 }
 
+.flex-space-around{
+	display: flex;
+	justify-content: space-around;
+	align-items: center;	
+}
+
 /* http://davidwalsh.name/css-slide */
 
 .slider {
@@ -244,16 +250,37 @@ body.exam{
 	border-bottom: 1px solid #dcdde1;/* #d5d5d5;*/
 }
 
+.learn #content,
+.exam  #content{
+	padding: 0;
+}
+
 /*.learn #toolbox >div{
 	border-bottom: solid 1px #e5e5e5;	
 }
 */
-#learning-col{
+.learning-col{
 	position: relative;
 	border-left: solid 1px #e5e5e5;
 	border-right: solid 1px #e5e5e5;
 	padding:0;
 	width:600px;
+}
+
+.side-col{
+	width: 200px;
+}
+
+.hotkey-hint{
+	padding: 5px 0;
+	font-size: 13px;
+	color: #bbb;
+	font-style: italic;
+}
+
+.hotkey-hint>tt{
+	color: #888;
+	font-style: normal;
 }
 
 #stencil{

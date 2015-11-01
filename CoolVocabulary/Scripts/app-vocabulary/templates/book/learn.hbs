@@ -1,6 +1,20 @@
 {{learn-hotkeys onNextCard=(action "nextCard") onPrevCard=(action "prevCard") onNextWord=(action "nextWord") onPlaySound=(action "playSound")}}
-<div class="flex-centered fill-absolute">
-	<div id="learning-col" class="full-height">
+<div class="flex-space-around fill-absolute">
+	<div class="side-col hotkey-hints">
+		<div class="hotkey-hint">
+			<tt>[Left]</tt> &mdash; previous card
+		</div>
+		<div class="hotkey-hint">
+			<tt>[Right]</tt> &mdash; next card
+		</div>
+		<div class="hotkey-hint">
+			<tt>[Enter]</tt> &mdash; next word
+		</div>
+		<div class="hotkey-hint">
+			<tt>[Space]</tt> &mdash; listen pronunciation
+		</div>
+	</div>
+	<div class="learning-col full-height">
 	    <div id="stencil" class="fill-absolute">
 	    	<div id="top-block"></div>
 	    	<div id="magnifier-block">
@@ -25,5 +39,7 @@
 				{{learning-card wordToLearn=wordToLearn isShadow=true}}
 			{{/each}}
 		</div>
+	</div>
+	<div class="side-col">
 	</div>
 </div>
