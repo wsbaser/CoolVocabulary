@@ -26,7 +26,10 @@ Vocabulary.WordSoundComponent = Ember.Component.extend({
 	},
 	playSound: function(){
 		if(this.get('hasSound')){
-			this.$('audio')[0].play();
+			var audioEl = this.$('audio')[0];
+			if(audioEl){
+				audioEl.play();
+			}
 		}
 	},
 	actions: {

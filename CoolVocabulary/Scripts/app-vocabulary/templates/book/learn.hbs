@@ -22,14 +22,21 @@
 					{{#each sessionWords as |wordToLearn|}}
 						{{learning-card wordToLearn=wordToLearn}}
 					{{/each}}
+					<div class="summary-card light-shadow">
+						<div class="header">
+							That was the last one. Do you want to examine your knowledge?
+						</div>
+						<div class="actions">
+							<button {{action 'examine'}} id="examine_btn" class="btn btn-warning">Examine</button>
+							{{#link-to 'book'}}
+								<button id="later_btn" class="btn btn-default">Back to "{{model.name}}"</button>
+							{{/link-to}}
+						</div>
+					</div>
 				</div>
- 				{{#if isLastWord}}
-					{{#link-to 'book'}}
-					<button id="finish" class="btn btn-info btn-xs">Finish</button>
-					{{/link-to}}
-				{{else}}
-					<button {{action 'nextWord'}} id="next_word" class="btn btn-success btn-xs">Next word</button>
-				{{/if}}
+				{{#unless isSummary}}
+					<button {{action 'nextWord'}} id="next_word" class="btn btn-success btn-xs">Next</button>
+				{{/unless}}
 			</div>
 			<div id="bottom-block"></div>
 	    </div>

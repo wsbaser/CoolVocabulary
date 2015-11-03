@@ -38,42 +38,59 @@ Vocabulary.BookExamRoute = Ember.Route.extend({
 	},
 	sessionWords: null,
 	model: function(){
-		var book = this.modelFor('book');
-		var sessionWords = this.getSessionWords(book);
+		var sessionWords;
+		var bookController = this.controllerFor('book');
+		var learnSessionWords = bookController.get('learnSessionWords');
+		var bookWords = [];
+		if(learnSessionWords){
+			bookController.set('learnSessionWords', null);
+			learnSessionWords.forEach(function(item){
+				item.get('bookWords').forEach(function(bookWord){
+					bookWords.push(bookWord);
+				});
+			});
+		}
+		else {
+			bookWords = this.modelFor('book').get('bookWords');
+		}
+		sessionWords = this.getSessionWords(bookWords);
 		this.set('sessionWords', sessionWords);
 		return this.requestExamWords(sessionWords);
 	},
-	getSessionWords: function(book){
+	getSessionWords: function(bookWords){
 		// . agregate data
-		var wordsArr = [];
+		var sessionWords = [];
 		var DAY = 60*60*24*1000;
 		var now = Date.now();
-		book.get('bookWords').filter(function(item){ 
+		var randomBookWords = bookWords.filter(function(item){ 
 			var examinedAt = item.get('examinedAt') || 0;
 			return (now-examinedAt)>DAY;
-		}).forEach(function(bookWord){
-			bookWord.get('translations').forEach(function(translation){
-				wordsArr.push(Vocabulary.WordToExam.create({
+		}).sort(function(){ return 0.5-Math.random(); });
+
+		for (var i = randomBookWords.length - 1; i >= 0 && sessionWords.length<30; i--) {
+			var bookWord = randomBookWords[i];
+			var translations = bookWord.get('translations').toArray();
+			for (var j = translations.length - 1; j >= 0 && sessionWords.length<30; j--) {
+				var translation = translations[j];
+				sessionWords.push(Vocabulary.WordToExam.create({
 					word: bookWord.get('word.value'),
 					sourceLanguage: bookWord.get('word.language'),
 					speachPart: bookWord.get('speachPart'),
 					translation: translation.get('value'),
 					targetLanguage: translation.get('language')
 				}));
-				wordsArr.push(Vocabulary.WordToExam.create({
+				sessionWords.push(Vocabulary.WordToExam.create({
 					word:translation.get('value'),
 					sourceLanguage: translation.get('language'),
 					speachPart: bookWord.get('speachPart'),
 					translation: bookWord.get('word.value'),
 					targetLanguage: bookWord.get('word.language')
 				}));
-			});
-		});
-
-		wordsArr = wordsArr.sort(function(){ return 0.5-Math.random(); });
+			}
+		}
 
 		// . get first 30
-		return wordsArr.slice(0, 30);
+		return sessionWords.sort(function(){ return 0.5-Math.random(); });
 	},
 	requestExamWords: function(sessionWords){
 		var sourceLanguage = sessionWords[0].sourceLanguage;

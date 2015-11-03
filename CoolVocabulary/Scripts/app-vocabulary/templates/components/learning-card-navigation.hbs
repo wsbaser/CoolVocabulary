@@ -1,5 +1,5 @@
 <div id="cards_navigation" class="flex-centered">
 	{{#each cards as |card|}}
-	<span {{action 'select' card}} class="{{if card.isActive 'active'}} card-circle {{card.type}}" title='Show {{card.type}}'></span>
+	<span {{action 'select' card}} class="{{if card.isActive 'active'}} card-circle {{card.type}}" title='{{card.type}}'></span>
 	{{/each}}
 </div>

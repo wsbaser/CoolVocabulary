@@ -314,7 +314,7 @@ body.exam{
 	overflow: hidden;
 }
 
-.word.header{
+.learning-card .word.header{
 	text-align: center;
     font-size: 1.5em;
 }
@@ -363,9 +363,9 @@ body.exam{
 
 /* WORDS NAVIGATION */
 
-#next_word,
-#finish{
+#next_word{
     z-index: 2001;
+    width: 100px;
     position: absolute;
     right: 0;
     margin: 15px 20px;
@@ -407,11 +407,30 @@ body.exam{
 }
 
 .examination-card,
-.learning-card{
+.learning-card,
+.summary-card{
 	height: 342px;	/* same size as mignifier window */
 	position: relative;
 	margin: 4px 6px 8px 6px;
 	background-color: #fff;
+}
+
+.summary-card .header{
+	text-align: center;
+    font-size: 1.3em;
+    padding: 30px;
+}
+
+.summary-card .actions{
+	text-align: center;
+	margin-top: 30px;
+}
+
+
+.summary-card .actions button{
+	font-variant: small-caps;
+	width: 300px;
+	margin: 15px;
 }
 
 .card-content{
@@ -448,11 +467,6 @@ body.exam{
 	font-size: 1.2em;
 }
 
-/*.learning-card .word-pictures-block{
-	padding-top: 5px;
-	margin: 0 10px;
-}
-*/
 .learning-card .word-pictures .picSmall{
  	max-height: 100px;
  	max-width: 100px;

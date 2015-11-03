@@ -182,6 +182,10 @@ $.extend($.scrollTo.defaults, {
 });
 
 Vocabulary.BookLearnController = Ember.Controller.extend(Vocabulary.HasActiveObject, {
+	book: Ember.inject.controller(),
+	init: function(){
+		this.set('isSummary',false);
+	},
 	// . HasActiveObject mixin support 
 	collection: Ember.computed.alias('sessionWords'),
 	activeWord: Ember.computed.alias('activeObject'),
@@ -189,7 +193,6 @@ Vocabulary.BookLearnController = Ember.Controller.extend(Vocabulary.HasActiveObj
 		this.activateFirstObject();
 		this.get('activeWord').playSound();
 	},
-	isLastWord: Ember.computed.alias('isLastObject'),
 	scrollToNextWord: function(){
 		this.set('isScrolling', true);
 		var scrollOffset = '+=' + CARD_HEIGHT + 'px';
@@ -207,14 +210,15 @@ Vocabulary.BookLearnController = Ember.Controller.extend(Vocabulary.HasActiveObj
 			var activeWord = this.get('activeWord');
 			activeWord.set('isLearned', true);
 			this.scrollToNextWord();
-			setTimeout(function(){
-				if(!this.nextObject()){
-					this.transitionToRoute('book');
-				}
-				else{
+			if(this.get('isLastObject')){
+				this.set('isSummary', true);
+			}
+			else{
+				setTimeout(function(){
+					this.nextObject();
 					this.get('activeWord').playSound();
-				}
-			}.bind(this), SCROLL_TIME);
+				}.bind(this), SCROLL_TIME);
+			}
 		},
 		nextCard: function(){
 			if(!this.get('activeWord').nextCard()){
@@ -226,6 +230,10 @@ Vocabulary.BookLearnController = Ember.Controller.extend(Vocabulary.HasActiveObj
 		},
 		playSound: function(){
 			this.get('activeWord').playSound();
+		},
+		examine: function(){
+			this.get('book').set('learnSessionWords', this.get('sessionWords'));
+			this.transitionToRoute('book.exam');
 		}
 	}
 });

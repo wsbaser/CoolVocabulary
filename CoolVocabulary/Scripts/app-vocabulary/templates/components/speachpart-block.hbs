@@ -2,7 +2,7 @@
 	<div class="sp-header light-shadow">{{title}}</div>
 	<ul class="sp-words table">
 		{{#each bookWords as |bookWord|}}
-			<li id='word_translation_{{bookWord.id}}' class="word-translation">
+			<li id='word_translation_{{bookWord.id}}' {{action "selectWord" bookWord}} class="word-translation">
 				<span class="word" title='{{bookWord.word.value}}'>{{bookWord.word.value}}</span>
 				{{#link-to 'wordTranslation' bookWord.id class="show-details text-center"}}
 				...

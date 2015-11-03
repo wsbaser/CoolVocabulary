@@ -53,5 +53,10 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 		findOrAdd(this.store, 'word', wordDto);
 		findOrAdd(this.store, 'bookWord', bookWordDto);
 		findOrAdd(this.store, 'translation', translationDto);
+	},
+	actions: {
+		selectWord: function(bookWord){
+			this.set('inputWord', bookWord.get('word.value'));
+		}
 	}
 });
