@@ -21,11 +21,25 @@ Vocabulary.BookExamController = Ember.Controller.extend(Vocabulary.HasActiveObje
 			var activeWord = this.get('activeWord');
 			activeWord.set('isExamined', true);
 			this.scrollToNextWord();
-			setTimeout(function(){
-				if(!this.nextObject()){
-					this.transitionToRoute('book');
-				}
-			}.bind(this), SCROLL_TIME);
+			if(this.get('isLastObject')){
+				var bookWords = this.get('model.bookWords');
+				var DAY = 60*60*24*1000;
+				var now = Date.now();
+				var hasMoreWords = bookWords.any(function(item){ 
+					var examinedAt = item.get('examinedAt') || 0;
+					return (now-examinedAt)>DAY;
+				});
+				this.set('hasMoreWords', hasMoreWords);
+				this.set('isSummary',true);
+			}
+			else {
+				setTimeout(function(){
+					this.nextObject();
+				}.bind(this), SCROLL_TIME);
+			}
+		},
+		examine: function(){
+			this.send("sessionChanged");
 		}
 	}
 });

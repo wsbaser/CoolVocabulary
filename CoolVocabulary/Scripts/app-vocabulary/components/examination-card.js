@@ -4,7 +4,7 @@ Vocabulary.ExaminationCardComponent = Ember.Component.extend({
 		select: function(translation){
 			var wordToExam = this.get('wordToExam');
 			var selectedWord = translation.get('word');
-			var correctWord = wordToExam.get('translation');
+			var correctWord = wordToExam.get('targetWord');
 			if(selectedWord===correctWord){
 				translation.set('isCorrect', true);
 			}

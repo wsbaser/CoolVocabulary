@@ -1,18 +1,16 @@
-<div class="container">
-	<div class="row flex-centered">
-		<div class="col-xs-6">
-			<span class="word">
-			{{wordToExam.word}}
-			</span>
-		</div>
-		<div class="col-xs-6">
-			<ul>
-			{{#each wordToExam.translations as |translation|}}
-				<li {{action "select" translation}} class="translation {{if translation.isMistake "mistake"}} {{if translation.isCorrect "correct"}}">
-					{{translation.word}}
-				</li>
-			{{/each}}
-			</ul>
-		</div>
+<div class="card-content flex-centered">
+	<div class="source-word">
+		<span class="word">
+		{{wordToExam.sourceWord}}
+		</span>
+	</div>
+	<div class="target-words">
+		<ul>
+		{{#each wordToExam.translations as |translation|}}
+			<li {{action "select" translation}} class="translation {{if translation.isMistake "mistake"}} {{if translation.isCorrect "correct"}}">
+				{{translation.word}}
+			</li>
+		{{/each}}
+		</ul>
 	</div>
 </div>

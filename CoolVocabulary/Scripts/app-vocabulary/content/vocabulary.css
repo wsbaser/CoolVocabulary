@@ -497,12 +497,18 @@ body.exam{
 
 /* EXAMINATION CARD */
 
-.examination-card>.container{
+.examination-card{
 	padding: 20px 30px;
 }
 
-.examination-card .word{
+.examination-card .card-content{
+	height: 302px;
+}
 
+.examination-card .source-word,
+.examination-card .target-words{
+	flex-grow: 1;
+	flex-basis: 50%;
 }
 
 .examination-card .word{
@@ -517,9 +523,9 @@ body.exam{
 .examination-card ul>li{
 	list-style-type: none;
     background: #ebeef2;
-    margin: 5px 0;
+    margin: 4px 0;
     border-radius: 3px;
-    padding: 16px 20px;
+    padding: 15px 20px;
     cursor: pointer;
     border: 1px solid #dcdde1;
     transition: background-color 0.3s;
