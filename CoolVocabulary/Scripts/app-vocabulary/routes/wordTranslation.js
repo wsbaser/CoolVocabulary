@@ -24,7 +24,7 @@ Vocabulary.WordTranslationRoute = Ember.Route.extend({
 		});
 
 		// . set popover width
-		popoverEl.css('width', ($('.sp-block').width()-10)+'px');
+		popoverEl.css('width', ($('.sp-block').width()-25)+'px');
 
 		// . show popover
 		popoverEl.modalPopover('show');

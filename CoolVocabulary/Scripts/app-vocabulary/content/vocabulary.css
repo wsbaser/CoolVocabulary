@@ -154,6 +154,7 @@ body{
 
 .sp-header{
 	padding-left: 5px;
+	margin-right: 15px;
 	font-size:14px;
 	border:0;
 	text-transform: uppercase;
@@ -164,6 +165,7 @@ body{
 
 .words-col{
 	padding-top: 8px;
+	padding-right: 0;
 	border: 0;
 	border-right: solid 1px #e5e5e5;
 }
@@ -178,6 +180,15 @@ body{
 }
 
 .sp-words > li{
+	margin: 0 5px;
+	display:flex;
+	justify-content:space-between;
+	align-items:center;
+}
+
+.sp-words > li>.word,
+.sp-words > li>.show-details,
+.sp-words > li>.translations{
 	border: 0;
 	border-bottom: 1px solid #ddd;
 }
@@ -186,19 +197,16 @@ body{
 	padding: 3px;
 }
 
-.sp-words > li:nth-child(odd){
+.sp-words > li:nth-child(odd)>.word,
+.sp-words > li:nth-child(odd)>.show-details,
+.sp-words > li:nth-child(odd)>.translations{
 	background-color: #f0f0f0;
 }
 
-.sp-words > li:hover{
+.sp-words > li:hover>.word,
+.sp-words > li:hover>.show-details,
+.sp-words > li:hover>.translations{
 	background: #E0EAEA;
-}
-
-.sp-words .word-translation{
-	display:flex;
-	justify-content:space-between;
-	align-items:center;
-	margin: 0 5px;
 }
 
 .word{
@@ -218,19 +226,29 @@ body{
 	text-overflow: ellipsis;
 }
 
-.word-translation .show-details{
+.sp-words .show-details{
 	width: 10%;
 	cursor: pointer;
 	padding: 3px;
 	text-decoration: none;
 }
 
-.word-translation .show-details.active,
-.word-translation .show-details:hover{
+.sp-words > li > .show-details.active,
+.sp-words > li > .show-details:hover{
 	background: #5bc0de;
 	opacity: 0.88;
 }
 
+.sp-words > li > .word-learnLevel{
+	width: 15px;
+}
+
+.sp-words > li > .word-learnLevel > svg{
+    width: 15px;
+    height: 10px;
+    position: relative;
+    opacity: 0.6;
+}
 
 /* LEARNING */
 body.learn,
