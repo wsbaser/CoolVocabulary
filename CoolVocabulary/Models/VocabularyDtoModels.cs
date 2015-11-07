@@ -5,8 +5,7 @@ using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CoolVocabulary.Models
-{
+namespace CoolVocabulary.Models {
     public class WordTranslationsDto {
         public WordTranslationsDto(WordTranslations wt) {
             this.id = wt.Id.ToString();
@@ -20,10 +19,8 @@ namespace CoolVocabulary.Models
         public string translationCards { get; set; }
     }
 
-    public class WordDto
-    {
-        public WordDto(Word word)
-        {
+    public class WordDto {
+        public WordDto(Word word) {
             this.id = word.Id;
             this.value = word.Value;
             this.language = ((LanguageType)word.Language).ToString();
@@ -39,11 +36,9 @@ namespace CoolVocabulary.Models
         public string pictureUrls { get; set; }
     }
 
-    public class BookDto
-    {
+    public class BookDto {
         public BookDto() { }
-        public BookDto(Book book)
-        {
+        public BookDto(Book book) {
             this.id = book.Id;
             this.userId = book.UserId;
             this.name = book.Name;
@@ -66,7 +61,6 @@ namespace CoolVocabulary.Models
             this.word = bookWord.WordId;
             this.speachPart = bookWord.SpeachPart;
             this.learnedAt = bookWord.LearnedAt;
-            this.examinedAt = bookWord.ExaminedAt;
             this.translations = bookWord.Translations.Select(t => t.Id).ToList();
         }
         public int id { get; set; }
@@ -74,24 +68,23 @@ namespace CoolVocabulary.Models
         public int word { get; set; }
         public int speachPart { get; set; }
         public int learnedAt { get; set; }
-        public int examinedAt { get; set; }
         public List<int> translations { get; set; }
     }
 
-    public class TranslationDto
-    {
-        public TranslationDto(Translation translation)
-        {
+    public class TranslationDto {
+        public TranslationDto(Translation translation) {
             this.id = translation.Id;
             this.bookWord = translation.BookWordId;
             this.value = translation.Value;
             this.language = ((LanguageType)translation.Language).ToString();
-            this.learnProgress = translation.LearnProgress;
+            this.learnLevel = translation.LearnLevel;
+            this.examinedAt = translation.ExaminedAt;
         }
         public int id { get; set; }
         public int bookWord { get; set; }
         public string value { get; set; }
         public string language { get; set; }
-        public int learnProgress { get; set; }
+        public int learnLevel { get; set; }
+        public int examinedAt { get; set; }
     }
 }

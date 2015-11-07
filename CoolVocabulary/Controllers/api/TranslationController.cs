@@ -49,7 +49,8 @@ namespace CoolVocabulary.Controllers.api
                 data.wordSoundUrls,
                 data.wordPictureUrls);
             // . add word translations to mongo
-            await mongoDb.AddTranslations(data.word.ToLower(),
+            await mongoDb.AddTranslations(word.Id,
+                data.word.ToLower(),
                 data.wordLanguage,
                 data.translationLanguage,
                 data.translationWords,

@@ -104,7 +104,7 @@ namespace CoolVocabulary.Models {
                     BookWordId = bookWordEntity.Id,
                     Value = value,
                     Language = (int)language,
-                    LearnProgress = 0
+                    LearnLevel = 0
                 };
                 Translations.Add(translationEntity);
                 await SaveChangesAsync();

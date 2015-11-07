@@ -29,7 +29,6 @@ namespace CoolVocabulary.Migrations
                         WordId = c.Int(nullable: false),
                         SpeachPart = c.Int(nullable: false),
                         LearnedAt = c.Int(nullable: false),
-                        ExaminedAt = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Books", t => t.BookId, cascadeDelete: true)
@@ -44,12 +43,12 @@ namespace CoolVocabulary.Migrations
                         BookWordId = c.Int(nullable: false),
                         Value = c.String(nullable: false, maxLength: 100),
                         Language = c.Int(nullable: false),
-                        LearnProgress = c.Int(nullable: false),
+                        LearnLevel = c.Int(nullable: false),
+                        ExaminedAt = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.BookWords", t => t.BookWordId, cascadeDelete: true)
-                .Index(t => t.BookWordId)
-                .Index(t => new { t.Value, t.Language }, unique: true, name: "UQ_Value_Language");
+                .Index(t => new { t.Value, t.Language, t.BookWordId }, unique: true, name: "UQ_Value_Language_BookWordId");
             
             CreateTable(
                 "dbo.Words",
@@ -153,8 +152,7 @@ namespace CoolVocabulary.Migrations
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.Words", "UQ_Value_Language");
-            DropIndex("dbo.Translations", "UQ_Value_Language");
-            DropIndex("dbo.Translations", new[] { "BookWordId" });
+            DropIndex("dbo.Translations", "UQ_Value_Language_BookWordId");
             DropIndex("dbo.BookWords", "UQ_BookID_WordID_SpeachPart");
             DropIndex("dbo.Books", "UQ_UserID_Name_Language");
             DropTable("dbo.AspNetRoles");

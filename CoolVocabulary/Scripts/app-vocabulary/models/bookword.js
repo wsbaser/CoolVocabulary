@@ -3,6 +3,5 @@ Vocabulary.BookWord = DS.Model.extend({
     word: DS.belongsTo("word"),
     speachPart: DS.attr("number"),
     learnedAt: DS.attr("number"),
-    examinedAt: DS.attr("number"),
     translations: DS.hasMany("translation")
 });

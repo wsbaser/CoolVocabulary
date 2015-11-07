@@ -11,6 +11,7 @@ namespace CoolVocabulary.Models {
     public class WordTranslations {
         [BsonId]
         public ObjectId Id { get; set; }
+        public int WordId { get; set; }
         public string Word { get; set; }
         public string TranslationWords { get; set; }
         public string TranslationCards { get; set; }
@@ -61,7 +62,6 @@ namespace CoolVocabulary.Models {
         [Index("UQ_BookID_WordID_SpeachPart", 3, IsUnique = true)]
         public int SpeachPart { get; set; }
         public int LearnedAt { get; set; }
-        public int ExaminedAt { get; set; }
         public virtual Word Word { get; set; }
         public virtual Book Book { get; set; }
         public ICollection<Translation> Translations { get; set; }
@@ -72,15 +72,17 @@ namespace CoolVocabulary.Models {
         [Required]
         public int Id { get; set; }
         [Required]
+        [Index("UQ_Value_Language_BookWordId", 3, IsUnique = true)]
         public int BookWordId { get; set; }
         [Required, MaxLength(100)]
-        [Index("UQ_Value_Language", 1, IsUnique = true)]
+        [Index("UQ_Value_Language_BookWordId", 1, IsUnique = true)]
         public string Value { get; set; }
         [Required]
-        [Index("UQ_Value_Language", 2, IsUnique = true)]
+        [Index("UQ_Value_Language_BookWordId", 2, IsUnique = true)]
         public int Language { get; set; }
-        [Range(0, 4)]
-        public int LearnProgress { get; set; }
+        [Range(0, 5)]
+        public int LearnLevel { get; set; }
+        public int ExaminedAt { get; set; }
         public virtual BookWord BookWord { get; set; }
     }
 

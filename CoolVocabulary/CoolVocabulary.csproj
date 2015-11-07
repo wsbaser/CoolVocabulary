@@ -222,6 +222,7 @@
     <Compile Include="App_Start\AutoMapperConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RedisConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -239,9 +240,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201510251239174_Initial.cs" />
-    <Compile Include="Migrations\201510251239174_Initial.Designer.cs">
-      <DependentUpon>201510251239174_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201511071912060_Initial.cs" />
+    <Compile Include="Migrations\201511071912060_Initial.Designer.cs">
+      <DependentUpon>201511071912060_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -367,8 +368,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201510251239174_Initial.resx">
-      <DependentUpon>201510251239174_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201511071912060_Initial.resx">
+      <DependentUpon>201511071912060_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

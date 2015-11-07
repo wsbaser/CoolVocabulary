@@ -28,10 +28,11 @@ namespace CoolVocabulary.Models {
             return await collection.Find(wt => words.Contains(wt.Word)).ToListAsync();
         }
 
-        public async Task AddTranslations(string word, string wordLanguage, string translationsLanguage, string translationWords, string transaltionCards) {
+        public async Task AddTranslations(int wordId, string word, string wordLanguage, string translationsLanguage, string translationWords, string transaltionCards) {
             IMongoCollection<WordTranslations> collection = GetCollection(wordLanguage, translationsLanguage);
             WordTranslations entity = new WordTranslations {
                 Id = MongoDB.Bson.ObjectId.GenerateNewId(),
+                WordId = wordId,
                 Word = word,
                 TranslationWords = translationWords,
                 TranslationCards = transaltionCards

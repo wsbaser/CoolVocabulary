@@ -81,14 +81,19 @@ GoogleService.prototype.generateExamplesCard = function(data){
 
 GoogleService.prototype.getTranslations = function(inputData){
     var responseData = this.getCachedCard(inputData, ContentTypes.TRANSLATIONS);
-    var translations = {};
-    translations[SpeachParts.UNKNOWN] = [];
-    if(responseData && responseData.entry){
-        $.each(responseData.entry, function(i, entry){
-            translations[SpeachParts.UNKNOWN].push(entry.word);
+    if(responseData && responseData.translations){
+        var translations = {};
+        $.each(responseData.translations, function(sp, spTranslations){
+            translations[sp]=[];
+            for (var i = spTranslations.length - 1; i >= 0; i--) {
+                translations[sp].push(spTranslations[i].word);
+            };
         });
+        return translations;
     }
-    return translations;
+    else{
+        return null;
+    }
 };
 
 //===== GoogleTemplates ================================================================================================

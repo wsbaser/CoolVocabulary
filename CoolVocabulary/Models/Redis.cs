@@ -20,10 +20,14 @@ namespace CoolVocabulary.Models {
 
         public const int MAX_WORDS_LIST_SIZE = 5000;
 
+        public static void DelWords(LanguageType language, SpeachPartType speachPart) {
+            string key = GetListKey(language, speachPart);
+            Db.KeyDelete(key);
+        }
+
         public static void PushWord(LanguageType language, SpeachPartType speachPart, string word) {
             string key = GetListKey(language, speachPart);
             Db.ListLeftPush(key, word);
-            Db.ListTrim(key, 0, MAX_WORDS_LIST_SIZE - 1);
         }
 
         public static async Task<List<string>> GetRandomWordsAsync(LanguageType language, SpeachPartType speachPart, int count) {
