@@ -72,9 +72,11 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 		var sessionWords = this.get('sessionWords');
 		controller.set('sessionWords', sessionWords);
 		// . request for additional word translations
-		this.requestWordTranslations(sessionWords, 3, 27).then(function(data){
-			this.setWordTranslations(data.content);
-		}.bind(this));
+		if(sessionWords.length>3){
+			this.requestWordTranslations(sessionWords, 3, 27).then(function(data){
+				this.setWordTranslations(data.content);
+			}.bind(this));
+		}
 
 	    Ember.run.schedule('afterRender', this, this.afterRender);
 	},

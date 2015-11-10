@@ -116,5 +116,10 @@ namespace CoolVocabulary.Models {
             var range = ids.ToIntList();
             return await Words.Where(w => range.Contains(w.Id)).ToListAsync();
         }
+
+        public async Task<List<Translation>> GetTranslations(List<string> ids) {
+            var range = ids.ToIntList();
+            return await Translations.Where(w => range.Contains(w.Id)).ToListAsync();
+        }
     }
 }

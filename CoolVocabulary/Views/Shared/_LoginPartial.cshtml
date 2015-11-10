@@ -12,6 +12,19 @@
         @Html.AntiForgeryToken()
         <ul class="nav navbar-nav navbar-right">
             <li>
+                <div id="current_target_progress" class="menu-flex-centered">
+                    <svg>
+                        <rect x="0" y="0" width="100" height="10" fill="#ebeef2"></rect>
+                        <rect x="0" y="0" width="30" height="10" fill="#39b3d7"></rect>
+                    </svg>
+                </div>
+            </li>
+            <li>
+                <div id="current_language" class="menu-flex-centered">
+                    <a class="language-icon"></a>
+                </div>
+            </li>
+            <li>
                 @Html.ActionLink(user.DisplayName, "CoolVocabulary", "Home", routeValues: null, htmlAttributes: new { title = "Управление", id="userName" })
             </li>
             <li><a href="javascript:document.getElementById('logoutForm').submit()">Выйти</a></li>

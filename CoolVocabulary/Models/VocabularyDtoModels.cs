@@ -55,6 +55,7 @@ namespace CoolVocabulary.Models {
     }
 
     public class BookWordDto {
+        public BookWordDto() { }
         public BookWordDto(BookWord bookWord) {
             this.id = bookWord.Id;
             this.book = bookWord.BookId;
@@ -66,12 +67,25 @@ namespace CoolVocabulary.Models {
         public int id { get; set; }
         public int book { get; set; }
         public int word { get; set; }
+        [Required]
         public int speachPart { get; set; }
-        public int learnedAt { get; set; }
+        [Required]
+        public long learnedAt { get; set; }
         public List<int> translations { get; set; }
+
+        public BookWord ToEntity() {
+            return new BookWord() {
+                Id = id,
+                BookId = book,
+                WordId = word,
+                SpeachPart = speachPart,
+                LearnedAt = learnedAt
+            };
+        }
     }
 
     public class TranslationDto {
+        public TranslationDto() { }
         public TranslationDto(Translation translation) {
             this.id = translation.Id;
             this.bookWord = translation.BookWordId;
@@ -82,9 +96,27 @@ namespace CoolVocabulary.Models {
         }
         public int id { get; set; }
         public int bookWord { get; set; }
+        [Required]
         public string value { get; set; }
+        [Required, MaxLength(2)]
         public string language { get; set; }
+        [Required,Range(0, 5)]
         public int learnLevel { get; set; }
-        public int examinedAt { get; set; }
+        [Required]
+        public long examinedAt { get; set; }
+        public Translation ToEntity() {
+            LanguageType languageType;
+            if (!Enum.TryParse<LanguageType>(language, out languageType)) {
+                return null;
+            }
+            return new Translation {
+                Id = id,
+                BookWordId = bookWord,
+                Value = value,
+                Language = (int)languageType,
+                LearnLevel = learnLevel,
+                ExaminedAt = examinedAt
+            };
+        }
     }
 }

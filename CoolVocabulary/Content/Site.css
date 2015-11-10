@@ -160,3 +160,36 @@ input[type="checkbox"].input-validation-error {
 .form-container form > label {
     margin: 0;
 }
+
+/* HEADER */
+
+#current_target_progress,
+#current_language {
+    padding: 0 10px;
+}
+
+#current_target_progress > svg {
+    width: 100px;
+    height: 10px;
+}
+
+.menu-flex-centered {
+    display: flex;
+    align-items: center;
+    align-content: space-around;
+    height: 34px;
+}
+
+.language-icon {
+    width: 24px;
+    height: 24px;
+    background-image: url('images/flags.png');
+}
+
+.language-icon.en {
+    background-position-x: -24px;
+}
+
+    .language-icon.ru {
+        background-position-x: 0;
+    }

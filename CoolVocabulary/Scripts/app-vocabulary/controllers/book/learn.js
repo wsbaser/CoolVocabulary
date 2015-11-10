@@ -201,14 +201,20 @@ Vocabulary.BookLearnController = Ember.Controller.extend(Vocabulary.HasActiveObj
 		}.bind(this)});
 		$('#learning-cards').scrollTo(scrollOffset);
 	},
+	updateLearnStatus: function(wordToLearn){
+		wordToLearn.set('isLearned', true);
+		wordToLearn.get('bookWords').forEach(function(bookWord){
+			bookWord.set('learnedAt', Date.now());
+			bookWord.save();
+		});
+	},
 	actions: {
 		nextWord: function(){
 			if(this.get('isScrolling')){
 				return;
 			}
 			$('.hotkey-hints').addClass('fadeout');
-			var activeWord = this.get('activeWord');
-			activeWord.set('isLearned', true);
+			this.updateLearnStatus(this.get('activeWord'));
 			this.scrollToNextWord();
 			if(this.get('isLastObject')){
 				this.set('isSummary', true);

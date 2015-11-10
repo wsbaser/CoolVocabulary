@@ -41,32 +41,21 @@ namespace CoolVocabulary.Controllers.api
         }
 
         // PUT api/BookWord/5
-        public async Task<IHttpActionResult> PutBookWord(int id, BookWord bookword)
-        {
-            if (!ModelState.IsValid)
-            {
+        public async Task<IHttpActionResult> PutBookWord(int id, BookWordDto bookWordDto) {
+            if (!ModelState.IsValid) {
                 return BadRequest(ModelState);
             }
 
-            if (id != bookword.Id)
-            {
-                return BadRequest();
-            }
+            var entity = bookWordDto.ToEntity();
+            entity.Id = id;
+            db.Entry(entity).State = EntityState.Modified;
 
-            db.Entry(bookword).State = EntityState.Modified;
-
-            try
-            {
+            try {
                 await db.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!BookWordExists(id))
-                {
+            } catch (DbUpdateConcurrencyException) {
+                if (!BookWordExists(id)) {
                     return NotFound();
-                }
-                else
-                {
+                } else {
                     throw;
                 }
             }

@@ -28,7 +28,7 @@ namespace CoolVocabulary.Migrations
                         BookId = c.Int(nullable: false),
                         WordId = c.Int(nullable: false),
                         SpeachPart = c.Int(nullable: false),
-                        LearnedAt = c.Int(nullable: false),
+                        LearnedAt = c.Long(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Books", t => t.BookId, cascadeDelete: true)
@@ -44,7 +44,7 @@ namespace CoolVocabulary.Migrations
                         Value = c.String(nullable: false, maxLength: 100),
                         Language = c.Int(nullable: false),
                         LearnLevel = c.Int(nullable: false),
-                        ExaminedAt = c.Int(nullable: false),
+                        ExaminedAt = c.Long(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.BookWords", t => t.BookWordId, cascadeDelete: true)

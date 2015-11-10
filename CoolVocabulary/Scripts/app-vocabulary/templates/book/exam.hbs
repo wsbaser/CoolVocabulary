@@ -8,23 +8,9 @@
 	    			{{#each sessionWords as |wordToExam|}}
 						{{examination-card wordToExam=wordToExam onSelect=(action "nextWord")}}
 					{{/each}}
-					<div class="summary-card light-shadow">
-						<div class="header">
-							{{#if hasMoreWords}}
-								You have more words to examine.
-							{{else}}
-								You examined all words in the book.							
-							{{/if}}
-						</div>
-						<div class="actions">
-							{{#if hasMoreWords}}
-							<button {{action 'examine'}} id="examine_btn" class="btn btn-warning">Examine</button>
-							{{/if}}
-							{{#link-to 'book'}}
-								<button id="later_btn" class="btn btn-default">Back to "{{model.name}}"</button>
-							{{/link-to}}
-						</div>
-					</div>
+					{{#if isSummary}}
+						{{examination-summary-card hasMoreWords=hasMoreWords bookName=model.name promotes=promotes }}
+					{{/if}}
 				</div>
 			</div>
 			<div id="bottom-block"></div>

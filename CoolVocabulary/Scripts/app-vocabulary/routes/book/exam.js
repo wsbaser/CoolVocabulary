@@ -43,7 +43,17 @@ Vocabulary.WordToExam = Ember.Object.extend({
 		}));
 		// . shuffle and return
 		return translations.shuffle();
-	})
+	}),
+	link: function(wordToLearn){
+		this.set('bro', wordToLearn);
+		wordToLearn.set('bro', this);
+	},
+	allCorrect: function(){
+		return this.get('isMistake')===false && this.get('bro.isMistake')===false;
+	},
+	allExamined: function(){
+		return this.get('isExamined') && this.get('bro.isExamined');
+	}
 });
 
 Vocabulary.BookExamRoute = Ember.Route.extend({
@@ -72,39 +82,56 @@ Vocabulary.BookExamRoute = Ember.Route.extend({
 		this.set('sessionWords', sessionWords);
 		return this.requestExamWords(sessionWords);
 	},
+	afterModel: function(){
+		var sessionWords = this.get("sessionWords");
+		if(!sessionWords||!sessionWords.toArray().length){
+			alert('Add words!');
+			this.transitionTo('book');
+		}
+	},
 	getSessionWords: function(bookWords){
 		// . get all translations		
 		var translations = [];
 		bookWords.forEach(function(bookWord){
-			translations = translations.concat(bookWord.get('translations').toArray());
+			var notCompleted = bookWord.get('translations').filter(function(item){
+				return item.get('learnLevel')<MAX_LEARN_LEVEL;
+			}).toArray();
+			translations = translations.concat(notCompleted);
 		});
-		// . filter translations
+		// . take 15 translations
 		var DAY = 60*60*24*1000;
 		var now = Date.now();
-		translations = translations.filter(function(item){ 
-			var examinedAt = item.get('examinedAt') || 0;
-			return (now-examinedAt)>DAY;
-		});
+		translations = translations.sort(function(item1,item2){ 
+			var examinedAt1 = item1.get('examinedAt') || 0;
+			var examinedAt2 = item2.get('examinedAt') || 0;
+			return examinedAt1>examinedAt2?1:(examinedAt1===examinedAt2?0:-1);
+		}).slice(0, 30);
 		// . randomize translations
-		translations = translations.sort(function(){ return 0.5-Math.random(); }).slice(0, 15);
+		translations.shuffle();	// sort(function(){ return 0.5-Math.random(); });
 
 		// . generate session words
 		var sessionWords = [];
 		translations.forEach(function(translation){
-			sessionWords.push(Vocabulary.WordToExam.create({
+			var w1 = Vocabulary.WordToExam.create({
 				isStraight: true,
 				translation: translation
-			}));
-			sessionWords.push(Vocabulary.WordToExam.create({
+			});
+			var w2 = Vocabulary.WordToExam.create({
 				isStraight: false,
 				translation: translation
-			}));
+			});
+			w1.link(w2);
+			sessionWords.push(w1);
+			sessionWords.push(w2);
 		});
 
 		// . get first 30
 		return sessionWords.sort(function(){ return 0.5-Math.random(); });
 	},
 	requestExamWords: function(sessionWords){
+		if(!sessionWords.length){
+			return null;
+		}
 		var sourceLanguage = sessionWords[0].sourceLanguage;
 		var targetLanguage = sessionWords[0].targetLanguage;
 		// . count number of nouns, verbs, adjectives, adverbs

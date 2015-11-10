@@ -186,6 +186,10 @@ body{
 	align-items:center;
 }
 
+.sp-words > li.completed{
+	opacity: 0.5;
+}
+
 .sp-words > li>.word,
 .sp-words > li>.show-details,
 .sp-words > li>.translations{
@@ -243,11 +247,17 @@ body{
 	width: 15px;
 }
 
-.sp-words > li > .word-learnLevel > svg{
+.sp-words > li > .word-learnLevel>.glyphicon-ok{
+	font-size: 9px;
+	color: #47a447;
+	margin-left: 2px;
+	line-height: 16px;
+}
+
+ .learn-battery{
     width: 15px;
     height: 10px;
     position: relative;
-    opacity: 0.6;
 }
 
 /* LEARNING */
@@ -395,12 +405,21 @@ body.exam{
 }
 
 .word-circle{
-	width: 14px;
-	height: 14px;
-	margin: 5px;
 	border-radius: 50%;
 	background-color: #fff;
 	border: 1px solid #dcdde1;
+}
+
+.learn .word-circle{
+	width: 14px;
+	height: 14px;
+	margin: 5px;
+}
+
+.exam .word-circle{
+	width: 8px;
+	height: 8px;
+	margin: 2px;
 }
 
 .learn .word-circle.highlighted{
@@ -433,22 +452,70 @@ body.exam{
 	background-color: #fff;
 }
 
+.summary-card{
+    padding: 0 30px;	
+}
+
 .summary-card .header{
 	text-align: center;
     font-size: 1.3em;
-    padding: 30px;
+    color: #444;
 }
 
 .summary-card .actions{
 	text-align: center;
-	margin-top: 30px;
 }
 
+.learn .summary-card .header{
+	margin-bottom: 30px;
+}
+
+.exam .summary-card .header{
+	margin-top: 20px;
+	margin-bottom: 10px;
+}
 
 .summary-card .actions button{
 	font-variant: small-caps;
 	width: 300px;
-	margin: 15px;
+	margin: 5px;
+}
+
+.summary-card>.promote-results{
+	height: 130px;
+	padding: 0 50px;
+	margin-bottom:10px;
+	flex-direction: column;
+    justify-content: center;
+    display: flex;
+}
+
+.promote-header{
+	color: #888;
+	text-align: center;
+    font-size: 15px;
+    padding-top: 15px;
+}
+
+.promote-level{
+	padding: 2px 0;
+}
+
+.promote-battery{
+	width: 28px;
+    height: 18px;
+    vertical-align: middle;
+}
+
+.promote-level>.count{
+	color: #888;
+	margin-left: 15px;
+	font-size: 13px;
+	font-style: italic;
+}
+
+.promote-level>.count.completed{
+		
 }
 
 .card-content{

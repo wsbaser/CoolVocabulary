@@ -124,5 +124,36 @@ namespace CoolVocabulary.Controllers.api
         {
             return db.Translations.Count(e => e.Id == id) > 0;
         }
+
+        // PUT api/Translation/5
+        public async Task<IHttpActionResult> PutTranslation(int id, TranslationDto translationDto) {
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
+            }
+
+            var entity = translationDto.ToEntity();
+            if (entity == null) {
+                return BadRequest();
+            }
+            entity.Id = id;
+
+            db.Entry(entity).State = EntityState.Modified;
+
+            try {
+                await db.SaveChangesAsync();
+            } catch (DbUpdateConcurrencyException) {
+                if (!TranslationExists(id)) {
+                    return NotFound();
+                } else {
+                    throw;
+                }
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        private bool TranslationExists(int id) {
+            return db.Words.Count(e => e.Id == id) > 0;
+        }
     }
 }

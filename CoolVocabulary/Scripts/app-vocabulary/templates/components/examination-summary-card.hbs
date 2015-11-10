@@ -1,0 +1,31 @@
+<div class="summary-card light-shadow">
+	<div class="promote-header">
+		{{words-count totalPromoted}} successfully promoted
+	</div>
+	<div class="promote-results">
+		{{#each promotes as |promote|}}
+			<span class="promote-level">
+				{{promote-battery promote.level}}
+				<span class="count {{if promote.examinationsCompleted "completed"}}">
+					{{words-count promote.count}}{{#if promote.examinationsCompleted}}. All examinations completed!{{/if}}
+				</span>
+			</span>
+		{{/each}}
+	</div>
+	<hr class="splitter"/>
+	<div class="header">
+		{{#if hasMoreWords}}
+			You have more words to examine.
+		{{else}}
+			All words in the book are exmined.							
+		{{/if}}
+	</div>
+	<div class="actions">
+		{{#if hasMoreWords}}
+		<button {{action 'examine'}} id="examine_btn" class="btn btn-warning">Examine</button>
+		{{/if}}
+		{{#link-to 'book'}}
+			<button id="later_btn" class="btn btn-default">Back to "{{bookName}}"</button>
+		{{/link-to}}
+	</div>
+</div>
