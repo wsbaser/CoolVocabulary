@@ -5,5 +5,10 @@ Vocabulary.ExaminationSummaryCardComponent = Ember.Component.extend({
 			total+=item.get('count');
 		});
 		return total;
-	})
+	}),
+	actions:{
+		examine: function(){
+			this.get('onExamine')();
+		}
+	}
 });

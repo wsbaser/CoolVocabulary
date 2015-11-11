@@ -206,6 +206,7 @@ body{
 
 .words-col:last-child{
 	border: 0;
+	padding-right:10px;
 }
 
 .sp-words{

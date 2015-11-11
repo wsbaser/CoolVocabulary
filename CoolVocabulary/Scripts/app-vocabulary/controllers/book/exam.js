@@ -90,8 +90,8 @@ Vocabulary.BookExamController = Ember.Controller.extend(Vocabulary.HasActiveObje
 				}.bind(this), SCROLL_TIME);
 			}
 		},
-		examine: function(){
-			this.send("sessionChanged");
+		changeSession: function(){
+			this.send('sessionChanged');
 		}
 	}
 });
