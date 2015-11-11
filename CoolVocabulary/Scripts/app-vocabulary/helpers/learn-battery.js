@@ -1,8 +1,6 @@
 Vocabulary.LearnBatteryHelper = Ember.Helper.helper(function(params, namedParams){
-	var bookWord = params[0];
-
 	// . define min learning level of all translations
-	var level= bookWord.get('learnLevel');
+	var level=params[0];
 
 	// . generate svg element
 	var svgBody = '';

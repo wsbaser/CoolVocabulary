@@ -9,7 +9,7 @@ Vocabulary.PromoteBatteryHelper = Ember.Helper.helper(function(params, namedPara
 			(i>learnLevel?
 				"#ccc":     // . grey
 				"#f55");	// . red
-		var style = (learnLevel!==MAX_LEARN_LEVEL && i===learnLevel) ? 'opacity:0.9' : 'opacity:0.6';
+		var style = (learnLevel===MAX_LEARN_LEVEL || i===learnLevel) ? 'opacity:0.9' : 'opacity:0.6';
 		svgBody += '<rect x="'+ x +'" width="4" height="16" fill="' + color + '" style="'+ style +'"></rect>';
 	}
 	return  Ember.String.htmlSafe('<svg class="promote-battery">' + svgBody + '</svg>');

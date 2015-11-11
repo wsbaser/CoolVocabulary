@@ -467,12 +467,11 @@ body.exam{
 }
 
 .learn .summary-card .header{
-	margin-bottom: 30px;
+	padding: 30px;
 }
 
 .exam .summary-card .header{
-	margin-top: 20px;
-	margin-bottom: 10px;
+	padding: 10px 0 20px;
 }
 
 .summary-card .actions button{
@@ -515,7 +514,7 @@ body.exam{
 }
 
 .promote-level>.count.completed{
-		
+	font-weight: bold;
 }
 
 .card-content{

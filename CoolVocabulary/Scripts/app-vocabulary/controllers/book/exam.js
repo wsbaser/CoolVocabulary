@@ -22,6 +22,8 @@ Vocabulary.BookExamController = Ember.Controller.extend(Vocabulary.HasActiveObje
 		}
 		if(wordToExam.allCorrect()){
 			translation.incrementProperty('learnLevel');
+			translation.get('bookWord').content.notifyPropertyChange('learnLevel');
+			// /translation.get('bookWord').content.updateLearnLevel();
 		}
 		if(translation.get('hasDirtyAttributes')){
 			translation.save();
