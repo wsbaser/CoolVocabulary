@@ -6,9 +6,14 @@
 	{{#each translations as |translation|}}
   	<li class="translation">
     	{{translation.value}}
-    	{{#if showRemoveButton}}
-	    <span {{action "remove" translation}} class="glyphicon glyphicon glyphicon-remove btn-sm color-grey pull-right" title="Remove translation"></span>
-		{{/if}}
+      {{#if showRemoveButton}}
+      <span class="learn-level pull-right">
+        {{learn-battery translation.learnLevel}}
+      </span>
+      <span class="pull-right">
+        <span {{action "remove" translation}} class="glyphicon glyphicon-remove btn-sm color-grey" title="Remove translation"></span>
+      </span>
+      {{/if}}
   	</li>
 	{{/each}}
 </ul>

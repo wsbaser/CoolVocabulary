@@ -14,7 +14,15 @@
       <li>
         {{#link-to "book" book.id class="bookLink"}}
         {{book.name}}
-        <span class="manageIcons"></span>
+        <span class="total pull-right">
+          123
+        </span>
+        <span class="book-progress pull-right">
+          <svg>
+            <rect x="0" y="0" width="100" height="10" fill="#ebeef2"></rect>
+            <rect x="0" y="0" width="70" height="10" fill="#39b3d7"></rect>
+          </svg>
+        </span>
         {{/link-to}}
       </li>
       {{/each}}

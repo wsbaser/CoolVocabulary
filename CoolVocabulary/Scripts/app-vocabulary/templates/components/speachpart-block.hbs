@@ -12,12 +12,8 @@
 						{{translation.value}}&nbsp;
 					{{/each}}
 				</span>
-				<span class="word-learnLevel">
-					{{#if bookWord.learnCompleted}}
-						<span class="glyphicon glyphicon-ok"/>
-					{{else}}
-						{{learn-battery bookWord.learnLevel}}
-					{{/if}}
+				<span class="learn-level">
+					{{learn-battery bookWord.learnLevel}}
 				</span>
 			</li>
 		{{/each}}

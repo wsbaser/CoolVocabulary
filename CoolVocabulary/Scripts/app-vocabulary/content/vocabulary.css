@@ -243,11 +243,12 @@ body{
 	opacity: 0.88;
 }
 
-.sp-words > li > .word-learnLevel{
+.sp-words > li > .learn-level{
 	width: 15px;
+	font-size: 10px;
 }
 
-.sp-words > li > .word-learnLevel>.glyphicon-ok{
+.learn-level>.glyphicon-ok{
 	font-size: 9px;
 	color: #47a447;
 	margin-left: 2px;
@@ -256,8 +257,9 @@ body{
 
  .learn-battery{
     width: 15px;
-    height: 10px;
+    height: 6px;
     position: relative;
+    vertical-align: middle;
 }
 
 /* LEARNING */
@@ -809,6 +811,23 @@ a:hover .manageIcons .glyphicon {
     margin-right: 10px;
 }
 
+.book-progress{
+}
+
+.bookLink>.total{
+    font-size: 10px;
+    line-height: 20px;
+    padding: 0 5px;
+    color: #bbb;
+    font-style: italic;
+}
+
+.book-progress>svg{
+  width: 80px;
+  border: 1px solid #ddd;
+  height: 10px;
+}
+
 /* POPOVER */
 
 #word_details_popover{
@@ -909,8 +928,6 @@ a:hover .manageIcons .glyphicon {
 
 .word-translations>li .glyphicon-remove{
 	visibility: hidden;
-	display: inline-block;
-	padding-top: 5px;
 	font-size: 0.65em;
 }
 
