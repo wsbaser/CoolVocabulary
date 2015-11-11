@@ -21,13 +21,23 @@
             </li>
             <li>
                 <div id="current_language" class="menu-flex-centered">
-                    <a class="language-icon"></a>
+                    <i class="language-icon en" title="English"></i>
                 </div>
             </li>
-            <li>
-                @Html.ActionLink(user.DisplayName, "CoolVocabulary", "Home", routeValues: null, htmlAttributes: new { title = "Управление", id="userName" })
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="userName">
+                    @user.DisplayName
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="javascript:document.getElementById('logoutForm').submit()" class="logout-link">
+                            <i class="glyphicon glyphicon-off"></i>
+                            Log Out
+                        </a>
+                    </li>
+                </ul>
             </li>
-            <li><a href="javascript:document.getElementById('logoutForm').submit()">Выйти</a></li>
         </ul>
         }
     }
