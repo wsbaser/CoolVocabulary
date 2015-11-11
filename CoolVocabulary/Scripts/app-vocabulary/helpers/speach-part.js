@@ -18,7 +18,7 @@ Vocabulary.SpeachPartHelper = Ember.Helper.helper(function(params, namedParams){
 		case SpeachParts.ADJECTIVE:
 			result = 'adjective';
 			break;
-		case SpeachParts.ADVERVB:
+		case SpeachParts.ADVERB:
 			result = 'adverb';
 			break;
 		default:

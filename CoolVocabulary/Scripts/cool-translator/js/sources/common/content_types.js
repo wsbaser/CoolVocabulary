@@ -41,7 +41,7 @@ SpeachParts.parseEn = function(sp){
         case 'adjective':
             return SpeachParts.ADJECTIVE;
         case 'adverb':
-            return SpeachParts.ADVERVB;
+            return SpeachParts.ADVERB;
         default:
             return SpeachParts.UNKNOWN; 
     }
@@ -56,7 +56,7 @@ SpeachParts.toStringEn = function(sp){
 			return 'verb';
 		case SpeachParts.ADJECTIVE:
 			return 'adjective';
-		case SpeachParts.ADVERVB:
+		case SpeachParts.ADVERB:
 			return 'adverb';
 		default:
 			return 'unknown';
