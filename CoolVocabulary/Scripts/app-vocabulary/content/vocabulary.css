@@ -225,6 +225,10 @@ body{
 	opacity: 0.5;
 }
 
+.sp-words > li.completed>.word{
+	color: #2a2a28;
+}
+
 .sp-words > li>.word,
 .sp-words > li>.show-details,
 .sp-words > li>.translations{

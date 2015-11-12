@@ -38,12 +38,17 @@ namespace CoolVocabulary.Models {
 
     public class BookDto {
         public BookDto() { }
-        public BookDto(Book book) {
+        public BookDto(Book book):this(book,0,0,false) {
+        }
+        public BookDto(Book book, int wordsCount, int wordsCompleted, bool isLoaded) {
             this.id = book.Id;
             this.userId = book.UserId;
             this.name = book.Name;
             this.language = ((LanguageType)book.Language).ToString();
             this.bookWords = new List<int>();
+            this.wordsCount = wordsCount;
+            this.wordsCompleted = wordsCompleted;
+            this.isLoaded = isLoaded;
         }
         public int id { get; set; }
         public string userId { get; set; }
@@ -52,6 +57,9 @@ namespace CoolVocabulary.Models {
         [Required, MaxLength(2)]
         public string language { get; set; }
         public List<int> bookWords;
+        public int wordsCount;
+        public int wordsCompleted;
+        public bool isLoaded;
     }
 
     public class BookWordDto {

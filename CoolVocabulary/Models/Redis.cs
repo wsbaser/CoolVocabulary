@@ -36,5 +36,17 @@ namespace CoolVocabulary.Models {
             var startIndex = listSize > count ? new Random().Next(listSize - count) : 0;
             return Db.ListRange(key, startIndex, startIndex + count).Select(v => v.ToString()).ToList<string>();
         }
+
+        public static Tuple<int, int> GetBookData(int bookId) {
+            var fields = new RedisValue[] { "size", "completed" };
+            RedisValue[] values = Db.HashGet("book:" + bookId, fields);
+            int bookSize;
+            int bookCompleted;
+            if (values[0].IsNull || values[1].IsNull ||
+                !values[0].TryParse(out bookSize) || !values[1].TryParse(out bookCompleted)) {
+                return null;
+            }
+            return new Tuple<int, int>(bookSize, bookCompleted);
+        }
     }
 }

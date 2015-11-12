@@ -1,4 +1,7 @@
-﻿using System;
+﻿using CoolVocabulary.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -22,8 +25,8 @@ namespace CoolVocabulary.Controllers {
         }
 
         [Authorize]
-        public ActionResult User()
-        {
+        public ActionResult Vocabulary() {
+            ViewBag.isVocabularyAction = true;
             return View();
         }
     }

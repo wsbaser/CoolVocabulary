@@ -2,20 +2,21 @@
 @using CoolVocabulary.Models;
 @using Microsoft.AspNet.Identity.EntityFramework;
 @{
-    ApplicationUser user=null;
-    if (Request.IsAuthenticated){
+    ApplicationUser user = null;
+    if (Request.IsAuthenticated) {
         var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new VocabularyDbContext()));
         user = um.FindById(User.Identity.GetUserId());
     }
+
+    bool? isVocabularyAction = ViewBag.isVocabularyAction;
     if (user != null) { 
-        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" })){
-        @Html.AntiForgeryToken()
         <ul class="nav navbar-nav navbar-right">
+            @if (isVocabularyAction==true) {
             <li>
                 <div id="current_target_progress" class="menu-flex-centered">
                     <svg>
-                        <rect x="0" y="0" width="100" height="10" fill="#ebeef2"></rect>
-                        <rect x="0" y="0" width="30" height="10" fill="#39b3d7"></rect>
+                        <rect class="full" x="0" y="0" width="100" height="10" fill="#ebeef2"></rect>
+                        <rect class="completed" x="0" y="0" width="0" height="10" fill="#39b3d7"></rect>
                     </svg>
                 </div>
             </li>
@@ -31,6 +32,9 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li>
+                        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class="hidden" })) {
+                            @Html.AntiForgeryToken()
+                        }
                         <a href="javascript:document.getElementById('logoutForm').submit()" class="logout-link">
                             <i class="glyphicon glyphicon-off"></i>
                             Log Out
@@ -38,8 +42,13 @@
                     </li>
                 </ul>
             </li>
+            } 
+            else {
+            <li>
+                @Html.ActionLink(user.DisplayName, "Vocabulary")
+            </li>
+            }
         </ul>
-        }
     }
     else
     {

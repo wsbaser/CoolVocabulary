@@ -33,9 +33,18 @@ namespace CoolVocabulary.Controllers.api
             var bookWords = new List<BookWordDto>();
             var words = new List<WordDto>();
             var translations = new List<TranslationDto>();
+            var noAggregatedDataBookIds = new List<int>();
+            // . get books
             foreach (var book in db.Books.Where(v => v.UserId == user.Id && v.Language == language)) {
-                books.Add(new BookDto(book));
+                var bookData = Redis.GetBookData(book.Id);
+                if (bookData == null) {
+                    books.Add(new BookDto(book, 0, 0, true));
+                    noAggregatedDataBookIds.Add(book.Id);
+                } else {
+                    books.Add(new BookDto(book, bookData.Item1, bookData.Item2, false));
+                }
             }
+            // .get books aggregated data
             dynamic currentBook = null;
             int currentBookId;
             if (books.Count == 0) {
@@ -43,7 +52,7 @@ namespace CoolVocabulary.Controllers.api
                     return BadRequest("Invalid bookId");
                 const string FIRST_BOOK_NAME = "Martin Eden";
                 var book = await db.CreateBook(user.Id, (LanguageType)language, FIRST_BOOK_NAME);
-                currentBook = new BookDto(book);
+                currentBook = new BookDto(book, 0, 0, true);
                 books.Add(currentBook);
             } else {
                 if (bookId == 0) {
@@ -61,7 +70,11 @@ namespace CoolVocabulary.Controllers.api
                 }
             }
             currentBookId = currentBook.id;
-            foreach (var bookWord in db.BookWords.Where(v => v.BookId == currentBookId).Include("Word").Include("Translations")) {
+            if (!noAggregatedDataBookIds.Contains(currentBookId)) {
+                noAggregatedDataBookIds.Add(currentBookId);
+            }
+            var wordsQuery = db.BookWords.Where(v => noAggregatedDataBookIds.Contains(v.BookId)).Include("Word").Include("Translations");
+            foreach (var bookWord in wordsQuery) {
                 currentBook.bookWords.Add(bookWord.Id);
                 bookWords.Add(new BookWordDto(bookWord));
                 words.Add(new WordDto(bookWord.Word));
@@ -128,20 +141,16 @@ namespace CoolVocabulary.Controllers.api
         }
 
         // POST api/Book
-        public async Task<IHttpActionResult> PostBook(BookDto bookDto)
-        {
-            if (!ModelState.IsValid)
-            {
+        public async Task<IHttpActionResult> PostBook(BookDto bookDto) {
+            if (!ModelState.IsValid) {
                 return BadRequest(ModelState);
             }
 
             LanguageType bookLanguage;
-            if (!Enum.TryParse<LanguageType>(bookDto.language, out bookLanguage))
-            {
+            if (!Enum.TryParse<LanguageType>(bookDto.language, out bookLanguage)) {
                 return BadRequest("Invalid book language");
             }
-            var book = new Book
-            {
+            var book = new Book {
                 UserId = User.Identity.GetUserId(),
                 Name = bookDto.name,
                 Language = (int)bookLanguage
@@ -150,8 +159,7 @@ namespace CoolVocabulary.Controllers.api
             await db.SaveChangesAsync();
 
             return CreatedAtRoute("DefaultApi", new { id = book.Id },
-                new
-                {
+                new {
                     emberDataFormat = true,
                     books = new List<dynamic> { new BookDto(book) }
                 });

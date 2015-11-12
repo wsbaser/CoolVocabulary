@@ -19,7 +19,7 @@
     padding:0;
     cursor: pointer;
     border-radius: 3px;
-    width: 137px;
+    width: 280px;
     height: 38px;
     display: inline-block;
     text-align: center;
@@ -62,7 +62,7 @@
     background: #e0492f;
 }
 .preferred-login .text {
-    width: 100px;
+    width: 243px;
     height: 100%;
     color: #fff;
     display: table;

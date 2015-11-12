@@ -19,12 +19,12 @@
             </div>
             <div class="topbar-navitems navbar-collapse collapse">
                 <div class="topbar-menu-links">
-                    <a href="/"><img id="logo" src="content/images/icon48.png" alt="Cool Vocabulary"/>
+                    <a href="/"><img id="logo" src="~/content/images/icon48.png" alt="Cool Vocabulary"/></a>
                     <ul class="nav navbar-nav">
                         <li>@Html.ActionLink("About", "Index", "Home")</li>
                         <li>@Html.ActionLink("Cool Translator", "CoolTranslator", "Home")</li>
-                        <li>@Html.ActionLink("Babbel.com", "Babbel", "Home")</li>
-                        <li>@Html.ActionLink("Duolingo.com", "Duolingo", "Home")</li>
+                        <li><a target="_blank" href="http://babbel.com">Babbel.com</a></li>
+                        <li><a target="_blank" href="http://duolingo.com">Duolingo.com</a></li>
                     </ul>
                 </div>
                 <div class="topbar-user-links pull-right">
