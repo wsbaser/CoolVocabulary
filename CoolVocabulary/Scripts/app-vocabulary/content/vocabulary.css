@@ -161,7 +161,7 @@ body{
 	margin-right: 3px;
 }
 
-.logout-link{
+.dropdown-menu .logout-link{
 	color: #4c4c45; 
 }
 
@@ -170,6 +170,7 @@ body{
 	font-size: 12px;
 }
 
+.with-arrow:after,
 .navbar .nav>li>.dropdown-menu:after{
     content: '';
     display: inline-block;
@@ -178,8 +179,22 @@ body{
     border-bottom: 6px solid #ffffff;
     position: absolute;
     top: -6px;
+}
+
+.navbar .nav>li>.dropdown-menu:after{
     left: auto;
     right: 31px;
+}
+
+.popover.with-arrow{
+	margin-top: 5px;
+	color: #4c4c45;
+	border-radius: 0;
+}
+
+.popover.with-arrow:after{
+    left: 50%;
+    transform: translate(-50%,0);
 }
 
 #userName+.dropdown-menu{
