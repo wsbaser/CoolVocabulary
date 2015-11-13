@@ -5,21 +5,6 @@ Vocabulary.BookIndexRoute = Ember.Route.extend({
 		this.render('book/index', { outlet: 'content' });
 	},
 	afterModel: function(){
-		this.store.peekAll('book').forEach(function(book){
-	    	var isLoaded = book.get('isLoaded');
-	    	if(isLoaded){
-	    		// .count real amount of words and completed words
-	    		var wordsCount = book.get('bookWords.length');
-	    		var wordsCompletedCount = 0;
-	    		book.get('bookWords').forEach(function(bookWord){
-	    			if(bookWord.get('learnCompleted')){
-	    				wordsCompletedCount++;
-	    			}
-	    		});
-	    		book.set('wordsCount', wordsCount);
-	    		book.set('wordsCompletedCount', wordsCompletedCount);
-	    	}
-		});
 	},
 	setupController: function(controller, model){
 		model = this.controllerFor('book').get('model');
@@ -56,5 +41,15 @@ Vocabulary.BookIndexRoute = Ember.Route.extend({
 				event.data.bookWord,
 				event.data.translation);
 		});
+
+    	$(window).resize(function(){
+			self.setContentHeight();
+		}.bind(this));
+		self.setContentHeight();
+	},
+	setContentHeight: function(){
+		var height = $(window).height()-$('#toolbox').height()-35;
+		$('#content').css('height', height+'px');
 	}
+
 });

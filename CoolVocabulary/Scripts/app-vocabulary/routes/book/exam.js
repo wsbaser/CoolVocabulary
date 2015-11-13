@@ -207,16 +207,6 @@ Vocabulary.BookExamRoute = Ember.Route.extend({
 	},
 	afterRender: function(){
 	// . bind touch events here
-
-   	//    	$('body').on('mousewheel', function(event){
-			// if(event.originalEvent.wheelDeltaY<0) {
-			// 	$('#learning-cards-shadow').scrollTo('+=300px', 300);
-			// 	$('#learning-cards').scrollTo('+=300px', 300);
-			// } else {
-			// 	$('#learning-cards-shadow').scrollTo('-=300px', 300);
-			// 	$('#learning-cards').scrollTo('-=300px', 300);
-			// }
-   //    	});
 	},
 	actions: {
 		sessionChanged: function(){

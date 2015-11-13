@@ -21,11 +21,11 @@
 		{{/if}}
 	</div>
 	<div class="actions">
-		{{#if hasMoreWords}}
-		<button {{action 'examine'}} id="examine_btn" class="btn btn-warning">Examine</button>
-		{{/if}}
 		{{#link-to 'book'}}
 			<button id="later_btn" class="btn btn-default">Back to "{{bookName}}"</button>
 		{{/link-to}}
+		{{#if hasMoreWords}}
+		<button {{action 'examine'}} id="examine_btn" class="btn btn-warning">Examine</button>
+		{{/if}}
 	</div>
 </div>

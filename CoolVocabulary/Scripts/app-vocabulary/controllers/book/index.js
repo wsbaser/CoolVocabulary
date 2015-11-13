@@ -54,7 +54,7 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 		findOrAdd(this.store, 'bookWord', bookWordDto);
 		findOrAdd(this.store, 'translation', translationDto);
 	},
-	totalCompletedCount: Ember.computed('model.bookWords.[]', function(){
+	bookWordsObserver: Ember.observer('model.bookWords.@each.learnLevel', function(){
 		var totalCompletedCount = 0;
 		this.store.peekAll('book').forEach(function(book){
 	    	var isLoaded = book.get('isLoaded');
@@ -72,7 +72,7 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 	    		book.set('wordsCompletedCount', wordsCompletedCount);
 	    	}
 		});
-		return totalCompletedCount;
+		this.set('totalCompletedCount', totalCompletedCount);
 	}),
 	targetCount: Ember.computed(function(){
 		return 100;
@@ -83,7 +83,7 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 		var fullWidth = $('#current_target_progress .full').attr('width'); 
 		var completedWidth = Math.round((totalCompletedCount/targetCount)*fullWidth);
 		$('#current_target_progress .completed').attr('width', completedWidth);
-	}).on('init'),	
+	}),	
 	actions: {
 		selectWord: function(bookWord){
 			this.set('inputWord', bookWord.get('word.value'));

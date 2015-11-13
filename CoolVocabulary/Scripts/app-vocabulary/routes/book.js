@@ -14,3 +14,9 @@ Vocabulary.BookRoute = Ember.Route.extend({
 		this._super(controller, model);
 	}
 }); 
+
+Vocabulary.BookLoadingRoute = Ember.Route.extend({
+	renderTemplate: function(){
+		this.render('loading', {outlet: 'content'});
+	}
+});
