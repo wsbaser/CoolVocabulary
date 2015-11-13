@@ -12,7 +12,6 @@ Vocabulary.BookIndexRoute = Ember.Route.extend({
 	    		var wordsCount = book.get('bookWords.length');
 	    		var wordsCompletedCount = 0;
 	    		book.get('bookWords').forEach(function(bookWord){
-	    			console.log(bookWord.get('word.value')+bookWord.get('learnLevel'));
 	    			if(bookWord.get('learnCompleted')){
 	    				wordsCompletedCount++;
 	    			}
@@ -35,6 +34,17 @@ Vocabulary.BookIndexRoute = Ember.Route.extend({
 		    placement: 'bottom',
 		    backdrop: true
 		});
+       	$('#target_info_alert').modalPopover({
+		    target: '#current_target_progress',
+		    placement: 'bottom'
+		});
+		$('#current_target_progress>svg').on('mouseover', function(e){
+			$('#target_info_alert').modalPopover('show');
+		});
+		$('#current_target_progress>svg').on('mouseout', function(e){
+			$('#target_info_alert').modalPopover('hide');
+		});
+
 		// . listen for messages from CoolTranslator
 		window.addEventListener("message", function(event){
 			if(event.origin!==window.location.origin ||
@@ -46,14 +56,5 @@ Vocabulary.BookIndexRoute = Ember.Route.extend({
 				event.data.bookWord,
 				event.data.translation);
 		});
-		this.setupTargetProgress();
-	},
-	setupTargetProgress: function(){
-		var bookWords = this.store.peekAll('bookWord');
-		var TARGET_COUNT = 100;
-		var completedCount = bookWords.filterBy('learnCompleted', true).get('length');
-		var fullWidth = $('#current_target_progress .full').attr('width'); 
-		var completedWidth = Math.round((completedCount/TARGET_COUNT)*fullWidth);
-		$('#current_target_progress .completed').attr('width', completedWidth);
 	}
 });
