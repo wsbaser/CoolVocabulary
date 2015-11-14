@@ -1016,6 +1016,9 @@ a:hover .manageIcons .glyphicon {
 }
 
 @keyframes pacman-balls {
+	0% { 
+		opacity: 1
+	}
     75% {
         opacity: .7
     }
@@ -1063,7 +1066,7 @@ a:hover .manageIcons .glyphicon {
 .pacman>div:nth-child(2) {
     -webkit-animation: rotate_pacman_half_down .5s 0s infinite;
     animation: rotate_pacman_half_down .5s 0s infinite;
-    margin-top: -40px
+    margin-top: -40px;
 }
 
 .pacman>div:nth-child(3),.pacman>div:nth-child(4),.pacman>div:nth-child(5),.pacman>div:nth-child(6) {
@@ -1077,5 +1080,6 @@ a:hover .manageIcons .glyphicon {
     -ms-transform: translate(0,-6.25px);
     transform: translate(0,-6.25px);
     top: 20px;
-    left: 100px
+    left: 100px;
+    opacity: 0;
 }
