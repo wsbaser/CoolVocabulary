@@ -13,7 +13,9 @@ Vocabulary.WordDetailsEventsComponent = Ember.Component.extend({
 		self.get('onMouseOut')();
 	},
 	willDestroyElement: function(){
-		$('#word_details_popover').off('mouseout', this.closePopover);
+		var popoverEl = $('#word_details_popover');
+		popoverEl.modalPopover('hide');
+		popoverEl.off('mouseout', this.closePopover);
 		$('.show-details.active').off('mouseout', this.closePopover);	
 	}
 });

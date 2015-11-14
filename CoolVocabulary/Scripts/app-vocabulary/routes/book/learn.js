@@ -4,13 +4,13 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 		this.render('book/learn', {outlet: 'content'});
 	},
 	sessionWords: null,
-	model: function(){
+	model: function(params){
 		var book = this.controllerFor('book').get('model');
-		var sessionWords = this.getSessionWords(book);
+		var sessionWords = this.getSessionWords(book, params.word_id);
 		this.set('sessionWords', sessionWords);
 		return this.requestWordTranslations(sessionWords, 0, 3);
 	},
-	afterModel: function(){
+	afterModel: function(model){
 		var sessionWords = this.get("sessionWords");
 		if(!sessionWords || !sessionWords.toArray().length){
 			alert('Add words!');
@@ -37,34 +37,45 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 			dict[wt.record.get('word')].setWordTranslations(wt.record);
 		});
 	},
-	getSessionWords: function(book){
-		var wordsDictionary = {};
-		var wordsArr = [];
-		var bookWords = book.get('bookWords').filterBy('learnCompleted', false)
-		.sort(function(item1, item2){
-			var time1 = item1.get('learnedAt') || 0;
-			var time2 = item2.get('learnedAt') || 0;
-			return time1>time2?1:(time1===time2?0:-1);
-		}).toArray();
-		var count=0;
-		for(var i =0; i<bookWords.length&&count<30; i++){
-			var word = bookWords[i].get('word');
-			var wordId = word.get('id');
-			var wordToLearn = wordsDictionary[wordId];
-			if(!wordToLearn){
-				wordToLearn = wordsDictionary[wordId] = Vocabulary.WordToLearn.create({ 
-					word: word,
-					bookWords: Ember.A(),
+	getSessionWords: function(book, wordId){
+		var word, wordToLearn;
+		if(+wordId){
+			var bookWord = book.get('bookWords').filterBy('word.id', wordId)[0];
+			word = bookWord.get('word');
+			return [Vocabulary.WordToLearn.create({ 
+					word:  word.content || word,
+					bookWords: [bookWord],
 					cards: Ember.A()
-				});
-				count++;
+				})];
+		}else{
+			var wordsDictionary = {};
+			var wordsArr = [];
+			var bookWords = book.get('bookWords').filterBy('learnCompleted', false)
+			.sort(function(item1, item2){
+				var time1 = item1.get('learnedAt') || 0;
+				var time2 = item2.get('learnedAt') || 0;
+				return time1>time2?1:(time1===time2?0:-1);
+			}).toArray();
+			var count=0;
+			for(var i =0; i<bookWords.length&&count<30; i++){
+				word = bookWords[i].get('word');
+				var id = word.get('id');
+				wordToLearn = wordsDictionary[id];
+				if(!wordToLearn){
+					wordToLearn = wordsDictionary[id] = Vocabulary.WordToLearn.create({ 
+						word: word.content || word,
+						bookWords: Ember.A(),
+						cards: Ember.A()
+					});
+					count++;
+				}
+				wordToLearn.addBookWord(bookWords[i]);
 			}
-			wordToLearn.addBookWord(bookWords[i]);
+			for(var key in wordsDictionary){
+				wordsArr.push(wordsDictionary[key]);
+			}
+			return wordsArr.shuffle();
 		}
-		for(var id in wordsDictionary){
-			wordsArr.push(wordsDictionary[id]);
-		}
-		return wordsArr.shuffle();
 	},
 	setupController: function(controller, model){
 		// . set wordsTranslations
