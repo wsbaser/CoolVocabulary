@@ -1,3 +1,22 @@
-﻿@{
+﻿@model CoolVocabulary.Models.LoginViewModel
+@{
     ViewBag.Title = "About Cool Vocabulary";
 }
+
+<div class="centered-container">
+    <div class="centered-ui">
+        <div class="about-content">
+            Dolor ipsum
+        </div>
+        @if(Request.IsAuthenticated) {
+            <div class="form-container account-actions">
+                <a href="@Url.Action("Login", "Account")" id="loginLink">
+                    <button class="btn btn-primary">Sign In</button>
+                </a>
+                <a href="@Url.Action("Register", "Account")" id="registerLink">
+                    <button class="btn btn-primary">Sign Up</button>
+                </a>
+            </div>
+        }
+    </div>
+</div>

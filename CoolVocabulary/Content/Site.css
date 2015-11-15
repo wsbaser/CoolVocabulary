@@ -190,6 +190,19 @@ input[type="checkbox"].input-validation-error {
     background-position-x: -24px;
 }
 
-    .language-icon.ru {
-        background-position-x: 0;
-    }
+.language-icon.ru {
+    background-position-x: 0;
+}
+
+.account-actions button{
+    width: 100%;
+}
+
+.account-actions #loginLink>button {
+    margin-bottom: 20px;
+}
+
+.about-content {
+    margin-bottom: 20px;
+    font-size: 17px;
+}

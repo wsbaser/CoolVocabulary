@@ -213,6 +213,9 @@ Vocabulary.BookLearnController = Ember.Controller.extend(Vocabulary.HasActiveObj
 			if(this.get('isScrolling')){
 				return;
 			}
+			if(this.get('isSingleWord')){
+				this.transitionToRoute('book');
+			}
 			$('.hotkey-hints').addClass('fadeout');
 			this.updateLearnStatus(this.get('activeWord'));
 			this.scrollToNextWord();

@@ -8,7 +8,7 @@
 			<tt>[Right]</tt> &mdash; next card
 		</div>
 		<div class="hotkey-hint">
-			<tt>[Enter]</tt> &mdash; next word
+			<tt>[Enter]</tt> &mdash;{{#if isSingleWord}}back to "{{model.name}}"{{else}}next word{{/if}}
 		</div>
 		<div class="hotkey-hint">
 			<tt>[Space]</tt> &mdash; listen pronunciation
@@ -22,6 +22,7 @@
 					{{#each sessionWords as |wordToLearn|}}
 						{{learning-card wordToLearn=wordToLearn}}
 					{{/each}}
+					{{#if isSingleWord}}
 					<div class="summary-card light-shadow">
 						<div class="header">
 							That was the last one. Do you want to examine your knowledge?
@@ -33,9 +34,12 @@
 							{{/link-to}}
 						</div>
 					</div>
+					{{/if}}
 				</div>
 				{{#unless isSummary}}
-					<button {{action 'nextWord'}} id="next_word" class="btn btn-success btn-xs">Next</button>
+					<button {{action 'nextWord'}} id="next_word" class="btn btn-success btn-xs">
+						{{#if isSingleWord}}Back{{else}}Next{{/if}} 
+					</button>
 				{{/unless}}
 			</div>
 			<div id="bottom-block"></div>

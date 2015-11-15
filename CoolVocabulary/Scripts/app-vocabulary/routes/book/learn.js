@@ -6,6 +6,7 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 	sessionWords: null,
 	model: function(params){
 		var book = this.controllerFor('book').get('model');
+		this.set('isSingleWord', +params.word_id!==0);
 		var sessionWords = this.getSessionWords(book, params.word_id);
 		this.set('sessionWords', sessionWords);
 		return this.requestWordTranslations(sessionWords, 0, 3);
@@ -18,7 +19,10 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 		}
 	},
 	requestWordTranslations: function(sessionWords, start , count){
-		var wordsRange = sessionWords.slice(start, start+count);
+		if(!sessionWords.length){
+			return null;
+		}
+		var wordsRange = sessionWords.slice(start, start + count);
 		var wordsRangeIds = wordsRange.map(function(item){ 
 			return item.get('word.id'); 
 		});
@@ -80,6 +84,7 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 	setupController: function(controller, model){
 		// . set wordsTranslations
 		this.setWordTranslations(model.content);
+		controller.set('isSingleWord', this.get('isSingleWord'));
 		// . set model
 		model = this.controllerFor('book').get('model');
 		this._super(controller, model);
