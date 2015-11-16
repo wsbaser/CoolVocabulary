@@ -4,19 +4,96 @@
 @section header{
 <link rel="chrome-webstore-item"
       href="https://chrome.google.com/webstore/detail/cifbpdjhjkopeekabdgfjgmcbcgloioi">
+
+<style>
+    .g-c-R {
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    .g-c-Zi-s {
+        width: 19px;
+        height: 17px;
+        background: no-repeat url(https://ssl.gstatic.com/chrome/webstore/images/sprites/consumer-088eb0c4ecec8f837d6ba3be3c3245f0.png) -32px -779px;
+    }
+
+    .g-c-s-L-Si {
+        margin-right: 7px;
+    }
+
+    .g-c-s {
+        display: inline-block;
+        position: relative;
+        vertical-align: text-bottom;
+        top: 1px;
+    }
+
+    .g-c-l.g-c-wb {
+        border-color: #4076ff;
+        background-color: #5c92ff;
+        background-image: linear-gradient(to bottom,#669eff,#5286ff);
+    }
+
+    margin‒ ‒border1 1padding‒ 2098 × 2320 ‒1 1‒ ‒ Console Emulation Rendering Preserve log .g-c.g-eg-ua-Kb-c-za, .g-c.g-eg-ua-Uc-c-za {
+        padding: 0 20px 0 20px;
+    }
+
+    .g-c.g-eg-ua-Kb-c-za, .g-c.g-eg-ua-Uc-c-za {
+        padding: 0 20px 0 20px;
+    }
+
+    .dd-Va {
+        display: inline-block;
+    }
+
+    .g-eg-ua-Kb-c-za {
+        height: 23px;
+        font-size: 11px;
+        line-height: 23px;
+        min-width: -10px;
+    }
+
+    .g-c {
+        border-radius: 2px;
+        border: 1px solid;
+        cursor: pointer;
+        color: #fff;
+        font-weight: bold;
+        text-align: center;
+        text-shadow: 0 1px 1px rgba(0,0,0,0.1);
+        text-transform: uppercase;
+        box-shadow: 0 2px 0 0 rgba(255,255,255,.06) inset,0 2px 3px 0 rgba(0,0,0,.2);
+        outline: 0;
+    }
+</style>
 }
 
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+<div class="centered-container">
+    <div class="about-content">
+        <h3>Cool Translator is a Chrome extension. You can use it to:</h3>
+        <ol>
+            <li>Tanslate words from web page with double click.</li>
+            <li>Type in and translate random words.</li>
+            <li>Add words to @Html.ActionLink("Cool Vocbulary","Vocabulary").</li>
+        </ol>
+        <div id="install_cv_button" role="button" class="dd-Va g-c-wb g-eg-ua-Kb-c-za g-c-Oc-td-jb-oa g-c g-c-l" tabindex="0">
+            <div class="g-c-x">
+                <div class="g-c-s g-c-Zi-s g-c-s-L-Si"></div>
+                <div class="g-c-R webstore-test-button-label">Add to Chrome</div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
-
-<address>
-    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+@section scripts{
+    <script>
+        var $installButton = $('#install_cv_button')
+        if(chrome.app.isInstalled){
+            $installButton.hide();
+        }else{
+            $installButton.on('click', function () {
+                chrome.webstore.install();
+            });
+        }
+    </script>
+}
