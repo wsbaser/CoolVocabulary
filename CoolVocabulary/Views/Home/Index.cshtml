@@ -1,7 +1,4 @@
 ﻿@model CoolVocabulary.Models.LoginViewModel
-@{
-    ViewBag.Title = "About Cool Vocabulary";
-}
 
 <div class="centered-container">
     <div class="about-content">
@@ -26,6 +23,7 @@
                 Learn words with @Html.ActionLink("Cool Vocabulary","Vocabulary").
             </li>
         </ol>
+        All services except <a target="_blank" href="http://babbel.com">babbel.com</a> are <strong>free</strong>.
     </div>
     <div class="centered-ui">
         @if (!Request.IsAuthenticated) {

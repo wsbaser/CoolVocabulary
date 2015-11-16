@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title – приложение ASP.NET</title>
+    <title>Enlarge your English, Spanish, French and other languges vocabulary - CoolVocabulary.com</title>
     @Styles.Render("~/Content/css")
     @RenderSection("header", required: false)
 </head>
@@ -20,7 +20,7 @@
             </div>
             <div class="topbar-navitems navbar-collapse collapse">
                 <div class="topbar-menu-links">
-                    <a href="/"><img id="logo" src="~/content/images/icon48.png" alt="Cool Vocabulary"/></a>
+                    <a href="@Url.Action("Vocabulary")"><img id="logo" src="~/content/images/icon48.png" alt="Cool Vocabulary"/></a>
                     <ul class="nav navbar-nav">
                         <li>@Html.ActionLink("About", "Index", "Home")</li>
                         <li>@Html.ActionLink("Cool Translator", "CoolTranslator", "Home")</li>
