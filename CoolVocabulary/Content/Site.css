@@ -203,6 +203,16 @@ input[type="checkbox"].input-validation-error {
 }
 
 .about-content {
-    margin-bottom: 20px;
+    margin-top: 50px;
     font-size: 17px;
 }
+
+    .about-content > ol > li {
+        padding: 8px;
+    }
+
+
+        .about-content .service-icon{
+            width: 16px;
+            height: 16px;
+        }

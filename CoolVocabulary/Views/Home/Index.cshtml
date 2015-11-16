@@ -4,14 +4,36 @@
 }
 
 <div class="centered-container">
+    <div class="about-content">
+        <h3>
+            3 steps to learn new language:
+        </h3>
+        <ol>
+            <li>Learn grammatics with:
+                <img class="service-icon" src="http://babbel.com/favicon.ico" />
+                <a target="_blank" href="http://babbel.com">
+                    Babbel.com
+                </a>
+             and
+                <img class="service-icon" src="https://www.duolingo.com/images/favicon.ico" />
+                <a target="_blank" href="http://duolingo.com">
+                    Duolingo.com
+                </a>.</li>
+            <li>
+                Add new words to vocabulary with <a href="/cooltranslator">
+                    Cool Translator.
+                </a>
+            </li>
+            <li>
+                Learn words with Cool Vocabulary.
+            </li>
+        </ol>
+    </div>
     <div class="centered-ui">
-        <div class="about-content">
-            Dolor ipsum
-        </div>
-        @if(Request.IsAuthenticated) {
+        @if (!Request.IsAuthenticated) {
             <div class="form-container account-actions">
                 <a href="@Url.Action("Login", "Account")" id="loginLink">
-                    <button class="btn btn-primary">Sign In</button>
+                    <button class="btn btn-default">Sign In</button>
                 </a>
                 <a href="@Url.Action("Register", "Account")" id="registerLink">
                     <button class="btn btn-primary">Sign Up</button>
