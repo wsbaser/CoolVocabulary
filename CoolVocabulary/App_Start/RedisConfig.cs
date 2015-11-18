@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.IO;
 using CoolVocabulary.Models;
+using System.Configuration;
 
 namespace CoolVocabulary {
     public static class RedisConfig {
@@ -16,7 +17,7 @@ namespace CoolVocabulary {
             Redis.DelWords(LanguageType.ru, SpeachPartType.verb);
             Redis.DelWords(LanguageType.ru, SpeachPartType.adjective);
             Redis.DelWords(LanguageType.ru, SpeachPartType.adverb);
-            string dataFilePath = Path.Combine(HttpRuntime.AppDomainAppPath, "App_Start\\examwords_en.txt");
+            string dataFilePath = Path.Combine(ConfigurationManager.AppSettings["ExamwordsFolder"], "examwords_en.txt");
             using (StreamReader sr = new StreamReader(dataFilePath)) {
                 while (!sr.EndOfStream) {
                     var line = sr.ReadLine();

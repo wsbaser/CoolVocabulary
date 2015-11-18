@@ -99,7 +99,7 @@ namespace CoolVocabulary.Controllers
                 var user = await UserManager.FindAsync(model.Email, model.Password);
                 if (user != null) {
                     await SignInAsync(user, model.RememberMe);
-                    return RedirectToAction("Words", "Home");
+                    return RedirectToAction("Vocabulary", "Home");
                 } else {
                     ModelState.AddModelError("", "Invalid username or password.");
                 }
@@ -110,6 +110,7 @@ namespace CoolVocabulary.Controllers
         }
 
         //
+
         // GET: /Account/Register
         [AllowAnonymous]
         public ActionResult Register()
@@ -131,7 +132,7 @@ namespace CoolVocabulary.Controllers
                 if (result.Succeeded)
                 {
                     await SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Vocabulary", "Home");
                 }
                 else
                 {

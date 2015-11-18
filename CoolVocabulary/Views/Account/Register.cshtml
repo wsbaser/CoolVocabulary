@@ -1,19 +1,19 @@
 ﻿@model CoolVocabulary.Models.RegisterViewModel
 @{
-   ViewBag.Title = "Sign up - Cool Vocabulary";
+   ViewBag.Title = "Sign up";
 }
 
 <link href="~/Content/account.css" rel="stylesheet" />
 
-<div class="login-container">
-    <div class="login-ui">
-        <div class="call-to-action">
+<div class="centered-container">
+    <div class="centered-ui">
+        <div class="centered-header">
             Sign up to continue to <div class="site-name-container">
                 <img class="site-logo" src="//cdn.sstatic.net/stackoverflow/img/apple-touch-icon.png">
                 <div class="site-name">Cool Vocabulary</div>
             </div>
         </div>
-        <div id="formContainer">
+        <div class="form-container">
             @using (Html.BeginForm("ExternalLogin", "Account", new { returnUrl = ViewBag.ReturnUrl })) {
                 @Html.AntiForgeryToken()
                 <div id="openid-buttons">
@@ -22,18 +22,18 @@
                         <div class="text"><span>Google</span></div>
                         <br class="cbt">
                     </button>
-                    <button type="submit" value="Facebook" name="provider" class="preferred-login   facebook-login">
+                    @*<button type="submit" value="Facebook" name="provider" class="preferred-login   facebook-login">
                         <div class="icon-container"><span class="icon" style=""></span></div>
                         <div class="text"><span>Facebook</span></div>
                         <br class="cbt">
-                    </button>
+                    </button>*@
                 </div>
             }
             <div class="or-container">
                 <hr class="or-hr">
                 <div id="or">or</div>
             </div>
-            @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "clearfix", role = "form",id="cv-login-form" })) {
+            @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "clearfix", role = "form", id = "cv-login-form" })) {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary()
                 @Html.LabelFor(m => m.DisplayName)

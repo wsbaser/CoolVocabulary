@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enlarge your English, Spanish, French and other languges vocabulary - CoolVocabulary.com</title>
+    <title>@ViewBag.Title - CoolVocabulary.com</title>
     @Styles.Render("~/Content/css")
     @RenderSection("header", required: false)
 </head>
@@ -24,8 +24,14 @@
                     <ul class="nav navbar-nav">
                         <li>@Html.ActionLink("About", "Index", "Home")</li>
                         <li>@Html.ActionLink("Cool Translator", "CoolTranslator", "Home")</li>
-                        <li><a target="_blank" href="http://babbel.com">Babbel.com</a></li>
-                        <li><a target="_blank" href="http://duolingo.com">Duolingo.com</a></li>
+                        <li><a target="_blank" href="http://babbel.com">
+                            <i class="glyphicon glyphicon-chevron-right"></i>
+                            Babbel.com
+                            </a></li>
+                        <li><a target="_blank" href="http://duolingo.com">
+                            <i class="glyphicon glyphicon-chevron-right"></i>
+                            Duolingo.com
+                            </a></li>
                     </ul>
                 </div>
                 <div class="topbar-user-links pull-right">

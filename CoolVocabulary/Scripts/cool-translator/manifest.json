@@ -63,6 +63,6 @@
     "images/ll/marker.png",
     "images/blank.gif"],
   "externally_connectable": {
-    "matches": [ "http://localhost:13189/*" ]
+    "matches": [ "http://localhost:13189/*", "http://localhost/*", "http://coolvocabulary.com/*" ]
   }
 }

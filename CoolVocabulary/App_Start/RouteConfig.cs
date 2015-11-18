@@ -15,7 +15,7 @@ namespace CoolVocabulary {
                 url: "account/{action}/{id}",
                 defaults: new { controller = "Account", action = "Index", id = UrlParameter.Optional }
             );
-            
+
             routes.MapRoute(
                 name: "Default",
                 url: "{action}/{id}",
