@@ -22,7 +22,7 @@
 					{{#each sessionWords as |wordToLearn|}}
 						{{learning-card wordToLearn=wordToLearn}}
 					{{/each}}
-					{{#if isSingleWord}}
+					{{#unless isSingleWord}}
 					<div class="summary-card light-shadow">
 						<div class="header">
 							That was the last one. Do you want to examine your knowledge?
@@ -34,7 +34,7 @@
 							{{/link-to}}
 						</div>
 					</div>
-					{{/if}}
+					{{/unless}}
 				</div>
 				{{#unless isSummary}}
 					<button {{action 'nextWord'}} id="next_word" class="btn btn-success btn-xs">

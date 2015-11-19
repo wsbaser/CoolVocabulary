@@ -216,17 +216,19 @@ Vocabulary.BookLearnController = Ember.Controller.extend(Vocabulary.HasActiveObj
 			if(this.get('isSingleWord')){
 				this.transitionToRoute('book');
 			}
-			$('.hotkey-hints').addClass('fadeout');
-			this.updateLearnStatus(this.get('activeWord'));
-			this.scrollToNextWord();
-			if(this.get('isLastObject')){
-				this.set('isSummary', true);
-			}
 			else{
-				setTimeout(function(){
-					this.nextObject();
-					this.get('activeWord').playSound();
-				}.bind(this), SCROLL_TIME);
+				$('.hotkey-hints').addClass('fadeout');
+				this.updateLearnStatus(this.get('activeWord'));
+				this.scrollToNextWord();
+				if(this.get('isLastObject')){
+					this.set('isSummary', true);
+				}
+				else{
+					setTimeout(function(){
+						this.nextObject();
+						this.get('activeWord').playSound();
+					}.bind(this), SCROLL_TIME);
+				}
 			}
 		},
 		nextCard: function(){

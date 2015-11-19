@@ -195,7 +195,7 @@ Vocabulary.BookExamRoute = Ember.Route.extend({
 		// . set wordsTranslations
 		this.setWrongTranslations(model.content);
 		// . set model
-		model = this.modelFor('book');
+		model = this.controllerFor('book').get('model');
 		this._super(controller, model);
 		// . set session data
 		var sessionWords = this.get('sessionWords').filterBy('isValid', true);
