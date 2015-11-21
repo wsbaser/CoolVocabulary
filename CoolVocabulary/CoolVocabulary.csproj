@@ -241,6 +241,7 @@
     <Compile Include="Controllers\api\WordTranslationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Custom\AjaxAuthorize.cs" />
+    <Compile Include="Extensions\ControllerExtensions.cs" />
     <Compile Include="Extensions\HttpRequestExtensions.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Global.asax.cs">

@@ -57,9 +57,9 @@ namespace CoolVocabulary.Models {
         [Required, MaxLength(2)]
         public string language { get; set; }
         public List<int> bookWords;
-        public int wordsCount;
-        public int wordsCompleted;
-        public bool isLoaded;
+        public int? wordsCount;
+        public int? wordsCompleted;
+        public bool? isLoaded;
     }
 
     public class BookWordDto {

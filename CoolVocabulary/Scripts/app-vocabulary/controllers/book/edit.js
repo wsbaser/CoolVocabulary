@@ -10,7 +10,9 @@ Vocabulary.BookEditController = Ember.Controller.extend({
 			this.transitionToRoute('book');
 		},
 		delete: function(){
-			this.model.destroyRecord();
+			this.model.destroyRecord().then(function(){
+				this.transitionToRoute('index');
+			}.bind(this));
 		}
 	}
 });

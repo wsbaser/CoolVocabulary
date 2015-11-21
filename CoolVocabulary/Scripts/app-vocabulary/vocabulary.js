@@ -23,7 +23,7 @@ Vocabulary.ApplicationAdapter = DS.RESTAdapter.extend({
 
 Vocabulary.ApplicationSerializer = DS.RESTSerializer.extend({
   normalizeResponse: function(store, primaryType, payload, id, requestType) {
-    if(payload.emberDataFormat){
+    if(payload.emberDataFormat || payload.errors){
       return this._super(store, primaryType, payload, id, requestType);
     }
     else {
