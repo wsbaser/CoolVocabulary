@@ -2,10 +2,10 @@
 
 {{google-translations-card card=wordToLearn.googleTranslationsCard}}
 
-{{google-definitions-card card=wordToLearn.googleDefinitionsCard}}
-
 {{#each wordToLearn.exampleCards as |card|}}
 	{{word-examples-card card=card}}
 {{/each}}
+
+{{google-definitions-card card=wordToLearn.googleDefinitionsCard}}
 
 {{learning-card-navigation wordToLearn=wordToLearn}}

@@ -161,6 +161,10 @@ Vocabulary.WordToLearn = Ember.Object.extend(Vocabulary.HasActiveObject, {
 	activeCard: Ember.computed.alias('activeObject'),
 	activateCard: function(card){
 		this.activateObject(card);
+		// . generate "activateLearnigCard" event	
+		$(window).trigger('activateLearningCard', [
+			this.get('word.id'), 
+			this.get('cards').indexOf(card)]);
 	},
 	activateFirstCard: function(){
 		this.activateFirstObject();

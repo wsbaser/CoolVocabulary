@@ -23,17 +23,9 @@
 						{{learning-card wordToLearn=wordToLearn}}
 					{{/each}}
 					{{#unless isSingleWord}}
-					<div class="summary-card light-shadow">
-						<div class="header">
-							That was the last one. Do you want to examine your knowledge?
-						</div>
-						<div class="actions">
-							<button {{action 'examine'}} id="examine_btn" class="btn btn-warning">Examine</button>
-							{{#link-to 'book'}}
-								<button id="later_btn" class="btn btn-default">Back to "{{model.name}}"</button>
-							{{/link-to}}
-						</div>
-					</div>
+						{{#if isSummary}}
+							{{learning-summary-card bookName=model.name onExamine=(action "examine") }}
+						{{/if}}
 					{{/unless}}
 				</div>
 				{{#unless isSummary}}
@@ -45,10 +37,6 @@
 			<div id="bottom-block"></div>
 	    </div>
 		<div id="learning-cards-shadow" class="fill-absolute">
-			<div class="learning-card" style="background: transparent;"></div>
-			{{#each sessionWords as |wordToLearn|}}
-				{{learning-card wordToLearn=wordToLearn isShadow=true}}
-			{{/each}}
 		</div>
 	</div>
 	<div class="side-col">

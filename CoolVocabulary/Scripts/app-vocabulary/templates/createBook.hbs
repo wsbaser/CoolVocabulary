@@ -3,7 +3,7 @@
         <div class="centered-header">
             Create a new book
         </div>
-        <div class="form-container">
+        <div class="form-container" style="border-color: #ccc;">
             <form {{action "createBook" on="submit"}} class="clearfix">
                 <label for="Name">Name</label>
                 {{focus-input value=model.name id="Name" name="Name"  type="text" required="true" placeholder="Type in book name"}}
