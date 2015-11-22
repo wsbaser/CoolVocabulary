@@ -23,10 +23,6 @@ SourceTab.ACTIVE_CLASS = 'ctr-active';
 SourceTab.SELECTED_CLASS= 'ctr-selected';
 SourceTab.CONTENT_CLASS= 'ctr-tab-content';
 
-SourceTab.prototype.linkId = function() {
-    return 'ctr_tablink_' + this.id;
-};
-
 SourceTab.prototype.init = function(data, content, error, prompts) {
     this.data = data;
     this.hasContent = !!content;
@@ -55,6 +51,7 @@ SourceTab.prototype.init = function(data, content, error, prompts) {
                 this.rootEl.append(this.createNoResultsErrorEl(this.contentType,this.data.word));
         }
     }
+    this.adjustContentHeight();
 };
 
 SourceTab.prototype.createContentEl = function(){
@@ -93,7 +90,6 @@ SourceTab.prototype.createLoadingEl = function() {
 SourceTab.prototype.createNavigationEl = function(){
     var li = $('<li/>', { class: Source.ACTIVE_CLASS });
     var a = $('<a/>', {
-        id: this.linkId(),
         html: this.title
     });
     li.append(a)
@@ -118,12 +114,12 @@ SourceTab.prototype.clear = function(){
 };
 
 SourceTab.prototype.adjustContentHeight = function() {
-    if(this.hasContent) {
+    if(this.hasContent){
         this.contentEl[0].style.setProperty("overflow", "auto", "important");
         var rect = this.contentEl[0].getBoundingClientRect();
         this.contentEl[0].style.maxHeight =
             document.documentElement.clientHeight -
-            rect.top -
+            rect.top - 2 - 
             (this.addTranslation ? this.addTranslation.el.height() : 0) +
             'px';
     }
