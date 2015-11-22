@@ -26,8 +26,11 @@ Vocabulary.prototype.checkAuthentication = function(){
 	this.reactor.dispatchEvent(Vocabulary.CHECK_AUTH_START);
     this.makeCall('checkAuthentication', [], function(promise){
         promise.done(function(data){
-        	self.user = data.user;
+            self.user = data.user;
         	self.reactor.dispatchEvent(Vocabulary.CHECK_AUTH_END);
+        }).fail(function(){
+            self.user = null;
+            self.reactor.dispatchEvent(Vocabulary.CHECK_AUTH_END);            
         });
     });
 };
@@ -40,7 +43,7 @@ Vocabulary.prototype.addTranslation = function(inputData,translation,callback){
     this.makeCall('addTranslation', [inputData, translation, this.bookId], callback);
 };
 
-Vocabulary.prototype.login = function(username,password,callback){
+Vocabulary.prototype.login = function(username, password, callback){
 	this.makeCall('login', [username, password], callback);
 };
 

@@ -1,5 +1,5 @@
 var CVConfig = function() {
-	var siteHost = "http://localhost:13189";
+	var siteHost = "http://localhost:131891";
     return {
         id: "cv",
         name: "Cool Vocabulary",

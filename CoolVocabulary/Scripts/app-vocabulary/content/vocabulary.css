@@ -316,6 +316,30 @@ body{
     vertical-align: middle;
 }
 
+
+.prize-icon-wrap{
+	text-align: center;
+	margin-top: 5px;
+}
+
+.prize-icon{
+	width: 70px;
+}
+
+.goal-info{
+	margin-top: 15px;
+}
+
+.goal-count{
+	color: #f55;
+	font-weight: bold;
+}
+
+.goal-count,
+.completed-count{
+	font-size: 16px;
+}
+
 /* LEARNING */
 body.learn,
 body.exam{

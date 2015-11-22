@@ -5,11 +5,18 @@
 </div>
 <div id="target_info_alert" class="popover with-arrow">
    	<div class="popover-content">
-        <p class="target-count">
-        	Goal: {{targetCount}} words
-        </p>
-        <p class="completed-count"> 
-        	Completed: {{totalCompletedCount}} words
-        </p>
+      <div class="prize-icon-wrap">
+        <img class='prize-icon' src='/content/images/prize.jpg'/>
+      </div>
+      <table class='goal-info'>
+        <tr>
+          <td>Goal:</td>
+          <td class="goal-count">{{objects-count targetCount 'word'}}</td>
+        </tr>
+        <tr>
+          <td>Completed:</td>
+          <td class="completed-count">{{objects-count totalCompletedCount 'word'}}</td>
+        </tr>
+      </table>
 	</div>
 </div>
