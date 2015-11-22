@@ -11,7 +11,7 @@
     direction: ltr !important;
     float: none !important;
     letter-spacing: normal !important;
-    line-height: 15px !important;
+    line-height: 1.3 !important;
     list-style-type: none !important;
     margin: 0 !important;
     width: auto !important;
@@ -324,12 +324,17 @@
     cursor: pointer !important;
 }
 
-#ctr_dialog .ctr-source-navigation li.ctr-selected a{
-    background: #EBE173 !important;
+#ctr_dialog .ctr-source-navigation li.ctr-active.ctr-selected a{
+  background: #EBE173 !important;
+}
+
+#ctr_dialog .ctr-source-navigation li.ctr-active a{
+  background: #E0EAEA !important;
 }
 
 #ctr_dialog .ctr-source-navigation li.ctr-active a:hover{
-    background: #EBE173 !important;
+  background: #EBE173 !important;
+  cursor: pointer !important;
 }
 
 #ctr_dialog .ctr-source-navigation::after {

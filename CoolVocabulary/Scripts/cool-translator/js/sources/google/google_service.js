@@ -101,7 +101,7 @@ GoogleTemplates = {};
 
 GoogleTemplates.TRANSLATIONS_HEADER = 
     '<div class="gt-cd-t">'+
-    '<span class="gt-card-ttl-txt" style="direction: ltr;">{word}</span>: варианты перевода'+
+    '<span class="gt-card-ttl-txt" style="direction: ltr;">{word}</span>: translations'+
     '</div>';
 
 GoogleTemplates.TRANSLATIONS_LIST =
@@ -120,7 +120,7 @@ GoogleTemplates.REVERSE_TRANSLATION ='<span class="gt-baf-back">{word}</span>';
 
 GoogleTemplates.DEFINITIONS_HEADER =
     '<div class="gt-cd-t">'+
-    '<span class="gt-card-ttl-txt" style="direction: ltr;">{word}</span>&nbsp;&ndash; определения'+
+    '<span class="gt-card-ttl-txt" style="direction: ltr;">{word}</span>&nbsp;&ndash; definitions'+
     '</div>';
 
 GoogleTemplates.DEFINITIONS =
@@ -136,7 +136,7 @@ GoogleTemplates.DEFINITION_ITEM =
 '</div>';
 
 GoogleTemplates.EXAMPLES =
-'<div class="gt-cd-t">Примеры</div>'+
+'<div class="gt-cd-t">Examples</div>'+
 '<div class="gt-cd-c">{examplesListHtml}</div>';
 
 GoogleTemplates.EXAMPLE_ITEM =
