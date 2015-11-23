@@ -7,7 +7,7 @@ Vocabulary.WordDetailsEventsComponent = Ember.Component.extend({
 		var self = event.data;
 		var $rt = $(event.relatedTarget);
 		if($rt.closest('#word_details_popover').length||
-			$rt.closest('.show-details.active').length){
+			$rt.closest('.active').length){
 			return;
 		}
 		self.get('onMouseOut')();

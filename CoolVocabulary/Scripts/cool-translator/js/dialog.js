@@ -126,10 +126,12 @@ TranslationDialog.TEMPLATE =
         <div id="ctr_login_wrap" style="display:none !important;">\
             <form class="ctr-login-form cf">\
                 <ul>\
-                    <li style="padding-right: 10px !important;"><label for="usermail">Email</label>\
-                    <input type="email" required="" name="usermail"></li>\
-                    <li><label for="password">Password</label>\
-                    <input type="password" required="" name="password"></li>\
+                    <li>\
+                      <div class="login-wrap" style="padding-right: 10px !important;"><label for="usermail">Email</label>\
+                      <input type="email" required="" name="usermail"></div>\
+                      <div class="password-wrap"><label for="password">Password</label>\
+                      <input type="password" required="" name="password"></div>\
+                    </li>\
                     <li style="width:100% !important;height:25px !important;overflow:hidden !important;">\
                         <div class="ctr-error"></div>\
                         <div class="ctr-spinner">\
@@ -140,7 +142,18 @@ TranslationDialog.TEMPLATE =
                         </div>\
                     </li>\
                     <li style="text-align:center !important; width:100% !important;">\
-                    <input type="submit" value="Login"></li>\
+                    <input type="submit" value="Login" class="blurred"/></li>\
+                    <li class="or-container">\
+                      <hr class="or-hr">\
+                      <div id="or">or</div>\
+                    </li>\
+                    <li class="oauth-buttons blurred">\
+                      <button type="submit" value="Google" name="provider" class="preferred-login google-login">\
+                          <div class="icon-container"><span class="icon" style=""></span></div>\
+                          <div class="text"><span>Google</span></div>\
+                          <br class="cbt">\
+                      </button>\
+                    </li>\
                 </ul>\
             </form>\
         </div>\

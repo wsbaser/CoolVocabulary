@@ -8,16 +8,22 @@
 
 #ctr_dialog .ctr-login-form{
     background: #fff none repeat scroll 0% 0% ! important;
-    height: 100px ! important;
+    height: 160px ! important;
     width: 70% ! important;
     transition: height 0.3s ease 0s, width 0.3s ease 0s,opacity 0.3s ease 0s !important;
     border-radius: 5px !important;
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5) !important;
-    padding: 5px 15px !important;
+    padding: 10px 15px !important;
     position:relative !important;
     left: 50% !important;
     top: 50% !important;
     transform: translate(-50%,-50%);
+}
+
+#ctr_dialog .ctr-login-form .login-wrap,
+#ctr_dialog .ctr-login-form .password-wrap{
+	display: inline-block !important;
+	width: 49% !important;
 }
 
 #ctr_dialog .ctr-login-form label {
@@ -25,12 +31,6 @@
 	color: #999 !important;
 	font-size: 11px !important;
 	width: 100% !important;
-}
-
-#ctr_dialog .ctr-login-form li {
-	display: inline !important;
-	float: left !important;
-	width: 50% !important;
 }
 
 #ctr_dialog .ctr-login-form input:not([type=submit]) {
@@ -60,8 +60,89 @@
 	width: 100% !important;
 }
 
+#ctr_dialog .blurred{
+	opacity: 0.8 !important;
+}
+
+#ctr_dialog .blurred:hover{
+	opacity: 1 !important;	
+}
+
 #ctr_dialog .ctr-login-form .ctr-error{
     font-size: 11px !important;
     color:red !important;
     padding: 4px 2px !important;
+}
+
+#ctr_dialog .preferred-login {
+    padding:0 !important;
+    cursor: pointer !important;
+    background: #e0492f !important;
+    border-radius: 3px !important;
+    width: 388px !important;
+    height: 22px !important;
+    display: inline-block !important;
+    text-align: center !important;
+}
+
+#ctr_dialog .preferred-login:focus {
+    outline: none !important;
+}
+#ctr_dialog .preferred-login.google-login {
+    border: 1px solid #e0492f !important;
+}
+#ctr_dialog .preferred-login .icon-container {
+    display: inline-block !important;
+    width: 28px !important;
+    height: 100% !important;
+    padding: 0 !important;
+    float: left !important;
+}
+#ctr_dialog .preferred-login .icon {
+    background: url('http://cdn.sstatic.net/img/openid/universal-login-sprite.png?v=081e7998ef2c') !important;
+    display: inline-block !important;
+    margin: 3px auto !important;
+    width: 16px !important;
+    height: 16px !important;
+}
+#ctr_dialog .preferred-login.google-login .icon {
+    background-position: 0 0 !important;
+}
+#ctr_dialog .preferred-login.google-login .icon-container {
+    border-right: 1px solid #bf3b24 !important;
+    text-align: center !important;
+}
+#ctr_dialog .preferred-login .text {
+    width: 358px !important;
+    height: 100% !important;
+    display: table !important;
+}
+#ctr_dialog .preferred-login .text span {
+    display: table-cell !important;
+    vertical-align: middle !important;
+    text-align: center !important;
+    color: #fff !important;
+    font-size: 13px !important;
+}
+#ctr_dialog .cbt {
+    clear: both !important;
+}
+
+#ctr_dialog .or-container {
+    text-align: center !important;
+    margin: 15px 0 2px !important;
+    color: #808080 !important;
+    font-variant: small-caps !important;
+}
+#ctr_dialog .or-hr {
+    margin-bottom: -16px !important;
+    height: 0 !important;
+    border: 0 !important;
+    border-top: 1px solid #e6e6e6 !important;
+}
+#ctr_dialog #or {
+    display: inline-block !important;
+    position: relative !important;
+    padding: 6px !important;
+    background-color: #fff !important;
 }

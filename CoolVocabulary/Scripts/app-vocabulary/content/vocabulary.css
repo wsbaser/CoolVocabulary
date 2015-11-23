@@ -273,7 +273,7 @@ body{
 
 .sp-words .word,
 .sp-words .translations{
-	width: 45%;
+	width: 50%;
 	opacity: 0.9;
 	cursor: pointer;
 }
