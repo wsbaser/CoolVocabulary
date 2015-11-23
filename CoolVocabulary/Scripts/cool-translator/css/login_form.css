@@ -1,5 +1,5 @@
 #ctr_dialog #ctr_login_wrap{
-    background: rgba(100,100,0,0.25) none repeat scroll 0% 0% ! important;
+    background: rgba(224, 234, 234,0.95) !important;
     height: 100% !important;
     width: 100% !important;
     position: absolute !important;
@@ -12,7 +12,7 @@
     width: 70% ! important;
     transition: height 0.3s ease 0s, width 0.3s ease 0s,opacity 0.3s ease 0s !important;
     border-radius: 5px !important;
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5) !important;
+    box-shadow: rgba(0, 0, 0, 0.5) 2px 2px 7px !important;
     padding: 10px 15px !important;
     position:relative !important;
     left: 50% !important;
