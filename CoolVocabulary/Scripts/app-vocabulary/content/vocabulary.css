@@ -317,26 +317,28 @@ body{
 }
 
 
+#target_info_alert>.popover-content{
+	padding: 0;
+}
+
 .prize-icon-wrap{
 	text-align: center;
-	margin-top: 5px;
+	padding: 10px;
 }
 
 .prize-icon{
 	width: 70px;
+	opacity: 0.5;
 }
 
 .goal-info{
-	margin-top: 15px;
+	padding: 10px;
+	text-align: center;
+	background-color: #E0EAEA;
 }
 
 .goal-count{
-	color: #f55;
 	font-weight: bold;
-}
-
-.goal-count,
-.completed-count{
 	font-size: 16px;
 }
 
