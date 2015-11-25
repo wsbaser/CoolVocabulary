@@ -123,39 +123,7 @@ TranslationDialog.TEMPLATE =
         <div class="ctr_hSplitter"></div>\
     </div>\
     <div style="position:relative !important;">\
-        <div id="ctr_login_wrap" style="display:none !important;">\
-            <form class="ctr-login-form cf">\
-                <ul>\
-                    <li>\
-                      <div class="login-wrap"><label for="usermail">Email</label>\
-                      <input type="email" required="" name="usermail"></div>\
-                      <div class="password-wrap"><label for="password">Password</label>\
-                      <input type="password" required="" name="password"></div>\
-                    </li>\
-                    <li style="width:100% !important;height:25px !important;overflow:hidden !important;">\
-                        <div class="ctr-error"></div>\
-                        <div class="ctr-spinner">\
-                          <div></div>\
-                          <div></div>\
-                          <div></div>\
-                          <div></div>\
-                        </div>\
-                    </li>\
-                    <li style="text-align:center !important; width:100% !important;">\
-                    <input type="submit" value="Login" class="blurred"/></li>\
-                    <li class="or-container">\
-                      <hr class="or-hr">\
-                      <div id="or">or</div>\
-                    </li>\
-                    <li class="oauth-buttons blurred">\
-                      <button type="submit" value="Google" name="provider" class="preferred-login google-login">\
-                          <div class="icon-container"><span class="icon" style=""></span></div>\
-                          <div class="text"><span>Google</span></div>\
-                          <br class="cbt">\
-                      </button>\
-                    </li>\
-                </ul>\
-            </form>\
+        <div class="popover-container" style="display:none !important;">\
         </div>\
         <div id="ctr_source_content"></div>\
     </div>\
@@ -311,7 +279,8 @@ TranslationDialog.prototype.create = function () {
   this.sourceContentEl = $('#ctr_source_content');
   this.headerEl = $('#ctr_header');
   this.notificationPopup = new NotificationPopup('#ctr_notification');
-  this.loginForm = new LoginForm('#ctr_login_wrap');
+  this.loginForm = new LoginForm('.popover-container');
+  this.selectBook = new SelectBook('.popover-container');
   this.inputFormEl = $('#ctr_wordInputForm');
   $('#ctr_closeBtn').bind('click', this.hide);
   this.inputFormEl.bind('submit', this.submitInputData.bind(this));
@@ -379,6 +348,7 @@ TranslationDialog.prototype.show = function(word) {
 TranslationDialog.prototype.hide = function() {
   if(this.isActive) {
     this.hideLoginForm();
+    this.hideSelectBook();
     this.el.removeClass('ctr-show');
     this.el.addClass('ctr-hide');
     if(this.selectionBackup){
@@ -464,6 +434,31 @@ TranslationDialog.prototype.showLoginForm = function(service,loginCallback) {
 
 TranslationDialog.prototype.hideLoginForm = function() {
   this.loginForm.hide();
+};
+
+TranslationDialog.prototype.showSelectBook = function(callback) {
+  var self = this;
+  if(this.vocabulary.bookRemembered){
+    callback();
+  }else{
+    var language = this.sourceLangSelector.getSelectedLang();
+    var books = this.vocabulary.user.books.filter(function(item){
+        return item.language===language;
+    });
+    if(books.length){
+      this.selectBook.show(books, function(bookId, remember){
+        this.vocabulary.setBook(bookId, remember);
+        callback();
+      });
+    }
+    else{
+      callback();
+    }
+  }
+};
+
+TranslationDialog.prototype.hideSelectBook = function() {
+  this.selectBook.hide();
 };
 
 TranslationDialog.prototype.isInputFocused = function(){

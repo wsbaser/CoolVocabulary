@@ -36,6 +36,9 @@ ctrContent.loadInitializationData = function(callback) {
  * @data.toLang
  * */
 ctrContent.getSelectedText = function(inputElement) {
+    if(inputElement.type==='checkbox'){
+        return '';
+    }
     var text = inputElement ?
         inputElement.value.substring(inputElement.selectionStart, inputElement.selectionEnd) :
         selectionHelper.getSelection().toString();

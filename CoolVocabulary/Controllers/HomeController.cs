@@ -44,7 +44,7 @@ namespace CoolVocabulary.Controllers {
                     dynamic books = db.Books.Where(b => b.UserId == user.Id).Select(b => new {
                         id = b.Id,
                         name = b.Name,
-                        language = b.Language
+                        language = ((LanguageType)b.Language).ToString()
                     });
                     ViewBag.User = new {
                         id = user.Id,

@@ -1,28 +1,72 @@
 /***** Login Form *****************************************************************************************************/
-function LoginForm(rootElementSelector) {
-    this.el = $(rootElementSelector);
-    this.emailEl = this.el.find('input[type="email"]');
-    this.passwordEl = this.el.find('input[type="password"]');
-    this.buttonEl = this.el.find('input[type="submit"]');
-    this.spinnerEl = this.el.find('.ctr-spinner');
-    this.errorEl = this.el.find('.ctr-error');
-    this._bindEvents();
+function LoginForm(containerElementSelector) {
+    this.containerElementSelector = containerElementSelector;
 };
 
 LoginForm.BTN_CAPTION_LOGIN = 'Login';
 LoginForm.BTN_CAPTION_WAIT = 'Please wait...';
 
+LoginForm.TEMPLATE = 
+'<div class="popover">\
+    <div id="ctr_login_wrap">\
+        <form class="ctr-login-form cf">\
+            <ul>\
+                <li>\
+                  <div class="login-wrap"><label for="usermail">Email</label>\
+                  <input type="email" required="" name="usermail"></div>\
+                  <div class="password-wrap"><label for="password">Password</label>\
+                  <input type="password" required="" name="password"></div>\
+                </li>\
+                <li style="width:100% !important;height:25px !important;overflow:hidden !important;">\
+                    <div class="ctr-error"></div>\
+                    <div class="ctr-spinner">\
+                      <div></div>\
+                      <div></div>\
+                      <div></div>\
+                      <div></div>\
+                    </div>\
+                </li>\
+                <li style="text-align:center !important; width:100% !important;">\
+                <input type="submit" value="Login" class="blue-button blurred"/></li>\
+                <li class="or-container">\
+                  <hr class="or-hr">\
+                  <div id="or">or</div>\
+                </li>\
+                <li class="oauth-buttons blurred">\
+                  <button type="submit" value="Google" name="provider" class="preferred-login google-login">\
+                      <div class="icon-container"><span class="icon" style=""></span></div>\
+                      <div class="text"><span>Google</span></div>\
+                      <br class="cbt">\
+                  </button>\
+                </li>\
+            </ul>\
+        </form>\
+    </div>\
+</div>';
+
 //===== Private ==========
+LoginForm.prototype._createEl = function(){
+    this.containerEl = $(this.containerElementSelector);
+    this.containerEl.html(LoginForm.TEMPLATE);
+    this.popoverEl = this.containerEl.children().first(); 
+    this.el = this.popoverEl.children().first(); 
+    this.emailEl = this.el.find('input[type="email"]');
+    this.passwordEl = this.el.find('input[type="password"]');
+    this.buttonEl = this.el.find('input[type="submit"]');
+    this.spinnerEl = this.el.find('.ctr-spinner');
+    this.errorEl = this.el.find('.ctr-error');
+};
 
 LoginForm.prototype._bindEvents = function() {
     var self = this;
     this.el.find('.ctr-login-form').on('submit', this._onSubmitForm.bind(this));
-    this.el.find('form').on('click', function (e) {
-        e.stopPropagation();
-    });
     this.el.find('.google-login').on('click', this._onOAuthLogin.bind(this));
-    this.el.bind('click', function () {
+    
+    this.containerEl.bind('click', function () {
         self.hide();
+    });
+    this.el.on('click', function (e) {
+        e.stopPropagation();
     });
     $(document).bind('keydown', function (e) {
         if (e.keyCode === 27) {
@@ -86,17 +130,21 @@ LoginForm.prototype._activateSubmitButton = function() {
 //===== Public ==========
 
 LoginForm.prototype.show = function (service, loginCallback) {
+    this._createEl();
     this.service = service;
     this.loginCallback = loginCallback;
     this._activateSubmitButton();
-    this.el.show()
+    this._bindEvents();
+    this.containerEl.show()
     this.emailEl.focus();
 };
 
 LoginForm.prototype.hide = function(){
-    this.el.hide();
+    if(this.isVisible()){
+        this.containerEl.hide();
+    }
 };
 
 LoginForm.prototype.isVisible = function() {
-    return this.el.is(':visible');
+    return this.el && this.el.is(':visible');
 }

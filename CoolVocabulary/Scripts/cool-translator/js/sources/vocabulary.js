@@ -54,8 +54,9 @@ Vocabulary.prototype.login = function(username, password, callback){
     }.bind(this));
 };
 
-Vocabulary.prototype.setBook = function(bookId){
+Vocabulary.prototype.setBook = function(bookId, remember){
     this.bookId = bookId;
+    this.bookRemembered = !!remember;
 };
 
 Vocabulary.prototype.oauthLogin = function(){

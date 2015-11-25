@@ -73,7 +73,7 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 		});
 		this.set('totalCompletedCount', totalCompletedCount);
 		var targetCount = this.get('targetCount');
-		this.set('prizeOpacity', 0.2+(totalCompletedCount/targetCount)*0.8);
+		this.set('prizeOpacity', 0.3+(totalCompletedCount/targetCount)*0.7);
 	}),
 	targetCount: Ember.computed(function(){
 		return 100;

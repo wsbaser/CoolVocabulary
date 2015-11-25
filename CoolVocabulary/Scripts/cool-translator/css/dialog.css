@@ -584,7 +584,7 @@
 
 #ctr_dialog .ctr-translItem.ctr-selected,
 #ctr_dialog .ctr-translItem.ctr-selected:hover {
-    background: #DAE9ED none repeat scroll 0 0 !important;
+    background-color: #DAE9ED !important;
     border: solid 1px #73BBC9 !important;
 }
 
@@ -650,4 +650,49 @@
 
 #ctr_dialog ::-webkit-scrollbar-thumb:vertical:hover {
     background-color: #C1C5C9;
+}
+
+/* SELECT BOOK */
+#ctr_dialog .blue-button{
+    background: linear-gradient(to bottom,  #64c8ef 0%,#00a2e2 100%) !important; /* W3C */
+    color: #fff !important;
+    padding: 3px 15px !important;
+    border-radius: 3px !important;
+    /*text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.3) !important;*/
+    cursor: pointer !important;
+    text-align: center !important;    
+}
+
+#ctr_dialog #select_book_wrap{
+  width: 300px !important;
+}
+
+#ctr_dialog #select_book_wrap>.header{
+    text-align: center !important;
+    font-size: 12px !important;
+    padding: 8px !important;
+    font-weight: bold !important;
+    color: #888 !important;
+}
+
+#ctr_dialog #select_book_wrap>.book-list>li{
+  padding: 6px 20px !important;
+  cursor: pointer !important;
+}
+
+#ctr_dialog #select_book_wrap>.book-list>li:hover{
+  background: rgba(255, 244, 117) !important;
+}
+
+#ctr_dialog #select_book_wrap>.book-list>li.ctr-selected{
+  background-color: rgb(255, 244, 117) !important;
+}
+
+#ctr_dialog #select_book_wrap>.actions{
+  padding: 8px 20px !important;
+  opacity: 0.7 !important;
+}
+
+#ctr_dialog #select_book_wrap input[type="checkbox"]{
+  vertical-align: middle !important;
 }

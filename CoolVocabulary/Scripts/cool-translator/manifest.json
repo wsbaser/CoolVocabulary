@@ -23,6 +23,7 @@
       "js/controls/add_translation.js",
       "js/controls/content_langselector.js",
       "js/controls/login_form.js",
+      "js/controls/select_book.js",
       "js/controls/notification_popup.js",
       "js/sources/common/content_types.js",
       "js/sources/common/common_handlers.js",

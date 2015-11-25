@@ -173,30 +173,32 @@ AddTranslationControl.prototype._hideLoading = function() {
 
 AddTranslationControl.prototype._addTranslation = function() {
     var self = this;
-    var inputData = this.translationsList.data;
-    var translation = this.selectedTranslationEl.val();
-    this._showLoading();
-    this.vocabulary.addTranslation(inputData, translation, function(promise){
-        promise.done(function(response){
-            response = response || {};
-            self._hideLoading();
-            self._showTranslationAddedNotification(inputData, translation);
-            if(isInputDataEqual(self.translationsList.data, inputData))
-                self._highlightAddedTranslation(translation);
-            self.setTranslation('');
-            // . generate addtranslation event
-            window.postMessage({
-                type: 'addTranslation',
-                book: response.book,
-                word: response.word,
-                bookWord: response.bookWord,
-                translation: response.translation }, 'http://localhost:13189');
-        }).fail(function(response){
-            self._hideLoading();
-            if (response.notAuthenticated)
-                self._showLoginForm();
-            else
-                self._showAddTranslationError(response);
+    Dialog.showSelectBook(function(){
+        var inputData = self.translationsList.data;
+        var translation = self.selectedTranslationEl.val();
+        self._showLoading();
+        self.vocabulary.addTranslation(inputData, translation, function(promise){
+            promise.done(function(response){
+                response = response || {};
+                self._hideLoading();
+                self._showTranslationAddedNotification(inputData, translation);
+                if(isInputDataEqual(self.translationsList.data, inputData))
+                    self._highlightAddedTranslation(translation);
+                self.setTranslation('');
+                // . generate addtranslation event
+                window.postMessage({
+                    type: 'addTranslation',
+                    book: response.book,
+                    word: response.word,
+                    bookWord: response.bookWord,
+                    translation: response.translation }, 'http://localhost:13189');
+            }).fail(function(response){
+                self._hideLoading();
+                if (response.notAuthenticated)
+                    self._showLoginForm();
+                else
+                    self._showAddTranslationError(response);
+            });
         });
     });
 };

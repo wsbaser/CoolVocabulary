@@ -1,4 +1,4 @@
-#ctr_dialog #ctr_login_wrap{
+#ctr_dialog .popover-container{
     background: rgba(224, 234, 234,0.95) !important;
     height: 100% !important;
     width: 100% !important;
@@ -6,18 +6,22 @@
     z-index: 1000 !important;
 }
 
-#ctr_dialog .ctr-login-form{
+#ctr_dialog .popover{
     background: #fff none repeat scroll 0% 0% ! important;
-    height: 160px ! important;
-    width: 70% ! important;
-    transition: height 0.3s ease 0s, width 0.3s ease 0s,opacity 0.3s ease 0s !important;
     border-radius: 5px !important;
     box-shadow: rgba(0, 0, 0, 0.5) 2px 2px 7px !important;
-    padding: 10px 15px !important;
     position:relative !important;
     left: 50% !important;
     top: 50% !important;
     transform: translate(-50%,-50%);
+    transition: height 0.3s ease 0s, width 0.3s ease 0s,opacity 0.3s ease 0s !important;
+    display: inline-block;
+}
+
+#ctr_dialog .ctr-login-form{
+    height: 160px ! important;
+    width: 70% ! important;
+    padding: 10px 15px !important;
 }
 
 #ctr_dialog .ctr-login-form .login-wrap{
@@ -56,15 +60,7 @@
 }
 
 #ctr_dialog .ctr-login-form input[type=submit] {
-	background: #64c8ef !important; /* Old browsers */
-	background: linear-gradient(to bottom,  #64c8ef 0%,#00a2e2 100%) !important; /* W3C */
-	color: #fff !important;
-	padding: 3px 15px !important;
 	margin-right: 0 !important;
-	border-radius: 3px !important;
-	text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.3) !important;
-	cursor: pointer !important;
-	text-align: center !important;
 	width: 100% !important;
 }
 
