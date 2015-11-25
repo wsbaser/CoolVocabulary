@@ -22,6 +22,7 @@ AddTranslationControl.prototype._onCheckAuthEnd = function(){
     this._hideLoading();
     this.isAuthenticated = !!this.vocabulary.user; 
     if(this.isAuthenticated){
+        Dialog.hideLoginForm();
         this.userNameEl.text(this.vocabulary.user.name);
         this.userColEl.showImportant();
         this.loginCaptionEl.hide();
@@ -139,11 +140,13 @@ AddTranslationControl.TEMPLATE =
 </table>';
 
 AddTranslationControl.prototype._onButtonClick = function() {
-    var self = this;
+    if(!this.buttonEl.hasClass('ctr-active')){
+        return;
+    }
     if(this.isAuthenticated)
-        self._addTranslation()
+        this._addTranslation()
     else
-        self._showLoginForm();
+        this._showLoginForm();
 };
 
 AddTranslationControl.prototype._showLoginForm = function(){

@@ -127,7 +127,7 @@ TranslationDialog.TEMPLATE =
             <form class="ctr-login-form cf">\
                 <ul>\
                     <li>\
-                      <div class="login-wrap" style="padding-right: 10px !important;"><label for="usermail">Email</label>\
+                      <div class="login-wrap"><label for="usermail">Email</label>\
                       <input type="email" required="" name="usermail"></div>\
                       <div class="password-wrap"><label for="password">Password</label>\
                       <input type="password" required="" name="password"></div>\

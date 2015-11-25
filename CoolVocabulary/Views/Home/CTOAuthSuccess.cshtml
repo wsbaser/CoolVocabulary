@@ -1,0 +1,26 @@
+﻿@using Microsoft.AspNet.Identity
+@using CoolVocabulary.Models;
+@using Microsoft.AspNet.Identity.EntityFramework;
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>OAuth login success</title>
+</head>
+<body>
+    <script>
+        var user = @Html.Raw(Json.Encode(ViewBag.User))
+        chrome.runtime.sendMessage("eplepheahdinbfhnjjnkhkebfdhenbad", {
+            type:'oauthsuccess',
+            user: user
+        });
+        window.close();
+    </script>    
+</body>
+</html>

@@ -56,9 +56,7 @@ chrome.runtime.onMessage.addListener(
     }
 });
 
-chrome.runtime.onMessageExternal.addListener(
-  function(request, sender, sendResponse) {
-    console.log('message from ' + sender.tab.id);
+chrome.runtime.onMessageExternal.addListener(function(request, sender, sendResponse) {
     if(request.initDialog){
         chrome.tabs.sendMessage(sender.tab.id, {
             type: MessageTypes.InitSiteDialog,
@@ -68,6 +66,17 @@ chrome.runtime.onMessageExternal.addListener(
             user: request.initDialog.user
         });
         sendResponse(true);
+    }else if(request.type===MessageTypes.OAuthSuccess){
+        if(sender.tab.openerTabId){
+            chrome.tabs.sendMessage(sender.tab.openerTabId, {
+                type: MessageTypes.OAuthSuccess,
+                user: request.user 
+            });
+        }
+        // chrome.tabs.query(null, function(tabs){
+        //     tabs.forEach(function(tab){
+        //     });
+        // });        
     }
 });
 

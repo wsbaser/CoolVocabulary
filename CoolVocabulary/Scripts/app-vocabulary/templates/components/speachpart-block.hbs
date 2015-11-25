@@ -2,8 +2,12 @@
 	<div class="sp-header light-shadow">{{title}}</div>
 	<ul class="sp-words table">
 		{{#each sortedBookWords as |bookWord|}}
-			<li {{action "selectWord" bookWord}} class="{{if bookWord.learnCompleted "completed"}}" >
-				<span class="word" title='{{bookWord.word.value}}'>{{bookWord.word.value}}</span>
+			<li class="{{if bookWord.learnCompleted "completed"}}" >
+				<span class="word-container">
+					<span class="word" {{action "selectWord" bookWord}} title='{{bookWord.word.value}}'>
+					{{bookWord.word.value}}
+					</span>
+				</span>
 				{{#link-to 'wordTranslation' bookWord.id class="show-details text-center"}}
 				...
 				{{/link-to}}

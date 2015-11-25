@@ -21,6 +21,7 @@
 #google_article .gt-def-info {
     margin-bottom: 12px !important;
     line-height: 1.5 !important;
+    font-size: 1em !important;
 }
 
 #google_article .gt-ex-info {
@@ -90,6 +91,7 @@
 #google_article .gt-baf-translations{
     height: 18px !important;
     margin: 1px 0 0 4px !important;
+    font-size: 1em !important;
 }
 
 #google_article div.gt-baf-translations {

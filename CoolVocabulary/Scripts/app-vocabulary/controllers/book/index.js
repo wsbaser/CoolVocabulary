@@ -1,5 +1,4 @@
 Vocabulary.BookIndexController = Ember.Controller.extend({
-	inputWord: "",
 	applicationCtrl: Ember.inject.controller('application'),
 	books: function () {
         return this.store.peekAll("book");
@@ -88,7 +87,8 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 	}),	
 	actions: {
 		selectWord: function(bookWord){
-			this.set('inputWord', bookWord.get('word.value'));
+			$('#word_input_form input').val(bookWord.get('word.value'));
+			$('#word_input_form button[type="submit"]')[0].click();
 		}
 	}
 });

@@ -342,6 +342,8 @@
     <Content Include="Views\Word\Details.cshtml" />
     <Content Include="Views\Word\Edit.cshtml" />
     <Content Include="Views\Word\Index.cshtml" />
+    <Content Include="Views\Home\CTOAuth.cshtml" />
+    <Content Include="Views\Home\CTOAuthSuccess.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

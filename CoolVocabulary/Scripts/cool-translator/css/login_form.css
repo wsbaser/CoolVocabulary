@@ -20,6 +20,14 @@
     transform: translate(-50%,-50%);
 }
 
+#ctr_dialog .ctr-login-form .login-wrap{
+    padding-right: 5px !important;
+}
+
+#ctr_dialog .ctr-login-form .password-wrap{
+    padding-left: 5px !important;
+}
+
 #ctr_dialog .ctr-login-form .login-wrap,
 #ctr_dialog .ctr-login-form .password-wrap{
 	display: inline-block !important;

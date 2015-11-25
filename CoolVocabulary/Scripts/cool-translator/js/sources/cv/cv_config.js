@@ -1,11 +1,12 @@
 var CVConfig = function() {
-	var siteHost = "http://localhost:131891";
+	var siteHost = "http://localhost:13189";
     return {
         id: "cv",
         name: "Cool Vocabulary",
         ajax: {
             checkAuthentication: siteHost + "/account/checkAuthentication",
             login: siteHost + '/account/apilogin',
+            externalLogin: siteHost + '/account/ExternalLogin',
             getBooks: siteHost + "/api/book",
             addTranslation: siteHost + '/api/translation'
         },

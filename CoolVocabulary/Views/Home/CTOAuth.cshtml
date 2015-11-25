@@ -1,0 +1,24 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>OAuth login</title>
+</head>
+<body>
+    <form id="google_oauth_login" method="post" action="http://localhost:13189/account/ExternalLogin">
+        <input name="provider" type="hidden" value="Google" />
+        <input name="returnUrl" type="hidden" value="/CTOAuthSuccess" />
+    </form>
+    <script>
+        document.getElementById('google_oauth_login').submit();
+    </script>
+    <div>
+    </div>
+</body>
+</html>

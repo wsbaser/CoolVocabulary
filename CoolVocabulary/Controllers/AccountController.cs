@@ -38,30 +38,32 @@ namespace CoolVocabulary.Controllers
         // GET: /Account/IsAuthenticated
         [AllowAnonymous]
         [HttpPost]
-        public JsonResult CheckAuthentication()
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-                var userId = User.Identity.GetUserId();
-                var user = UserManager.FindById(userId);
-                dynamic books = db.Books.Where(b => b.UserId == userId).Select(b => new
-                {
-                    id = b.Id,
-                    name = b.Name,
-                    language = b.Language
-                });
-                return Json(new
-                {
-                    isAuthenticated = true,
-                    user = new
-                    {
-                        id = userId,
-                        name = user.DisplayName,
-                        books = books
-                    }
-                });
+        public JsonResult CheckAuthentication() {
+            if (User.Identity.IsAuthenticated) {
+                return Json(this.GetUserCTData());
             }
             return Json(new { isAuthenticated = false });
+        }
+
+        public dynamic GetUserCTData() {
+            var userId = User.Identity.GetUserId();
+            var user = UserManager.FindById(userId);
+            return GetUserCTData(user);
+        }
+        public dynamic GetUserCTData(ApplicationUser user) {
+            dynamic books = db.Books.Where(b => b.UserId == user.Id).Select(b => new {
+                id = b.Id,
+                name = b.Name,
+                language = b.Language
+            });
+            return new {
+                isAuthenticated = true,
+                user = new {
+                    id = user.Id,
+                    name = user.DisplayName,
+                    books = books
+                }
+            };
         }
 
         //
@@ -80,7 +82,7 @@ namespace CoolVocabulary.Controllers
                 var user = await UserManager.FindAsync(model.Email, model.Password);
                 if (user != null) {
                     await SignInAsync(user, model.RememberMe);
-                    return Json(new { });
+                    return Json(GetUserCTData());
                 }
             }
 
@@ -233,7 +235,6 @@ namespace CoolVocabulary.Controllers
         // POST: /Account/ExternalLogin
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         public ActionResult ExternalLogin(string provider, string returnUrl)
         {
             // Запрос перенаправления к внешнему поставщику входа
@@ -254,7 +255,10 @@ namespace CoolVocabulary.Controllers
 
             if (user != null) {
                 await SignInAsync(user, isPersistent: false);
-                return RedirectToAction("Vocabulary", "Home");
+                if(string.IsNullOrEmpty(returnUrl))
+                    return RedirectToAction("Vocabulary", "Home");
+                else
+                    return Redirect(returnUrl);
             } else {
                 user = loginInfo.Email == null ?
                     null :
@@ -268,7 +272,10 @@ namespace CoolVocabulary.Controllers
                     var result = await UserManager.AddLoginAsync(user.Id, loginInfo.Login);
                     if (result.Succeeded) {
                         await SignInAsync(user, isPersistent: false);
-                        return RedirectToAction("Vocabulary", "Home");
+                        if (string.IsNullOrEmpty(returnUrl))
+                            return RedirectToAction("Vocabulary", "Home");
+                        else
+                            return Redirect(returnUrl);
                     }
                     AddErrors(result);
                     ViewBag.ReturnUrl = returnUrl;
@@ -337,10 +344,12 @@ namespace CoolVocabulary.Controllers
                     if (result.Succeeded)
                     {
                         result = await UserManager.AddLoginAsync(user.Id, info.Login);
-                        if (result.Succeeded)
-                        {
+                        if (result.Succeeded) {
                             await SignInAsync(user, isPersistent: false);
-                            return RedirectToAction("Vocabulary", "Home");
+                            if (string.IsNullOrEmpty(returnUrl))
+                                return RedirectToAction("Vocabulary", "Home");
+                            else
+                                return Redirect(returnUrl);
                         }
                     }
                     AddErrors(result);

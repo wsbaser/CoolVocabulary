@@ -44,9 +44,39 @@ Vocabulary.prototype.addTranslation = function(inputData,translation,callback){
 };
 
 Vocabulary.prototype.login = function(username, password, callback){
-	this.makeCall('login', [username, password], callback);
+	this.makeCall('login', [username, password], function(promise){
+        callback(promise);
+        promise.done(function(data){
+            self.user = data.user;
+        }).fail(function(){
+            self.user = null;
+        });
+    }.bind(this));
 };
 
 Vocabulary.prototype.setBook = function(bookId){
     this.bookId = bookId;
 };
+
+Vocabulary.prototype.oauthLogin = function(){
+    var self = this;
+    var oauthWindow = window.open('http://localhost:13189/CTOAuth','_blank');
+    var deferred = $.Deferred();
+    oauthWindow.addEventListener('close', function(){
+        console.log('close oauth window');
+    });
+    oauthWindow.addEventListener('message', function(event){
+        if(event.data.type==='oauthSuccess'){
+            self.user = {
+                id: event.data.id,
+                name: event.data.name,
+                books: event.data.books
+            };
+            deferred.resolve();            
+        }else if(event.data.type==='oauthError'){
+            self.user = null;
+            deferred.reject(event.data.error);
+        }
+    });
+    return deferred.promise();
+}

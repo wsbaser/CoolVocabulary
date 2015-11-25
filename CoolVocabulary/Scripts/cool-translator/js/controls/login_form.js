@@ -15,20 +15,34 @@ LoginForm.BTN_CAPTION_WAIT = 'Please wait...';
 //===== Private ==========
 
 LoginForm.prototype._bindEvents = function() {
-    this.el.find('.ctr-login-form').bind('submit', this._onSubmitForm.bind(this));
+    var self = this;
+    this.el.find('.ctr-login-form').on('submit', this._onSubmitForm.bind(this));
     this.el.find('form').on('click', function (e) {
         e.stopPropagation();
     });
+    this.el.find('.google-login').on('click', this._onOAuthLogin.bind(this));
     this.el.bind('click', function () {
-        this.hide();
-    }.bind(this));
+        self.hide();
+    });
     $(document).bind('keydown', function (e) {
         if (e.keyCode === 27) {
-            this.hide();
+            self.hide();
             cancelEvent(e);
         }
-    }.bind(this));
+    });
 };
+
+LoginForm.prototype._onOAuthLogin = function(){
+    var self = this;
+    this.service.oauthLogin().done(function(){ 
+        self.hide();
+        self.loginCallback();
+    })
+    .fail(function(error){
+        console.log('OAuth login error: ' + error);
+    });
+    return false;
+}
 
 LoginForm.prototype._showError = function(error_msg) {
     this.errorEl.html(error_msg);

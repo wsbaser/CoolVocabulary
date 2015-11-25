@@ -236,46 +236,50 @@ body{
 	align-items:center;
 }
 
-.sp-words > li.completed{
-	opacity: 0.5;
+.sp-words > li > span{
+	padding: 3px;
 }
 
-.sp-words > li.completed>.word{
-	color: #2a2a28;
-}
-
-.sp-words > li>.word,
+.sp-words > li>.word-container,
 .sp-words > li>.show-details,
 .sp-words > li>.translations{
 	border: 0;
 	border-bottom: 1px solid #ddd;
 }
 
-.sp-words > li > span{
-	padding: 3px;
-}
-
-.sp-words > li:nth-child(odd)>.word,
+.sp-words > li:nth-child(odd)>.word-container,
 .sp-words > li:nth-child(odd)>.show-details,
 .sp-words > li:nth-child(odd)>.translations{
 	background-color: #f0f0f0;
 }
 
-.sp-words > li:hover>.word,
+.sp-words > li:hover>.word-container,
 .sp-words > li:hover>.show-details,
 .sp-words > li:hover>.translations{
 	background: #E0EAEA;
 }
 
-.word{
-	color: #F55;
-}
-
-.sp-words .word,
+.sp-words .word-container,
 .sp-words .translations{
 	width: 50%;
 	opacity: 0.9;
+}
+
+.sp-words .translations{
+	cursor: default;;
+}
+
+.sp-words .word{
 	cursor: pointer;
+	color: #F55;
+}
+
+.sp-words > li.completed>.word{
+	color: #2a2a28;
+}
+
+.sp-words > li.completed{
+	opacity: 0.5;
 }
 
 .sp-words .translations{
@@ -743,15 +747,15 @@ body.exam{
 }
 
 .gt-cd-t {
-    color: #777 !important;
-    font-size: 16px !important;
-    padding-bottom: 4px !important;
+    color: #777;
+    font-size: 16px;
+    padding-bottom: 4px;
 }
 
 .gt-card-ttl-txt {
-    color: #222 !important;
-    font-size: 16px !important;
-    unicode-bidi: embed !important;
+    color: #222;
+    font-size: 16px;
+    unicode-bidi: embed;
 }
 
 .gt-def-info {
@@ -766,84 +770,84 @@ body.exam{
 }
 
 .gt-ex-info {
-    margin: 4px 0 12px 0 !important;
+    margin: 4px 0 12px 0;
 }
 
 .gt-def-example {
-    color: #777 !important;
-    unicode-bidi: inherit !important;
+    color: #777;
+    unicode-bidi: inherit;
 }
 
 table.gt-baf-table {
-    border-spacing: 0 !important;
+    border-spacing: 0;
 }
 
 table.gt-baf-table td {
-    padding: 0 !important;
-    vertical-align: middle !important;
+    padding: 0;
+    vertical-align: middle;
 }
 
 div.gt-baf-pos-head {
-    color: #222222 !important;
-    font-size: 13px !important;
-    margin: 4px 0 2px !important;
-    text-align: left !important;
+    color: #222222;
+    font-size: 13px;
+    margin: 4px 0 2px;
+    text-align: left;
 }
 
 .gt-cd-pos {
-    color: #888 !important;
-    font-style: italic !important;
+    color: #888;
+    font-style: italic;
 }
 
 div.gt-baf-marker-container {
-    height: 20px !important;
-    margin: 1px 0 !important;
-    overflow: hidden !important;
-    padding: 0 0.1em 0 0.7em !important;
-    text-align: right !important;
-    vertical-align: top !important;
-    width: 27px !important;
+    height: 20px;
+    margin: 1px 0;
+    overflow: hidden;
+    padding: 0 0.1em 0 0.7em;
+    text-align: right;
+    vertical-align: top;
+    width: 27px;
 }
 
 div.gt-baf-cts {
-    background: none repeat scroll 0 0 #aaa !important;
-    display: inline-block !important;
-    height: 7px !important;
-    margin: 6px 2px 5px 0 !important;
+    background: none repeat scroll 0 0 #aaa;
+    display: inline-block;
+    height: 7px;
+    margin: 6px 2px 5px 0;
 }
 
 .gt-baf-word-clickable,.gt-baf-translations{
-    font-family: arial,sans-serif !important;
+    font-family: arial,sans-serif;
 }
 
 .gt-baf-word-clickable {
-    color: #000 !important;
-    cursor: pointer !important;
-    overflow: hidden !important;
-    unicode-bidi: embed !important;
-    vertical-align: top !important;
-    white-space: nowrap !important;
-    border: 1px solid rgba(0,0,0,0) !important;
+    color: #000;
+    cursor: pointer;
+    overflow: hidden;
+    unicode-bidi: embed;
+    vertical-align: top;
+    white-space: nowrap;
+    border: 1px solid rgba(0,0,0,0);
 }
 
 .gt-baf-word-clickable, .gt-baf-translations{
-    height: 20px !important;
-    margin: 1px 0 0 12px !important;
+    height: 20px;
+    margin: 1px 0 0 12px;
     font-size: 1.1em;
 }
 
 div.gt-baf-translations {
-    overflow: hidden !important;
-    padding: 0 0 0 1em !important;
-    unicode-bidi: embed !important;
-    vertical-align: top !important;
-    min-height: 20px !important;
+    overflow: hidden;
+    padding: 0 0 0 1em;
+    unicode-bidi: embed;
+    vertical-align: top;
+    min-height: 20px;
 }
 
 .gt-baf-back {
-    cursor: pointer !important;
-    unicode-bidi: inherit !important;
-    color: #777 !important;
+    cursor: pointer;
+    unicode-bidi: inherit;
+    color: #777;
 }
 
 /* BOOK */
