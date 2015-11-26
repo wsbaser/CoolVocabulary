@@ -6,7 +6,7 @@ function SelectBook(containerElementSelector) {
 SelectBook.TEMPLATE =
 '<div class="popover">\
     <div id="select_book_wrap">\
-        <div class="header">Add <span class="pair"></span> to:</div>\
+        <div class="header">Add "<span class="pair"></span>" to:</div>\
         <div class="ctr-hSplitter"></div>\
         <ul class="book-list"></ul>\
         <div class="ctr-hSplitter"></div>\

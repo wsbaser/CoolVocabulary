@@ -269,9 +269,14 @@ body{
 	cursor: default;;
 }
 
+#word_details_popover .word,
+.learning-card .word,
+.sp-words .word{
+	color: #F55;
+}
+
 .sp-words .word{
 	cursor: pointer;
-	color: #F55;
 }
 
 .sp-words > li.completed>.word{

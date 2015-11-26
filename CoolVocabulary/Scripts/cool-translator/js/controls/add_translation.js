@@ -90,6 +90,7 @@ AddTranslationControl.prototype._createEl = function(){
     this.addCaptionEl = this.buttonEl.find('#ctr_addCaption');
     this.userColEl = this.el.find('.ctr-user-col');
     this.userNameEl = this.el.find('#ctr_userName');
+    this.userColEl.find('a').attr('href',this.vocabulary.config.path.vocabulary);
     if(this.vocabulary.config.iconBase64){
         this.el.find('.ctr-vocabularyIcon').each(function(i, iconEl){
             iconEl = $(iconEl);
@@ -132,8 +133,10 @@ AddTranslationControl.TEMPLATE =
                 </a>\
             </td>\
             <td class="ctr-user-col" style="display: none !important">\
-                <img class="ctr-vocabularyIcon" src=""/>\
-                <span id="ctr_userName"></span>\
+                <a target="_blank">\
+                    <img class="ctr-vocabularyIcon" src=""/>\
+                    <span id="ctr_userName"></span>\
+                </a>\
             </td>\
         </tr>\
     </tbody>\

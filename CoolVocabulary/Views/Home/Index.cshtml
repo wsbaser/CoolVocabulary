@@ -2,6 +2,16 @@
 @{
     ViewBag.Title = "Enlarge your English and Spanish vocabulary";
 }
+@section header{
+<script type="application/ld+json">
+    {
+    "@@context" : "http://schema.org",
+    "@@type" : "Person",
+    "name" : "Alexey Volkov",
+    "url" : "https://plus.google.com/u/0/106450444752380859592"
+    }
+</script>
+}
 <div class="centered-container">
     <div class="about-content">
         <h3>
@@ -27,8 +37,21 @@
         </ol>
         All services except <a target="_blank" href="http://babbel.com">babbel.com</a> are <strong>free</strong>.
     </div>
-    <div class="centered-ui">
-        @if (!Request.IsAuthenticated) {
+        @if (Request.IsAuthenticated){
+        <div class="comments-container">
+            <script src="https://apis.google.com/js/plusone.js"></script>
+            <div id="comments"></div>
+            <script>
+                gapi.comments.render('comments', {
+                    href: window.location,
+                    width: '624',
+                    first_party_property: 'BLOGGER',
+                    view_type: 'FILTERED_POSTMOD'
+                });
+            </script>
+        </div>
+        }else{
+        <div class="centered-ui">
             <div class="form-container account-actions">
                 <a href="@Url.Action("Login", "Account")" id="loginLink">
                     <button class="btn btn-default">Sign In</button>
@@ -37,6 +60,7 @@
                     <button class="btn btn-primary">Sign Up</button>
                 </a>
             </div>
+        </div>
         }
     </div>
 </div>

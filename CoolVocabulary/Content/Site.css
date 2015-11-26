@@ -222,3 +222,7 @@ a[target="_blank"]> i {
             width: 16px;
             height: 16px;
         }
+
+.comments-container {
+    margin-top: 50px;
+}

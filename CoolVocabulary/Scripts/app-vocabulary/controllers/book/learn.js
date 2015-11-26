@@ -187,16 +187,14 @@ $.extend($.scrollTo.defaults, {
 
 Vocabulary.BookLearnController = Ember.Controller.extend(Vocabulary.HasActiveObject, {
 	book: Ember.inject.controller(),
-	init: function(){
-		this.set('isSummary',false);
+	setupSession: function(sessionWords){
+		this.set('sessionWords', sessionWords);
+		this.set('isSummary', false);
+		this.activateFirstObject();
 	},
 	// . HasActiveObject mixin support 
 	collection: Ember.computed.alias('sessionWords'),
 	activeWord: Ember.computed.alias('activeObject'),
-	activateFirstWord: function(){
-		this.activateFirstObject();
-		this.get('activeWord').playSound();
-	},
 	scrollToNextWord: function(){
 		this.set('isScrolling', true);
 		var scrollOffset = '+=' + CARD_HEIGHT + 'px';
@@ -214,7 +212,7 @@ Vocabulary.BookLearnController = Ember.Controller.extend(Vocabulary.HasActiveObj
 	},
 	actions: {
 		nextWord: function(){
-			if(this.get('isScrolling')){
+			if(this.get('isScrolling') || this.get('isSummary')){
 				return;
 			}
 			if(this.get('isSingleWord')){

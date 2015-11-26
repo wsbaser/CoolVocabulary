@@ -1,7 +1,17 @@
 ﻿@{
     ViewBag.Title = "Enlarge your English and Spanish vocabulary";
 }
+
 @section header{
+<script type="application/ld+json">
+    {
+    "@@context" : "http://schema.org",
+    "@@type" : "Person",
+    "name" : "Alexey Volkov",
+    "url" : "https://plus.google.com/u/0/106450444752380859592"
+    }
+</script>
+
 <link rel="chrome-webstore-item"
       href="https://chrome.google.com/webstore/detail/cifbpdjhjkopeekabdgfjgmcbcgloioi">
 
@@ -83,6 +93,9 @@
             </div>
         </div>
     </div>
+    <div class="comments-container centered-ui" style="display:none;">
+        <div id="comments"></div>
+    </div>
 </div>
 
 @section scripts{
@@ -90,6 +103,18 @@
         var $installButton = $('#install_cv_button');
         if(chrome.app.isInstalled){
             $installButton.hide();
+            var script = document.createElement('script');
+            script.src = 'https://apis.google.com/js/plusone.js';
+            script.onload = function () {
+                document.findElementsByClassName('comments-container')[0].style.display='block';
+                gapi.comments.render('comments', {
+                    href: window.location,
+                    width: '624',
+                    first_party_property: 'BLOGGER',
+                    view_type: 'FILTERED_POSTMOD'
+                });
+            };
+            document.head.appendChild(script);
         }else{
             $installButton.on('click', function () {
                 chrome.webstore.install();

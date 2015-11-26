@@ -23,9 +23,7 @@
 						{{learning-card wordToLearn=wordToLearn}}
 					{{/each}}
 					{{#unless isSingleWord}}
-						{{#if isSummary}}
-							{{learning-summary-card bookName=model.name onExamine=(action "examine") }}
-						{{/if}}
+						{{learning-summary-card bookName=model.name onExamine=(action "examine") }}
 					{{/unless}}
 				</div>
 				{{#unless isSummary}}
