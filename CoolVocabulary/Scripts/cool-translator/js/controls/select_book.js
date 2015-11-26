@@ -6,7 +6,7 @@ function SelectBook(containerElementSelector) {
 SelectBook.TEMPLATE =
 '<div class="popover">\
     <div id="select_book_wrap">\
-        <div class="header" >Please, select book for translation.</div>\
+        <div class="header">Add <span class="pair"></span> to:</div>\
         <div class="ctr-hSplitter"></div>\
         <ul class="book-list"></ul>\
         <div class="ctr-hSplitter"></div>\
@@ -43,29 +43,34 @@ SelectBook.prototype._bindEvents = function() {
     });
 };
 
-SelectBook.prototype._getSelectedBookId = function(){
-    var selectedBookName = this.listEl.find('.ctr-selected').text();
-    return this.books.filter(function(item){
-        return item.name===selectedBookName;
-    })[0].id;
-};
-
 SelectBook.prototype._selectBook = function(event){
     var remember = this.el.find('input[type="checkbox"]')[0].checked;
-    this.loginCallback(this._getSelectedBookId(), remember);
+    var selectedBookName = event.target.textContent;
+    var bookId = this.books.filter(function(item){
+        return item.name===selectedBookName;
+    })[0].id;
+    this.loginCallback(bookId, remember);
+};
+
+SelectBook.prototype._adjustListHeight = function(){
+    this.listEl[0].style.setProperty("overflow", "auto", "important");
+    this.listEl[0].style.maxHeight =
+        (Dialog.el.height() - Dialog.headerEl.height() - 80) +'px';
 };
 
 //===== Public ==========
 
-SelectBook.prototype.show = function(books, loginCallback) {
+SelectBook.prototype.show = function(books, word, translation, loginCallback) {
     var self = this;
     this._createEl();
     this.books = books;
     this.loginCallback = loginCallback;
+    this.el.find('.header>.pair').text(word+' - '+translation);
     this.books.forEach(function(item){
         self.listEl.append('<li>' + item.name + '</li>');
     });
     this._bindEvents();
+    this._adjustListHeight();
     this.containerEl.show();
 };
 

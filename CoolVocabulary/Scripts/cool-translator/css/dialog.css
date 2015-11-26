@@ -246,9 +246,8 @@
 #ctr_dialog #ctr_header_bg{
     width: 100% ! important;
     height: 100% ! important;
-    background: transparent radial-gradient(ellipse at center center , rgb(73, 192, 240) 0%, rgb(44, 175, 227) 100%) repeat scroll 0% 0% ! important;
+    background: transparent radial-gradient(ellipse at center center , rgba(73, 192, 240,0.1) 0%, rgba(44, 175, 227,0.1) 100%) repeat scroll 0% 0% ! important;
     position: absolute ! important;
-    opacity: 0.1 ! important;
 }
 
 #ctr_dialog #ctr_sources {
@@ -331,7 +330,7 @@
 
 #ctr_dialog .ctr-source-navigation li.ctr-active a{
   background: #E0EAEA !important;
-  opacity: 0.8;
+  opacity: 0.85;
 }
 
 #ctr_dialog .ctr-source-navigation li.ctr-active a:hover{
@@ -652,6 +651,29 @@
     background-color: #C1C5C9;
 }
 
+
+/* POPOVER */
+#ctr_dialog .popover-container{
+    background: rgba(224, 234, 234,0.95) !important;
+    height: 100% !important;
+    width: 100% !important;
+    position: absolute !important;
+    z-index: 1000 !important;
+    border-top: 1px solid #ddd !important;
+}
+
+#ctr_dialog .popover{
+    background: #fff none repeat scroll 0% 0% ! important;
+    border-radius: 5px !important;
+    box-shadow: rgba(0, 0, 0, 0.5) 2px 2px 7px !important;
+    position:relative !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%,-50%);
+    transition: height 0.3s ease 0s, width 0.3s ease 0s,opacity 0.3s ease 0s !important;
+    display: inline-block;
+}
+
 /* SELECT BOOK */
 #ctr_dialog .blue-button{
     background: linear-gradient(to bottom,  #64c8ef 0%,#00a2e2 100%) !important; /* W3C */
@@ -669,10 +691,15 @@
 
 #ctr_dialog #select_book_wrap>.header{
     text-align: center !important;
-    font-size: 12px !important;
+    font-size: 13px !important;
     padding: 8px !important;
-    font-weight: bold !important;
-    color: #888 !important;
+    color: #555 !important;
+    background-color: rgba(44, 175, 227,0.1) !important;
+}
+
+#ctr_dialog #select_book_wrap>.header>.pair{
+  font-weight: bold !important;
+  color: inherit !important;
 }
 
 #ctr_dialog #select_book_wrap>.book-list>li{
@@ -681,7 +708,7 @@
 }
 
 #ctr_dialog #select_book_wrap>.book-list>li:hover{
-  background: rgba(255, 244, 117) !important;
+  background: rgb(255, 244, 117) !important;
 }
 
 #ctr_dialog #select_book_wrap>.book-list>li.ctr-selected{
@@ -691,6 +718,7 @@
 #ctr_dialog #select_book_wrap>.actions{
   padding: 8px 20px !important;
   opacity: 0.7 !important;
+  font-size: 11px !important;
 }
 
 #ctr_dialog #select_book_wrap input[type="checkbox"]{

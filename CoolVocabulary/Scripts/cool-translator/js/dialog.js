@@ -436,18 +436,18 @@ TranslationDialog.prototype.hideLoginForm = function() {
   this.loginForm.hide();
 };
 
-TranslationDialog.prototype.showSelectBook = function(callback) {
+TranslationDialog.prototype.showSelectBook = function(inputData, translation, callback) {
   var self = this;
   if(this.vocabulary.bookRemembered){
     callback();
   }else{
-    var language = this.sourceLangSelector.getSelectedLang();
     var books = this.vocabulary.user.books.filter(function(item){
-        return item.language===language;
+        return item.language===inputData.sourceLang;
     });
     if(books.length){
-      this.selectBook.show(books, function(bookId, remember){
-        this.vocabulary.setBook(bookId, remember);
+      this.selectBook.show(books, inputData.word, translation, function(bookId, remember){
+        self.vocabulary.setBook(bookId, remember);
+        self.hideSelectBook();
         callback();
       });
     }

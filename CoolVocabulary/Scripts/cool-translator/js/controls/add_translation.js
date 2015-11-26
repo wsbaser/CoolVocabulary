@@ -173,9 +173,9 @@ AddTranslationControl.prototype._hideLoading = function() {
 
 AddTranslationControl.prototype._addTranslation = function() {
     var self = this;
-    Dialog.showSelectBook(function(){
-        var inputData = self.translationsList.data;
-        var translation = self.selectedTranslationEl.val();
+    var inputData = self.translationsList.data;
+    var translation = self.selectedTranslationEl.val();
+    Dialog.showSelectBook(inputData, translation, function(){
         self._showLoading();
         self.vocabulary.addTranslation(inputData, translation, function(promise){
             promise.done(function(response){
@@ -185,13 +185,6 @@ AddTranslationControl.prototype._addTranslation = function() {
                 if(isInputDataEqual(self.translationsList.data, inputData))
                     self._highlightAddedTranslation(translation);
                 self.setTranslation('');
-                // . generate addtranslation event
-                window.postMessage({
-                    type: 'addTranslation',
-                    book: response.book,
-                    word: response.word,
-                    bookWord: response.bookWord,
-                    translation: response.translation }, 'http://localhost:13189');
             }).fail(function(response){
                 self._hideLoading();
                 if (response.notAuthenticated)

@@ -4,6 +4,7 @@
     width: 100% !important;
     position: absolute !important;
     z-index: 1000 !important;
+    border-top: 1px solid #ddd !important;
 }
 
 #ctr_dialog .popover{

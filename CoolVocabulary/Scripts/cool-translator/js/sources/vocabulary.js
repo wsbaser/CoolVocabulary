@@ -40,7 +40,22 @@ Vocabulary.prototype.makeCall = function(method, params, callback){
 };
 
 Vocabulary.prototype.addTranslation = function(inputData,translation,callback){
-    this.makeCall('addTranslation', [inputData, translation, this.bookId], callback);
+    var self = this;
+    this.makeCall('addTranslation', [inputData, translation, this.bookId], function(promise){
+        promise.done(function(response){
+            response = response||{};
+            // . generate addtranslation event
+            if(window.location.origin=== self.config.siteOrigin){
+                window.postMessage({
+                    type: 'addTranslation',
+                    book: response.book,
+                    word: response.word,
+                    bookWord: response.bookWord,
+                    translation: response.translation }, self.config.siteOrigin);
+            }
+        });
+        callback(promise);
+    });
 };
 
 Vocabulary.prototype.login = function(username, password, callback){
