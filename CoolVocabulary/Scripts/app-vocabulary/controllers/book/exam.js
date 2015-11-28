@@ -36,7 +36,8 @@ Vocabulary.BookExamController = Ember.Controller.extend(Vocabulary.HasActiveObje
 		var hasMoreWords = bookWords.any(function(item){
 			var translations = item.get('translations').toArray();
 			for (var i = translations.length - 1; i >= 0; i--) {
-			 	if((now-translations[i].get('examinedAt'))>DAY){
+			 	if( translations[i].get('learnLevel')<MAX_LEARN_LEVEL && 
+			 		(now-translations[i].get('examinedAt'))>DAY){
 			 		return true; 
 			 	}
 			}

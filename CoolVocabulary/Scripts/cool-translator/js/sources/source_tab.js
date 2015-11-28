@@ -42,7 +42,7 @@ SourceTab.prototype.init = function(data, content, error, prompts) {
     }
     else{
         this.navigationEl.removeClass(SourceTab.ACTIVE_CLASS);
-         if (prompts)
+        if (prompts)
             this.rootEl.append(this.createPromptsEl(prompts));
         else {
             if(error)
@@ -101,6 +101,7 @@ SourceTab.prototype.showLoading = function(data,sourceName) {
     this.isLoading = true;
     this.loadingEl.find('.ctr-word').html(data.word);
     this.loadingEl.find('.ctr-sourceName').html(sourceName);
+    this.navigationEl.removeClass(SourceTab.ACTIVE_CLASS);
     this.rootEl.empty();
     this.rootEl.append(this.loadingEl);
 };

@@ -509,16 +509,11 @@ body.exam{
 	border: 1px solid #dcdde1;
 }
 
-.learn .word-circle{
+.learn .word-circle,
+.exam .word-circle{
 	width: 14px;
 	height: 14px;
 	margin: 5px;
-}
-
-.exam .word-circle{
-	width: 8px;
-	height: 8px;
-	margin: 2px;
 }
 
 .learn .word-circle.highlighted{

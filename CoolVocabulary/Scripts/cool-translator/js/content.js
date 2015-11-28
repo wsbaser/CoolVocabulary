@@ -7,11 +7,16 @@ ctrContent.langPair = null;
 
 ctrContent.init = function () {
     ctrContent.bindEventHandlers();
+    ctrContent.addInstalledMarker();
     Dialog = TranslationDialogFactory.create();
     Dialog.addEventListener('langPairChanged', ctrContent.onLangPairChanged);
     ctrContent.loadInitializationData(function(data){
         Dialog.setLangPair(data.langPair);
     });
+};
+
+ctrContent.addInstalledMarker = function(){
+    $('body').append('<div id="ctr_is_installed_'+chrome.runtime.id+'"></div>');
 };
 
 /* Save to local storage */
@@ -47,12 +52,14 @@ ctrContent.getSelectedText = function(inputElement) {
     return strHelper.trimText(text);
 };
 
-ctrContent.showDialogForCurrentSelection = function (inputElement) {
+ctrContent.showDialogForCurrentSelection = function (inputElement, force) {
     if (inputElement && inputElement.getAttribute && inputElement.getAttribute('type') === 'password')
         return;
     var word = ctrContent.getSelectedText(inputElement);
     if(word.length && word.split(' ').length<3){
         Dialog.showForExtension(word);
+    }else if(force){
+        Dialog.showForExtension();        
     }
 };
 
@@ -144,7 +151,7 @@ ctrContent.handlers.keyDown = function(e) {
                 $(ctrContent.dataFromSite.attachBlockSelector).length)
                 ctrContent.showDialogForSite();
             else
-                ctrContent.showDialogForCurrentSelection();
+                ctrContent.showDialogForCurrentSelection(null,true);
             return cancelEvent(e);
         }
     }

@@ -1,5 +1,6 @@
 // . amount of wrong translations for one exam card
 var WRONG_TRANSLATIONS_COUNT = 4;
+var SESSION_WORDS_COUNT = 15;
 
 Vocabulary.WordToExam = Ember.Object.extend({
 	speachPart: Ember.computed.alias('translation.bookWord.speachPart'),
@@ -105,7 +106,7 @@ Vocabulary.BookExamRoute = Ember.Route.extend({
 			var examinedAt1 = item1.get('examinedAt') || 0;
 			var examinedAt2 = item2.get('examinedAt') || 0;
 			return examinedAt1>examinedAt2?1:(examinedAt1===examinedAt2?0:-1);
-		}).slice(0, 30);
+		}).slice(0, SESSION_WORDS_COUNT);
 		// . randomize translations
 		translations.shuffle();	// sort(function(){ return 0.5-Math.random(); });
 
@@ -125,7 +126,6 @@ Vocabulary.BookExamRoute = Ember.Route.extend({
 			sessionWords.push(w2);
 		});
 
-		// . get first 30
 		return sessionWords.sort(function(){ return 0.5-Math.random(); });
 	},
 	requestExamWords: function(sessionWords){

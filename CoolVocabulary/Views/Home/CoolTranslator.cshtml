@@ -101,7 +101,8 @@
 @section scripts{
     <script>
         var $installButton = $('#install_cv_button');
-        if(chrome.app.isInstalled){
+        var isInstalled = !!$('ctr_is_installed_cifbpdjhjkopeekabdgfjgmcbcgloioi').length;
+        if (isInstalled) {
             $installButton.hide();
             var script = document.createElement('script');
             script.src = 'https://apis.google.com/js/plusone.js';

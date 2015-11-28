@@ -315,6 +315,7 @@
     border-right: 1px solid #ddd !important;
     margin: 0 1px !important;
     cursor: default !important;
+    transition: background-color 150ms !important;
 }
 
 #ctr_dialog .ctr-source-navigation li.ctr-active a{

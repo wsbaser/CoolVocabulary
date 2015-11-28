@@ -245,7 +245,8 @@ Vocabulary.BookLearnController = Ember.Controller.extend(Vocabulary.HasActiveObj
 			this.get('activeWord').playSound();
 		},
 		examine: function(){
-			this.get('book').set('learnSessionWords', this.get('sessionWords'));
+			var random15 = this.get('sessionWords').shuffle().slice(0, 15);
+			this.get('book').set('learnSessionWords', random15);
 			this.transitionToRoute('book.exam');
 		}
 	}
