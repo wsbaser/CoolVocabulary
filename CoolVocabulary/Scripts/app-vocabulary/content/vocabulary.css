@@ -152,9 +152,14 @@ body{
 	line-height: 26px;
 }
 
+#word_input_form button{
+	border-radius:0 14px 14px 0;
+}
+
 .exam-link button,
 .learn-link button{
 	width:80px;
+	border-radius: 14px;
 }
 
 .learn-link{
