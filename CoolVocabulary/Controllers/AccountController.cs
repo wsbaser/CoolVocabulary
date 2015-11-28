@@ -131,13 +131,11 @@ namespace CoolVocabulary.Controllers
             {
                 var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, DisplayName = model.DisplayName};
                 var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
+                if (result.Succeeded) {
                     await SignInAsync(user, isPersistent: false);
+                    await db.CreateFirstBook(user.Id);
                     return RedirectToAction("Vocabulary", "Home");
-                }
-                else
-                {
+                } else {
                     AddErrors(result);
                 }
             }
@@ -346,6 +344,7 @@ namespace CoolVocabulary.Controllers
                         result = await UserManager.AddLoginAsync(user.Id, info.Login);
                         if (result.Succeeded) {
                             await SignInAsync(user, isPersistent: false);
+                            await db.CreateFirstBook(user.Id);
                             if (string.IsNullOrEmpty(returnUrl))
                                 return RedirectToAction("Vocabulary", "Home");
                             else

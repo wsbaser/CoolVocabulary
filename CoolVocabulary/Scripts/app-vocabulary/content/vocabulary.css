@@ -262,7 +262,15 @@ body{
 .sp-words .word-container,
 .sp-words .translations{
 	width: 50%;
-	opacity: 0.9;
+}
+
+.sp-words>li{
+	opacity: 0.7;
+	transition: opacity 200ms;
+}
+
+.sp-words>li:hover{
+	opacity: 1;
 }
 
 .sp-words .translations{

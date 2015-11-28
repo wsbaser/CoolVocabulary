@@ -52,7 +52,7 @@ namespace CoolVocabulary.Controllers.api
                 if (bookId != 0)
                     return BadRequest("Invalid bookId");
                 const string FIRST_BOOK_NAME = "Martin Eden";
-                var book = await db.CreateBook(user.Id, (LanguageType)language, FIRST_BOOK_NAME);
+                var book = await db.CreateBookAsync(user.Id, (LanguageType)language, FIRST_BOOK_NAME);
                 books.Add(book.Id, new BookDto(book, 0, 0, true));
             } else {
                 int currentBookId;
@@ -169,14 +169,7 @@ namespace CoolVocabulary.Controllers.api
                 if (book != null) {
                     ModelState.AddModelError("name", string.Format("You already have book \"{0}\"", bookDto.name));
                 } else {
-                    book = new Book {
-                        UserId = User.Identity.GetUserId(),
-                        Name = bookDto.name,
-                        Language = (int)bookLanguage
-                    };
-                    db.Books.Add(book);
-                    await db.SaveChangesAsync();
-
+                    book = await db.CreateBookAsync(User.Identity.GetUserId(), bookLanguage, bookDto.name);
                     return CreatedAtRoute("DefaultApi", new { id = book.Id },
                         new {
                             emberDataFormat = true,

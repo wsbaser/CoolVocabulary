@@ -4,6 +4,8 @@
 CoolVocabulary/Scripts/app-vocabulary/app/
 ConnectionStrings.config
 
+cool-translator.zip
+
 CoolVocabulary.Tests/
 *.sublime-project
 *.sublime-workspace

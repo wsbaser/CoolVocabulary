@@ -271,11 +271,13 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\images\flags.png" />
     <Content Include="Content\images\icon48.png" />
+    <Content Include="Content\images\prize.jpg" />
     <Content Include="Content\images\Sound-icon16.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="googlecb6642375f2961d2.html" />
     <Content Include="Scripts\app-vocabulary\app.html" />
     <Content Include="Scripts\app-vocabulary\app\vocabulary-templates.js" />
     <Content Include="Scripts\app-vocabulary\app\vocabulary-templates.min.js" />
@@ -294,8 +296,10 @@
     <Content Include="Scripts\vendor\bootstrap.js" />
     <Content Include="Scripts\vendor\bootstrap.min.js" />
     <None Include="Scripts\vendor\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\vendor\ember\ember-data.min.js" />
     <Content Include="Scripts\vendor\ember\ember-data.prod.js" />
     <Content Include="Scripts\vendor\ember\ember.debug.js" />
+    <Content Include="Scripts\vendor\ember\ember.min.js" />
     <Content Include="Scripts\vendor\jquery-1.10.2.js" />
     <Content Include="Scripts\vendor\jquery-1.10.2.min.js" />
     <None Include="Scripts\vendor\jquery.validate-vsdoc.js" />

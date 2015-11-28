@@ -51,7 +51,9 @@ ctrContent.showDialogForCurrentSelection = function (inputElement) {
     if (inputElement && inputElement.getAttribute && inputElement.getAttribute('type') === 'password')
         return;
     var word = ctrContent.getSelectedText(inputElement);
-    Dialog.showForExtension(word);
+    if(word.length){
+        Dialog.showForExtension(word);
+    }
 };
 
 ctrContent.bindEventHandlers = function() {

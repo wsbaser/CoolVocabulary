@@ -6,6 +6,7 @@ using System.Data.Entity;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.EntityFramework;
 using CoolVocabulary.Extensions;
+using System.Data.SqlClient;
 
 namespace CoolVocabulary.Models {
     public class VocabularyDbContext : IdentityDbContext<ApplicationUser> {
@@ -35,12 +36,12 @@ namespace CoolVocabulary.Models {
                 v.Name == CT_BOOK_NAME);
             if (book == null)
             {
-                book = await CreateBook(userId, language, CT_BOOK_NAME);
+                book = await CreateBookAsync(userId, language, CT_BOOK_NAME);
             }
             return book;
         }
 
-        public async Task<Book> CreateBook(string userId, LanguageType language, string name)
+        public async Task<Book> CreateBookAsync(string userId, LanguageType language, string name)
         {
             var book = new Book()
             {
@@ -120,6 +121,13 @@ namespace CoolVocabulary.Models {
         public async Task<List<Translation>> GetTranslations(List<string> ids) {
             var range = ids.ToIntList();
             return await Translations.Where(w => range.Contains(w.Id)).ToListAsync();
+        }
+
+        internal async Task CreateFirstBook(string userId) {
+            var targetBook = await CreateBookAsync(userId, LanguageType.en, "J.London, Martin Eden");
+            await this.Database.ExecuteSqlCommandAsync("exec dbo.CopyBookWords @sourceBookId, @targetBookId",
+                new SqlParameter("@sourceBookId", 1),
+                new SqlParameter("@targetBookId", targetBook.Id));
         }
     }
 }
