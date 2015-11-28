@@ -1,5 +1,5 @@
 Vocabulary.SpeachpartBlockComponent = Ember.Component.extend({
-	bookWordsSorting: ['learnLevel'],
+	bookWordsSorting: ['learnLevel','word.value'],
 	sortedBookWords:Ember.computed.sort('bookWords','bookWordsSorting'),
 	actions: {
 		selectWord: function(bookWord){
