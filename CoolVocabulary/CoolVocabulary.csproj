@@ -278,6 +278,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="googlecb6642375f2961d2.html" />
+    <Content Include="Migrations\CopyBookWords.sql" />
     <Content Include="Scripts\app-vocabulary\app.html" />
     <Content Include="Scripts\app-vocabulary\app\vocabulary-templates.js" />
     <Content Include="Scripts\app-vocabulary\app\vocabulary-templates.min.js" />
@@ -376,6 +377,9 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Migrations\CopyBookWords.sql</ApplicationManifest>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

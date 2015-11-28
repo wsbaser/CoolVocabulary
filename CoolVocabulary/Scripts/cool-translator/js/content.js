@@ -51,7 +51,7 @@ ctrContent.showDialogForCurrentSelection = function (inputElement) {
     if (inputElement && inputElement.getAttribute && inputElement.getAttribute('type') === 'password')
         return;
     var word = ctrContent.getSelectedText(inputElement);
-    if(word.length){
+    if(word.length && word.split(' ').length<3){
         Dialog.showForExtension(word);
     }
 };
@@ -144,7 +144,7 @@ ctrContent.handlers.keyDown = function(e) {
                 $(ctrContent.dataFromSite.attachBlockSelector).length)
                 ctrContent.showDialogForSite();
             else
-                Dialog.showForExtension();
+                ctrContent.showDialogForCurrentSelection();
             return cancelEvent(e);
         }
     }
