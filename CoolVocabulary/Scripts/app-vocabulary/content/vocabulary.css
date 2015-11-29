@@ -370,6 +370,10 @@ body.exam{
 	background-color: #ccc;
 }
 
+#toolbox{
+	height: 32px;
+}
+
 .exam #toolbox,
 .exam #content,
 .learn #toolbox,
