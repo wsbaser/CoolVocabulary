@@ -61,7 +61,7 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 				return time1>time2?1:(time1===time2?0:-1);
 			}).toArray();
 			var count=0;
-			for(var i =0; i<bookWords.length&&count<30; i++){
+			for(var i =0; i<bookWords.length&&count<15; i++){
 				word = bookWords[i].get('word');
 				var id = word.get('id');
 				wordToLearn = wordsDictionary[id];
@@ -93,7 +93,7 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 		controller.setupSession(sessionWords);
 		// . request for additional word translations
 		if(sessionWords.length>3){
-			this.requestWordTranslations(sessionWords, 3, 27).then(function(data){
+			this.requestWordTranslations(sessionWords, 3, 12).then(function(data){
 				this.setWordTranslations(data.content);
 			}.bind(this));
 		}

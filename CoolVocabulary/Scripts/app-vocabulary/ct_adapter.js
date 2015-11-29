@@ -8,7 +8,7 @@ CTAdapter.prototype.open = function(){
 
 CTAdapter.prototype.initSiteDialog = function(langPair, attachBlockSelector, user, bookId, callback){
 	var self = this;
-	chrome.runtime.sendMessage("eplepheahdinbfhnjjnkhkebfdhenbad", {
+	chrome.runtime.sendMessage("cifbpdjhjkopeekabdgfjgmcbcgloioi", {
 		initDialog: {
 			langPair: langPair,
 			attachBlockSelector: attachBlockSelector,

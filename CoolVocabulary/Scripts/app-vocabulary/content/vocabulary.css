@@ -300,7 +300,7 @@ body{
 	opacity: 0.5;
 }
 
-.sp-words .translations{
+.overflow-ellipsis{
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
@@ -869,16 +869,25 @@ div.gt-baf-translations {
   padding: 0 20px;
 }
 
-#bookContainer .dropdown-menu{
+#currentBookDropdown{
+	display: flex;
+}
+
+#currentBookDropdown .edit-icon{
+	line-height: 28px;
+	margin-right: 10px;
+}
+
+#currentBookDropdown .dropdown-menu{
   min-width:300px;
   border-left: 6px solid #080808;
 }
 
-#bookContainer li>a{
+#currentBookDropdown li>a{
 	padding-right: 10px;
 }
 
-#bookContainer li>a:hover {
+#currentBookDropdown li>a:hover {
 	background-color: #E0EAEA; /*#47a447;*/
 	color: #000;
 }

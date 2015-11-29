@@ -3,7 +3,7 @@
 	<ul class="sp-words table">
 		{{#each sortedBookWords as |bookWord|}}
 			<li class="{{if bookWord.learnCompleted "completed"}}" >
-				<span class="word-container">
+				<span class="word-container overflow-ellipsis">
 					<span class="word" {{action "selectWord" bookWord}} title='{{bookWord.word.value}}'>
 					{{bookWord.word.value}}
 					</span>
@@ -11,7 +11,7 @@
 				{{#link-to 'wordTranslation' bookWord.id class="show-details text-center"}}
 				...
 				{{/link-to}}
-				<span class="translations text-right">
+				<span class="translations overflow-ellipsis text-right">
 					{{#each bookWord.translations as |translation|}}
 						{{translation.value}}&nbsp;
 					{{/each}}

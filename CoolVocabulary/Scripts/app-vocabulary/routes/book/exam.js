@@ -107,11 +107,10 @@ Vocabulary.BookExamRoute = Ember.Route.extend({
 			var examinedAt2 = item2.get('examinedAt') || 0;
 			return examinedAt1>examinedAt2?1:(examinedAt1===examinedAt2?0:-1);
 		}).slice(0, SESSION_WORDS_COUNT);
-		// . randomize translations
-		translations.shuffle();	// sort(function(){ return 0.5-Math.random(); });
 
 		// . generate session words
-		var sessionWords = [];
+		var straight = Ember.A();
+		var backward = Ember.A();
 		translations.forEach(function(translation){
 			var w1 = Vocabulary.WordToExam.create({
 				isStraight: true,
@@ -122,11 +121,11 @@ Vocabulary.BookExamRoute = Ember.Route.extend({
 				translation: translation
 			});
 			w1.link(w2);
-			sessionWords.push(w1);
-			sessionWords.push(w2);
+			straight.push(w1);
+			backward.push(w2);
 		});
 
-		return sessionWords.sort(function(){ return 0.5-Math.random(); });
+		return straight.shuffle().sortBy('speachPart').concat(backward.shuffle().sortBy('speachPart'));
 	},
 	requestExamWords: function(sessionWords){
 		if(!sessionWords.length){

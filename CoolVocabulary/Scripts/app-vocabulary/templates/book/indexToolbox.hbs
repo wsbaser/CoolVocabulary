@@ -1,9 +1,9 @@
 <div id="bookContainer" class="col-xs-4" >
   <div id="currentBookDropdown" class="dropdown">
     {{#link-to "book.edit" model}}
-      <span class="glyphicon glyphicon-cog color-blue" style="margin-right: 10px;" title="Edit book"></span>
+      <i class="edit-icon glyphicon glyphicon-cog color-blue" title="Edit book"></i>
     {{/link-to}}
-    <a id="currentBook" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+    <a id="currentBook" href="#" data-toggle="dropdown" role="button" class="overflow-ellipsis">
       {{model.name}}
       <span class="caret"></span>
     </a>
@@ -13,7 +13,9 @@
       {{#each books as |book|}}
       <li>
         {{#link-to "book" book.id class="bookLink"}}
+        <span class="overflow-ellipsis">
         {{book.name}}
+        </span>
         <span class="total pull-right">
           {{book.wordsCount}}
         </span>
