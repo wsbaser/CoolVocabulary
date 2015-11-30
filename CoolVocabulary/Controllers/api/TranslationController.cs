@@ -11,7 +11,6 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using CoolVocabulary.Models;
 using Microsoft.AspNet.Identity;
-using AutoMapper;
 using Newtonsoft.Json.Linq;
 
 namespace CoolVocabulary.Controllers.api

@@ -6,10 +6,20 @@ namespace CoolVocabulary
     public class BundleConfig
     {
         // Дополнительные сведения об объединении см. по адресу: http://go.microsoft.com/fwlink/?LinkId=301862
-        public static void RegisterBundles(BundleCollection bundles)
-        {
-            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/vendor/jquery-{version}.js"));
+        public static void RegisterBundles(BundleCollection bundles) {
+            bundles.Add(new ScriptBundle("~/bundles/js-basic").Include(
+                        "~/Scripts/vendor/jquery-{version}.js",
+                        "~/Scripts/vendor/bootstrap.js",
+                        "~/Scripts/vendor/respond.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js-vocabulary").Include(
+                "~/Scripts/vendor/ember/ember.min.js",
+                "~/Scripts/vendor/ember/ember-data.min.js",
+                "~/Scripts/vendor/bootstrap-modal-popover.js",
+                "~/Scripts/vendor/jquery.scrollTo.min.js",
+                "~/Scripts/vendor/jquery.cookie.js",
+                "~/Scripts/app-vocabulary/app/vocabulary-templates.js",
+                "~/Scripts/app-vocabulary/app/vocabulary.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/vendor/jquery.validate*"));
@@ -19,13 +29,11 @@ namespace CoolVocabulary
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/vendor/modernizr-*"));
 
-            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/vendor/bootstrap.js",
-                      "~/Scripts/vendor/respond.js"));
-
-            bundles.Add(new StyleBundle("~/Content/css").Include(
+            var basicStylesBundle = new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css");
+            basicStylesBundle.Transforms.Add(new CssMinify());
+            bundles.Add(basicStylesBundle);
         }
     }
 }

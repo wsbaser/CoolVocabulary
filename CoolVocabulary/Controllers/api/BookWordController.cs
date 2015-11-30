@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using CoolVocabulary.Models;
-using AutoMapper;
 
 namespace CoolVocabulary.Controllers.api
 {
@@ -22,8 +21,8 @@ namespace CoolVocabulary.Controllers.api
         // GET api/BookWord
         public dynamic GetBookWords(int bookId) {
             var bookWords = db.BookWords.Where(v => v.BookId == bookId).Include("Word").ToList();
-            dynamic bookWordsDto = bookWords.Select(bw => Mapper.Map<BookWordDto>(bw)).ToList();
-            dynamic wordsDto = bookWords.Select(bw => Mapper.Map<WordDto>(bw.Word)).ToList();
+            dynamic bookWordsDto = bookWords.Select(bw => new BookWordDto(bw)).ToList();
+            dynamic wordsDto = bookWords.Select(bw => new WordDto(bw.Word)).ToList();
             return new { emberDataFormat = true, bookWords = bookWordsDto, words = wordsDto };
         }
 

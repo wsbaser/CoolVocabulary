@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Threading.Tasks;
 using System.Web.Http.Description;
+using Newtonsoft.Json;
 
 namespace CoolVocabulary.Controllers.api {
     [Authorize]
@@ -37,14 +38,25 @@ namespace CoolVocabulary.Controllers.api {
             string sourceLanguage = ((LanguageType)wordEntities.First().Language).ToString();
 
             var words = wordEntities.Select(w => w.Value);
-            var result = await mongoDb.GetWordTranslations(words, sourceLanguage, targetLanguage);
-            if (result.Count != ids.Count) {
+            var wordTranslations = await mongoDb.GetWordTranslations(words, sourceLanguage, targetLanguage);
+            if (wordTranslations.Count != ids.Count) {
                 return BadRequest("Word translations not found");
             }
 
+            var result = wordTranslations.Select(wt => {
+                var cards = JsonConvert.DeserializeObject<Dictionary<string, object>>(wt.TranslationCards);
+                if (cards.ContainsKey("ll"))
+                    cards.Remove("ll");
+                if (cards.ContainsKey("tfd"))
+                    cards.Remove("tfd");
+                wt.TranslationCards = JsonConvert.SerializeObject(cards);
+                wt.TranslationWords = null;
+                return new WordTranslationsDto(wt); 
+            });
+
             return Ok(new {
                 emberDataFormat = true,
-                wordTranslations = result.Select(wt => new WordTranslationsDto(wt))
+                wordTranslations = result
             });
         }
 

@@ -1,15 +1,13 @@
 ﻿@{
     ViewBag.Title = "Enlarge your English and Spanish vocabulary";
 }
-<link rel="stylesheet" href="~/Scripts/app-vocabulary/app/vocabulary.css" />
+@section header{
+    <link rel="stylesheet" href="~/Scripts/app-vocabulary/app/vocabulary.min.css" />
+    <link rel="chrome-webstore-item"
+          href="https://chrome.google.com/webstore/detail/cifbpdjhjkopeekabdgfjgmcbcgloioi">
+}
 
 @section Scripts {
-    <script src="~/Scripts/vendor/ember/ember.min.js"></script>
-    <script src="~/Scripts/vendor/ember/ember-data.min.js"></script> 
-    <script src="~/Scripts/vendor/bootstrap-modal-popover.js"></script>
-    <script src="~/Scripts/vendor/jquery.scrollTo.min.js"></script>
-    <script src="~/Scripts/vendor/jquery.cookie.js"></script>
-    <script src="~/Scripts/app-vocabulary/app/vocabulary-templates.js"></script>
-    <script src="~/Scripts/app-vocabulary/app/vocabulary.js"></script>
+    @Scripts.Render("~/bundles/js-vocabulary")
 }
 

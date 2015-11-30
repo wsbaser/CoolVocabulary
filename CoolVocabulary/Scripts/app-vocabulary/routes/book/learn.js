@@ -9,7 +9,7 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 		this.set('isSingleWord', +params.word_id!==0);
 		var sessionWords = this.getSessionWords(book, params.word_id);
 		this.set('sessionWords', sessionWords);
-		return this.requestWordTranslations(sessionWords, 0, 3);
+		return this.requestWordTranslations(sessionWords, 0, 15);
 	},
 	afterModel: function(model){
 		var sessionWords = this.get("sessionWords");
@@ -92,11 +92,11 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 		var sessionWords = this.get("sessionWords");
 		controller.setupSession(sessionWords);
 		// . request for additional word translations
-		if(sessionWords.length>3){
-			this.requestWordTranslations(sessionWords, 3, 12).then(function(data){
-				this.setWordTranslations(data.content);
-			}.bind(this));
-		}
+		// if(sessionWords.length>3){
+		// 	this.requestWordTranslations(sessionWords, 3, 12).then(function(data){
+		// 		this.setWordTranslations(data.content);
+		// 	}.bind(this));
+		// }
 
 	    Ember.run.schedule('afterRender', this, this.afterRender);
 	},

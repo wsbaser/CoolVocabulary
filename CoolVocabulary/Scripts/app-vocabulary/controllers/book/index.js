@@ -26,8 +26,14 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 		});
 	},
 	showInstallCTAlert: function(){
-		$('#install_ct_alert').modalPopover('show');
-		return false;
+		chrome.webstore.install('https://chrome.google.com/webstore/detail/cifbpdjhjkopeekabdgfjgmcbcgloioi',function(){
+			window.location.reload();
+		},function(error){
+			if(error==='User cancelled install'){
+				alert('Cool Vocabulary works only in couple with Cool Translator. You will not be able to add new translations without it.');
+			}
+		});
+		// $('#install_ct_alert').modalPopover('show');
 	},
 	words: Ember.computed('model.bookWords.[]', function(){
 		var bookId = this.get('model.id');

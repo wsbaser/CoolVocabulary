@@ -11,7 +11,6 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using CoolVocabulary.Models;
 using Microsoft.AspNet.Identity;
-using AutoMapper;
 using Microsoft.AspNet.Identity.EntityFramework;
 using CoolVocabulary.Extensions;
 using System.Threading;

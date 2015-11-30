@@ -8,6 +8,18 @@ CTAdapter.prototype.open = function(){
 
 CTAdapter.prototype.initSiteDialog = function(langPair, attachBlockSelector, user, bookId, callback){
 	var self = this;
+	// chrome.runtime.sendMessage("eplepheahdinbfhnjjnkhkebfdhenbad", {
+	// 	initDialog: {
+	// 		langPair: langPair,
+	// 		attachBlockSelector: attachBlockSelector,
+	// 		user: user,
+	// 		bookId: bookId
+	// 	}
+	// },
+	// function(response) {
+	// 	self.extensionIsActive = !!response;
+	// 	callback();
+	// });	
 	chrome.runtime.sendMessage("cifbpdjhjkopeekabdgfjgmcbcgloioi", {
 		initDialog: {
 			langPair: langPair,
