@@ -150,6 +150,7 @@ body{
 
 #toolbox{
 	line-height: 26px;
+	min-height: 33px;
 }
 
 #word_input_form button{
@@ -368,10 +369,6 @@ body{
 body.learn,
 body.exam{
 	background-color: #ccc;
-}
-
-#toolbox{
-	height: 32px;
 }
 
 .exam #toolbox,

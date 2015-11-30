@@ -48,8 +48,8 @@ Vocabulary.BookIndexRoute = Ember.Route.extend({
 		self.setContentHeight();
 	},
 	setContentHeight: function(){
-		var height = $(window).height()-$('#toolbox').height()-35;
+		var menuHeight = $('#logo_mobile:visible').length?57:36;
+		var height = $(window).height()-$('#toolbox').height()-menuHeight;
 		$('#content').css('min-height', height+'px');
 	}
-
 });
