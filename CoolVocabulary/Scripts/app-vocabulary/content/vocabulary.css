@@ -1049,24 +1049,20 @@ a:hover .manageIcons .glyphicon {
 
 @keyframes rotate_pacman_half_up {
     0%,100% {
-        -webkit-transform: rotate(270deg);
         transform: rotate(270deg)
     }
 
     50% {
-        -webkit-transform: rotate(360deg);
         transform: rotate(360deg)
     }
 }
 
 @keyframes rotate_pacman_half_down {
     0%,100% {
-        -webkit-transform: rotate(90deg);
         transform: rotate(90deg)
     }
 
     50% {
-        -webkit-transform: rotate(0);
         transform: rotate(0)
     }
 }
@@ -1080,8 +1076,7 @@ a:hover .manageIcons .glyphicon {
     }
 
     100% {
-        -webkit-transform: translate(-100px,-6.25px);
-        transform: translate(-100px,-6.25px)
+        transform: translate(-120px,-6.25px)
     }
 }
 
@@ -1100,28 +1095,23 @@ a:hover .manageIcons .glyphicon {
 }
 
 .pacman>div:nth-child(3) {
-    -webkit-animation: pacman-balls 1s .33s infinite linear;
-    animation: pacman-balls 1s .33s infinite linear
+    animation: pacman-balls 2s .1s infinite linear
 }
 
 .pacman>div:nth-child(4) {
-    -webkit-animation: pacman-balls 1s .66s infinite linear;
-    animation: pacman-balls 1s .66s infinite linear
+    animation: pacman-balls 2s 0.76s infinite linear
 }
 
 .pacman>div:nth-child(5) {
-    -webkit-animation: pacman-balls 1s .99s infinite linear;
-    animation: pacman-balls 1s .99s infinite linear
+    animation: pacman-balls 2s 1.52s infinite linear
 }
 
 .pacman>div:first-of-type {
-    -webkit-animation: rotate_pacman_half_up .5s 0s infinite;
-    animation: rotate_pacman_half_up .5s 0s infinite
+    animation: rotate_pacman_half_up 1s 0s infinite;
 }
 
 .pacman>div:nth-child(2) {
-    -webkit-animation: rotate_pacman_half_down .5s 0s infinite;
-    animation: rotate_pacman_half_down .5s 0s infinite;
+    animation: rotate_pacman_half_down 1s 0s infinite;
     margin-top: -40px;
 }
 
@@ -1136,6 +1126,6 @@ a:hover .manageIcons .glyphicon {
     -ms-transform: translate(0,-6.25px);
     transform: translate(0,-6.25px);
     top: 20px;
-    left: 100px;
+    left: 120px;
     opacity: 0;
 }
