@@ -81,7 +81,7 @@ namespace CoolVocabulary.Controllers
             if (ModelState.IsValid) {
                 var user = await UserManager.FindAsync(model.Email, model.Password);
                 if (user != null) {
-                    await SignInAsync(user, model.RememberMe);
+                    await SignInAsync( user, true);
                     return Json(GetUserCTData());
                 }
             }
@@ -100,7 +100,7 @@ namespace CoolVocabulary.Controllers
             {
                 var user = await UserManager.FindAsync(model.Email, model.Password);
                 if (user != null) {
-                    await SignInAsync(user, model.RememberMe);
+                    await SignInAsync(user, true);
                     return RedirectToAction("Vocabulary", "Home");
                 } else {
                     ModelState.AddModelError("", "Invalid username or password.");
@@ -132,7 +132,7 @@ namespace CoolVocabulary.Controllers
                 var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, DisplayName = model.DisplayName};
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded) {
-                    await SignInAsync(user, isPersistent: false);
+                    await SignInAsync(user, true);
                     await db.CreateFirstBook(user.Id);
                     return RedirectToAction("Vocabulary", "Home");
                 } else {
@@ -252,7 +252,7 @@ namespace CoolVocabulary.Controllers
             var user = await UserManager.FindAsync(loginInfo.Login);
 
             if (user != null) {
-                await SignInAsync(user, isPersistent: false);
+                await SignInAsync(user, true);
                 if(string.IsNullOrEmpty(returnUrl))
                     return RedirectToAction("Vocabulary", "Home");
                 else
@@ -269,7 +269,7 @@ namespace CoolVocabulary.Controllers
                 } else {
                     var result = await UserManager.AddLoginAsync(user.Id, loginInfo.Login);
                     if (result.Succeeded) {
-                        await SignInAsync(user, isPersistent: false);
+                        await SignInAsync(user, true);
                         if (string.IsNullOrEmpty(returnUrl))
                             return RedirectToAction("Vocabulary", "Home");
                         else
@@ -343,7 +343,7 @@ namespace CoolVocabulary.Controllers
                     {
                         result = await UserManager.AddLoginAsync(user.Id, info.Login);
                         if (result.Succeeded) {
-                            await SignInAsync(user, isPersistent: false);
+                            await SignInAsync(user, true);
                             await db.CreateFirstBook(user.Id);
                             if (string.IsNullOrEmpty(returnUrl))
                                 return RedirectToAction("Vocabulary", "Home");
@@ -407,8 +407,7 @@ namespace CoolVocabulary.Controllers
             }
         }
 
-        private async Task SignInAsync(ApplicationUser user, bool isPersistent)
-        {
+        private async Task SignInAsync(ApplicationUser user, bool isPersistent) {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
             var identity = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
             AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = isPersistent }, identity);

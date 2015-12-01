@@ -652,6 +652,10 @@ body.exam{
 	font-size: 1.2em;
 }
 
+.learning-card .word-pictures{
+	min-height: 100px;
+}
+
 .learning-card .word-pictures .picSmall{
  	max-height: 100px;
  	max-width: 100px;
