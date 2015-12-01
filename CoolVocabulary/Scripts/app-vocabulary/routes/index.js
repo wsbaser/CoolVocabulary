@@ -19,3 +19,14 @@ Vocabulary.IndexRoute = Ember.Route.extend({
 		this.transitionTo('book', model);
   	}
 });
+
+Vocabulary.LoadingRoute = Ember.Route.extend({
+	renderTemplate: function(){
+	    Ember.run.schedule('afterRender', this, this.afterRender);
+		this._super();
+	},
+	afterRender: function(){
+		var height = $(window).height()-Math.ceil($('.topbar').height());
+		$('.loader-panel').css('height', height+'px');
+	}
+});

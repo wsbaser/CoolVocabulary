@@ -42,13 +42,13 @@ Vocabulary.BookIndexRoute = Ember.Route.extend({
 				event.data.translation);
 		});
 
-    	$(window).resize(function(){
+		$(window).resize(function(){
 			self.setContentHeight();
 		}.bind(this));
 		self.setContentHeight();
 	},
 	setContentHeight: function(){
-		var menuHeight = $('#logo_mobile:visible').length?57:36;
+		var menuHeight = $('#logo_mobile:visible').length?56:35;
 		var height = $(window).height()-$('#toolbox').height()-menuHeight;
 		$('#content').css('min-height', height+'px');
 	}

@@ -14,6 +14,7 @@ Vocabulary.BookRoute = Ember.Route.extend({
 		}
 	},
 	setupController: function(controller, model){
+		var self = this;
 		model = model && model.id?
 			model:
 			this.store.peekRecord('book', this.get('id'));
