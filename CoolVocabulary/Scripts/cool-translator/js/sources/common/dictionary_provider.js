@@ -19,9 +19,10 @@ DictionaryProvider.prototype.resolveWithJQueryElement = function(deferred,data,s
 };
 
 DictionaryProvider.prototype.formatRequestUrl = function(url, data){
-    return url.replace('{sourceLang}', data.sourceLang)
-        .replace('{targetLang}', data.targetLang)
-        .replace('{word}', data.word);
+    return strHelper.format(url, data);    
+    // return url.replace('{sourceLang}', data.sourceLang)
+    //     .replace('{targetLang}', data.targetLang)
+    //     .replace('{word}', data.word);
 };
 
 DictionaryProvider.prototype.requestPage = function(urlTemplate, requestData, responseSelector) {
