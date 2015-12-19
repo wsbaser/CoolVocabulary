@@ -579,6 +579,10 @@
 }
 
 /*******************************************/
+#ctr_dialog .ctr-translItem{
+  border: 1px solid rgba(0,0,0,0) !important;
+}
+
 #ctr_dialog .ctr-translItem:hover {
 	border: solid 1px #9FC2C9 !important;
   background: rgba(44, 175, 227,0.1) !important;

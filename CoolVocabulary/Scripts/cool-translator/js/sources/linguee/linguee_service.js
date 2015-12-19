@@ -23,6 +23,7 @@ LingueeService.prototype.generateTranslationsCard = function(contentEl){
 
 LingueeService.prototype.generatePhrasesCard = function(contentEl){
     var phrasesEl = contentEl.find('.example_lines');
+    phrasesEl.find('h3').remove();
     this.deactivateLinks(phrasesEl, '.dictLink');
     this.addTranslateContentEvent(phrasesEl, '.dictLink');
     return phrasesEl.outerHTML();
