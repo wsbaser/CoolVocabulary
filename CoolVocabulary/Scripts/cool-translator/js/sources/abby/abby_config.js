@@ -15,8 +15,10 @@ var AbbyConfig = function() {
     return {
         id: "abby",
         name: "Abby Lingvo",
-        sourceLanguages: ['ru', 'en'],
-        targetLanguages: ['ru', 'en'],
+        languages:{
+            en: { targets: ['ru'] },
+            ru: { targets: ['en'] }
+        },
         priority: 9,
         domain: "http://www.lingvo-online.ru",
         path: {

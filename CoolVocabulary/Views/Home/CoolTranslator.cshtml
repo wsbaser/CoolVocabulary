@@ -86,7 +86,7 @@
             <li>Type in and translate random words.</li>
             <li>Add words to @Html.ActionLink("Cool Vocbulary","Vocabulary").</li>
         </ol>
-        <div id="install_cv_button" role="button" class="dd-Va g-c-wb g-eg-ua-Kb-c-za g-c-Oc-td-jb-oa g-c g-c-l" tabindex="0">
+        <div id="install_cv_button" role="button" style="display:none" class="hidden dd-Va g-c-wb g-eg-ua-Kb-c-za g-c-Oc-td-jb-oa g-c g-c-l" tabindex="0">
             <div class="g-c-x">
                 <div class="g-c-s g-c-Zi-s g-c-s-L-Si"></div>
                 <div class="g-c-R webstore-test-button-label">Add to Chrome</div>
@@ -100,26 +100,28 @@
 
 @section scripts{
     <script>
-        var $installButton = $('#install_cv_button');
-        var isInstalled = !!$('#ctr_is_installed_cifbpdjhjkopeekabdgfjgmcbcgloioi').length;
-        if (isInstalled) {
-            $installButton.hide();
-            var script = document.createElement('script');
-            script.src = 'https://apis.google.com/js/plusone.js';
-            script.onload = function () {
-                document.findElementsByClassName('comments-container')[0].style.display='block';
-                gapi.comments.render('comments', {
-                    href: window.location,
-                    width: '624',
-                    first_party_property: 'BLOGGER',
-                    view_type: 'FILTERED_POSTMOD'
+        $(window).load(function () {
+            var isInstalled = !!$('#ctr_is_installed_cifbpdjhjkopeekabdgfjgmcbcgloioi').length;
+            if (isInstalled) {
+                var script = document.createElement('script');
+                script.src = 'https://apis.google.com/js/plusone.js';
+                script.onload = function () {
+                    $('.comments-container').show();
+                    gapi.comments.render('comments', {
+                        href: window.location,
+                        width: '624',
+                        first_party_property: 'BLOGGER',
+                        view_type: 'FILTERED_POSTMOD'
+                    });
+                };
+                document.head.appendChild(script);
+            } else {
+                var $installButton = $('#install_cv_button');
+                $installButton.show();
+                $installButton.on('click', function () {
+                    chrome.webstore.install();
                 });
-            };
-            document.head.appendChild(script);
-        }else{
-            $installButton.on('click', function () {
-                chrome.webstore.install();
-            });
-        }
+            }
+        });
     </script>
 }

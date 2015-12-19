@@ -1,9 +1,9 @@
 {
   "author": "wsbaser",
   "manifest_version": 2,
-  "name": "Cool Translator",
-  "version": "1.0.4",
-  "description": "Access to world best translation services, now in single browser extension.",
+  "name": "Cloud Translator",
+  "version": "1.0.5",
+  "description": "7 european languages, 5 supported translation services. Translate by double click, input and translate word, add words to your personal vocabulary, train and memorize words at cloudvocabulary.com for FREE.",
   "content_security_policy": "script-src 'self' ; object-src 'self'",
    "icons": {
       "16": "images/icon16.png",
@@ -30,6 +30,7 @@
       "js/sources/abby/abby_config.js",
       "js/sources/abby/abby_handlers.js",
       "js/sources/google/google_config.js",
+      "js/sources/linguee/linguee_config.js",
       "js/sources/ll/ll_config.js",
       "js/sources/ll/ll_handlers.js",
       "js/sources/tfd/tfd_config.js",
@@ -48,9 +49,10 @@
       "css/dialog.css",
       "js/sources/abby/abby_style.css",
       "js/sources/google/google_style.css",
+      "js/sources/linguee/linguee_style.css",
       "js/sources/ll/ll_style.css",
       "js/sources/tfd/tfd_style.css"
-      ],
+    ],
     "matches": [ "<all_urls>" ],
     "run_at": "document_end"
   }],

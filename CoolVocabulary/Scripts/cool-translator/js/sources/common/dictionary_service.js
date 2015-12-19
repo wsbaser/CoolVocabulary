@@ -106,6 +106,8 @@ DictionaryService.prototype.addEventData = function(el, event, method, params){
 	el.attr('data-event', eventParams.join('|'))
 };
 
+/* GET DATA FUNCTIONS */
+
 DictionaryService.prototype.getPronunciation = function(inputData){
 	return null;
 };

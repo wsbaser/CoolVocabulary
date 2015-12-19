@@ -26,9 +26,10 @@ function createServer(){
     var ll = new LLService(new LLProvider(LLConfig()))
     var abby = new AbbyService(new AbbyProvider(AbbyConfig()));
     var google = new GoogleService(new GoogleProvider(GoogleConfig()));
+    var linguee = new LingueeService(new LingueeProvider(LingueeConfig()));
     var tfd = new TfdService(new TfdProvider(TfdConfig()));
     var cv = new CVService(new CVProvider(CVConfig()), [ll, abby, google, tfd]);
-    var arr = [ll, abby, google, tfd, cv];
+    var arr = [ll, abby, google, linguee, tfd, cv];
     var services = {};
     arr.forEach(function(service){
         services[service.config.id] = service;

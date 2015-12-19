@@ -3,8 +3,15 @@ var GoogleConfig = function() {
     return {
         id: "google",
         name: "Google Translator",
-        sourceLanguages: ['en','ru'],
-        targetLanguages: ['en','ru'],
+        languages: {
+            en: { targets: ['es','pt','fr','it','de','ru']},
+            es: { targets: ['en','pt','fr','it','de','ru']},
+            pt: { targets: ['en','es','fr','it','de','ru']},
+            fr: { targets: ['en','es','pt','it','de','ru']},
+            it: { targets: ['en','es','pt','fr','de','ru']},
+            de: { targets: ['en','es','pt','fr','it','ru']},
+            ru: { targets: ['en']}
+        },
         priority: 8,
         domain:"https://translate.google.com",
         path:{

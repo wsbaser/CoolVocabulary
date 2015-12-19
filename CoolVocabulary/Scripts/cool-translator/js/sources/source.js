@@ -78,9 +78,12 @@ Source.prototype.validateResult = function (result) {
 };
 
 Source.prototype.supportsLanguagePair = function (lp) {
-    return this.config.sourceLanguages.indexOf(lp.sourceLang) != -1 &&
-        this.config.targetLanguages.indexOf(lp.targetLang) != -1;
+    var language = this.config.languages[lp.sourceLang];
+    return  language &&
+        (language.targets.indexOf(lp.targetLang) != -1 || 
+        lp.sourceLang === lp.targetLang);
 };
+
 Source.prototype.linkId = function () {
     return 'ctr_sourcelink_' + this.config.id;
 };

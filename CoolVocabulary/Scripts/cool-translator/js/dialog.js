@@ -14,6 +14,7 @@ var TranslationDialogFactory =   (function(){
         [this.createLLSource(connection, vocabulary),
         this.createAbbySource(connection, vocabulary),
         this.createGoogleSource(connection, vocabulary),
+        this.createLingueeSource(connection, vocabulary),
         this.createTfdSource(connection)];
       arr.sort(function (a, b) {
           return a.config.priority > b.config.priority ? -1 : 1;
@@ -45,6 +46,17 @@ var TranslationDialogFactory =   (function(){
       tabs.push(new SourceTab(ContentTypes.DEFINITIONS));
       tabs.push(new SourceTab(ContentTypes.EXAMPLES));  
       var service = new DictionaryServiceProxy(GoogleConfig(), connection);
+      return new Source(service, tabs);
+    },
+    createLingueeSource: function(connection, vocabulary){
+      var tabs = [];
+      tabs.push(new SourceTab(ContentTypes.TRANSLATIONS, {
+        translationItemSelector:'.tag_trans>.dictLink',
+        vocabulary: vocabulary
+      }));
+      tabs.push(new SourceTab(ContentTypes.EXAMPLES));  
+      tabs.push(new SourceTab(ContentTypes.PHRASES));
+      var service = new DictionaryServiceProxy(LingueeConfig(), connection);
       return new Source(service, tabs);
     },
     createTfdSource: function(connection){
@@ -141,10 +153,10 @@ TranslationDialog.prototype.addEventListener = function(eventName, callback){
 TranslationDialog.prototype.getAllSupportedLangs = function(allSources){
     var langs = [];
     $.each(allSources, function(i, source) {
-        $.each(source.config.sourceLanguages.concat(source.config.targetLanguages), function (i, lang) {
-            if (langs.indexOf(lang)===-1)
-                langs.push(lang);
-        });
+      for(var lang in source.config.languages){
+        if (langs.indexOf(lang)===-1)
+            langs.push(lang);        
+      }
     });
     return langs;
 };
@@ -164,9 +176,9 @@ TranslationDialog.prototype.selectNeighbourSource = function(right) {
 TranslationDialog.prototype.activateSourceLink = function(source) {
     $.each(this.headerEl.find('.ctr-source-link'),
         function (i, itemEl) {
-          itemEl === source.linkEl[0] ?
-              source.linkEl.addClass(TranslationDialog.ACTIVE_CLASS) :
-              $(itemEl).removeClass(TranslationDialog.ACTIVE_CLASS);
+          source && itemEl === source.linkEl[0] ?
+            source.linkEl.addClass(TranslationDialog.ACTIVE_CLASS) :
+            $(itemEl).removeClass(TranslationDialog.ACTIVE_CLASS);
         });
    this.sourceWithActiveLink = source;
 };
@@ -183,7 +195,8 @@ TranslationDialog.prototype.selectSource = function(source) {
 TranslationDialog.prototype.showSourceContent = function(source) {
     if(this.activeSource)
       this.activeSource.hide();
-    source.show();
+    if(source)
+      source.show();
 };
 
 

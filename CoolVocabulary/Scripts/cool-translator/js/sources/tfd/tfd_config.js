@@ -16,8 +16,15 @@ var TfdConfig = function() {
     return {
         id: "tfd",
         name: "TheFreeDictionary.com",
-        sourceLanguages: ['ru', 'en'],
-        targetLanguages: ['ru', 'en'],
+        languages: {
+            en: { targets: ['es','pt','fr','it','de','ru']},
+            es: { targets: ['en','pt','fr','it','de','ru']},
+            pt: { targets: ['en','es','fr','it','de','ru']},
+            fr: { targets: ['en','es','pt','it','de','ru']},
+            it: { targets: ['en','es','pt','fr','de','ru']},
+            de: { targets: ['en','es','pt','fr','it','ru']},
+            ru: { targets: ['en']}
+        },
         priority: 7,
         domain:"http://www.thefreedictionary.com/",
         path:{

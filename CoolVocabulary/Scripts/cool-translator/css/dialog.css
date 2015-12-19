@@ -286,10 +286,10 @@
     opacity: 1 !important;
 }
 
-#ctr_sourcelink_abby .ctr-source-icon       {background-position:-51px 0 !important; width: 12px !important;}
-#ctr_sourcelink_ll .ctr-source-icon       {background-position:-114px 0 !important;}
-#ctr_sourcelink_google .ctr-source-icon     {background-position:-34px 0 !important;}
-#ctr_sourcelink_dict .ctr-source-icon       {background-position:-17px 0 !important;}
+#ctr_sourcelink_google .ctr-source-icon   {background-position:-16px 0 !important;}
+#ctr_sourcelink_abby .ctr-source-icon     {background-position:-32px 0 !important;}
+#ctr_sourcelink_linguee .ctr-source-icon  {background-position:-48px 0 !important;}
+#ctr_sourcelink_ll .ctr-source-icon       {background-position:-64px 0 !important;}
 
 #ctr_dialog .ctr-hSplitter{
     border-top:1px solid #ddd !important;
@@ -428,8 +428,11 @@
 
 #ctr_dialog .ctr-flag-icon.ru{background-position: 0 0 !important;}
 #ctr_dialog .ctr-flag-icon.en{background-position: -24px 0 !important;}
-#ctr_dialog .ctr-flag-icon.cn{background-position: -48px 0 !important;}
-
+#ctr_dialog .ctr-flag-icon.es{background-position: -48px 0 !important;}
+#ctr_dialog .ctr-flag-icon.pt{background-position: -72px 0 !important;}
+#ctr_dialog .ctr-flag-icon.fr{background-position: -96px 0 !important;}
+#ctr_dialog .ctr-flag-icon.it{background-position: -120px 0 !important;}
+#ctr_dialog .ctr-flag-icon.de{background-position: -144px 0 !important;}
 
 #ctr_dialog .ctr-source-icon{
   background-image: url('chrome-extension://__MSG_@@extension_id__/images/sprites.png') !important;

@@ -18,8 +18,9 @@ var LLConfig = function() {
     return {
         id: "ll",
         name: "LinguaLeo",
-        sourceLanguages: ['en'],
-        targetLanguages: ['ru'],
+        languages:{
+            en: { targets: ['ru'] }
+        },
         priority: 10,
         api: apiHost,
         serverPort: 1002,
