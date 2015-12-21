@@ -81,6 +81,7 @@ GoogleService.prototype.generateExamplesCard = function(data){
 
 GoogleService.prototype.getTranslations = function(inputData){
     var responseData = this.getCachedCard(inputData, ContentTypes.TRANSLATIONS);
+    var result = {};
     if(responseData && responseData.translations){
         var translations = {};
         $.each(responseData.translations, function(sp, spTranslations){
@@ -89,11 +90,9 @@ GoogleService.prototype.getTranslations = function(inputData){
                 translations[sp].push(spTranslations[i].word);
             };
         });
-        return translations;
+        result[inputData.word] = translations;
     }
-    else{
-        return null;
-    }
+    return result;
 };
 
 //===== GoogleTemplates ================================================================================================

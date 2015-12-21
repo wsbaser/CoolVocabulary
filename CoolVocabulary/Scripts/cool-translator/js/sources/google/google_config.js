@@ -12,7 +12,7 @@ var GoogleConfig = function() {
             de: { targets: ['en','es','pt','fr','it','ru']},
             ru: { targets: ['en']}
         },
-        priority: 8,
+        priority: 100,
         domain:"https://translate.google.com",
         path:{
             templatesDir:rootDir

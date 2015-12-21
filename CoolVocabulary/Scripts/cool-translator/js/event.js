@@ -28,7 +28,7 @@ function createServer(){
     var google = new GoogleService(new GoogleProvider(GoogleConfig()));
     var linguee = new LingueeService(new LingueeProvider(LingueeConfig()));
     var tfd = new TfdService(new TfdProvider(TfdConfig()));
-    var cv = new CVService(new CVProvider(CVConfig()), [ll, abby, google, tfd]);
+    var cv = new CVService(new CVProvider(CVConfig()), [ll, abby, google, tfd, linguee]);
     var arr = [ll, abby, google, linguee, tfd, cv];
     var services = {};
     arr.forEach(function(service){

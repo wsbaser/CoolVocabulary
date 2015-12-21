@@ -81,6 +81,17 @@ jQuery.fn.hideImportant = function() {
     this[0].style.setProperty('display','none','important');
 };
 
+jQuery.fn.flatText = function(){
+  var text = '';
+  // .assemble text from text nodes only
+  Array.prototype.forEach.call(this[0].childNodes, function(node){
+    if(node.nodeType===3){
+      text += node.textContent;
+    }
+  });
+  return text.trim();
+};
+
 /***** JS extensions **************************************************************************************************/
 Array.prototype.unique = function(b) {
     var a = this.concat();

@@ -28,54 +28,59 @@ var TranslationDialogFactory =   (function(){
     },
     createAbbySource: function(connection, vocabulary){
       var tabs = [];
-      tabs.push(new SourceTab(ContentTypes.TRANSLATIONS, { 
+      var serviceConfig = AbbyConfig();
+      tabs.push(new SourceTab(serviceConfig.id,ContentTypes.TRANSLATIONS, { 
         translationItemSelector: '.l-article__showExamp',
         vocabulary: vocabulary
       }));
-      tabs.push(new SourceTab(ContentTypes.EXAMPLES));
-      tabs.push(new SourceTab(ContentTypes.PHRASES));
-      var service = new DictionaryServiceProxy(AbbyConfig(),connection);
+      tabs.push(new SourceTab(serviceConfig.id,ContentTypes.EXAMPLES));
+      tabs.push(new SourceTab(serviceConfig.id,ContentTypes.PHRASES));
+      var service = new DictionaryServiceProxy(serviceConfig,connection);
       return new Source(service, tabs);
     },
     createGoogleSource: function(connection, vocabulary){
       var tabs = [];
-      tabs.push(new SourceTab(ContentTypes.TRANSLATIONS, {
+      var serviceConfig = GoogleConfig();
+      tabs.push(new SourceTab(serviceConfig.id, ContentTypes.TRANSLATIONS, {
         translationItemSelector:'.gt-baf-word-clickable',
         vocabulary: vocabulary
       }));
-      tabs.push(new SourceTab(ContentTypes.DEFINITIONS));
-      tabs.push(new SourceTab(ContentTypes.EXAMPLES));  
-      var service = new DictionaryServiceProxy(GoogleConfig(), connection);
+      tabs.push(new SourceTab(serviceConfig.id, ContentTypes.DEFINITIONS));
+      tabs.push(new SourceTab(serviceConfig.id, ContentTypes.EXAMPLES));  
+      var service = new DictionaryServiceProxy(serviceConfig, connection);
       return new Source(service, tabs);
     },
     createLingueeSource: function(connection, vocabulary){
       var tabs = [];
-      tabs.push(new SourceTab(ContentTypes.TRANSLATIONS, {
+      var serviceConfig = LingueeConfig();
+      tabs.push(new SourceTab(serviceConfig.id, ContentTypes.TRANSLATIONS, {
         translationItemSelector:'.tag_trans>.dictLink',
         vocabulary: vocabulary
       }));
-      tabs.push(new SourceTab(ContentTypes.EXAMPLES));  
-      tabs.push(new SourceTab(ContentTypes.PHRASES));
-      var service = new DictionaryServiceProxy(LingueeConfig(), connection);
+      // tabs.push(new SourceTab(serviceConfig.id, ContentTypes.EXAMPLES));  
+      tabs.push(new SourceTab(serviceConfig.id, ContentTypes.PHRASES));
+      var service = new DictionaryServiceProxy(serviceConfig, connection);
       return new Source(service, tabs);
     },
     createTfdSource: function(connection){
       var tabs = [];
-      tabs.push(new SourceTab(ContentTypes.THESAURUS));
-      tabs.push(new SourceTab(ContentTypes.DEFINITIONS));
-      tabs.push(new SourceTab(ContentTypes.VERBTABLE));  
-      var service = new DictionaryServiceProxy(TfdConfig(), connection);
+      var serviceConfig = TfdConfig();
+      tabs.push(new SourceTab(serviceConfig.id, ContentTypes.THESAURUS));
+      tabs.push(new SourceTab(serviceConfig.id, ContentTypes.DEFINITIONS));
+      tabs.push(new SourceTab(serviceConfig.id, ContentTypes.VERBTABLE));  
+      var service = new DictionaryServiceProxy(serviceConfig, connection);
       return new Source(service, tabs);
     },
     createLLSource: function(connection, vocabulary){
       var tabs = [];
-      tabs.push(new SourceTab(ContentTypes.TRANSLATIONS,
+      var serviceConfig = LLConfig();
+      tabs.push(new SourceTab(serviceConfig.id, ContentTypes.TRANSLATIONS,
       {
         translationItemSelector: '.ll-translation-item',
         translationWordSelector: '.ll-translation-text',
         vocabulary: vocabulary
       }));
-      var service = new DictionaryServiceProxy(LLConfig(), connection);
+      var service = new DictionaryServiceProxy(serviceConfig, connection);
       return new Source(service, tabs);
     },
     create: function(){

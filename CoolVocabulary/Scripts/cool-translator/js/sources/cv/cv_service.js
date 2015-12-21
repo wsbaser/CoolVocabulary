@@ -39,14 +39,38 @@ CVService.prototype.getTranslationCards = function(inputData){
     return JSON.stringify(translationCards);
 };
 
-CVService.prototype.getTranslations = function(inputData){
+CVService.prototype.getTranslations = function(inputData, translation, activeSourceId){
+    // . collect ALL translations
+    var sourceToTranslations = {};
+    $.each(this.services, function(i, service){
+        var wordToTranslations = service.getTranslations(inputData);
+        if(wordToTranslations){
+            sourceToTranslations[service.config.id] = wordToTranslations;
+        }
+    });
+    // . define the SOURCE WORD
+    //   - it is a word for wich we want to add a translation
+    var sourceWord;
+    var activeSourceTranslations = sourceToTranslations[activeSourceId];
+    for (var word in activeSourceTranslations) {
+        var translations = activeSourceTranslations[word];
+        for(var sp in translations){
+            if(translations[sp].indexOf(translation)!=-1){
+                sourceWord = word;
+                break;
+            }
+        }
+        if(sourceWord)
+            break;
+    };
+    // . assemble ALL translations for SOURCE WORD from different sources
     var allTranslations = {};
     var allTranslationsArr = [];
     var unknownTranslationsArr = [];
-    $.each(this.services, function(i, service){
-        var translations = service.getTranslations(inputData);
-        if(translations){
-            $.each(translations, function(speachPart, words){
+    $.each(sourceToTranslations, function(sourceId, wordToTranslations){
+        var sourceWordTranslations = wordToTranslations[sourceWord];
+        if(sourceWordTranslations){ 
+            $.each(sourceWordTranslations, function(speachPart, words){
                 words = words.unique(allTranslationsArr);
                 if(words.length){
                     if(speachPart==SpeachParts.UNKNOWN){
@@ -73,7 +97,7 @@ CVService.prototype.getTranslations = function(inputData){
 
 /* public methods */
 
-CVService.prototype.addTranslation = function(inputData, translation, bookId){
+CVService.prototype.addTranslation = function(inputData, translation, sourceId, bookId){
     var translationData = {
         word: inputData.word,
         wordLanguage: inputData.sourceLang,
@@ -83,7 +107,7 @@ CVService.prototype.addTranslation = function(inputData, translation, bookId){
         bookId: bookId || 0,
         translationWord: translation,
         translationLanguage:  inputData.targetLang,
-        translationWords: this.getTranslations(inputData),
+        translationWords: this.getTranslations(inputData, translation, sourceId),
         translationCards: this.getTranslationCards(inputData)
     };
     return this.provider.addTranslation(translationData);

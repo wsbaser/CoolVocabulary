@@ -1,4 +1,5 @@
-function SourceTab(contentType, options) {
+function SourceTab(serviceId, contentType, options) {
+    this.serviceId = serviceId;
     this.contentType = contentType;
     this.options = options ||{};
     this.title = ContentTypes.getTitle(this.contentType);

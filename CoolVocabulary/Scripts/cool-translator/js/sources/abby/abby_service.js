@@ -110,8 +110,10 @@ AbbyService.prototype.getTranslations = function(inputData){
     var self = this;
     var card = this.getCachedCard(inputData,ContentTypes.TRANSLATIONS);
     var translations = {};
+    var result = {};
     if(card){
         var translationsEl = $(card);
+        var word = translationsEl.find('.g-card>h2>span').text();
         var currentSP = SpeachParts.UNKNOWN;
         translationsEl.find('p').each(function(i, el){
             el = $(el);
@@ -126,7 +128,7 @@ AbbyService.prototype.getTranslations = function(inputData){
                 translations[currentSP].push(translationEl.textContent);
             });
         });
+        result[word] = translations;
     }
-    return translations;
+    return result;
 };
-

@@ -39,11 +39,11 @@ Vocabulary.prototype.makeCall = function(method, params, callback){
   this.connection.makeRequest(this.config.id, method, params, callback);
 };
 
-Vocabulary.prototype.addTranslation = function(inputData,translation,callback){
+Vocabulary.prototype.addTranslation = function(inputData, translation, serviceId, callback){
     var self = this;
-    this.makeCall('addTranslation', [inputData, translation, this.bookId], function(promise){
+    this.makeCall('addTranslation', [inputData, translation, serviceId, this.bookId], function(promise){
         promise.done(function(response){
-            response = response||{};
+            response = response || {};
             // . generate addtranslation event
             if(window.location.origin=== self.config.siteOrigin){
                 window.postMessage({

@@ -180,7 +180,7 @@ AddTranslationControl.prototype._addTranslation = function() {
     var translation = self.selectedTranslationEl.val();
     Dialog.showSelectBook(inputData, translation, function(){
         self._showLoading();
-        self.vocabulary.addTranslation(inputData, translation, function(promise){
+        self.vocabulary.addTranslation(inputData, translation, self.translationsList.serviceId, function(promise){
             promise.done(function(response){
                 response = response || {};
                 self._hideLoading();

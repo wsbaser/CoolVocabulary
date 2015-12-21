@@ -86,6 +86,7 @@ GoogleProvider.prototype.makeRequest = function(urlTemplate, requestData) {
 GoogleProvider.prototype.requestTranslationsData = function(requestData) {
     var self = this;
     var deferred = $.Deferred();
+    requestData = Object.create(requestData);
     requestData.tk = this.TL(requestData.word);
     var translateUrl = this.formatRequestUrl(this.config.ajax.translate, requestData);
     console.log(translateUrl);

@@ -20,6 +20,6 @@ var LingueeConfig = function() {
         ajax: {
             translate: "http://www.linguee.com/{sourceLangName}-{targetLangName}/search?source={sourceLangName}&query={word}"
         },
-        contentTypes: [ContentTypes.TRANSLATIONS, ContentTypes.EXAMPLES, ContentTypes.PHRASES],
+        contentTypes: [ContentTypes.TRANSLATIONS, ContentTypes.PHRASES],
     };
 };

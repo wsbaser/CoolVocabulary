@@ -8,8 +8,9 @@ function DictionaryService(config, provider){
 
 DictionaryService.prototype.getCardHash = function(requestData, contentType) {
 	var hash = '';
-    for (var key in requestData)
+    for (var key in requestData){
         hash += key + ':' + requestData[key] + ',';
+	}
     contentType = this.singleCacheObject?'':contentType;
     return contentType + ':' + hash.substr(0, hash.length - 1);
 };

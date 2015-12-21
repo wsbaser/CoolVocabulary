@@ -1,4 +1,11 @@
 function show_dialog_for_content(el) {
-    Dialog.show(el.textContent.trim());
+	var text = '';
+	// .assemble text from text nodes only
+	Array.prototype.forEach.call(this[0].childNodes, function(node){
+		if(node.nodeType===3){
+			text += node.textContent;
+		}
+	});
+    Dialog.show(text.trim());
     return false;
 };

@@ -177,12 +177,14 @@ LLService.prototype.getPictureUrls = function(inputData){
 
 LLService.prototype.getTranslations = function(inputData){
     var responseData = this.getCachedCard(inputData,ContentTypes.TRANSLATIONS);
-    var translations = {};
-    translations[SpeachParts.UNKNOWN] = [];
+    var result = {};
     if(responseData && responseData.translate){
+        var translations = {};
+        translations[SpeachParts.UNKNOWN] = [];
         $.each(responseData.translate, function(i, translation){
             translations[SpeachParts.UNKNOWN].push(translation.value);
         });
+        result[inputData.word] = translations;
     }
-    return translations;
+    return result;
 };
