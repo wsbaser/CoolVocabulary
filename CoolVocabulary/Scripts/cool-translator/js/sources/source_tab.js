@@ -156,7 +156,11 @@ function bindDataEvents(el){
                 methodParams[index] = elWithEvent[0];
         });
         elWithEvent.on(eventType, function(e){
-            window[method].apply(this,methodParams);
+            var func = window;
+            var arr = method.split('.').forEach(function(name){
+                func = func[name]; 
+            });
+            func.apply(this, methodParams);
         });
     });
 }

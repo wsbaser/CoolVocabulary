@@ -13,10 +13,20 @@ LingueeService.prototype.removeExpandIcon = function(el){
 };
 
 LingueeService.prototype.generateTranslationsCard = function(contentEl){
+    var self = this;
     var translationsEl = contentEl.find('.exact').clone();
     this.deactivateLinks(translationsEl, 'a');
     // . Show translation for word
     this.addTranslateContentEvent(translationsEl, '.tag_lemma>.dictLink');
+    translationsEl.find('.audio').each(function(index, audioEl){
+        var onclickFunction = audioEl.attributes['onclick'].value;
+        audioEl.removeAttribute('onclick');
+        var playSoundArgs = onclickFunction.substring(10,onclickFunction.length-2).replace('"','').replace(/"/g,'').split(',');
+        var args = [$(audioEl),'click','LingueeHandlers.playSound'].concat(playSoundArgs);
+        self.addEventData.apply(this, args);
+    });
+    self.addEventData(translationsEl, 'click', 'LingueeHandlers.onContentClick');
+    
     // . remove phrases
     translationsEl.find('.example_lines').remove();
     this.removeExpandIcon(translationsEl);

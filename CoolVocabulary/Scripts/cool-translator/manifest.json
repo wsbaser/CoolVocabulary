@@ -31,6 +31,7 @@
       "js/sources/abby/abby_handlers.js",
       "js/sources/google/google_config.js",
       "js/sources/linguee/linguee_config.js",
+      "js/sources/linguee/linguee_handlers.js",
       "js/sources/ll/ll_config.js",
       "js/sources/ll/ll_handlers.js",
       "js/sources/tfd/tfd_config.js",
@@ -57,7 +58,8 @@
     "run_at": "document_end"
   }],
   "permissions": ["tabs", "<all_urls>"],
-  "web_accessible_resources": [ 
+  "web_accessible_resources": [
+    "images/linguee/sprites14.png", 
     "images/abby_icons.png",
     "images/add.png",
     "images/flags.png",

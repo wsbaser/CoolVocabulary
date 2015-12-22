@@ -349,7 +349,8 @@
 /***** CONTENT ********************************************************************************************************/
 
 #ctr_dialog .ctr-source-article{
-    overflow-y:auto !important; /* article needs scrolling */
+  position: relative !important;
+  overflow-y:auto !important; /* article needs scrolling */
 }
 
 #ctr_dialog .ctr-error-result,
