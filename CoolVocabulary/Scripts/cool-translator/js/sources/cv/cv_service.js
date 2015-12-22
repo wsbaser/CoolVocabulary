@@ -13,10 +13,10 @@ CVService.prototype.getPronunciation = function(inputData, method){
     return this.services.tfd.getPronunciation(inputData);
 };
 
-CVService.prototype.getSoundUrls = function(inputData){
+CVService.prototype.getSoundUrls = function(inputData, translation){
     var all = [];
     $.each(this.services, function(i, service){
-        all = all.concat(service.getSoundUrls(inputData));
+        all = all.concat(service.getSoundUrls(inputData, translation));
     });
     return all.join(',');
 };
@@ -102,7 +102,7 @@ CVService.prototype.addTranslation = function(inputData, translation, sourceId, 
         word: inputData.word,
         wordLanguage: inputData.sourceLang,
         wordPronunciation: this.getPronunciation(inputData),
-        wordSoundUrls: this.getSoundUrls(inputData),
+        wordSoundUrls: this.getSoundUrls(inputData, translation),
         wordPictureUrls: this.getPictureUrls(inputData),
         bookId: bookId || 0,
         translationWord: translation,

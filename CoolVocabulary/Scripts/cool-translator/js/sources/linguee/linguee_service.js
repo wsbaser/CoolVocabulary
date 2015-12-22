@@ -26,7 +26,7 @@ LingueeService.prototype.generateTranslationsCard = function(contentEl){
         self.addEventData.apply(this, args);
     });
     self.addEventData(translationsEl, 'click', 'LingueeHandlers.onContentClick');
-    
+
     // . remove phrases
     translationsEl.find('.example_lines').remove();
     this.removeExpandIcon(translationsEl);
@@ -78,6 +78,28 @@ LingueeService.prototype.getTranslations = function(inputData){
                 translations[sp].push(tagTransEl.find('.dictLink').text());
             });
             result[lemma] = translations;
+        }
+    }
+    return result;
+};
+
+LLService.prototype.getSoundUrls = function(inputData, translation){
+    var card = this.getCachedCard(inputData,ContentTypes.TRANSLATIONS);
+    var result = [];
+    if(card){
+        var translationsList = $(card).find('.tag_trans');
+        for (var i = translationsList.length - 1; i >= 0; i--) {
+            var translationEl = translationsList[i];
+            if(translationEl.find('.dictLink').text()===translation){
+                var audioEl = translationEl.find('.audio');
+                if(audioEl.length && audioEl.dataset.event){
+                    var args = audioEl.dataset.event.split('|');
+                    for (var i = 3; i < args.length-1; i+=2) {
+                        result.push('http://linguee.com/mp3/'+args[i]+'.mp3');
+                    };
+                }
+                break;
+            }
         }
     }
     return result;
