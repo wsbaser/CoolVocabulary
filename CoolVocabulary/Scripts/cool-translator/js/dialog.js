@@ -117,7 +117,8 @@ function TranslationDialog(allSources, vocabulary){
     this.firstShow = true;
     this.isActive = false;
 
-    this.init();
+    this.reactor = new Reactor();
+    this.reactor.registerEvent('langPairChanged');
 };
 
 TranslationDialog.ACTIVE_CLASS = 'ctr-active';
@@ -152,7 +153,7 @@ TranslationDialog.TEMPLATE =
 
 
 TranslationDialog.prototype.addEventListener = function(eventName, callback){
-  this.el.on(eventName, callback);
+  this.reactor.addEventListener(eventName, callback);
 };
 
 TranslationDialog.prototype.getAllSupportedLangs = function(allSources){
@@ -286,9 +287,9 @@ TranslationDialog.prototype.appendSourcesContent = function() {
 
 // Create and Show dialog
 TranslationDialog.prototype.create = function () {
-  this.el = $('#ctr_dialog');
-  if(this.el.length)
-    this.el.remove();
+  if(this.el){
+    return;
+  }
   // . create element from HTML and add to DOM
   $('body').append(TranslationDialog.TEMPLATE);
   // . retrieve links to DOM elements
@@ -310,6 +311,9 @@ TranslationDialog.prototype.create = function () {
   this.appendSourcesContent();
   this.updateSourcesList();
   this.selectSource(this.sourceWithActiveLink);
+  if(this.langPair){
+    this.setLangPair(this.langPair);
+  }
   $(window).on('resize', this.hide.bind(this));
   document.addEventListener('mousedown', this.mousedown.bind(this));
 };
@@ -324,6 +328,7 @@ TranslationDialog.prototype.mousedown = function(e){
 };
 
 TranslationDialog.prototype.showForExtension = function(word) {
+  this.create();
   this.vocabulary.setBook(0);
   this.el[0].removeAttribute('style');
   this.inputEl = $('#ctr_wordInput');
@@ -337,6 +342,7 @@ TranslationDialog.prototype.showForExtension = function(word) {
 };
 
 TranslationDialog.prototype.showForSite = function(langPair, attachBlockSelector, word, bookId, user) {
+  this.create();
   this.setLangPair(langPair);
   this.attachBlockEl = $(attachBlockSelector);
   this.vocabulary.setBook(bookId);
@@ -387,8 +393,10 @@ TranslationDialog.prototype.hide = function() {
 
 TranslationDialog.prototype.setLangPair = function(langPair){
   this.langPair = langPair;
-  this.sourceLangSelector.setSelectedLang(this.langPair.sourceLang, null, true);
-  this.targetLangSelector.setSelectedLang(this.langPair.targetLang);
+  if(this.el){
+    this.sourceLangSelector.setSelectedLang(this.langPair.sourceLang, null, true);
+    this.targetLangSelector.setSelectedLang(this.langPair.targetLang);
+  }
 };
 
 TranslationDialog.prototype.initLangSelectors = function(){
@@ -401,18 +409,13 @@ TranslationDialog.prototype.initLangSelectors = function(){
          self.updateSourcesContent();
          var langPair = self.getLangPair();
          console.log('sourceLang: ' + langPair.sourceLang + ', targetLang: ' + langPair.targetLang);
-         self.el.trigger('langPairChanged', langPair);
+         self.reactor.dispatchEvent('langPairChanged', langPair);
       },
       onLoseFocus: self.focusInput.bind(self)
   };
   this.sourceLangSelector = new LangSelector('#sourceLangSelector', this.allSupportedLangs, options);
   this.targetLangSelector = new LangSelector('#targetLangSelector', this.allSupportedLangs, options);
   this.langSwitcher = new LangSwitcher(this.sourceLangSelector, this.targetLangSelector);
-};
-
-TranslationDialog.prototype.init = function() {
-  // called once 
-  this.create();
 };
 
 TranslationDialog.prototype.getInputData = function() {

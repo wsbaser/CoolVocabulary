@@ -9,7 +9,7 @@
     @RenderSection("header", required: false)
 </head>
 <body>
-    <div class="topbar navbar navbar-inverse navbar-fixed-top">
+    <div class="topbar navbar navbar-inverse">
         <div class="container">
             <div class="navbar-header visible-xs">
                 <a href="@Url.Action("Vocabulary","Home")"><img id="logo_mobile" src="~/content/images/icon48.png" alt="Cool Vocabulary" /></a>
@@ -23,7 +23,6 @@
                 <div class="topbar-menu-links">
                     <a href="@Url.Action("Vocabulary","Home")" class="hidden-xs"><img id="logo" src="~/content/images/icon48.png" alt="Cool Vocabulary"/></a>
                     <ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("About", "Index", "Home")</li>
                         <li>@Html.ActionLink("Cool Translator", "CoolTranslator", "Home")</li>
                         <li><a target="_blank" href="http://babbel.com">
                             <i class="glyphicon glyphicon-chevron-right"></i>

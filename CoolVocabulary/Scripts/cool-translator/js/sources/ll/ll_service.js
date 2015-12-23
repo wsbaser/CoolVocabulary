@@ -61,7 +61,7 @@ LLService.prototype.getArticleTemplateData = function(response) {
         soundUrl: response.sound_url || '',
         soundHint: 'Listen',
         hasPic: !!response.pic_url,
-        picUrl: response.pic_url || chrome.extension.getURL('/images/blank.gif'),
+        picUrl: response.pic_url || chrome.extension.getURL('/images/ll/blank.gif'),
         context: null,
         wordLink: inDict
             ? this.config.domain + templatesHelper.formatStr(this.config.path.wordArticle, {originalWord: originalWord.toLocaleLowerCase()})
@@ -131,7 +131,7 @@ LLService.CARD_TEMPLATE =
                 <img id="lleo_picBig" src="{picUrl}"/>\
             </div>\
             <div id="lleo_inner">\
-                <div id="lleo_sound" title="{soundHint}" style="background-image:url(\'{imagesUrl}/sound.png\') !important;">\
+                <div id="lleo_sound" title="{soundHint}" style="background-image:url(\'{imagesUrl}/ll/sound.png\') !important;">\
                     <audio id="lleo_player"><source type="audio/mpeg" src="{soundUrl}"></audio>\
                 </div>\
                 <div id="lleo_word">\

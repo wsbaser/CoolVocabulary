@@ -90,14 +90,14 @@ AddTranslationControl.prototype._createEl = function(){
     this.addCaptionEl = this.buttonEl.find('#ctr_addCaption');
     this.userColEl = this.el.find('.ctr-user-col');
     this.userNameEl = this.el.find('#ctr_userName');
-    this.userColEl.find('a').attr('href',this.vocabulary.config.path.vocabulary);
-    if(this.vocabulary.config.iconBase64){
-        this.el.find('.ctr-vocabularyIcon').each(function(i, iconEl){
-            iconEl = $(iconEl);
-            iconEl.attr('src', self.vocabulary.config.iconBase64);
-            iconEl.showImportant();
-        });
-    }
+    this.userColEl.find('a').attr('href', this.vocabulary.config.path.vocabulary);
+    // if(this.vocabulary.config.iconBase64){
+    //     this.el.find('.ctr-vocabularyIcon').each(function(i, iconEl){
+    //         iconEl = $(iconEl);
+    //         iconEl.attr('src', self.vocabulary.config.iconBase64);
+    //         iconEl.showImportant();
+    //     });
+    // }
 };
 
 AddTranslationControl.prototype._bindEvents = function() {
@@ -134,7 +134,7 @@ AddTranslationControl.TEMPLATE =
             </td>\
             <td class="ctr-user-col" style="display: none !important">\
                 <a target="_blank">\
-                    <img class="ctr-vocabularyIcon" src=""/>\
+                    <i class="ctr-vocabularyIcon"/>\
                     <span id="ctr_userName"></span>\
                 </a>\
             </td>\

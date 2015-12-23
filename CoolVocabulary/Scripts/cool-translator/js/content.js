@@ -20,7 +20,7 @@ ctrContent.addInstalledMarker = function(){
 };
 
 /* Save to local storage */
-ctrContent.onLangPairChanged = function(event, langPair) {
+ctrContent.onLangPairChanged = function(langPair) {
     chrome.runtime.sendMessage({
         type: MessageTypes.SaveLangPair,
         langPair: langPair
@@ -56,7 +56,7 @@ ctrContent.showDialogForCurrentSelection = function (inputElement, force) {
     if (inputElement && inputElement.getAttribute && inputElement.getAttribute('type') === 'password')
         return;
     var word = ctrContent.getSelectedText(inputElement);
-    if(word.length && word.split(' ').length<3){
+    if(/^\D+$/g.test(word) && word.split(' ').length<3){
         Dialog.showForExtension(word);
     }else if(force){
         Dialog.showForExtension();        
@@ -91,6 +91,11 @@ ctrContent.handlers.keyUp = function(e) {
 };
 
 ctrContent.handlers.keyDown = function(e) {
+    // . shift for Mac
+    // . ctrl for PC
+    var isCommandKeyPressed = ((ctrContent.isMac && e.shiftKey && !e.ctrlKey ) || 
+        (!ctrContent.isMac && e.ctrlKey && !e.shiftKey)) && !e.altKey && !e.metaKey;
+
     if (Dialog && Dialog.isActive && !Dialog.loginForm.isVisible()) {
         // . Dialog is Visible
         var langSelectorIsActive = Dialog.sourceLangSelector.isActive||Dialog.targetLangSelector.isActive;
@@ -99,7 +104,7 @@ ctrContent.handlers.keyDown = function(e) {
             return  cancelEvent(e);
         }
         if(Dialog.isInputFocused() || langSelectorIsActive){
-            if (e.ctrlKey && !e.shiftKey && !e.altKey) {
+            if (isCommandKeyPressed) {
                 if (e.keyCode === 13) {                                     // Ctrl + Enter
                     Dialog.langSwitcher.switch(Dialog.focusInput());
                     return cancelEvent(e);
@@ -117,7 +122,7 @@ ctrContent.handlers.keyDown = function(e) {
             }
         }
         else {
-            if (e.ctrlKey && !e.shiftKey && !e.altKey) {
+            if (isCommandKeyPressed) {
                 if (e.keyCode === 37) {                                 // Ctrl + Left
                     Dialog.selectPrevSource();
                     return cancelEvent(e);
@@ -139,15 +144,15 @@ ctrContent.handlers.keyDown = function(e) {
             }
         }
 
-        if (e.ctrlKey && e.keyCode === 32) {      // Ctrl + Space
+        if (isCommandKeyPressed && e.keyCode === 32) {      // Ctrl + Space
             Dialog.focusInput();
             return cancelEvent(e);
         }
     }
     else {
         // Dialog is Hidden
-        if (e.ctrlKey && e.keyCode === 32) {      // Ctrl + Space
-            if(ctrContent.dataFromSite && 
+        if (isCommandKeyPressed && e.keyCode === 32) {      // Ctrl + Space
+            if(ctrContent.dataFromSite &&
                 $(ctrContent.dataFromSite.attachBlockSelector).length)
                 ctrContent.showDialogForSite();
             else

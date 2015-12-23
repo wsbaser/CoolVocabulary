@@ -133,9 +133,13 @@
 }
 
 /* STRUCTURE */
+html{
+	height: 100%;
+}
 
 body{
-	background-color: #e6e6e6;	
+	background: radial-gradient(ellipse at center, #87e0fd 0%,#53cbf1 40%,#05abe0 100%);
+	min-height: 100vh;
 }
 
 #content{
@@ -143,14 +147,15 @@ body{
 }
 
 #content, #toolbox{
-	background-color: #fff;
+	background: url(/content/images/bg.png) top left repeat #ebeef2;
 	border-left: 1px solid #dcdde1;
 	border-right: 1px solid #dcdde1;
 }
 
 #toolbox{
 	line-height: 26px;
-	height: 33px;
+	height: 43px;
+	padding-top: 10px;
 }
 
 #word_input_form button{
@@ -1093,7 +1098,8 @@ a:hover .manageIcons .glyphicon {
 }
 
 .pacman {
-    position: relative
+    position: relative;
+    opacity: 0.8;
 }
 
 .pacman>div:nth-child(3) {

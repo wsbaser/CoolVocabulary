@@ -1,9 +1,9 @@
 {
   "author": "wsbaser",
   "manifest_version": 2,
-  "name": "Cloud Translator",
-  "version": "1.0.5",
-  "description": "7 european languages, 5 supported translation services. Translate by double click, input and translate word, add words to your personal vocabulary, train and memorize words at cloudvocabulary.com for FREE.",
+  "name": "Cool Translator",
+  "version": "1.0.7",
+  "description": "7 languages, 5 supported translation services. Translate words, add words to vocabulary, memorize words at coolvocabulary.com.",
   "content_security_policy": "script-src 'self' ; object-src 'self'",
    "icons": {
       "16": "images/icon16.png",
@@ -59,14 +59,14 @@
   }],
   "permissions": ["tabs", "<all_urls>"],
   "web_accessible_resources": [
-    "images/linguee/sprites14.png", 
-    "images/abby_icons.png",
+    "images/icon16.png", 
     "images/add.png",
     "images/flags.png",
-    "images/sound.png",
     "images/sprites.png",
+    "images/linguee/sprites14.png", 
+    "images/ll/sound.png",
     "images/ll/marker.png",
-    "images/blank.gif"],
+    "images/ll/blank.gif"],
   "externally_connectable": {
     "matches": [ "http://localhost:13189/*", "http://localhost/*", "http://coolvocabulary.com/*" ]
   }

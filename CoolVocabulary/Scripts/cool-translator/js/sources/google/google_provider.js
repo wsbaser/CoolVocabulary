@@ -61,6 +61,9 @@ GoogleProvider.prototype.processResponse = function(response) {
                     definition: item[0],
                     example: item[2]
                 };
+            }).filter(function(item){
+                return item.definition && item.definition.length>10 &&
+                    item.example && item.example.length>10;
             }); 
         };
     }
@@ -72,6 +75,8 @@ GoogleProvider.prototype.processResponse = function(response) {
     try {
         jsonObject.examples = $.map(arr[11][0], function (item) {
             return item[0];
+        }).filer(function(item){
+            return item && item.length>10;
         });
     }
     catch (e) {

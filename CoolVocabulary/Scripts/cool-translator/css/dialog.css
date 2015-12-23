@@ -574,9 +574,11 @@
 }
 
 #ctr_dialog .ctr-vocabularyIcon{
-    vertical-align: middle !important;
-    margin-right: -2px !important;
-    display: none !important;
+  background: url(chrome-extension://__MSG_@@extension_id__/images/icon16.png) !important;
+  width: 16px !important;
+  height: 16px !important;
+  display: inline-block !important;
+  vertical-align: middle !important;
 }
 
 /*******************************************/
@@ -672,15 +674,16 @@
 }
 
 #ctr_dialog .popover{
-    background: #fff none repeat scroll 0% 0% ! important;
-    border-radius: 5px !important;
-    box-shadow: rgba(0, 0, 0, 0.5) 2px 2px 7px !important;
-    position:relative !important;
-    left: 50% !important;
-    top: 50% !important;
-    transform: translate(-50%,-50%);
-    transition: height 0.3s ease 0s, width 0.3s ease 0s,opacity 0.3s ease 0s !important;
-    display: inline-block;
+  max-width: 100% !important;
+  background: #fff none repeat scroll 0% 0% ! important;
+  border-radius: 5px !important;
+  box-shadow: rgba(0, 0, 0, 0.5) 2px 2px 7px !important;
+  position:relative !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%,-50%);
+  transition: height 0.3s ease 0s, width 0.3s ease 0s,opacity 0.3s ease 0s !important;
+  display: inline-block;
 }
 
 /* SELECT BOOK */

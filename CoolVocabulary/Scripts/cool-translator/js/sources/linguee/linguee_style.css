@@ -462,6 +462,15 @@
     background-position: -165px -75px !important
 }
 
+#soundFlags .flagsmall.flagsmall_pt_br,
+#soundFlags .flagsmall.flagsmall_br {
+    background-position: -165px -180px !important
+}
+
+#soundFlags .flagsmall.flagsmall_ru {
+    background-position: -165px -120px !important
+}
+
 #soundFlags li.playing a.audio {
     color: #000 !important;
 }

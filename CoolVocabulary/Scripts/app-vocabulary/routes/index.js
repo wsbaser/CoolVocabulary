@@ -26,7 +26,8 @@ Vocabulary.LoadingRoute = Ember.Route.extend({
 		this._super();
 	},
 	afterRender: function(){
-		var height = $(window).height()-Math.ceil($('.topbar').height());
+		var menuHeight = $('#logo_mobile:visible').length?50:70;
+		var height = $(window).height()-menuHeight;
 		$('.loader-panel').css('height', height+'px');
 	}
 });

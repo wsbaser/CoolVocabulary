@@ -83,7 +83,7 @@ LingueeService.prototype.getTranslations = function(inputData){
     return result;
 };
 
-LLService.prototype.getSoundUrls = function(inputData, translation){
+LingueeService.prototype.getSoundUrls = function(inputData, translation){
     var card = this.getCachedCard(inputData,ContentTypes.TRANSLATIONS);
     var result = [];
     if(card){
