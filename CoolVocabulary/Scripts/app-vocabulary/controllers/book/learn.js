@@ -59,8 +59,8 @@ Vocabulary.WordToLearn = Ember.Object.extend(Vocabulary.HasActiveObject, {
 			isActive: true
 		}));
 		cards.pushObjects(this.generateTranslationCards(cardsJson));
-		cards.pushObjects(this.generateExampleCards(cardsJson));
 		cards.pushObjects(this.generateDefinitionCards(cardsJson));
+		cards.pushObjects(this.generateExampleCards(cardsJson));
 		this.activateFirstCard();
 	}),
 	setWordTranslations: function(wordTranslations){

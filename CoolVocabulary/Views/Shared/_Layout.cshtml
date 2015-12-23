@@ -21,20 +21,24 @@
             </div>
             <div class="topbar-navitems navbar-collapse collapse">
                 <div class="topbar-menu-links">
-                    <a href="@Url.Action("Vocabulary","Home")" class="hidden-xs"><img id="logo" src="~/content/images/icon48.png" alt="Cool Vocabulary"/></a>
+                    <a href="@Url.Action("Vocabulary","Home")" class="hidden-xs"><img id="logo" src="~/content/images/icon48.png" alt="Cool Vocabulary" /></a>
                     <ul class="nav navbar-nav">
                         <li>@Html.ActionLink("Cool Translator", "CoolTranslator", "Home")</li>
-                        <li><a target="_blank" href="http://babbel.com">
-                            <i class="glyphicon glyphicon-chevron-right"></i>
-                            Babbel.com
-                            </a></li>
-                        <li><a target="_blank" href="http://duolingo.com">
-                            <i class="glyphicon glyphicon-chevron-right"></i>
-                            Duolingo.com
-                            </a></li>
+                        <li>
+                            <a target="_blank" href="http://babbel.com">
+                                <i class="glyphicon glyphicon-chevron-right"></i>
+                                Babbel.com
+                            </a>
+                        </li>
+                        <li>
+                            <a target="_blank" href="http://duolingo.com">
+                                <i class="glyphicon glyphicon-chevron-right"></i>
+                                Duolingo.com
+                            </a>
+                        </li>
                     </ul>
                 </div>
-                <div class="topbar-user-links hidden-xs pull-right">
+                <div class="topbar-user-links pull-right">
                     @Html.Partial("_LoginPartial")
                 </div>
             </div>

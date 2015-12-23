@@ -24,7 +24,11 @@ namespace CoolVocabulary.Controllers.api
         private VocabularyDbContext db = new VocabularyDbContext();
 
         // GET api/Book
-        public async Task<IHttpActionResult> GetBooks(int language, int bookId) {
+        public async Task<IHttpActionResult> GetBooks(string language, int bookId) {
+            LanguageType languageType;
+            if (!Enum.TryParse<LanguageType>(language, out languageType)) {
+                return BadRequest("Invalid language");
+            }
             // . get books of current user
             var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new VocabularyDbContext()));
             var user = um.FindById(User.Identity.GetUserId());
@@ -37,7 +41,7 @@ namespace CoolVocabulary.Controllers.api
             List<TranslationDto> translations=null;
             var noAggregatedDataBookIds = new List<int>();
             // . get books
-            foreach (var book in db.Books.Where(v => v.UserId == user.Id && v.Language == language)) {
+            foreach (var book in db.Books.Where(v => v.UserId == user.Id && v.Language == (int)languageType)) {
                 var bookData = Redis.GetBookData(book.Id);
                 if (bookData == null) {
                     books.Add(book.Id, new BookDto(book, 0, 0, true));
@@ -51,7 +55,7 @@ namespace CoolVocabulary.Controllers.api
                 if (bookId != 0)
                     return BadRequest("Invalid bookId");
                 const string FIRST_BOOK_NAME = "Martin Eden";
-                var book = await db.CreateBookAsync(user.Id, (LanguageType)language, FIRST_BOOK_NAME);
+                var book = await db.CreateBookAsync(user.Id, languageType, FIRST_BOOK_NAME);
                 books.Add(book.Id, new BookDto(book, 0, 0, true));
             } else {
                 int currentBookId;

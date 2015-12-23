@@ -85,6 +85,15 @@ input[type="checkbox"].input-validation-error {
     color: #fff;
 }
 
+.navbar-inverse .navbar-toggle{
+    border-color: rgba(255,255,255,0.5);
+}
+
+.navbar-inverse .navbar-toggle:hover,
+.navbar-inverse .navbar-toggle:focus {
+    background-color: rgba(255,255,255,0.3);
+}
+
 #logo{
     width:24px;
     height:24px;
@@ -124,6 +133,7 @@ input[type="checkbox"].input-validation-error {
 }
 
 .centered-header {
+    color: #fff;
     margin-bottom: 10px;
     font-size: 16px;
 }

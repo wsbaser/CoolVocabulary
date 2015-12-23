@@ -138,7 +138,7 @@ html{
 }
 
 body{
-	background: radial-gradient(ellipse at center, #87e0fd 0%,#53cbf1 40%,#05abe0 100%);
+	background: linear-gradient(to top,#87e0fd 0,#53cbf1 40%,#05abe0 100%);
 	min-height: 100vh;
 }
 
@@ -146,7 +146,8 @@ body{
 	position: relative;
 }
 
-#content, #toolbox{
+#page{
+	box-shadow:  2px 2px 7px 1px rgba(0,0,0,0.2);
 	background: url(/content/images/bg.png) top left repeat #ebeef2;
 	border-left: 1px solid #dcdde1;
 	border-right: 1px solid #dcdde1;
@@ -1099,7 +1100,6 @@ a:hover .manageIcons .glyphicon {
 
 .pacman {
     position: relative;
-    opacity: 0.8;
 }
 
 .pacman>div:nth-child(3) {

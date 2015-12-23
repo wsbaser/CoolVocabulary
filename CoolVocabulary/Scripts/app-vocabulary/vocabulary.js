@@ -3,15 +3,17 @@
 });
 
 Vocabulary.Router.map(function(){
-  this.route('book', { path: 'book/:book_id' }, function(){
-    this.route('index', {path:'/'}, function(){
-      this.route('wordTranslation', { path:'word/:bookWord_id', resetNamespace: true });
+  this.route('language', {path:'/:language'}, function(){
+    this.route('book', { path: 'book/:book_id', resetNamespace: true }, function(){
+      this.route('index', {path:'/'}, function(){
+        this.route('wordTranslation', { path:'word/:bookWord_id', resetNamespace: true });
+      });
+      this.route('learn', {path:'/learn/:word_id'});
+      this.route('exam');
+      this.route('edit');
     });
-    this.route('learn', {path:'/learn/:word_id'});
-    this.route('exam');
-    this.route('edit');
+    this.route('createBook', {resetNamespace: true});
   });
-  this.route('createBook');
 });
 
 Vocabulary.ApplicationAdapter = DS.RESTAdapter.extend({
