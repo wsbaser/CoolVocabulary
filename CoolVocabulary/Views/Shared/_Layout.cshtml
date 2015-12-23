@@ -39,13 +39,15 @@
                     </ul>
                 </div>
                 <div class="topbar-user-links pull-right">
-                    @Html.Partial("_LoginPartial")
+                    @Html.Partial("_UserPartial")
                 </div>
             </div>
         </div>
     </div>
 
-    @RenderBody()
+    <div id="page" class="container">
+        @RenderBody()
+    </div>
 
     @Scripts.Render("~/bundles/js-basic")
     @RenderSection("scripts", required: false)

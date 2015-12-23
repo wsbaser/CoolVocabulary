@@ -366,7 +366,7 @@ namespace CoolVocabulary.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Vocabulary", "Home");
         }
 
         //
@@ -447,7 +447,7 @@ namespace CoolVocabulary.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Vocabulary", "Home");
             }
         }
 

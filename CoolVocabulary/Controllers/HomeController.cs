@@ -9,25 +9,28 @@ using System.Web.Mvc;
 
 namespace CoolVocabulary.Controllers {
     public class HomeController : Controller {
-        public ActionResult Index() {
-            return View();
-        }
-
         public ActionResult CoolTranslator() {
-            return View();
-        }
-
-        public ActionResult Babbel() {
-            return View();
-        }
-        public ActionResult Duolingo() {
+            AddUserToViewBag();
             return View();
         }
 
         [Authorize]
         public ActionResult Vocabulary() {
+            if (!AddUserToViewBag()) {
+                return RedirectToAction("Login", "Account");
+            }
             ViewBag.isVocabularyAction = true;
             return View();
+        }
+
+        private bool AddUserToViewBag() {
+            ApplicationUser user = null;
+            if (Request.IsAuthenticated) {
+                var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new VocabularyDbContext()));
+                user = um.FindById(User.Identity.GetUserId());
+                ViewBag.user = user;
+            }
+            return user != null;
         }
 
         public ActionResult CTOAuth() {

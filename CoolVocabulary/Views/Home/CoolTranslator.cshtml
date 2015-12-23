@@ -93,29 +93,13 @@
             </div>
         </div>
     </div>
-    <div class="comments-container centered-ui" style="display:none;">
-        <div id="comments"></div>
-    </div>
 </div>
 
 @section scripts{
     <script>
         $(window).load(function () {
             var isInstalled = !!$('#ctr_is_installed_cifbpdjhjkopeekabdgfjgmcbcgloioi').length;
-            if (isInstalled) {
-                var script = document.createElement('script');
-                script.src = 'https://apis.google.com/js/plusone.js';
-                script.onload = function () {
-                    $('.comments-container').show();
-                    gapi.comments.render('comments', {
-                        href: window.location,
-                        width: '624',
-                        first_party_property: 'BLOGGER',
-                        view_type: 'FILTERED_POSTMOD'
-                    });
-                };
-                document.head.appendChild(script);
-            } else {
+            if (!isInstalled) {
                 var $installButton = $('#install_cv_button');
                 $installButton.show();
                 $installButton.on('click', function () {

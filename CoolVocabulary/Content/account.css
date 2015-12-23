@@ -1,18 +1,4 @@
-﻿.centered-header .site-name-container {
-    display: inline-block;
-}
-.centered-header .site-logo {
-    vertical-align: middle;
-    width: 24px;
-    height: 24px;
-    margin-right: 0;
-}
-.centered-header .site-name {
-    display: inline-block;
-    font-weight: bold;
-}
-
-#openid-buttons {
+﻿#openid-buttons {
     text-align: left;
 }
 .preferred-login {
@@ -232,4 +218,12 @@
     position: relative;
     padding: 10px;
     background-color: #fff;
+}
+
+#switch {
+    padding: 20px;
+    border: 1px solid #e6e6e6;
+    width: 300px;
+    margin: 20px auto 100px auto;
+    background: #fff;
 }

@@ -8,10 +8,7 @@
 <div class="centered-container">
     <div class="centered-ui">
         <div class="centered-header">
-            Sign in to continue to <div class="site-name-container">
-                <img class="site-logo" src="~/content/images/icon48.png"/>
-                <div class="site-name">Cool Vocabulary</div>
-            </div>
+            Please, sign in to continue
         </div>
         <div class="form-container">
             @using (Html.BeginForm("ExternalLogin", "Account", new { returnUrl = ViewBag.ReturnUrl })){
@@ -43,6 +40,9 @@
                 <!--<a class="fr" href="/users/account-recovery">forgot password?</a>-->
                 <input type="submit" class="pull-right" value="Sign In" />
             }
+        </div>
+        <div id="switch">
+            Don't have an account? @Html.ActionLink("Sign Up","Register","Account")
         </div>
     </div>
 </div>

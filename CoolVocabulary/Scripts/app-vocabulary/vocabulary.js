@@ -1,5 +1,6 @@
 ﻿window.Vocabulary = Ember.Application.create({
-	LOG_TRANSITIONS : true
+	LOG_TRANSITIONS : true,
+  rootElement: '#page'
 });
 
 Vocabulary.Router.map(function(){
