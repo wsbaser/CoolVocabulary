@@ -2,6 +2,10 @@ Vocabulary.LanguageIndexRoute = Ember.Route.extend({
 	model: function(){
 		var language = this.modelFor('language');
 		var currentBookId = $.cookie('currentBook') || 0;
+		var books = this.store.peekAll('book');
+		if(books.get('length')){
+			return books;
+		}
 		return this.store.query('book', {
 			language: language.id,
 			bookId: currentBookId

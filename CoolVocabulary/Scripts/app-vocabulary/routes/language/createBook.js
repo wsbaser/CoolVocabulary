@@ -1,6 +1,6 @@
 Vocabulary.CreateBookRoute = Ember.Route.extend({
 	renderTemplate: function() {
-		this.render('language/createBook', { outlet: 'body' });
+		this.render('language/createBook', { into: 'application', outlet: 'body' });
 	},
 	model: function(){
 		var language = this.modelFor('language');
