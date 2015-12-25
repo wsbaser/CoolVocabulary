@@ -38,7 +38,8 @@
 			            <ul class="dropdown-menu">
 							<li>
 								<form action="/account/LogOff" class="hidden" id="logoutForm" method="post">
-								</form>
+								    <input type="hidden" name="__RequestVerificationToken" value="{{csrfFormToken}}">
+                                </form>
 				                <a tabindex="-1" href="javascript:document.getElementById('logoutForm').submit()" class="logout-link">
 			                        <i class="glyphicon glyphicon-off"></i>
 			                        Log Out

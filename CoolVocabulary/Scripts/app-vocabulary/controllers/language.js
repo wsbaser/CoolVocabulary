@@ -1,5 +1,5 @@
 Vocabulary.LanguageController = Ember.Controller.extend({
-	languages: Ember.computed(function(){
+	languages: Ember.computed('model', function(){
 		// . return list of all languages except selected one
 		var model = this.get('model');
 		return this.store.peekAll("language").filter(function(language){

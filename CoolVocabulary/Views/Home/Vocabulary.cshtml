@@ -15,18 +15,32 @@
           href="https://chrome.google.com/webstore/detail/cifbpdjhjkopeekabdgfjgmcbcgloioi">
 </head>
 <body>
+    @{
+        ApplicationUser user = ViewBag.user;
+        var userDto = new {
+            displayName = user.DisplayName,
+            nativeLanguage = ((LanguageType)user.NativeLanguage).ToString()
+        };
+    }
+    @Html.AntiForgeryToken()
     <script>
-        @{
-            ApplicationUser user = ViewBag.user;
-            var userDto  = new {
-                displayName=user.DisplayName, 
-                nativeLanguage="en"
-            };
-        }
-        var User = @Html.Raw(Json.Encode(userDto))
-        var Languages = @Html.Raw(Json.Encode(ViewBag.supportedLanguages))
     </script>
     @Scripts.Render("~/bundles/js-basic")
+    <script>
+        var ServerData = {};
+        // CSRF Token
+        ServerData.CSRFFormToken = $("input[name='__RequestVerificationToken']").val();
+        // Send CSRF token in X-XSRF-Token header in each ajax request
+        $.ajaxSetup({
+            headers: {
+                "X-Requested-With": "XMLHttpRequest",
+                "X-XSRF-Token": ServerData.CSRFFormToken
+            }
+        });
+        // Inject some server side data
+        ServerData.User = @(Html.Raw(Json.Encode(userDto)));
+        ServerData.Languages = @(Html.Raw(Json.Encode(ViewBag.SupportedLanguages)));
+    </script>
     @Scripts.Render("~/bundles/js-vocabulary")
 </body>
 </html>

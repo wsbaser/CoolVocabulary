@@ -1,13 +1,14 @@
 Vocabulary.ApplicationRoute = Ember.Route.extend({
 	model: function(){
 		var self = this;
-		window.Languages.forEach(function(item){
+		ServerData.Languages.forEach(function(item){
 			self.store.push(self.store.normalize('language', item));
 		});
 	},
 	setupController: function(controller, model){
 		// . retrieve and store data from server side 
-		controller.set('user', window.User);
+		controller.set('user', ServerData.User);
+		controller.set('csrfFormToken', ServerData.CSRFFormToken);
 		// . navigate to language
 		var language;
 		var currentLanguageId = $.cookie('currentLanguage');

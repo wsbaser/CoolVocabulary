@@ -90,18 +90,33 @@ namespace CoolVocabulary.Models {
     public enum LanguageType {
         [StringValue("English")]
         en = 0,
-        [StringValue("Russian")]
-        ru = 1,
         [StringValue("Spanish")]
-        es = 2,
+        es = 1,
         [StringValue("Portuguese")]
-        pt = 3,
+        pt = 2,
         [StringValue("French")]
-        fr = 4,
+        fr = 3,
         [StringValue("Italian")]
-        it = 5,
+        it = 4,
         [StringValue("German")]
-        de = 6
+        de = 5,
+        [StringValue("Russian")]
+        ru = 6
+    }
+
+    public static class SupportedLanguages {
+        static SupportedLanguages() {
+            All = new List<LanguageDto>();
+            var languages = Enum.GetValues(typeof(LanguageType));
+            for (var i = 0; i < languages.Length; i++) {
+                LanguageType language = (LanguageType)languages.GetValue(i);
+                All.Add(new LanguageDto {
+                    id = language.ToString(),
+                    name = language.GetStringValue()
+                });
+            }
+        }
+        public static List<LanguageDto> All;
     }
 
     public enum SpeachPartType

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CoolVocabulary.Extensions;
+using System.Web.Helpers;
 
 namespace CoolVocabulary.Controllers {
     public class HomeController : Controller {
@@ -20,21 +21,8 @@ namespace CoolVocabulary.Controllers {
             if (!AddUserToViewBag()) {
                 return RedirectToAction("Login", "Account");
             }
-            ViewBag.supportedLanguages = GetSupportedLanguages();
+            ViewBag.SupportedLanguages = SupportedLanguages.All;
             return View();
-        }
-
-        private List<dynamic> GetSupportedLanguages() {
-            var result = new List<dynamic>();
-            var languages = Enum.GetValues(typeof(LanguageType));
-            for (var i = 0; i < languages.Length; i++) {
-                LanguageType language = (LanguageType)languages.GetValue(i);
-                result.Add(new {
-                    id = language.ToString(),
-                    name = language.GetStringValue()
-                });
-            }
-            return result;
         }
 
         private bool AddUserToViewBag() {

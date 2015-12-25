@@ -233,6 +233,7 @@
     <Compile Include="Controllers\api\WordTranslationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Custom\AjaxAuthorize.cs" />
+    <Compile Include="Custom\ValidateHttpAntiForgeryTokenAttribute.cs" />
     <Compile Include="Extensions\ControllerExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\HttpRequestExtensions.cs" />
@@ -243,6 +244,10 @@
     <Compile Include="Migrations\201511072113277_Initial.cs" />
     <Compile Include="Migrations\201511072113277_Initial.Designer.cs">
       <DependentUpon>201511072113277_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201512251440136_NativeLanguage.cs" />
+    <Compile Include="Migrations\201512251440136_NativeLanguage.Designer.cs">
+      <DependentUpon>201512251440136_NativeLanguage.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -259,6 +264,7 @@
   <ItemGroup>
     <Content Include="404.html" />
     <Content Include="Content\account.css" />
+    <Content Include="Content\bootstrap-select.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -291,6 +297,7 @@
     <Content Include="ConnectionStrings.config" />
     <None Include="Properties\PublishProfiles\Local.pubxml" />
     <Content Include="Scripts\vendor\bootstrap-modal-popover.js" />
+    <Content Include="Scripts\vendor\bootstrap-select.min.js" />
     <Content Include="Scripts\vendor\bootstrap.js" />
     <Content Include="Scripts\vendor\bootstrap.min.js" />
     <None Include="Scripts\vendor\jquery-1.10.2.intellisense.js" />
@@ -368,6 +375,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201511072113277_Initial.resx">
       <DependentUpon>201511072113277_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512251440136_NativeLanguage.resx">
+      <DependentUpon>201512251440136_NativeLanguage.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

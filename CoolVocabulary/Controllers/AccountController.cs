@@ -265,6 +265,7 @@ namespace CoolVocabulary.Controllers
                     // If the user does not have an account, then prompt the user to create an account
                     ViewBag.ReturnUrl = returnUrl;
                     ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
+                    ViewBag.SupportedLanguages = SupportedLanguages.All;
                     return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email, DisplayName = loginInfo.DefaultUserName });
                 } else {
                     var result = await UserManager.AddLoginAsync(user.Id, loginInfo.Login);
@@ -320,7 +321,10 @@ namespace CoolVocabulary.Controllers
             //{
             //    return RedirectToAction("User", "Home");
             //}
-
+            LanguageType nativeLanguage;
+            if (!Enum.TryParse(model.NativeLanguage, out nativeLanguage)) {
+                ModelState.AddModelError("", "Invalid native language");
+            }
             if (ModelState.IsValid)
             {
                 // Получение сведений о пользователе от внешнего поставщика входа
@@ -337,7 +341,8 @@ namespace CoolVocabulary.Controllers
                     user = new ApplicationUser() { 
                         UserName = model.Email, 
                         Email = model.Email, 
-                        DisplayName = model.DisplayName };
+                        DisplayName = model.DisplayName,
+                        NativeLanguage = (int)nativeLanguage};
                     var result = await UserManager.CreateAsync(user);
                     if (result.Succeeded)
                     {

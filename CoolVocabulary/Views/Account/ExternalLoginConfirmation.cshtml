@@ -1,13 +1,13 @@
-﻿@model CoolVocabulary.Models.ExternalLoginConfirmationViewModel
+﻿@using CoolVocabulary.Models;
+@model CoolVocabulary.Models.ExternalLoginConfirmationViewModel
 @{
     ViewBag.Title = "Sign Up - Cool Vocabulary";
 }
 
 <link href="~/Content/account.css" rel="stylesheet" />
+<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
 
 <div id="content">
-
-
     <div class="subheader">
         <h1>Confirm Your New Account</h1>
     </div>
@@ -42,6 +42,18 @@
                         @Html.TextBoxFor(m => m.Email)
                         @Html.LabelFor(m => m.DisplayName)
                         @Html.TextBoxFor(m => m.DisplayName)
+                        @Html.LabelFor(m => m.NativeLanguage)
+                        <select name="NativeLanguage" class="selectpicker">
+                            @{
+            List<LanguageDto> supportedLanguages = (List<LanguageDto>)ViewBag.SupportedLanguages;
+            foreach (LanguageDto supportedLanguage in supportedLanguages) {
+                    <option value="@supportedLanguage.id">
+                        @supportedLanguage.name
+                    </option>
+            }
+                            }
+                        </select>
+
                     </div>
                 </div>
             </div>
@@ -56,4 +68,5 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/Vendor/bootstrap-select.min.js"></script>
 }

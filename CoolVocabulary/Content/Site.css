@@ -282,3 +282,40 @@ a[target="_blank"]> i {
         min-height: 100px;
     }
 }
+
+.language-icon {
+    width: 24px;
+    height: 16px;
+    display: inline-block;
+    background-image: url('/content/images/flags.png');
+    background-position-y: -4px;
+    background-position-x: -24px;
+}
+
+.language-icon.ru {
+    background-position-x: 0;
+}
+
+.language-icon.en {
+    background-position-x: -24px;    
+}
+
+.language-icon.es {
+    background-position-x: -48px;    
+}
+
+.language-icon.pt {
+    background-position-x: -72px;    
+}
+
+.language-icon.fr {
+    background-position-x: -96px;    
+}
+
+.language-icon.it {
+    background-position-x: -120px;    
+}
+
+.language-icon.de {
+    background-position-x: -144px;    
+}

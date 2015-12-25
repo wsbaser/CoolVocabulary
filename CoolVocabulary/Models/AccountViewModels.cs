@@ -9,6 +9,10 @@ namespace CoolVocabulary.Models
         public string DisplayName { get; set; }
 
         [Required]
+        [Display(Name = "Native Language")]
+        public string NativeLanguage { get; set; }
+
+        [Required]
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Email")]
         public string Email { get; set; }

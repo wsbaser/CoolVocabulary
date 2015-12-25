@@ -6,6 +6,11 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CoolVocabulary.Models {
+    public class LanguageDto {
+        public string id { get; set; }
+        public string name { get; set; }
+    }
+
     public class WordTranslationsDto {
         public WordTranslationsDto(WordTranslations wt) {
             this.id = wt.Id.ToString();
