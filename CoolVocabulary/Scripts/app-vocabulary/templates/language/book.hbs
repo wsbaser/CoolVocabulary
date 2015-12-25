@@ -1,9 +1,12 @@
-<div id="toolbox">
-	<div class="row">
-		{{outlet "toolbox"}}
+{{outlet "root"}}
+<div class="wrapper">
+	<div id="toolbox">
+		<div class="row">
+			{{outlet "toolbox"}}
+		</div>
 	</div>
-</div>
-<div id="content" style="min-height:{{contentHeight}}px">
-	{{outlet "content"}}
+	<div id="content">
+		{{outlet "content"}}
+	</div>
 </div>
 {{outlet "wordTranslation"}}

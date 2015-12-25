@@ -80,11 +80,6 @@ input[type="checkbox"].input-validation-error {
     transition: background-color 0.15s;
 }
 
-.navbar-inverse .navbar-nav > .dropdown > a .caret {
-    border-top-color: #fff;
-    border-bottom-color: #fff;
-}
-
 #registerLink {
     padding: 6px 0 0;
 }
@@ -215,20 +210,6 @@ input[type="checkbox"].input-validation-error {
     align-items: center;
     align-content: space-around;
     height: 34px;
-}
-
-.language-icon {
-    width: 24px;
-    height: 24px;
-    background-image: url('images/flags.png');
-}
-
-.language-icon.en {
-    background-position-x: -24px;
-}
-
-.language-icon.ru {
-    background-position-x: 0;
 }
 
 .account-actions button{

@@ -1,6 +1,6 @@
 Vocabulary.WordTranslationRoute = Ember.Route.extend({
 	renderTemplate: function() {
-		this.render('wordTranslation', { into: "book", outlet: 'wordTranslation' });
+		this.render('language/wordTranslation', { into: "language/book", outlet: 'wordTranslation' });
 	},
 	model: function(params){
 		model = this.store.peekRecord('bookWord', params.bookWord_id);

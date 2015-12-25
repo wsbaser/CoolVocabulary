@@ -10,7 +10,7 @@ Vocabulary.CreateBookController = Ember.Controller.extend({
 		},
 		cancel: function(){
 			this.get('model').destroyRecord();
-			window.history.go(-1);
+			this.transitionToRoute('language');
 		}
 	}
 });

@@ -1,8 +1,11 @@
 Vocabulary.CreateBookRoute = Ember.Route.extend({
+	renderTemplate: function() {
+		this.render('language/createBook', { outlet: 'body' });
+	},
 	model: function(){
-		var applicationCtrl = this.controllerFor('application');
+		var language = this.modelFor('language');
 		return this.store.createRecord('book',{
-			language: applicationCtrl.get('langPair').sourceLang
+			language: language.id
 		});
 	}
 });

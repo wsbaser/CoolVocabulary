@@ -1,6 +1,6 @@
 Vocabulary.BookIndexRoute = Ember.Route.extend({
 	renderTemplate: function() {
-		this.render('language/book/indexRoot', { into: "application", outlet: 'root' });
+		this.render('language/book/indexRoot', { into: "language/book", outlet: 'root' });
 		this.render('language/book/indexToolbox', { into: "language/book", outlet: 'toolbox' });
 		this.render('language/book/index', { into: "language/book", outlet: 'content' });
 	},
