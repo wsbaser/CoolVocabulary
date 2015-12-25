@@ -11,12 +11,13 @@
 <li>
     <a id="currentLanguage" class="dropdown-toggle menu-flex-centered" data-toggle="dropdown" href="#">
         <i class="language-icon {{model.id}}" title="{{model.name}}"></i>
-        <span class="caret"></span>
+        <b class="caret"></b>
     </a>
     <ul class="dropdown-menu">
     	{{#each languages as |language|}}
 		<li>
-            <a tabindex="-1" href="/{{language.id}}">
+            <a tabindex="-1" href="/#/{{language.id}}">
+                <i class="language-icon {{language.id}}"></i>
                 {{language.name}}
             </a>
         </li>
