@@ -1,13 +1,13 @@
 Vocabulary.BookIndexRoute = Ember.Route.extend({
 	renderTemplate: function() {
-		this.render('book/indexRoot', { outlet: 'root' });
-		this.render('book/indexToolbox', { outlet: 'toolbox' });
-		this.render('book/index', { outlet: 'content' });
+		this.render('language/book/indexRoot', { into: "application", outlet: 'root' });
+		this.render('language/book/indexToolbox', { into: "language/book", outlet: 'toolbox' });
+		this.render('language/book/index', { into: "language/book", outlet: 'content' });
 	},
 	afterModel: function(){
 	},
 	setupController: function(controller, model){
-		model = this.controllerFor('book').get('model');
+		model = this.modelFor('book');
 	    this._super(controller, model);
 	    controller.initSiteDialog();
 	    Ember.run.schedule('afterRender', this, this.afterRender);
@@ -41,15 +41,5 @@ Vocabulary.BookIndexRoute = Ember.Route.extend({
 				event.data.bookWord,
 				event.data.translation);
 		});
-
-		$(window).resize(function(){
-			self.setContentHeight();
-		}.bind(this));
-		self.setContentHeight();
-	},
-	setContentHeight: function(){
-		var menuHeight = $('#logo_mobile:visible').length?50:70;
-		var height = $(window).height()-$('#toolbox').height()-10-menuHeight;
-		$('#content').css('min-height', height+'px');
 	}
 });

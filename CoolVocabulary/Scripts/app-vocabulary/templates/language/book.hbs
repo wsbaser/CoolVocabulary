@@ -1,10 +1,9 @@
-{{outlet "root"}}
 <div id="toolbox">
 	<div class="row">
 		{{outlet "toolbox"}}
 	</div>
 </div>
-<div id="content">
+<div id="content" style="min-height:{{contentHeight}}px">
 	{{outlet "content"}}
 </div>
 {{outlet "wordTranslation"}}

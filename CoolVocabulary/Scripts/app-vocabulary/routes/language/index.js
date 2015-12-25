@@ -1,24 +1,26 @@
-// Vocabulary.LanguageIndexRoute = Ember.Route.extend({
-// 	model: function(params){
-// 		return this.store.query('book', {
-// 			language: params.language,
-// 			bookId: 0
-// 		});
-// 	},
-// 	afterModel: function(books, transition) {
-// 		var model;
-// 		var currentBookId = $.cookie('currentBook');
-// 		if(currentBookId){
-// 			// . get current book
-// 			model = books.findBy('id', currentBookId);
-// 		}
-// 		if(!model){
-// 			// .get first book
-// 			model = books.get('firstObject');
-// 		}
-// 		this.transitionTo('book', model);
-//   	}
-// });
+Vocabulary.LanguageIndexRoute = Ember.Route.extend({
+	model: function(){
+		var language = this.modelFor('language');
+		var currentBookId = $.cookie('currentBook') || 0;
+		return this.store.query('book', {
+			language: language.id,
+			bookId: currentBookId
+		});
+	},
+	afterModel: function(books, transition) {
+		var book;
+		var currentBookId = $.cookie('currentBook');
+		if(currentBookId){
+			// . get current book
+			book = books.findBy('id', currentBookId);
+		}
+		if(!book){
+			// .get first book
+			book = books.get('firstObject');
+		}
+		this.transitionTo('book', book);
+  	}
+});
 
 // Vocabulary.LanguageLoadingRoute = Ember.Route.extend({
 // 	renderTemplate: function(){

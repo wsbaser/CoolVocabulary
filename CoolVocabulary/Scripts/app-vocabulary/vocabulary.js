@@ -1,10 +1,9 @@
 ﻿window.Vocabulary = Ember.Application.create({
-	LOG_TRANSITIONS : true,
-  rootElement: '#page'
+	LOG_TRANSITIONS : true
 });
 
 Vocabulary.Router.map(function(){
-  this.route('language', {path:'/:language'}, function(){
+  this.route('language', {path:'/:language_id'}, function(){
     this.route('book', { path: 'book/:book_id', resetNamespace: true }, function(){
       this.route('index', {path:'/'}, function(){
         this.route('wordTranslation', { path:'word/:bookWord_id', resetNamespace: true });
@@ -13,7 +12,7 @@ Vocabulary.Router.map(function(){
       this.route('exam');
       this.route('edit');
     });
-    this.route('createBook', {resetNamespace: true});
+    this.route('createBook', { resetNamespace: true });
   });
 });
 

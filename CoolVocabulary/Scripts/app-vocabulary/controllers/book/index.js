@@ -5,21 +5,25 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
     }.property(),
 	initSiteDialog: function(){
 		var self = this;
-		var ctAdapter = new CTAdapter();	
-		var langPair = this.get('applicationCtrl').langPair;
-		var books = this.get('books').map(function(book){ 
+		var ctAdapter = new CTAdapter();
+		var user = this.get('applicationCtrl').get('user');
+		var booksParam = this.get('books').map(function(book){ 
 			return {
 				id: book.get('id'),
 				name: book.get('name')
 			};
 		});
-		var user = {
+		var userParam = {
 			name: $('#userName').text(),
-			language: langPair.sourceLang,
-			books: books
+			language: user.nativeLanguage,
+			books: booksParam
 		};
-		var bookId = this.get('model').id;
-		ctAdapter.initSiteDialog(langPair, '#word_input_form', user, bookId, function(){
+		var book = this.get('model');
+		var langPairParam = {
+			sourceLang: user.nativeLanguageId,
+			targetLang: book.language 
+		};
+		ctAdapter.initSiteDialog(langPairParam, '#word_input_form', userParam, book.id, function(){
 			if(!ctAdapter.extensionIsActive){
 				$('#word_input_form').on('submit', self.showInstallCTAlert.bind(self));
 			}

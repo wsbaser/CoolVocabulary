@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
+using CoolVocabulary.Extensions;
 
 namespace CoolVocabulary.Models {
     public class WordTranslations {
@@ -87,9 +88,20 @@ namespace CoolVocabulary.Models {
     }
 
     public enum LanguageType {
+        [StringValue("English")]
         en = 0,
+        [StringValue("Russian")]
         ru = 1,
-        es = 2
+        [StringValue("Spanish")]
+        es = 2,
+        [StringValue("Portuguese")]
+        pt = 3,
+        [StringValue("French")]
+        fr = 4,
+        [StringValue("Italian")]
+        it = 5,
+        [StringValue("German")]
+        de = 6
     }
 
     public enum SpeachPartType

@@ -1,13 +1,32 @@
-﻿@{
-    ViewBag.Title = "Enlarge your English and Spanish vocabulary";
+﻿@using CoolVocabulary.Models;
+@{
+    Layout = "";
 }
-@section header{
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enlarge your English, Spanish, French, Italian, Portuguese, German, Russian vocabulary - CoolVocabulary.com</title>
+    @Styles.Render("~/Content/css")
     <link rel="stylesheet" href="~/Scripts/app-vocabulary/app/vocabulary.min.css" />
     <link rel="chrome-webstore-item"
           href="https://chrome.google.com/webstore/detail/cifbpdjhjkopeekabdgfjgmcbcgloioi">
-}
-
-@section Scripts {
+</head>
+<body>
+    <script>
+        @{
+            ApplicationUser user = ViewBag.user;
+            var userDto  = new {
+                displayName=user.DisplayName, 
+                nativeLanguage="en"
+            };
+        }
+        var User = @Html.Raw(Json.Encode(userDto))
+        var Languages = @Html.Raw(Json.Encode(ViewBag.supportedLanguages))
+    </script>
+    @Scripts.Render("~/bundles/js-basic")
     @Scripts.Render("~/bundles/js-vocabulary")
-}
-
+</body>
+</html>

@@ -59,8 +59,8 @@ Vocabulary.WordToExam = Ember.Object.extend({
 
 Vocabulary.BookExamRoute = Ember.Route.extend({
 	renderTemplate: function(){
-		this.render('book/examToolbox', {outlet: 'toolbox'});
-		this.render('book/exam', {outlet: 'content'});
+		this.render('language/book/examToolbox', { into: 'language/book', outlet: 'toolbox'} );
+		this.render('language/book/exam', { into: 'language/book', outlet: 'content'} );
 	},
 	sessionWords: null,
 	model: function(){
