@@ -1,9 +1,11 @@
-﻿@model CoolVocabulary.Models.RegisterViewModel
+﻿@using CoolVocabulary.Models;
+@model CoolVocabulary.Models.RegisterViewModel
 @{
    ViewBag.Title = "Sign up";
 }
 
 <link href="~/Content/account.css" rel="stylesheet" />
+<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
 
 <div class="centered-container">
     <div class="centered-ui">
@@ -41,6 +43,7 @@
                 @Html.PasswordFor(m => m.Password)
                 @Html.LabelFor(m => m.ConfirmPassword)
                 @Html.PasswordFor(m => m.ConfirmPassword)
+                @Html.Partial("_NativeLanguagePartial")
                 <input type="submit" class="pull-right" value="Sign Up" />
             }
         </div>
@@ -52,4 +55,5 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/Vendor/bootstrap-select.min.js"></script>
 }

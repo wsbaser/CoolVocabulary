@@ -57,6 +57,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework6.Npgsql">
+      <HintPath>..\packages\EntityFramework6.Npgsql.3.0.4\lib\net45\EntityFramework6.Npgsql.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
@@ -133,6 +136,12 @@
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog">
+      <HintPath>..\packages\NLog.4.2.3\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="Npgsql">
+      <HintPath>..\packages\Npgsql.3.0.4\lib\net45\Npgsql.dll</HintPath>
     </Reference>
     <Reference Include="StackExchange.Redis">
       <HintPath>..\packages\StackExchange.Redis.1.0.481\lib\net45\StackExchange.Redis.dll</HintPath>
@@ -241,13 +250,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201511072113277_Initial.cs" />
-    <Compile Include="Migrations\201511072113277_Initial.Designer.cs">
-      <DependentUpon>201511072113277_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201512251440136_NativeLanguage.cs" />
-    <Compile Include="Migrations\201512251440136_NativeLanguage.Designer.cs">
-      <DependentUpon>201512251440136_NativeLanguage.cs</DependentUpon>
+    <Compile Include="Migrations\201512271716548_Initial.cs" />
+    <Compile Include="Migrations\201512271716548_Initial.Designer.cs">
+      <DependentUpon>201512271716548_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -295,6 +300,12 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="ConnectionStrings.config" />
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="NLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\PublishProfiles\Local.pubxml" />
     <Content Include="Scripts\vendor\bootstrap-modal-popover.js" />
     <Content Include="Scripts\vendor\bootstrap-select.min.js" />
@@ -354,6 +365,7 @@
     <Content Include="Views\Word\Index.cshtml" />
     <Content Include="Views\Home\CTOAuth.cshtml" />
     <Content Include="Views\Home\CTOAuthSuccess.cshtml" />
+    <Content Include="Views\Account\_NativeLanguagePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -373,11 +385,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201511072113277_Initial.resx">
-      <DependentUpon>201511072113277_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201512251440136_NativeLanguage.resx">
-      <DependentUpon>201512251440136_NativeLanguage.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201512271716548_Initial.resx">
+      <DependentUpon>201512271716548_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

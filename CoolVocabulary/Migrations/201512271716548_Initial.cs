@@ -70,6 +70,7 @@ namespace CoolVocabulary.Migrations
                     {
                         Id = c.String(nullable: false, maxLength: 128),
                         DisplayName = c.String(),
+                        NativeLanguage = c.Int(nullable: false),
                         Email = c.String(maxLength: 256),
                         EmailConfirmed = c.Boolean(nullable: false),
                         PasswordHash = c.String(),

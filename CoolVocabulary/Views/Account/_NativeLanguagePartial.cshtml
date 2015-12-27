@@ -1,0 +1,23 @@
+﻿@using CoolVocabulary.Models;
+<label for="NativeLanguage">Native Language</label>
+<select id="NativeLanguage" name="NativeLanguage" class="selectpicker">
+    @{
+        List<LanguageDto> supportedLanguages = (List<LanguageDto>)ViewBag.SupportedLanguages;
+        foreach (LanguageDto supportedLanguage in supportedLanguages) {
+            <option value="@supportedLanguage.id">
+                @supportedLanguage.name
+            </option>
+        }
+    }
+</select>
+<script>
+    // . Set Native language using browser settings
+    var options = window.NativeLanguage.options;
+    for (var i = 0; i < options.length; i++) {
+        if (options[i].value === navigator.language) {
+            window.NativeLanguage.selectedIndex = i;
+            break;
+        }
+    }
+</script>
+

@@ -219,3 +219,11 @@
     padding: 10px;
     background-color: #fff;
 }
+
+#cv-login-form .bootstrap-select {
+    margin: 5px 0 10px;
+}
+
+#cv-login-form input[type="submit"] {
+    margin-top: 10px;
+}

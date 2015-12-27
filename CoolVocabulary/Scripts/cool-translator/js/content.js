@@ -74,6 +74,10 @@ ctrContent.bindEventHandlers = function() {
 ctrContent.handlers = {};
 
 ctrContent.handlers.dblClick = function (event) {
+    if(event.ctrlKey || event.shiftKey || event.altKey || event.metaKey){
+        // . do not show dialog if any command key pressed
+        return;
+    }
     var inputElement = null;
     if (typeof event.target.tagName !== 'undefined' &&
         (event.target.tagName.toLowerCase() === 'input' || event.target.tagName.toLowerCase() === 'textarea')) {

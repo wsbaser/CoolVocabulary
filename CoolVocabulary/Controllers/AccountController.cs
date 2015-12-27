@@ -117,6 +117,7 @@ namespace CoolVocabulary.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            ViewBag.SupportedLanguages = SupportedLanguages.All;
             return View();
         }
 
@@ -127,13 +128,18 @@ namespace CoolVocabulary.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+            LanguageType nativeLanguage;
+            if (!Enum.TryParse(model.NativeLanguage, out nativeLanguage)) {
+                ModelState.AddModelError("", "Invalid native language");
+            }
+
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, DisplayName = model.DisplayName};
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded) {
                     await SignInAsync(user, true);
-                    await db.CreateFirstBook(user.Id);
+                    await db.CreateFirstBook(user.Id, nativeLanguage);
                     return RedirectToAction("Vocabulary", "Home");
                 } else {
                     AddErrors(result);
@@ -349,7 +355,7 @@ namespace CoolVocabulary.Controllers
                         result = await UserManager.AddLoginAsync(user.Id, info.Login);
                         if (result.Succeeded) {
                             await SignInAsync(user, true);
-                            await db.CreateFirstBook(user.Id);
+                            await db.CreateFirstBook(user.Id, nativeLanguage);
                             if (string.IsNullOrEmpty(returnUrl))
                                 return RedirectToAction("Vocabulary", "Home");
                             else

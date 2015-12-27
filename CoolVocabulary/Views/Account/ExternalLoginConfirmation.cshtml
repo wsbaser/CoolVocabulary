@@ -1,5 +1,4 @@
-﻿@using CoolVocabulary.Models;
-@model CoolVocabulary.Models.ExternalLoginConfirmationViewModel
+﻿@model CoolVocabulary.Models.ExternalLoginConfirmationViewModel
 @{
     ViewBag.Title = "Sign Up - Cool Vocabulary";
 }
@@ -42,25 +41,14 @@
                         @Html.TextBoxFor(m => m.Email)
                         @Html.LabelFor(m => m.DisplayName)
                         @Html.TextBoxFor(m => m.DisplayName)
-                        @Html.LabelFor(m => m.NativeLanguage)
-                        <select name="NativeLanguage" class="selectpicker">
-                            @{
-            List<LanguageDto> supportedLanguages = (List<LanguageDto>)ViewBag.SupportedLanguages;
-            foreach (LanguageDto supportedLanguage in supportedLanguages) {
-                    <option value="@supportedLanguage.id">
-                        @supportedLanguage.name
-                    </option>
-            }
-                            }
-                        </select>
-
+                        @Html.Partial("_NativeLanguagePartial")
                     </div>
                 </div>
             </div>
 
             <div>
                 <input type="submit" value="Confirm And Create This Account" style="font-size: 120%" id="confirm-submit">
-                @Html.ActionLink("cancel","Index","Home")
+                &nbsp;@Html.ActionLink("cancel","Vocabulary","Home")
             </div>
         }
     </div>

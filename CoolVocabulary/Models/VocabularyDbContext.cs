@@ -7,9 +7,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.EntityFramework;
 using CoolVocabulary.Extensions;
 using System.Data.SqlClient;
+using NLog;
 
 namespace CoolVocabulary.Models {
     public class VocabularyDbContext : IdentityDbContext<ApplicationUser> {
+        private static Logger _logger = LogManager.GetCurrentClassLogger();
+
         // You can add custom code to this file. Changes will not be overwritten.
         // 
         // If you want Entity Framework to drop and regenerate your database
@@ -18,7 +21,7 @@ namespace CoolVocabulary.Models {
         // http://msdn.microsoft.com/en-us/data/jj591621.aspx
 
         public VocabularyDbContext()
-            : base("DefaultConnection") {
+            : base("CoolVocabulary_PGSQL") {
             this.Database.Log = s => System.Diagnostics.Debug.WriteLine(s);
         }
 
@@ -123,11 +126,15 @@ namespace CoolVocabulary.Models {
             return await Translations.Where(w => range.Contains(w.Id)).ToListAsync();
         }
 
-        internal async Task CreateFirstBook(string userId) {
-            var targetBook = await CreateBookAsync(userId, LanguageType.en, "J.London, Martin Eden");
-            await this.Database.ExecuteSqlCommandAsync("exec dbo.CopyBookWords @sourceBookId, @targetBookId",
-                new SqlParameter("@sourceBookId", 1),
-                new SqlParameter("@targetBookId", targetBook.Id));
+        internal async Task CreateFirstBook(string userId, LanguageType language) {
+            var targetBook = await CreateBookAsync(userId, language, "J.London, Martin Eden");
+            try {
+                await this.Database.ExecuteSqlCommandAsync("exec dbo.CopyBookWords @sourceBookId, @targetBookId",
+                    new SqlParameter("@sourceBookId", 1),
+                    new SqlParameter("@targetBookId", targetBook.Id));
+            } catch (Exception e) {
+                _logger.Error(e, "Error calling dbo.CopyBookWords procedure");
+            }
         }
     }
 }

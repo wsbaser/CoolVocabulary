@@ -62,6 +62,9 @@ namespace CoolVocabulary.Models
         [Display(Name = "Email (required, but never shown)")]
         public string Email { get; set; }
 
+        [Required]
+        [Display(Name = "Native Language")]
+        public string NativeLanguage { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "Value {0} must contain at least {2} symbols.", MinimumLength = 6)]

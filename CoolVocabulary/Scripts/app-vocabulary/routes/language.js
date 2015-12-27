@@ -19,11 +19,19 @@ Vocabulary.LanguageRoute = Ember.Route.extend({
   		Ember.run.schedule('afterRender', this, this.afterRender);
   		var applicationCtrl = this.controllerFor('application');
   		var applicationReactor = applicationCtrl.get('reactor');
-  		applicationReactor.addEventListener('showBackground', this.showBackground);
+  		applicationReactor.addEventListener('showBackground', this.showBackground.bind(this));
+		setTimeout(this.activateBackground.bind(this), 10000);
+  	},
+  	activateBackground: function(){
+  		var self = this;
+  		$(window.background).css('opacity', 1);
+  		setTimeout(function(){
+	  		self.isBackgroundActive = true;
+  		}, 5000);
   	},
   	showBackground: function(){
-  		var selft = this;
-  		if(!self.isBackgroundShown){
+  		var self = this;
+  		if(self.isBackgroundActive && !self.isBackgroundShown){
 	  		self.isBackgroundShown = true;
 	  		var $page = $(window.page);
 	  		// . set overflow to hidden for #page parent

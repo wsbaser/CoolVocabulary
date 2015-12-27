@@ -11,9 +11,6 @@ Vocabulary.BookIndexRoute = Ember.Route.extend({
 		model = this.modelFor('book');
 	    this._super(controller, model);
 	    controller.initSiteDialog();
-	    setTimeout(function(){
-	    	$(window.background).css('opacity', 1);
-	    }, 10000);
 	    Ember.run.schedule('afterRender', this, this.afterRender);
 	},
 	afterRender: function(controller){
