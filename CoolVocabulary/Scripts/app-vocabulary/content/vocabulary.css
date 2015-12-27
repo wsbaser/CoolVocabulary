@@ -164,6 +164,8 @@
 	background-repeat: no-repeat;
 	background-color: #fff;
 	background-size: cover;
+	transition: opacity ease-in 2s;
+	opacity: 0;
 }
 
 #page .wrapper{
