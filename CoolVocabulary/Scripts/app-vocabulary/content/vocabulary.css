@@ -155,6 +155,17 @@
 }
 
 /* STRUCTURE */
+#background{
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	z-index: -1;
+	background-image: url(https://pp.vk.me/c306502/v306502387/1323/vFNkKtB-T0I.jpg);
+	background-repeat: no-repeat;
+	background-color: #fff;
+	background-size: cover;
+}
+
 #page .wrapper{
 	position: relative;
 	min-height: 100%;

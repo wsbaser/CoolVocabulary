@@ -106,6 +106,8 @@ Source.prototype.loadAndShow = function (requestData) {
     var self = this;
     this.lastRequestData = requestData;
     this.showTabsLoading(requestData);
+    // . always show the most important tab by default 
+    this.selectTab(0);
     // . get all cards from service at once
     this.service.getCards(requestData, function(cards){
         $.each(cards, function(contentType, promise){

@@ -17,6 +17,29 @@ Vocabulary.LanguageRoute = Ember.Route.extend({
   	setupController: function(controller, model){
   		this._super(controller, model);
   		Ember.run.schedule('afterRender', this, this.afterRender);
+  		var applicationCtrl = this.controllerFor('application');
+  		var applicationReactor = applicationCtrl.get('reactor');
+  		applicationReactor.addEventListener('showBackground', this.showBackground);
+  	},
+  	showBackground: function(){
+  		var selft = this;
+  		if(!self.isBackgroundShown){
+	  		self.isBackgroundShown = true;
+	  		var $page = $(window.page);
+	  		// . set overflow to hidden for #page parent
+	  		$page.parent().css('overflow', 'hidden');
+	  		// . calculate top offset for #page
+	  		var offset = parseInt($page.css('min-height'))-43;
+	  		// . set top offset for #page
+	  		$page.css('top', offset+'px');
+	  		window.setTimeout(function(){
+	  			$page.css('top', 0);
+	  			setTimeout(function(){
+		  			$page.parent().css('overflow', 'auto');
+		  			self.isBackgroundShown = false;
+	  			},500);
+	  		}, 3000);
+  		}
   	},
 	afterRender: function(){
 		var self = this;

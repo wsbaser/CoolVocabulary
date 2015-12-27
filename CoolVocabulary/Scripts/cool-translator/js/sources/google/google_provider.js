@@ -75,7 +75,7 @@ GoogleProvider.prototype.processResponse = function(response) {
     try {
         jsonObject.examples = $.map(arr[11][0], function (item) {
             return item[0];
-        }).filer(function(item){
+        }).filter(function(item){
             return item && item.length>10;
         });
     }

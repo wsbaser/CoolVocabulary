@@ -71,3 +71,33 @@ Array.prototype.shuffle = function(){
   for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x){}
   return this;
 };
+
+/**********************************************************************************************************************/
+// taken from http://stackoverflow.com/questions/15308371/custom-events-model-without-using-dom-events-in-javascript
+
+function Event(name){
+  this.name = name;
+  this.callbacks = [];
+}
+Event.prototype.registerCallback = function(callback){
+  this.callbacks.push(callback);
+};
+
+function Reactor(){
+  this.events = {};
+}
+
+Reactor.prototype.registerEvent = function(eventName){
+  var event = new Event(eventName);
+  this.events[eventName] = event;
+};
+
+Reactor.prototype.dispatchEvent = function(eventName, eventArgs){
+  this.events[eventName].callbacks.forEach(function(callback){
+    callback(eventArgs);
+  });
+};
+
+Reactor.prototype.addEventListener = function(eventName, callback){
+  this.events[eventName].registerCallback(callback);
+};
