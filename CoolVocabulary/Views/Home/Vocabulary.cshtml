@@ -31,12 +31,12 @@
         // CSRF Token
         ServerData.CSRFFormToken = $("input[name='__RequestVerificationToken']").val();
         // Send CSRF token in X-XSRF-Token header in each ajax request
-        $.ajaxSetup({
-            headers: {
-                "X-Requested-With": "XMLHttpRequest",
-                "X-XSRF-Token": ServerData.CSRFFormToken
-            }
-        });
+        //$.ajaxSetup({
+        //    headers: {
+        //        "X-Requested-With": "XMLHttpRequest",
+        //        "X-XSRF-Token": ServerData.CSRFFormToken
+        //    }
+        //});
         // Inject some server side data
         ServerData.User = @(Html.Raw(Json.Encode(userDto)));
         ServerData.Languages = @(Html.Raw(Json.Encode(ViewBag.SupportedLanguages)));

@@ -8,6 +8,7 @@ using System.Web.Routing;
 namespace CoolVocabulary {
     public class RouteConfig {
         public static void RegisterRoutes(RouteCollection routes) {
+            routes.IgnoreRoute("elmah.axd");
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(

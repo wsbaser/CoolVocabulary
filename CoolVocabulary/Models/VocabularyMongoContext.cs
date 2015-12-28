@@ -12,7 +12,11 @@ namespace CoolVocabulary.Models {
         MongoClient _mongoClient;
 
         public VocabularyMongoContext() {
+#if DEBUG
             _mongoClient = new MongoClient("mongodb://localhost");
+#else
+            _mongoClient = new MongoClient("mongodb://10.240.0.2");
+#endif
         }
 
         private IMongoCollection<WordTranslations> GetCollection(string sourceLanguage, string targetLanguage) {

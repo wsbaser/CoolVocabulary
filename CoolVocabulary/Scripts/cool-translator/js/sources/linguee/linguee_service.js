@@ -89,7 +89,7 @@ LingueeService.prototype.getSoundUrls = function(inputData, translation){
     if(card){
         var translationsList = $(card).find('.tag_trans');
         for (var i = translationsList.length - 1; i >= 0; i--) {
-            var translationEl = translationsList[i];
+            var translationEl = $(translationsList[i]);
             if(translationEl.find('.dictLink').text()===translation){
                 var audioEl = translationEl.find('.audio');
                 if(audioEl.length && audioEl.dataset.event){

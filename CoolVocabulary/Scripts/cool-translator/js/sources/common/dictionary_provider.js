@@ -10,8 +10,17 @@ DictionaryProvider.prototype.checkIfContentTypeSupported = function(contentType)
 		throw new Error("Content type " + contentType + ' not supported.');
 };
 
-DictionaryProvider.prototype.rejectWithStatusCode = function(deferred,jqXHR){
-    deferred.reject('Error. Status(' + jqXHR.status+')');
+DictionaryProvider.prototype.rejectWithStatusCode = function(deferred,xhr){
+    deferred.reject(xhr.statusText + '. Status(' + xhr.status+')');
+};
+
+DictionaryProvider.prototype.rejectWithResponseText = function(deferred,xhr){
+    if(xhr.status===500){
+        this.rejectWithStatusCode(deferred, xhr);
+    }
+    else{
+        deferred.reject(xhr.responseText);
+    }
 };
 
 DictionaryProvider.prototype.resolveWithJQueryElement = function(deferred,data,selector){

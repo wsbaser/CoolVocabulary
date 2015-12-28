@@ -9,10 +9,15 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 		var self = this;
 		var ctAdapter = new CTAdapter();
 		var user = this.get('applicationCtrl').get('user');
+		var book = this.get('model');
+		var langPairParam = {
+			sourceLang: book.get('language'),
+			targetLang: user.nativeLanguage
+		};
 		var booksParam = this.get('books').map(function(book){ 
 			return {
-				id: book.get('id'),
-				name: book.get('name')
+				id: book.id,
+				name: book.get('name').trim()
 			};
 		});
 		var userParam = {
@@ -20,26 +25,21 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 			language: user.nativeLanguage,
 			books: booksParam
 		};
-		var book = this.get('model');
-		var langPairParam = {
-			sourceLang: user.nativeLanguageId,
-			targetLang: book.language 
-		};
 		ctAdapter.initSiteDialog(langPairParam, '#word_input_form', userParam, book.id, function(){
 			if(!ctAdapter.extensionIsActive){
 				$('#word_input_form').on('submit', self.showInstallCTAlert.bind(self));
 			}
 		});
 	},
-	showInstallCTAlert: function(){
-		chrome.webstore.install('https://chrome.google.com/webstore/detail/cifbpdjhjkopeekabdgfjgmcbcgloioi',function(){
+	showInstallCTAlert: function(event){
+		chrome.webstore.install('https://chrome.google.com/webstore/detail/cifbpdjhjkopeekabdgfjgmcbcgloioi', function(){
 			window.location.reload();
-		},function(error){
+		}, function(error){
 			if(error==='User cancelled install'){
 				alert('Cool Vocabulary works only in couple with Cool Translator. You will not be able to add new translations without it.');
 			}
 		});
-		// $('#install_ct_alert').modalPopover('show');
+		event.preventDefault();
 	},
 	words: Ember.computed('model.bookWords.[]', function(){
 		var bookId = this.get('model.id');

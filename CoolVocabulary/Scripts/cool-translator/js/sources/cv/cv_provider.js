@@ -2,6 +2,8 @@ function CVProvider(config){
 	this.config = config;
 }
 
+CVProvider.prototype = Object.create(DictionaryProvider.prototype);
+
 CVProvider.prototype._rejectUnauthorized = function(deferred, xhr){
     var response = JSON.parse(xhr.getResponseHeader("X-Responded-JSON"));
     if(response && response.status==401){
@@ -24,8 +26,8 @@ CVProvider.prototype.getBooks = function(){
         else 
             deferred.resolve(data.vocabularies);
     })
-    .fail(function(error){
-        deferred.reject(error);
+    .fail(function(xhr){
+        self.rejectWithResponseText(deferred, xhr);
     });
     return deferred.promise();
 };
@@ -38,8 +40,8 @@ CVProvider.prototype.checkAuthentication = function () {
             deferred.reject(data.error_msg);
         else
             deferred.resolve(data);
-    }).fail(function(jqXHR){
-        deferred.reject('Error. Status(' + jqXHR.status+')');
+    }).fail(function(xhr){
+        self.rejectWithResponseText(deferred, xhr);
     });
     return deferred.promise();
 };
@@ -55,8 +57,8 @@ CVProvider.prototype.login = function(username, pass) {
             deferred.reject(data.error_msg);
         else
             deferred.resolve(data);
-    }).fail(function(jqXHR){
-        deferred.reject('Error. Status(' + jqXHR.status+')');
+    }).fail(function(xhr){
+        self.rejectWithResponseText(deferred, xhr);
     });
     return deferred.promise();
 };
@@ -68,8 +70,8 @@ CVProvider.prototype.addTranslation = function(data){
         type: "POST",
         contentType: 'application/json',
         data: JSON.stringify(data),
-        error: function(error) {
-            deferred.reject(error.responseText);
+        error: function(xhr) {
+            self.rejectWithResponseText(deferred, xhr);
         },
         success: function(data, status, xhr) {
             if(self._rejectUnauthorized(deferred, xhr))

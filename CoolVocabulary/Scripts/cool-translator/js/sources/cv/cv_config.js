@@ -1,5 +1,5 @@
 var CVConfig = function() {
-	var siteOrigin = "http://localhost:18139"; //http://coolvocabulary.com";
+	var siteOrigin = "http://coolvocabulary.com";
     return {
         id: "cv",
         name: "Cool Vocabulary",
