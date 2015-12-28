@@ -26,9 +26,10 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 		var wordsRangeIds = wordsRange.map(function(item){ 
 			return item.get('word.id'); 
 		});
+		var applicationCtrl = this.controllerFor('application');
 		return this.store.query('wordTranslation', { 
 			ids: wordsRangeIds,
-			targetLanguage: 'ru' 
+			targetLanguage: applicationCtrl.user.nativeLanguage 
 		});
 	},
 	setWordTranslations: function(wordTranslations){

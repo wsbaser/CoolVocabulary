@@ -12,12 +12,14 @@ using System.Web.Http.Description;
 using CoolVocabulary.Models;
 using Microsoft.AspNet.Identity;
 using Newtonsoft.Json.Linq;
+using NLog;
 
 namespace CoolVocabulary.Controllers.api
 {
     [Authorize]
     public class TranslationController : ApiController
     {
+        private static Logger _logger = LogManager.GetCurrentClassLogger();
         private VocabularyDbContext db = new VocabularyDbContext();
         private VocabularyMongoContext mongoDb = new VocabularyMongoContext();
 
@@ -29,56 +31,61 @@ namespace CoolVocabulary.Controllers.api
 
         // POST api/Translation
         public async Task<IHttpActionResult> PostTranslation(TranslationData data) {
-            if (!ModelState.IsValid) {
-                return BadRequest(ModelState);
-            }
-            LanguageType wordLanguage;
-            LanguageType translationLanguage;
-            if (!Enum.TryParse<LanguageType>(data.wordLanguage, out wordLanguage)) {
-                return BadRequest("Invalid word language");
-            }
-            if (!Enum.TryParse<LanguageType>(data.translationLanguage, out translationLanguage)) {
-                return BadRequest("Invalid translation language");
-            }
-
-            // . add word
-            Word word = await db.AddWord(data.word.ToLower(),
-                wordLanguage,
-                data.wordPronunciation,
-                data.wordSoundUrls,
-                data.wordPictureUrls);
-            // . add word translations to mongo
-            await mongoDb.AddTranslations(word.Id,
-                data.word.ToLower(),
-                data.wordLanguage,
-                data.translationLanguage,
-                data.translationWords,
-                data.translationCards);
-            // . if book id is not specified - add translation to 'Cool Translator' book
-            Book book;
-            if (data.bookId == 0) {
-                book = await db.GetCTBook(User.Identity.GetUserId(), wordLanguage);
-                data.bookId = book.Id;
-            } else {
-                book = db.Books.Find(data.bookId);
-                if (book == null) {
-                    return BadRequest("Invalid bookId");
+            try {
+                if (!ModelState.IsValid) {
+                    return BadRequest(ModelState);
                 }
+                LanguageType wordLanguage;
+                LanguageType translationLanguage;
+                if (!Enum.TryParse<LanguageType>(data.wordLanguage, out wordLanguage)) {
+                    return BadRequest("Invalid word language");
+                }
+                if (!Enum.TryParse<LanguageType>(data.translationLanguage, out translationLanguage)) {
+                    return BadRequest("Invalid translation language");
+                }
+
+                // . add word
+                Word word = await db.AddWord(data.word.ToLower(),
+                    wordLanguage,
+                    data.wordPronunciation,
+                    data.wordSoundUrls,
+                    data.wordPictureUrls);
+                // . add word translations to mongo
+                await mongoDb.AddTranslations(word.Id,
+                    data.word.ToLower(),
+                    data.wordLanguage,
+                    data.translationLanguage,
+                    data.translationWords,
+                    data.translationCards);
+                // . if book id is not specified - add translation to 'Cool Translator' book
+                Book book;
+                if (data.bookId == 0) {
+                    book = await db.GetCTBook(User.Identity.GetUserId(), wordLanguage);
+                    data.bookId = book.Id;
+                } else {
+                    book = db.Books.Find(data.bookId);
+                    if (book == null) {
+                        return BadRequest("Invalid bookId");
+                    }
+                }
+
+                // . add translation
+                SpeachPartType sp = GetSpeachPart(data.translationWords, data.translationWord);
+                Tuple<BookWord, Translation> bwt = await db.AddTranslation(data.bookId, word.Id, data.translationWord, translationLanguage, sp);
+
+                Redis.PushWord(wordLanguage, sp, word.Value);
+                Redis.PushWord(translationLanguage, sp, bwt.Item2.Value);
+
+                return CreatedAtRoute("DefaultApi", new { id = bwt.Item2.Id }, new {
+                    book = new BookDto(book),
+                    word = new WordDto(word),
+                    bookWord = new BookWordDto(bwt.Item1),
+                    translation = new TranslationDto(bwt.Item2)
+                });
+            } catch (Exception e) {
+                _logger.Error("Unable to add translation", e);
+                throw;
             }
-
-            // . add translation
-            SpeachPartType sp = GetSpeachPart(data.translationWords, data.translationWord);
-            Tuple<BookWord, Translation> bwt = await db.AddTranslation(data.bookId, word.Id, data.translationWord, translationLanguage, sp);
-
-            Redis.PushWord(wordLanguage, sp, word.Value);
-            Redis.PushWord(translationLanguage, sp, bwt.Item2.Value);
-            
-            return CreatedAtRoute("DefaultApi", new { id = bwt.Item2.Id }, new {
-                book = new BookDto(book),
-                word = new WordDto(word),
-                bookWord = new BookWordDto(bwt.Item1),
-                translation = new TranslationDto(bwt.Item2)
-            });
         }
 
         public SpeachPartType GetSpeachPart(string translationWords, string translationWord)

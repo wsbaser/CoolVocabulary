@@ -15,7 +15,7 @@ namespace CoolVocabulary.Models {
 #if DEBUG
             _mongoClient = new MongoClient("mongodb://localhost");
 #else
-            _mongoClient = new MongoClient("mongodb://10.240.0.2");
+            _mongoClient = new MongoClient("mongodb://10.240.0.2:80");
 #endif
         }
 

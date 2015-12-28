@@ -15,12 +15,13 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using CoolVocabulary.Extensions;
 using System.Threading;
 using Newtonsoft.Json;
-
+using NLog;
 namespace CoolVocabulary.Controllers.api
 {
     [Authorize]
     public class BookController : ApiController
     {
+        private Logger _logger = LogManager.GetCurrentClassLogger();
         private VocabularyDbContext db = new VocabularyDbContext();
 
         // GET api/Book
@@ -185,18 +186,21 @@ namespace CoolVocabulary.Controllers.api
 
         // DELETE api/Book/5
         [ResponseType(typeof(Book))]
-        public async Task<IHttpActionResult> DeleteBook(int id)
-        {
-            Book book = await db.Books.FindAsync(id);
-            if (book == null)
-            {
-                return NotFound();
+        public async Task<IHttpActionResult> DeleteBook(int id) {
+            try {
+                Book book = await db.Books.FindAsync(id);
+                if (book == null) {
+                    return NotFound();
+                }
+
+                db.Books.Remove(book);
+                await db.SaveChangesAsync();
+
+                return Ok(book);
+            } catch (Exception e) {
+                _logger.Error("Can not delete book", e);
+                throw;
             }
-
-            db.Books.Remove(book);
-            await db.SaveChangesAsync();
-
-            return Ok(book);
         }
 
         protected override void Dispose(bool disposing)

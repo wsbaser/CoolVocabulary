@@ -7,9 +7,12 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using NLog;
 
 namespace CoolVocabulary {
     public class MvcApplication : System.Web.HttpApplication {
+        private Logger _logger = LogManager.GetCurrentClassLogger();
+
         protected void Application_Start() {
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
@@ -17,6 +20,9 @@ namespace CoolVocabulary {
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             RedisConfig.LoadExamWords();
+        }
+        protected void Application_Error(object sender, EventArgs e) {
+            _logger.Error(Server.GetLastError());
         }
     }
 }

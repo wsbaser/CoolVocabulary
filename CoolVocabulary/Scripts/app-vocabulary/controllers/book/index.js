@@ -62,8 +62,8 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 		}
 		findOrAdd(this.store, 'book', bookDto);
 		findOrAdd(this.store, 'word', wordDto);
-		findOrAdd(this.store, 'bookWord', bookWordDto);
 		findOrAdd(this.store, 'translation', translationDto);
+		findOrAdd(this.store, 'bookWord', bookWordDto);
 	},
 	bookWordsObserver: Ember.observer('model.bookWords.@each.learnLevel', function(){
 		var totalCompletedCount = 0;
