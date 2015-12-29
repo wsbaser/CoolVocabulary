@@ -1,4 +1,7 @@
 /***** NORMALIZE *******************************************************************************************************/
+/*
+  Set not inherited styles wich does not intersect with browser styles for specific tags
+*/
 #ctr_dialog, #ctr_dialog *{
     background: transparent none repeat scroll 0 0 !important;
     border: none 0 !important;
@@ -34,6 +37,81 @@
     word-spacing: normal !important;
     word-wrap: break-word !important;
 }
+
+/* 
+  Some sites set styles on tags. And this is a big problem. 
+  To preserve our style we should set font style for this tags by ourself
+*/
+#ctr_dialog div,
+#ctr_dialog span,
+#ctr_dialog a,
+#ctr_dialog h1,
+#ctr_dialog h2,
+#ctr_dialog h3,
+#ctr_dialog p,
+#ctr_dialog ul,              
+#ctr_dialog li,             
+#ctr_dialog td,
+#ctr_dialog p,
+#ctr_dialog button,
+#ctr_dialog textarea,
+#ctr_dialog input,
+#ctr_dialog option,
+#ctr_dialog b,
+#ctr_dialog strong,
+#ctr_dialog i,
+#ctr_dialog cite,
+#ctr_dialog em,
+#ctr_dialog pre,
+#ctr_dialog tt,
+#ctr_dialog pre { 
+  font-family: Arial, Helvetica !important;
+}
+
+#ctr_dialog div,
+#ctr_dialog span,
+#ctr_dialog a,
+#ctr_dialog h1,
+#ctr_dialog h2,
+#ctr_dialog h3,
+#ctr_dialog p,
+#ctr_dialog ul,              
+#ctr_dialog li,             
+#ctr_dialog td,
+#ctr_dialog p,
+#ctr_dialog button,
+#ctr_dialog textarea,
+#ctr_dialog input,
+#ctr_dialog option{
+  font-style: normal !important;
+}
+
+/*
+#ctr_dialog div,
+#ctr_dialog span,
+#ctr_dialog a,
+#ctr_dialog h1,
+#ctr_dialog h2,
+#ctr_dialog h3,
+#ctr_dialog p,
+#ctr_dialog ul,              
+#ctr_dialog li,             
+#ctr_dialog td,
+#ctr_dialog p,
+#ctr_dialog button,
+#ctr_dialog textarea,
+#ctr_dialog input,
+#ctr_dialog option,
+#ctr_dialog b,
+#ctr_dialog strong,
+#ctr_dialog i,
+#ctr_dialog cite,
+#ctr_dialog em,
+#ctr_dialog pre,
+#ctr_dialog tt,
+#ctr_dialog pre { 
+  font-size: 13px;
+}*/
 
 #ctr_dialog div,
 #ctr_dialog form,
@@ -107,7 +185,7 @@
 	-moz-border-radius: 3px !important;
 	-webkit-border-radius: 3px !important;
 	font: normal 13px Arial, Helvetica !important;
-}
+}  
 
 #ctr_dialog.ctr-extension{
   z-index: 9999999999 !important;

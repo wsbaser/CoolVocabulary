@@ -548,10 +548,6 @@ body.exam{
 	border-radius: 50%;
 	background-color: #fff;
 	border: 1px solid #dcdde1;
-}
-
-.learn .word-circle,
-.exam .word-circle{
 	width: 14px;
 	height: 14px;
 	margin: 5px;

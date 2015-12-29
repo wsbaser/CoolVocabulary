@@ -1,4 +1,4 @@
-Vocabulary.BookLearnView = Ember.Component.extend({
+Vocabulary.LanguageBookLearnView = Ember.Component.extend({
 	didInsertElement: function(){
 		$('body').addClass('learn');
 		this.createShadow();
