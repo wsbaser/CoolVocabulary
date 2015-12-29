@@ -1,4 +1,5 @@
 Vocabulary.LanguageBookLearnView = Ember.Component.extend({
+	classNames: ['full-height'],
 	didInsertElement: function(){
 		$('body').addClass('learn');
 		this.createShadow();

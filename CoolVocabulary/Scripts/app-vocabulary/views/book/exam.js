@@ -1,4 +1,5 @@
 Vocabulary.LanguageBookExamView = Ember.Component.extend({
+	classNames: ['full-height'],
 	didInsertElement: function(){
 		$('body').addClass('exam');
 		$(window).on('resize', this, this.setupShadowPosition);

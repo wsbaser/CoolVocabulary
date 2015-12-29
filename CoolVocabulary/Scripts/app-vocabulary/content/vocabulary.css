@@ -417,11 +417,6 @@ body.exam{
 	border-bottom: 1px solid #dcdde1;/* #d5d5d5;*/
 }
 
-.learn #content,
-.exam  #content{
-	padding: 0;
-}
-
 /*.learn #toolbox >div{
 	border-bottom: solid 1px #e5e5e5;	
 }
