@@ -5,11 +5,11 @@ var LingueeConfig = function() {
         name: "Linguee Dictionary",
         languages: {
             en: { name: 'english',      targets: ['es','pt','fr','it','de','ru']},
-            es: { name: 'spanish',      targets: ['en','pt','fr','it','de','ru']},
-            pt: { name: 'portuguese',   targets: ['en','es','fr','it','de','ru']},
-            fr: { name: 'french',       targets: ['en','es','pt','it','de','ru']},
-            it: { name: 'italian',      targets: ['en','es','pt','fr','de','ru']},
-            de: { name: 'german',       targets: ['en','es','pt','fr','it','ru']},
+            es: { name: 'spanish',      targets: ['en','pt','fr','it','de']},
+            pt: { name: 'portuguese',   targets: ['en','es','fr','it','de']},
+            fr: { name: 'french',       targets: ['en','es','pt','it','de']},
+            it: { name: 'italian',      targets: ['en','es','pt','fr','de']},
+            de: { name: 'german',       targets: ['en','es','pt','fr','it']},
             ru: { name: 'russian',      targets: ['en']}
         },
         priority: 18,

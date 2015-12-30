@@ -6,14 +6,14 @@ Vocabulary.LanguageRoute = Ember.Route.extend({
 	model: function(params){
 		return this.store.peekAll('language').findBy('id', params.language_id);
 	},
-	afterModel: function(language, transition) {
+	afterModel: function(language, transition){
 		if(!language){
 			// . language not found 
 			this.transitionTo('application');
 		}
 		$.cookie('currentLanguage', language.id);
 		this._super();
-  	},
+	},
   	setupController: function(controller, model){
   		this._super(controller, model);
   		Ember.run.schedule('afterRender', this, this.afterRender);

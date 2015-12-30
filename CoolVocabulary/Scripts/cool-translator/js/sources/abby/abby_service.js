@@ -121,8 +121,9 @@ AbbyService.prototype.getTranslations = function(inputData){
             var sp = self.parseSpeachPart(abbrevs[0]?abbrevs[0].textContent:'');
             if(sp!=SpeachParts.UNKNOWN){
                 currentSP = sp;
-                if(!translations[currentSP])
-                    translations[currentSP] = [];
+            }
+            if(!translations[currentSP]){
+                translations[currentSP] = [];
             }
             el.find('a.js-show-examples').each(function(j, translationEl){
                 translations[currentSP].push(translationEl.textContent);

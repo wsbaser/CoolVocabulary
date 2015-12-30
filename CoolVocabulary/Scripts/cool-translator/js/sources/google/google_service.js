@@ -16,7 +16,7 @@ GoogleService.prototype.generateTranslationsCard = function(data){
         for (var sp in data.translations) {
             var spTranslations = data.translations[sp];
             var listHtml = $.map(spTranslations, function (entry) {
-                var reverseTranslationsHtml = $.map(entry.reverse_translation, function (word) {
+                var reverseTranslationsHtml = $.map(entry.reverse_translation||[], function (word) {
                     return strHelper.format(GoogleTemplates.REVERSE_TRANSLATION,{word: word});
                 }).join(', ');
                 return strHelper.format(GoogleTemplates.TRANSLATIONS_ITEM, {

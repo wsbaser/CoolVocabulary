@@ -25,7 +25,7 @@ GoogleProvider.prototype.processResponse = function(response) {
     var jsonObject = {};
 
     try {
-        jsonObject.word = arr[1][0][3];
+        jsonObject.word = arr[0][0][1];
     }
     catch (e){
         return null;
@@ -34,17 +34,27 @@ GoogleProvider.prototype.processResponse = function(response) {
     // .TRANSLATIONS
     try {
         jsonObject.translations = {};
-        var translations = arr[1] || [];
-        for (var i = translations.length - 1; i >= 0; i--) {
-            var sp = SpeachParts.parseEn(translations[i][0]);
-            jsonObject.translations[sp] = $.map(translations[i][2], function (entry) {
-                return {
-                    word: entry[0],
-                    reverse_translation: entry[1],
-                    score: entry[3] || 0
-                }
-            });
-        }; 
+        if(arr[1]){
+            var translations = arr[1];
+            for (var i = translations.length - 1; i >= 0; i--) {
+                var sp = SpeachParts.parseEn(translations[i][0]);
+                jsonObject.translations[sp] = $.map(translations[i][2], function (entry) {
+                    return {
+                        word: entry[0],
+                        reverse_translation: entry[1],
+                        score: entry[3] || 0
+                    }
+                });
+            };
+        }
+        else if(arr[9]){
+            var sp = SpeachParts.parseEn(arr[9][0][0]);
+            jsonObject.translations[sp] = [{
+                    word: arr[0][0][0],
+                    reverse_translation: null,
+                    score: 0
+                }];
+        }
     }
     catch (e) {
         console.error(e);

@@ -91,7 +91,9 @@ CVService.prototype.getTranslations = function(inputData, translation, activeSou
             });
         }
     });
-    allTranslations[SpeachParts.UNKNOWN] = unknownTranslationsArr;
+    if(unknownTranslationsArr.length){
+        allTranslations[SpeachParts.UNKNOWN] = unknownTranslationsArr;
+    }
     return JSON.stringify(allTranslations);
 };
 

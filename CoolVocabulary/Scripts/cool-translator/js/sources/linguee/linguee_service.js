@@ -18,13 +18,7 @@ LingueeService.prototype.generateTranslationsCard = function(contentEl){
     this.deactivateLinks(translationsEl, 'a');
     // . Show translation for word
     this.addTranslateContentEvent(translationsEl, '.tag_lemma>.dictLink');
-    translationsEl.find('.audio').each(function(index, audioEl){
-        var onclickFunction = audioEl.attributes['onclick'].value;
-        audioEl.removeAttribute('onclick');
-        var playSoundArgs = onclickFunction.substring(10,onclickFunction.length-2).replace('"','').replace(/"/g,'').split(',');
-        var args = [$(audioEl),'click','LingueeHandlers.playSound'].concat(playSoundArgs);
-        self.addEventData.apply(this, args);
-    });
+    this._addPlaySoundEvent(translationsEl, '.audio');
     self.addEventData(translationsEl, 'click', 'LingueeHandlers.onContentClick');
 
     // . remove phrases
@@ -38,7 +32,19 @@ LingueeService.prototype.generatePhrasesCard = function(contentEl){
     phrasesEl.find('h3').remove();
     this.deactivateLinks(phrasesEl, '.dictLink');
     this.addTranslateContentEvent(phrasesEl, '.dictLink');
+    this._addPlaySoundEvent(phrasesEl, '.audio');
     return phrasesEl.outerHTML();
+};
+
+LingueeService.prototype._addPlaySoundEvent = function(rootEl, selector){
+    var self = this;
+    rootEl.find(selector).each(function(index, audioEl){
+        var onclickFunction = audioEl.attributes['onclick'].value;
+        audioEl.removeAttribute('onclick');
+        var playSoundArgs = onclickFunction.substring(10,onclickFunction.length-2).replace('"','').replace(/"/g,'').split(',');
+        var args = [$(audioEl),'click','LingueeHandlers.playSound'].concat(playSoundArgs);
+        self.addEventData.apply(this, args);
+    });
 };
 
 // LingueeService.prototype.generateExamplesCard = function(contentEl){
@@ -55,7 +61,7 @@ LingueeService.SpeachParts = {
 };
 
 LingueeService.prototype.parseSpeachPart = function(text, language){
-    var dict = LingueeService.SpeachParts[language];
+    var dict = LingueeService.SpeachParts[language]||LingueeService.SpeachParts.en;
     return dict[text]?dict[text]:SpeachParts.UNKNOWN;
 };
 
@@ -92,8 +98,8 @@ LingueeService.prototype.getSoundUrls = function(inputData, translation){
             var translationEl = $(translationsList[i]);
             if(translationEl.find('.dictLink').text()===translation){
                 var audioEl = translationEl.find('.audio');
-                if(audioEl.length && audioEl.dataset.event){
-                    var args = audioEl.dataset.event.split('|');
+                var args = audioEl.data('event').split('|');
+                if(args.length>=5){
                     for (var i = 3; i < args.length-1; i+=2) {
                         result.push('http://linguee.com/mp3/'+args[i]+'.mp3');
                     };

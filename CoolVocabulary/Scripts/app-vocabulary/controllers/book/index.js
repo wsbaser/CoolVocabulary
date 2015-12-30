@@ -10,18 +10,20 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 		var ctAdapter = new CTAdapter();
 		var user = this.get('applicationCtrl').get('user');
 		var book = this.get('model');
+		var sourceLanguage = book.get('language');
 		var langPairParam = {
-			sourceLang: book.get('language'),
+			sourceLang: sourceLanguage,
 			targetLang: user.nativeLanguage
 		};
 		var booksParam = this.get('books').map(function(book){ 
 			return {
 				id: book.id,
+				language: sourceLanguage, 
 				name: book.get('name').trim()
 			};
 		});
 		var userParam = {
-			name: $('#userName').text(),
+			name: user.displayName,
 			language: user.nativeLanguage,
 			books: booksParam
 		};

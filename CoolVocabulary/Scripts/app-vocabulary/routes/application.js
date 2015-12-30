@@ -18,11 +18,15 @@ Vocabulary.ApplicationRoute = Ember.Route.extend({
 		// . navigate to language
 		var language;
 		var currentLanguageId = $.cookie('currentLanguage');
-		if(currentLanguageId){
+		if(currentLanguageId && currentLanguageId!==ServerData.User.nativeLanguage){
+			// . get current language from  cookie if it is NOT native
 			language = this.store.peekAll('language').findBy('id', currentLanguageId);
 		}
 		if(!language){
-			language = this.store.peekAll('language').get('firstObject');
+			// .get first NOT native
+			language = this.store.peekAll('language').filter(function(item){
+				return item.id!==ServerData.User.nativeLanguage;
+			}).get('firstObject');
 		}
 		this.transitionTo('language', language);
   		Ember.run.schedule('afterRender', this, this.afterRender);

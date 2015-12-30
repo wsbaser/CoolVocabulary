@@ -345,7 +345,7 @@ TranslationDialog.prototype.showForSite = function(langPair, attachBlockSelector
   this.create();
   this.setLangPair(langPair);
   this.attachBlockEl = $(attachBlockSelector);
-  this.vocabulary.setBook(bookId);
+  this.vocabulary.setBook(bookId, true);
   this.inputEl = this.attachBlockEl.find('input');
   this.attach();
   this.el.removeClass('ctr-extension');
