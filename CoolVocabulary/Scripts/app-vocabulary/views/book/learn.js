@@ -4,21 +4,25 @@ Vocabulary.LanguageBookLearnView = Ember.Component.extend({
 		$('body').addClass('learn');
 		this.createShadow();
     	this.setupShadowPosition();
-    	$(window).on('resize', this, this.setupShadowPosition);
-    	$(window).on('activateLearningCard', this.activateShadowLearningCard);
+    	$(window).on('resize', this.setupShadowPosition);
+    	$(window).on('activateLearningCard', this.activateShadowLearningCard.bind(this));
 	},
 	activateShadowLearningCard: function(event, wordId, cardIndex){
-		var $learningCard = $('#learning-cards-shadow #learning_card_' + wordId).children().each(function(index, item){
-			if(index===cardIndex){
-				$(item).removeClass('hidden');
+		this.activateItemElement('#learning-cards-shadow #learning_card_' + wordId+'>.card-tabs','hidden', cardIndex, false);
+		this.activateItemElement('#learning-cards-shadow #learning_card_' + wordId+' .cards-navigation','active', cardIndex, true);
+	},
+	activateItemElement: function(selector, className, elementIndex, add){
+		$(selector).children().each(function(index, item){
+			var state = index===elementIndex;
+			if(!add){
+				// . make state==false to remove class from active element
+				//   and state==true to add class to others
+				state = !state;
 			}
-			else{
-				$(item).addClass('hidden');
-			}
+			$(item).toggleClass(className, state);
 		});
 	},
 	createShadow: function(){
-		var nodes = $('#learning-cards').children();
 		var $shadow = $('#learning-cards-shadow');
 		$shadow.append('<div class="learning-card" style="background: transparent;"></div>');
 		$('#learning-cards').children().each(function(index, item){

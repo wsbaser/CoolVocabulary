@@ -7,7 +7,7 @@
 	<div class="target-words">
 		<ul>
 		{{#each wordToExam.translations as |translation|}}
-			<li {{action "select" translation}} class="translation {{if translation.isMistake "mistake"}} {{if translation.isCorrect "correct"}}">
+			<li {{action "select" translation}} class="translation {{if translation.isMistake "mistake"}} {{if translation.isCorrect "correct"}} overflow-ellipsis">
 				{{translation.word}}
 			</li>
 		{{/each}}
