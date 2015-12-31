@@ -16,6 +16,10 @@
 <body>
     <script>
         var user = @Html.Raw(Json.Encode(ViewBag.User))
+        window.opener.postMessage({
+            type: 'oauthsuccess',
+            user: user
+        }, '*');
         chrome.runtime.sendMessage("eplepheahdinbfhnjjnkhkebfdhenbad", {
             type:'oauthsuccess',
             user: user

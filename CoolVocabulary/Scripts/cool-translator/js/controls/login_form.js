@@ -80,7 +80,9 @@ LoginForm.prototype._onOAuthLogin = function(){
     var self = this;
     this.service.oauthLogin().done(function(){ 
         self.hide();
-        self.loginCallback();
+        if(self.loginCallback){
+            self.loginCallback();
+        }
     })
     .fail(function(error){
         console.log('OAuth login error: ' + error);
@@ -112,7 +114,9 @@ LoginForm.prototype._onSubmitForm = function() {
     this.service.login(this.emailEl.val(), this.passwordEl.val(), function(promise){
         promise.done(function(){
             self.hide();
-            self.loginCallback();
+            if(self.loginCallback){
+                self.loginCallback();
+            }
         })
         .fail(function(error){
             self._showError(error);

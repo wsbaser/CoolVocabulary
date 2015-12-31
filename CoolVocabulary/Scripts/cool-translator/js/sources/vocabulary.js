@@ -6,7 +6,8 @@ function Vocabulary(config, connection, supportsBooks){
 	this.reactor = new Reactor();
     this.reactor.registerEvent(Vocabulary.CHECK_AUTH_START);
     this.reactor.registerEvent(Vocabulary.CHECK_AUTH_END);
-    this.bookId = 0; 
+    this.bookId = 0;
+    this._addOAuthLoginListener();
 };
 
 Vocabulary.CHECK_AUTH_START = 'authstart';
@@ -59,13 +60,16 @@ Vocabulary.prototype.addTranslation = function(inputData, translation, serviceId
 };
 
 Vocabulary.prototype.login = function(username, password, callback){
-	this.makeCall('login', [username, password], function(promise){
-        callback(promise);
+	var self = this;
+    this.makeCall('login', [username, password], function(promise){
         promise.done(function(data){
             self.user = data.user;
+            self.reactor.dispatchEvent(Vocabulary.CHECK_AUTH_END);
         }).fail(function(){
             self.user = null;
+            self.reactor.dispatchEvent(Vocabulary.CHECK_AUTH_END);
         });
+        callback(promise);
     }.bind(this));
 };
 
@@ -74,25 +78,31 @@ Vocabulary.prototype.setBook = function(bookId, remember){
     this.bookRemembered = !!remember;
 };
 
+Vocabulary.prototype.oauthLoginDeferred = null;
 Vocabulary.prototype.oauthLogin = function(){
-    var self = this;
-    var oauthWindow = window.open('http://localhost:13189/CTOAuth','_blank');
-    var deferred = $.Deferred();
+    var oauthWindow = window.open(this.config.path.CTOAuth,'_blank');
     oauthWindow.addEventListener('close', function(){
         console.log('close oauth window');
     });
-    oauthWindow.addEventListener('message', function(event){
-        if(event.data.type==='oauthSuccess'){
-            self.user = {
-                id: event.data.id,
-                name: event.data.name,
-                books: event.data.books
-            };
-            deferred.resolve();            
-        }else if(event.data.type==='oauthError'){
+    this.oauthLoginDeferred = $.Deferred();
+    return this.oauthLoginDeferred.promise();
+};
+
+Vocabulary.prototype._addOAuthLoginListener = function(){
+    var self = this;
+    window.addEventListener('message', function(event){
+        if(event.data.type==='oauthsuccess'){
+            self.user = event.data.user;
+            self.reactor.dispatchEvent(Vocabulary.CHECK_AUTH_END);
+            if(self.oauthLoginDeferred){
+                self.oauthLoginDeferred.resolve();
+            }            
+        }else if(event.data.type==='oautherror'){
             self.user = null;
-            deferred.reject(event.data.error);
+            self.reactor.dispatchEvent(Vocabulary.CHECK_AUTH_END);
+            if(self.oauthLoginDeferred){
+                self.oauthLoginDeferred.reject(event.data.error);
+            }
         }
     });
-    return deferred.promise();
-}
+};

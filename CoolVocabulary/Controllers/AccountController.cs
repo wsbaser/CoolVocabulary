@@ -55,7 +55,7 @@ namespace CoolVocabulary.Controllers
                 id = b.Id,
                 name = b.Name,
                 language = ((LanguageType)b.Language).ToString()
-            });
+            }).ToList();
             return new {
                 isAuthenticated = true,
                 user = new {
@@ -82,7 +82,7 @@ namespace CoolVocabulary.Controllers
                 var user = await UserManager.FindAsync(model.Email, model.Password);
                 if (user != null) {
                     await SignInAsync( user, true);
-                    return Json(GetUserCTData());
+                    return Json(GetUserCTData(user));
                 }
             }
 

@@ -1,6 +1,6 @@
 var CVConfig = function() {
 	var siteOrigin = DEBUG?
-        'http://localhost:13189',
+        'http://localhost:13189':
         'http://coolvocabulary.com';
     return {
         id: "cv",
@@ -14,6 +14,7 @@ var CVConfig = function() {
             addTranslation: siteOrigin + '/api/translation'
         },
         path: {
+            CTOAuth: siteOrigin+ '/CTOAuth',
             vocabulary: siteOrigin+'/vocabulary'
         }
     };

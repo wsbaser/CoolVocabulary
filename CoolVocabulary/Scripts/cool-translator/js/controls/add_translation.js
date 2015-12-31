@@ -152,16 +152,8 @@ AddTranslationControl.prototype._onButtonClick = function() {
         this._showLoginForm();
 };
 
-AddTranslationControl.prototype._showLoginForm = function(){
-    var self = this;
-    Dialog.showLoginForm(this.vocabulary, function () {
-        self.logedIn = true;
-        self._showLoading();
-        self._getBooks(function(){
-            self._showBooks(self.translationsList.data.sourceLang);
-            self._hideLoading();
-        });
-    });
+AddTranslationControl.prototype._showLoginForm = function(callback){
+    Dialog.showLoginForm(this.vocabulary, callback);
 };
 
 AddTranslationControl.prototype._showLoading = function() {
@@ -191,7 +183,7 @@ AddTranslationControl.prototype._addTranslation = function() {
             }).fail(function(response){
                 self._hideLoading();
                 if (response.notAuthenticated)
-                    self._showLoginForm();
+                    self._showLoginForm(self._addTranslation.bind(self));
                 else
                     self._showAddTranslationError(response);
             });

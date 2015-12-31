@@ -1,3 +1,5 @@
+window.DEBUG = true;
+
 function loadLangPair(){
 	var langPair = null;
 	if (localStorage.langPair){
