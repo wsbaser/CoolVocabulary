@@ -93,22 +93,25 @@ LoginForm.prototype._onOAuthLogin = function(){
 LoginForm.prototype._showError = function(error_msg) {
     this.errorEl.html(error_msg);
     this.spinnerEl.hide();
-    this.errorEl.show();
+    this.errorEl.showImportant();
     this.emailEl.focus();
 }
 
 LoginForm.prototype._showLoading = function() {
     // remove and add spinner element to restart animation
-    var newone = this.spinnerEl[0].cloneNode(true);
+    var newone = this.spinnerEl.clone();
     this.spinnerEl.replaceWith(newone);
-    this.spinnerEl = $(newone);
+    this.spinnerEl = newone;
     this.errorEl.hide();
-    this.spinnerEl.show();
-    this.buttonEl.value = LoginForm.BTN_CAPTION_WAIT;
-    this.buttonEl.removeClass('ctr_active');
+    this.spinnerEl.showImportant();
+    this.buttonEl.val(LoginForm.BTN_CAPTION_WAIT);
+    this.buttonEl.removeClass('ctr-active');
 };
 
 LoginForm.prototype._onSubmitForm = function() {
+    if(!this.buttonEl.hasClass('ctr-active')){
+        return false;
+    }
     var self = this;
     this._showLoading();
     this.service.login(this.emailEl.val(), this.passwordEl.val(), function(promise){
@@ -127,8 +130,8 @@ LoginForm.prototype._onSubmitForm = function() {
 };
 
 LoginForm.prototype._activateSubmitButton = function() {
-    this.buttonEl.value = LoginForm.BTN_CAPTION_LOGIN;
-    this.buttonEl.addClass('ctr_active');
+    this.buttonEl.val(LoginForm.BTN_CAPTION_LOGIN);
+    this.buttonEl.addClass('ctr-active');
 };
 
 //===== Public ==========
