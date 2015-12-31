@@ -12,7 +12,8 @@ Vocabulary.LanguageIndexRoute = Ember.Route.extend({
 	},
 	afterModel: function(books, transition) {
 		var book;
-		var currentBookId = $.cookie('currentBook');
+		var languageId = this.modelFor('language').id;
+		var currentBookId = $.cookie('currentBook_'+languageId);
 		if(currentBookId){
 			// . get current book
 			book = books.findBy('id', currentBookId);

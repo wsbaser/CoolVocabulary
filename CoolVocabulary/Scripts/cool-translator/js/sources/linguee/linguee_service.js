@@ -98,11 +98,14 @@ LingueeService.prototype.getSoundUrls = function(inputData, translation){
             var translationEl = $(translationsList[i]);
             if(translationEl.find('.dictLink').text()===translation){
                 var audioEl = translationEl.find('.audio');
-                var args = audioEl.data('event').split('|');
-                if(args.length>=5){
-                    for (var i = 3; i < args.length-1; i+=2) {
-                        result.push('http://linguee.com/mp3/'+args[i]+'.mp3');
-                    };
+                var eventData = audioEl.data('event');
+                if(eventData){ 
+                    var args = eventData.split('|');
+                    if(args.length>=5){
+                        for (var i = 3; i < args.length-1; i+=2) {
+                            result.push('http://linguee.com/mp3/'+args[i]+'.mp3');
+                        };
+                    }
                 }
                 break;
             }

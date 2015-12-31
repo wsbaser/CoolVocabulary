@@ -1,7 +1,7 @@
 Vocabulary.BookIndexController = Ember.Controller.extend({
 	applicationCtrl: Ember.inject.controller('application'),
 	languageCtrl: Ember.inject.controller('language'),
-	books: Ember.computed(function(){
+	books: Ember.computed('languageCtrl.model', function(){
 		var language = this.get('languageCtrl.model');
 		return this.store.peekAll('book').filterBy('language', language.id);
     }),
