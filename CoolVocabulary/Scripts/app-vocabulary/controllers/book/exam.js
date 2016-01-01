@@ -33,7 +33,7 @@ Vocabulary.BookExamController = Ember.Controller.extend(Vocabulary.HasActiveObje
 		var bookWords = this.get('model.bookWords');
 		var DAY = 60*60*24*1000;
 		var now = Date.now();
-		var hasMoreWords = bookWords.any(function(item){
+		var hasMoreWordsToExam = bookWords.any(function(item){
 			var translations = item.get('translations').toArray();
 			for (var i = translations.length - 1; i >= 0; i--) {
 			 	if( translations[i].get('learnLevel')<MAX_LEARN_LEVEL && 
@@ -43,7 +43,11 @@ Vocabulary.BookExamController = Ember.Controller.extend(Vocabulary.HasActiveObje
 			}
 			return false;
 		});
-		this.set('hasMoreWords', hasMoreWords);
+		this.set('hasMoreWordsToExam', hasMoreWordsToExam);
+		var hasMoreWordsToLearn = bookWords.any(function(item){
+			return !!item.learnedAt;
+		});
+		this.set('hasMoreWordsToLearn', hasMoreWordsToLearn);
 	},
 	checkForPromotes: function(){
 		var translationsToPromote = Ember.A();
@@ -93,6 +97,9 @@ Vocabulary.BookExamController = Ember.Controller.extend(Vocabulary.HasActiveObje
 		},
 		changeSession: function(){
 			this.send('sessionChanged');
+		},
+		learnMore: function(){
+			this.transitionToRoute('book.learn');			
 		}
 	}
 });

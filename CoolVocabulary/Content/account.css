@@ -143,7 +143,7 @@
 
 #confirm-form .user-avatar-and-name{
     background-color: #f8f8f8;
-    width: 450px;
+    /*width: 450px;*/
     padding: 15px;
     margin-bottom: 15px;
 }
@@ -158,9 +158,25 @@
     margin: 5px 0;
 }
 
-#confirm-form .account-data input{
-    width: 250px;
-}
+    #confirm-form .account-data input,
+    #confirm-form .account-data .bootstrap-select {
+        width: 250px;
+    }
+
+    #confirm-form .account-data .input-hint {
+        margin-left: 10px;
+        color: #888;
+    }
+
+    #confirm-form .account-data .hint-icon {
+        display: inline-block;
+        vertical-align: middle;
+        margin-top: -4px;
+        margin-right: 5px;
+        width: 16px;
+        height: 16px;
+        background-image: url(/content/images/Hint-icon16.png);
+    }
 
 #confirm-form input {
     margin: 5px 0 5px 0;

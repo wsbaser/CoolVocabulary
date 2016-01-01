@@ -45,12 +45,14 @@ namespace CoolVocabulary.Controllers.api {
                     return BadRequest("Word translations not found");
                 }
 
+                var SERVICES_WHITE_LIST = new List<string>{"google","abby"};
                 var result = wordTranslations.Select(wt => {
                     var cards = JsonConvert.DeserializeObject<Dictionary<string, object>>(wt.TranslationCards);
-                    if (cards.ContainsKey("ll"))
-                        cards.Remove("ll");
-                    if (cards.ContainsKey("tfd"))
-                        cards.Remove("tfd");
+                    foreach (var serviceName in cards.Keys.ToList()) {
+                        if (!SERVICES_WHITE_LIST.Contains(serviceName)) {
+                            cards.Remove(serviceName);
+                        }
+                    }
                     wt.TranslationCards = JsonConvert.SerializeObject(cards);
                     wt.TranslationWords = null;
                     return new WordTranslationsDto(wt);

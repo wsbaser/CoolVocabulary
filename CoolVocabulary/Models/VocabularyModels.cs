@@ -12,7 +12,6 @@ namespace CoolVocabulary.Models {
     public class WordTranslations {
         [BsonId]
         public ObjectId Id { get; set; }
-        public int WordId { get; set; }
         public string Word { get; set; }
         public string TranslationWords { get; set; }
         public string TranslationCards { get; set; }

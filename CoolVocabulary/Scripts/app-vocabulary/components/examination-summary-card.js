@@ -7,8 +7,11 @@ Vocabulary.ExaminationSummaryCardComponent = Ember.Component.extend({
 		return total;
 	}),
 	actions:{
-		examine: function(){
-			this.get('onExamine')();
+		examMore: function(){
+			this.get('onExamMore')();
+		},
+		learnMore: function(){
+			this.get('onLearnMore')();
 		}
 	}
 });

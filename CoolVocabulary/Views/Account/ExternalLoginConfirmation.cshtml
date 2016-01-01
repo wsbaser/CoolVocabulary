@@ -37,11 +37,12 @@
                     -->
                     <div class="account-data">
                         @Html.ValidationSummary()
-                        @Html.LabelFor(m => m.Email)
-                        @Html.TextBoxFor(m => m.Email)
+                        @Html.HiddenFor(m => m.Email)
                         @Html.LabelFor(m => m.DisplayName)
                         @Html.TextBoxFor(m => m.DisplayName)
+                        <span class="input-hint"><i class="hint-icon"></i>Any name you like. Not necessarily unique.</span>
                         @Html.Partial("_NativeLanguagePartial")
+                        <span class="input-hint"><i class="hint-icon"></i>Target language of all your translations.</span>
                     </div>
                 </div>
             </div>
