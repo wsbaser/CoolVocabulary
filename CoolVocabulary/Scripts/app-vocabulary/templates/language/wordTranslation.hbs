@@ -1,4 +1,4 @@
-{{word-details-events onMouseOut=(action "hideWordDetails")}}
+{{word-details-events onMouseMove=(action "saveMousePosition")}}
 <div tabIndex="1" id="word_details_popover" class="light-shadow fadeout">
    	<div class="popover-content clearfix">
    		{{word-pictures word=model.word}}
@@ -13,7 +13,7 @@
 	   		  <span class="pronunciation">{{model.word.pronunciation}}</span>
         </div>
 		  </div>
-      {{word-translations showRemoveButton=true translations=model.translations speachPart=model.speachPart onTranslationRemoved=(action "translationRemoved")}}
+      {{word-translations showRemoveButton=true translations=model.translations speachPart=model.speachPart onTranslationRemoved=(action "translationRemoved") onModalHidden=(action "hideWordDetails")}}
       <hr class="splitter"/>
       <div class="actions-block">
         <span {{action "remove"}} class="glyphicon glyphicon-trash btn-sm color-grey" title="Remove word from book"></span>

@@ -16,6 +16,7 @@ namespace CoolVocabulary
                 "~/Scripts/vendor/ember/ember.min.js",
                 "~/Scripts/vendor/ember/ember-data.min.js",
                 "~/Scripts/vendor/bootstrap-modal-popover.js",
+                "~/Scripts/vendor/bootstrap-dialog.min.js",
                 "~/Scripts/vendor/jquery.scrollTo.min.js",
                 "~/Scripts/vendor/jquery.cookie.js",
                 "~/Scripts/app-vocabulary/app/vocabulary-templates.js",

@@ -10,9 +10,26 @@ Vocabulary.BookEditController = Ember.Controller.extend({
 			this.transitionToRoute('book');
 		},
 		delete: function(){
-			this.model.destroyRecord().then(function(){
-				this.transitionToRoute('language.index');
-			}.bind(this));
+			var self = this;
+			BootstrapDialog.show({
+	            title: 'Confirmation is neccessary',
+	            message: 'Remove book?',
+	            draggable: true,
+	            size: BootstrapDialog.SIZE_SMALL,
+	            buttons: [{
+						label: 'Cancel',
+						cssClass: 'modal-cancel',
+		                action: function(dialog) {dialog.close();}
+	            	},{
+		                label: 'OK',
+		                action: function(dialog){
+							dialog.close();
+							self.model.destroyRecord().then(function(){
+								self.transitionToRoute('language.index');
+							});
+						}
+	            	}]
+	        	});
 		}
 	}
 });

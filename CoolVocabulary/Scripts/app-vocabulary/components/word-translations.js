@@ -1,11 +1,28 @@
 Vocabulary.WordTranslationsComponent = Ember.Component.extend({
 	actions:{
 		remove: function(translation){
-			if(confirm('Remove this translation?')){
-				translation.destroyRecord().then(function(){
-					this.get('onTranslationRemoved')();
-				}.bind(this));
-			}
+			var self = this;
+			BootstrapDialog.show({
+	            title: 'Confirmation is neccessary',
+	            message: 'Remove translation?',
+	            draggable: true,
+	            size: BootstrapDialog.SIZE_SMALL,
+	            buttons: [{
+						label: 'Cancel',
+						cssClass: 'modal-cancel',
+		                action: function(dialog) {dialog.close();}
+	            	},{
+		                label: 'OK',
+		                action: function(dialog) {
+							dialog.close();
+							translation.destroyRecord().then(function(){
+								self.get('onTranslationRemoved')();
+							});
+						}
+					}],
+				onhidden: function(){
+					self.get('onModalHidden')();
+    			}});
 		}
 	}
 });

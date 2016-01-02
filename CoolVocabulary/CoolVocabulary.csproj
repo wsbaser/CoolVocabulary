@@ -269,6 +269,7 @@
   <ItemGroup>
     <Content Include="404.html" />
     <Content Include="Content\account.css" />
+    <Content Include="Content\bootstrap-dialog.min.css" />
     <Content Include="Content\bootstrap-select.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -307,6 +308,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\PublishProfiles\Local.pubxml" />
+    <Content Include="Scripts\vendor\bootstrap-dialog.min.css" />
     <Content Include="Scripts\vendor\bootstrap-modal-popover.js" />
     <Content Include="Scripts\vendor\bootstrap-select.min.js" />
     <Content Include="Scripts\vendor\bootstrap.js" />

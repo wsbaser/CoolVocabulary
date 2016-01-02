@@ -969,6 +969,7 @@ a:hover .manageIcons .glyphicon {
 /* POPOVER */
 
 #word_details_popover{
+	z-index: 10 !important;
 	position: absolute;
 	background: #fafafa;
 	border-radius: 0 0 5px 5px;
