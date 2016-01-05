@@ -33,15 +33,32 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 			}
 		});
 	},
-	showInstallCTAlert: function(event){
+	showInstallCTAlert: function(){
+		var self = this;
 		chrome.webstore.install('https://chrome.google.com/webstore/detail/cifbpdjhjkopeekabdgfjgmcbcgloioi', function(){
 			window.location.reload();
 		}, function(error){
 			if(error==='User cancelled install'){
-				alert('Cool Vocabulary works only in couple with Cool Translator. You will not be able to add new translations without it.');
+				BootstrapDialog.show({
+		            title: 'Warning',
+		            message: 'Cool Vocabulary works only in couple with Cool Translator. You will not be able to add new translations without it.',
+		            size: BootstrapDialog.SIZE_SMALL,
+		            buttons: [{
+			                label: 'Install',
+			                action: function(dialog){
+								self.showInstallCTAlert();
+								dialog.close();
+			                }
+		            	},{
+			                label: 'Close',
+			                action: function(dialog) {
+								dialog.close();
+							}
+		            	}]
+		            });
 			}
 		});
-		event.preventDefault();
+		window.event.preventDefault();
 	},
 	words: Ember.computed('model.bookWords.[]', function(){
 		var bookId = this.get('model.id');

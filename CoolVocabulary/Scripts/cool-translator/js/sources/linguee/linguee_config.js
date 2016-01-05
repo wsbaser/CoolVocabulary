@@ -4,16 +4,16 @@ var LingueeConfig = function() {
         id: "linguee",
         name: "Linguee Dictionary",
         languages: {
-            en: { name: 'english',      targets: ['es','pt','fr','it','de','ru']},
-            es: { name: 'spanish',      targets: ['en','pt','fr','it','de']},
-            pt: { name: 'portuguese',   targets: ['en','es','fr','it','de']},
-            fr: { name: 'french',       targets: ['en','es','pt','it','de']},
-            it: { name: 'italian',      targets: ['en','es','pt','fr','de']},
-            de: { name: 'german',       targets: ['en','es','pt','fr','it']},
-            ru: { name: 'russian',      targets: ['en']}
+            en: { id: 'english',      targets: ['es','pt','fr','it','de','ru']},
+            es: { id: 'spanish',      targets: ['en','pt','fr','it','de']},
+            pt: { id: 'portuguese',   targets: ['en','es','fr','it','de']},
+            fr: { id: 'french',       targets: ['en','es','pt','it','de']},
+            it: { id: 'italian',      targets: ['en','es','pt','fr','de']},
+            de: { id: 'german',       targets: ['en','es','pt','fr','it']},
+            ru: { id: 'russian',      targets: ['en']}
         },
         priority: 18,
-        domain:"https://translate.google.com",
+        domain:"https://linguee.com",
         path:{
             templatesDir:rootDir
         },

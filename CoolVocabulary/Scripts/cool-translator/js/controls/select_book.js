@@ -12,7 +12,7 @@ SelectBook.TEMPLATE =
         <div class="ctr-hSplitter"></div>\
         <div class="actions">\
             <input type="checkbox">\
-            Don\'t ask again\
+            Don\'t ask again(this page only)\
         </div>\
     </div>\
 </div>';

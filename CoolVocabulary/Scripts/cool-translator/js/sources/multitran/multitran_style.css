@@ -1,0 +1,30 @@
+#multitran_article .ctr-tab-content{
+    padding: 20px !important;
+}
+
+#multitran_article a:link { 
+	color: #0000EE !important;
+}
+
+#multitran_article a:link * { 
+	color: #0000EE !important;
+}
+
+#multitran_article td.gray {
+    background-color: #DBDBDB !important;
+}
+
+#multitran_article td.subj {
+    padding-left: 3px !important;
+    padding-right: 3px !important;
+    font-style: italic !important;
+    text-align: left !important;
+    vertical-align: text-top !important;
+}
+
+#multitran_article td.trans {
+    padding-left: 3px !important;
+    padding-right: 3px !important;
+    text-align: justify !important;
+    vertical-align: text-top !important;
+}

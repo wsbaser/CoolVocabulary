@@ -368,6 +368,7 @@
 #ctr_sourcelink_abby .ctr-source-icon     {background-position:-32px 0 !important;}
 #ctr_sourcelink_linguee .ctr-source-icon  {background-position:-48px 0 !important;}
 #ctr_sourcelink_ll .ctr-source-icon       {background-position:-64px 0 !important;}
+#ctr_sourcelink_multitran .ctr-source-icon{background-position:-80px 0 !important;}
 
 #ctr_dialog .ctr-hSplitter{
     border-top:1px solid #ddd !important;

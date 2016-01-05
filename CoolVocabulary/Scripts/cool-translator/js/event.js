@@ -13,7 +13,7 @@ function loadLangPair(){
 	}
 	return langPair ||
 		{
-	    	sourceLang: 'en',
+	    	sourceLang: chrome.i18n.getUILanguage()==='en'?'es':'en',
 	    	targetLang: chrome.i18n.getUILanguage()
 	    };
 };
@@ -30,8 +30,9 @@ function createServer(){
     var google = new GoogleService(new GoogleProvider(GoogleConfig()));
     var linguee = new LingueeService(new LingueeProvider(LingueeConfig()));
     var tfd = new TfdService(new TfdProvider(TfdConfig()));
+    var multitran = new MultitranService(new MultitranProvider(MultitranConfig()));
     var cv = new CVService(new CVProvider(CVConfig()), [ll, abby, google, tfd, linguee]);
-    var arr = [ll, abby, google, linguee, tfd, cv];
+    var arr = [ll, abby, google, linguee, tfd, multitran, cv];
     var services = {};
     arr.forEach(function(service){
         services[service.config.id] = service;

@@ -28,10 +28,12 @@ DictionaryProvider.prototype.resolveWithJQueryElement = function(deferred,data,s
 };
 
 DictionaryProvider.prototype.formatRequestUrl = function(url, data){
-    return strHelper.format(url, data);    
-    // return url.replace('{sourceLang}', data.sourceLang)
-    //     .replace('{targetLang}', data.targetLang)
-    //     .replace('{word}', data.word);
+    data = Object.create(data);
+    var sourceLang = this.config.languages[data.sourceLang];
+    var targetLang = this.config.languages[data.targetLang];
+    data.sourceLangId = sourceLang && sourceLang.id;
+    data.targetLangId = targetLang && targetLang.id;
+    return strHelper.format(url, data);
 };
 
 DictionaryProvider.prototype.requestPage = function(urlTemplate, requestData, responseSelector) {

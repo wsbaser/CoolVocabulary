@@ -9,6 +9,7 @@ using MongoDB.Bson;
 using CoolVocabulary.Extensions;
 
 namespace CoolVocabulary.Models {
+    [BsonIgnoreExtraElements]
     public class WordTranslations {
         [BsonId]
         public ObjectId Id { get; set; }

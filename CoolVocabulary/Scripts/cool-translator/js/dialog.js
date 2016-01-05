@@ -15,7 +15,8 @@ var TranslationDialogFactory =   (function(){
         this.createAbbySource(connection, vocabulary),
         this.createGoogleSource(connection, vocabulary),
         this.createLingueeSource(connection, vocabulary),
-        this.createTfdSource(connection)];
+        this.createTfdSource(connection),
+        this.createMultitranSource(connection, vocabulary)];
       arr.sort(function (a, b) {
           return a.config.priority > b.config.priority ? -1 : 1;
       });
@@ -25,6 +26,16 @@ var TranslationDialogFactory =   (function(){
         allSources[source.config.id] = source;
       });
       return allSources;
+    },
+    createMultitranSource: function(connection, vocabulary){
+      var tabs = [];
+      var serviceConfig = MultitranConfig();
+      tabs.push(new SourceTab(serviceConfig.id,ContentTypes.TRANSLATIONS, { 
+        translationItemSelector: '.trans>a',
+        vocabulary: vocabulary
+      }));
+      var service = new DictionaryServiceProxy(serviceConfig,connection);
+      return new Source(service, tabs);      
     },
     createAbbySource: function(connection, vocabulary){
       var tabs = [];
@@ -324,6 +335,7 @@ TranslationDialog.prototype.mousedown = function(e){
     (!this.isExtension && $.contains(this.attachBlockEl[0], e.target)))
     return;
   this.hide();
+  e.preventDefault();
   return false;
 };
 

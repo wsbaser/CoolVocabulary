@@ -36,6 +36,7 @@
       "js/sources/ll/ll_handlers.js",
       "js/sources/tfd/tfd_config.js",
       "js/sources/tfd/tfd_handlers.js",
+      "js/sources/multitran/multitran_config.js",
       "js/sources/cv/cv_config.js",
       "js/sources/source_tab.js",
       "js/sources/source.js",
@@ -52,7 +53,8 @@
       "js/sources/google/google_style.css",
       "js/sources/linguee/linguee_style.css",
       "js/sources/ll/ll_style.css",
-      "js/sources/tfd/tfd_style.css"
+      "js/sources/tfd/tfd_style.css",
+      "js/sources/multitran/multitran_style.css"
     ],
     "matches": [ "<all_urls>" ],
     "run_at": "document_end"

@@ -15,7 +15,7 @@ var CVConfig = function() {
         },
         path: {
             CTOAuth: siteOrigin+ '/CTOAuth',
-            vocabulary: siteOrigin+'/vocabulary'
+            vocabulary: siteOrigin
         }
     };
 };

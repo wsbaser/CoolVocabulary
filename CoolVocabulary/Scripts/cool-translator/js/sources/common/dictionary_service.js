@@ -83,6 +83,17 @@ DictionaryService.prototype.getCards = function(requestData){
 
 /* HELPERS */
 
+DictionaryService.prototype.makeStylesImportant = function(rootEl, selector){
+    rootEl.find(selector).each(function (i, itemEl) {
+        var itemStyle = itemEl.style;
+        for(var key in itemStyle){
+            if(itemStyle.hasOwnProperty(key) && itemStyle[key]){
+                itemStyle.setProperty(key, itemStyle[key], "important");
+            }
+        }
+    });
+};
+
 DictionaryService.prototype.deactivateLinks = function(rootEl, selector) {
     rootEl.find(selector).each(function (i, itemEl) {
     	itemEl = $(itemEl);

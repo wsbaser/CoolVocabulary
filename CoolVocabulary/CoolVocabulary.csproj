@@ -282,21 +282,13 @@
     <Content Include="Content\images\icon48.png" />
     <Content Include="Content\images\prize.jpg" />
     <Content Include="Content\images\Sound-icon16.png" />
+    <Content Include="Content\qunit-1.20.0.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="googlecb6642375f2961d2.html" />
     <Content Include="Migrations\CopyBookWords.sql" />
-    <Content Include="Scripts\app-vocabulary\app.html" />
-    <Content Include="Scripts\app-vocabulary\app\vocabulary-templates.js" />
-    <Content Include="Scripts\app-vocabulary\app\vocabulary-templates.min.js" />
-    <Content Include="Scripts\app-vocabulary\app\vocabulary.css" />
-    <Content Include="Scripts\app-vocabulary\app\vocabulary.js" />
-    <Content Include="Scripts\app-vocabulary\app\vocabulary.min.css" />
-    <Content Include="Scripts\app-vocabulary\app\vocabulary.min.js" />
-    <Content Include="Scripts\app-vocabulary\content\vocabulary.css" />
-    <Content Include="Scripts\app-vocabulary\vocabulary.js" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
@@ -308,7 +300,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\PublishProfiles\Local.pubxml" />
-    <Content Include="Scripts\vendor\bootstrap-dialog.min.css" />
+    <Content Include="Scripts\vendor\bootstrap-dialog.min.js" />
     <Content Include="Scripts\vendor\bootstrap-modal-popover.js" />
     <Content Include="Scripts\vendor\bootstrap-select.min.js" />
     <Content Include="Scripts\vendor\bootstrap.js" />
@@ -328,6 +320,7 @@
     <Content Include="Scripts\vendor\jquery.validate.min.js" />
     <Content Include="Scripts\vendor\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\vendor\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\vendor\qunit-1.20.0.js" />
     <Content Include="Scripts\vendor\respond.js" />
     <Content Include="Scripts\vendor\respond.min.js" />
     <Content Include="Scripts\vendor\_references.js" />
@@ -368,16 +361,11 @@
     <Content Include="Views\Home\CTOAuth.cshtml" />
     <Content Include="Views\Home\CTOAuthSuccess.cshtml" />
     <Content Include="Views\Account\_NativeLanguagePartial.cshtml" />
+    <Content Include="Views\Home\CTTests.cshtml" />
+    <Content Include="Views\Home\CVTests.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Scripts\app-vocabulary\components\" />
-    <Folder Include="Scripts\app-vocabulary\controllers\" />
-    <Folder Include="Scripts\app-vocabulary\helpers\" />
-    <Folder Include="Scripts\app-vocabulary\models\" />
-    <Folder Include="Scripts\app-vocabulary\routes\" />
-    <Folder Include="Scripts\app-vocabulary\templates\" />
-    <Folder Include="Scripts\app-vocabulary\views\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
