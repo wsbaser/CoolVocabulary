@@ -322,6 +322,9 @@
     <Content Include="Scripts\vendor\respond.js" />
     <Content Include="Scripts\vendor\respond.min.js" />
     <Content Include="Scripts\vendor\_references.js" />
+    <Content Include="Scripts\app-vocabulary\app\vocabulary.min.css" />
+    <Content Include="Scripts\app-vocabulary\app\vocabulary.min.js" />
+    <Content Include="Scripts\app-vocabulary\app\vocabulary-templates.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

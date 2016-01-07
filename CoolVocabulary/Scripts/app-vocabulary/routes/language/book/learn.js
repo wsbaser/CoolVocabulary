@@ -29,7 +29,7 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 		var applicationCtrl = this.controllerFor('application');
 		return this.store.query('wordTranslation', { 
 			ids: wordsRangeIds,
-			targetLanguage: applicationCtrl.user.nativeLanguage 
+			targetLanguage: applicationCtrl.get('model.nativeLanguage.id') 
 		});
 	},
 	setWordTranslations: function(wordTranslations){

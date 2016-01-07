@@ -1,3 +1,5 @@
+Vocabulary.CT_WEBSTORE_URL = 'https://chrome.google.com/webstore/detail/cifbpdjhjkopeekabdgfjgmcbcgloioi';
+Vocabulary.CT_WEBSTORE_LINK = '<a target="_blank" href='+Vocabulary.CT_WEBSTORE_URL+'>Cool Translator</a>';
 Vocabulary.BookIndexController = Ember.Controller.extend({
 	applicationCtrl: Ember.inject.controller('application'),
 	languageCtrl: Ember.inject.controller('language'),
@@ -38,11 +40,35 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 	},
 	installCT: function(){
 		var self = this;
-		chrome.webstore.install('https://chrome.google.com/webstore/detail/cifbpdjhjkopeekabdgfjgmcbcgloioi', function(){
-			window.location.reload();
+		var progressDialog = BootstrapDialog.show({
+            title: 'Cool Translator installation',
+            message: 'Please, wait while '+Vocabulary.CT_WEBSTORE_LINK+' is being installed...',
+            size: BootstrapDialog.SIZE_SMALL});
+		chrome.webstore.install(Vocabulary.CT_WEBSTORE_URL, function(){
+			progressDialog.close();
+			BootstrapDialog.show({
+	            title: 'Cool Translator activation',
+	            message: 'Page will be updated to activate '+Vocabulary.CT_WEBSTORE_LINK+'...',
+	            size: BootstrapDialog.SIZE_SMALL});
+			setTimeout(function(){
+				window.location.reload();
+			}, 3000);
 		}, function(error){
+			progressDialog.close();
 			if(error==='User cancelled install'){
 				self.showAntiRejectCTAlert();
+			}
+			else{
+				BootstrapDialog.show({
+		            title: 'Cool Translator installation error',
+		            message: error,
+		            size: BootstrapDialog.SIZE_SMALL,
+		            buttons: [{
+	                	label: 'OK',
+	                	action: function(dialog) {
+							dialog.close();
+						}}]
+            		});
 			}
 		});
 	},
@@ -54,33 +80,36 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 		}
 		BootstrapDialog.show({
             title: 'Warning',
-            message: 'Cool Vocabulary works only in couple with Cool Translator. '+
-            	'You can\'t add new translations without it. '+
-            	'You can only learn words from public books.',
+            message: 'You will not be able to add new translations without '+Vocabulary.CT_WEBSTORE_LINK+'. '+
+            	'Though you can learn words from public books.',
             size: BootstrapDialog.SIZE_SMALL,
             buttons: [{
-	                label: 'Cancel',
-	                cssClass: 'modal-cancel',
-	                action: function(dialog) {
-						dialog.close();
-					}
-            	},{
 	                label: 'Install',
+	                cssClass: 'modal-cancel',
 	                action: function(dialog){
 	                	self.installCT();
 						dialog.close();
 	                }
+            	},{
+	                label: 'Close',
+	                action: function(dialog) {
+						dialog.close();
+					}
             	}]
             });
 		self.antiRejectIsShown = true;
 	},
 	showInstallCTAlert: function(){
 		var self = this;
-		var CTWebStoreUrl = 'https://chrome.google.com/webstore/detail/cool-translator/cifbpdjhjkopeekabdgfjgmcbcgloioi?hl=en';
+		if(!window.chrome){
+			BootstrapDialog.alert('Impossible to add translation in current browser. '+
+				'You need to install Cool Translator extension wich is available in Chrome browser only.');
+			return;			
+		}
 		BootstrapDialog.show({
             title: 'Confirmation is neccessary',
-            message: 'It is neccessary to install <a href='+CTWebStoreUrl+'>Cool Translator</a> extension. '+
-            	'Cool Vocabulary uses it as a source of word translations.',
+            message: 'It is neccessary to install Chrome extension '+Vocabulary.CT_WEBSTORE_LINK+'. '+
+            	'Cool Vocabulary uses it as a source of translations.',
             draggable: true,
             size: BootstrapDialog.SIZE_SMALL,
             buttons: [{
@@ -94,6 +123,7 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 	                label: 'Install',
 	                action: function(dialog){
 	                	self.installCT();
+						dialog.close();
 					}
             	}]
         	});
