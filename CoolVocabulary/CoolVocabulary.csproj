@@ -282,7 +282,6 @@
     <Content Include="Content\images\icon48.png" />
     <Content Include="Content\images\prize.jpg" />
     <Content Include="Content\images\Sound-icon16.png" />
-    <Content Include="Content\qunit-1.20.0.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -320,7 +319,6 @@
     <Content Include="Scripts\vendor\jquery.validate.min.js" />
     <Content Include="Scripts\vendor\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\vendor\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\vendor\qunit-1.20.0.js" />
     <Content Include="Scripts\vendor\respond.js" />
     <Content Include="Scripts\vendor\respond.min.js" />
     <Content Include="Scripts\vendor\_references.js" />
@@ -361,8 +359,6 @@
     <Content Include="Views\Home\CTOAuth.cshtml" />
     <Content Include="Views\Home\CTOAuthSuccess.cshtml" />
     <Content Include="Views\Account\_NativeLanguagePartial.cshtml" />
-    <Content Include="Views\Home\CTTests.cshtml" />
-    <Content Include="Views\Home\CVTests.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

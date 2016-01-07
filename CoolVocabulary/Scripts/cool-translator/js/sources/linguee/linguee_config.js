@@ -18,7 +18,7 @@ var LingueeConfig = function() {
             templatesDir:rootDir
         },
         ajax: {
-            translate: "http://www.linguee.com/{sourceLangName}-{targetLangName}/search?source={sourceLangName}&query={word}"
+            translate: "http://www.linguee.com/{sourceLangId}-{targetLangId}/search?source={sourceLangId}&query={word}"
         },
         contentTypes: [ContentTypes.TRANSLATIONS, ContentTypes.PHRASES],
     };

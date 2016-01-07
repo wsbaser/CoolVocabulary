@@ -17,21 +17,21 @@ var TfdConfig = function() {
         id: "tfd",
         name: "TheFreeDictionary.com",
         languages: {
-            en: { targets: ['es','pt','fr','it','de','ru']},
-            es: { targets: ['en','pt','fr','it','de','ru']},
-            pt: { targets: ['en','es','fr','it','de','ru']},
-            fr: { targets: ['en','es','pt','it','de','ru']},
-            it: { targets: ['en','es','pt','fr','de','ru']},
-            de: { targets: ['en','es','pt','fr','it','ru']},
-            ru: { targets: ['en']}
+            en: { id: 'en', targets: ['es','pt','fr','it','de','ru']},
+            es: { id: 'es', targets: ['en','pt','fr','it','de','ru']},
+            pt: { id: 'pt', targets: ['en','es','fr','it','de','ru']},
+            fr: { id: 'fr', targets: ['en','es','pt','it','de','ru']},
+            it: { id: 'it', targets: ['en','es','pt','fr','de','ru']},
+            de: { id: 'de', targets: ['en','es','pt','fr','it','ru']},
+            ru: { id: 're', targets: ['en']}
         },
         priority: 7,
-        domain:"http://www.thefreedictionary.com/",
+        domain:"http://thefreedictionary.com/",
         path:{
             templatesDir:rootDir
         },
         ajax: {
-            translate: "http://www.thefreedictionary.com/{word}"
+            translate: "http://{sourceLangId}.thefreedictionary.com/{word}"
         },
         contentTypes: [ContentTypes.THESAURUS,ContentTypes.DEFINITIONS,ContentTypes.VERBTABLE]
     };

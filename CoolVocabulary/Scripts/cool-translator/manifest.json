@@ -2,8 +2,8 @@
   "author": "wsbaser",
   "manifest_version": 2,
   "name": "Cool Translator",
-  "version": "1.0.11",
-  "description": "7 languages, 5 supported translation services. Translate words, add words to vocabulary, memorize words at coolvocabulary.com.",
+  "version": "1.0.12",
+  "description": "7 languages, 6 supported translation services. Translate words, add words to vocabulary, memorize words at coolvocabulary.com.",
   "content_security_policy": "script-src 'self' ; object-src 'self'",
    "icons": {
       "16": "images/icon16.png",

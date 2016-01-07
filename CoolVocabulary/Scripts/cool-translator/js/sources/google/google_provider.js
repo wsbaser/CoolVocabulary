@@ -63,7 +63,7 @@ GoogleProvider.prototype.processResponse = function(response) {
     // .DEFINITIONS
     try {
         jsonObject.definitions = {};
-        var definitions = arr[10] || [];
+        var definitions = arr[arr.length-3] || [];
         for (var i = definitions.length - 1; i >= 0; i--) {
             var sp = SpeachParts.parseEn(definitions[i][0]);
             jsonObject.definitions[sp] = $.map(definitions[i][1], function (item) {
@@ -72,9 +72,8 @@ GoogleProvider.prototype.processResponse = function(response) {
                     example: item[2]
                 };
             }).filter(function(item){
-                return item.definition && item.definition.length>10 &&
-                    item.example && item.example.length>10;
-            }); 
+                return item.definition && item.definition.length>10;
+            });
         };
     }
     catch (e) {
@@ -83,7 +82,8 @@ GoogleProvider.prototype.processResponse = function(response) {
 
     // .EXAMPLES
     try {
-        jsonObject.examples = $.map(arr[11][0], function (item) {
+        var examples = 
+        jsonObject.examples = $.map(arr[arr.length-2][0], function (item) {
             return item[0];
         }).filter(function(item){
             return item && item.length>10;
@@ -91,6 +91,7 @@ GoogleProvider.prototype.processResponse = function(response) {
     }
     catch (e) {
         jsonObject.examples = [];
+        console.error(e);
     }
     return jsonObject;
 };

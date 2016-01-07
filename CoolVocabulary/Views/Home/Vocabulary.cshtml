@@ -18,6 +18,7 @@
     @{
         ApplicationUser user = ViewBag.user;
         var userDto = new {
+            id = user.Id,
             displayName = user.DisplayName,
             nativeLanguage = ((LanguageType)user.NativeLanguage).ToString()
         };

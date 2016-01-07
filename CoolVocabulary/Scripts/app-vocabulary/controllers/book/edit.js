@@ -13,7 +13,7 @@ Vocabulary.BookEditController = Ember.Controller.extend({
 			var self = this;
 			BootstrapDialog.show({
 	            title: 'Confirmation is neccessary',
-	            message: 'Remove book?',
+	            message: 'Book will be removed.',
 	            draggable: true,
 	            size: BootstrapDialog.SIZE_SMALL,
 	            buttons: [{

@@ -15,7 +15,7 @@ MultitranService.prototype.removeExpandIcon = function(el){
 MultitranService.prototype.generateTranslationsCard = function(contentEl){
     var $lines = contentEl.find('tr');
     if($lines.length){
-        var translationsEl = $('<table/>');
+        var translationsFragment = document.createDocumentFragment();
         for (var i = 0; i < $lines.length; i++) {
             var trEl = $lines[i];
             if(trEl.childNodes.length===1){
@@ -24,10 +24,11 @@ MultitranService.prototype.generateTranslationsCard = function(contentEl){
                 if(this._isWordDescriptionLine(tdEl)){
                     // . remove unnecessary nodes
                     var children = Array.prototype.slice.call(tdEl.children);
-                    for (var j = 3; j<children.length; j++) {
+                    var removeStart = children[1].tagName==="EM"?2:3; 
+                    for (var j = removeStart; j<children.length; j++) {
                         tdEl.removeChild(children[j]); 
                     };
-                    translationsEl.append(trEl);
+                    translationsFragment.appendChild(trEl);
                 }
                 else{
                     break;
@@ -35,9 +36,14 @@ MultitranService.prototype.generateTranslationsCard = function(contentEl){
             }
             else{
                 // . it is a line with translation
-                translationsEl.append(trEl);
+                translationsFragment.appendChild(trEl);
             }
         };
+        if(!translationsFragment.childElementCount){
+            return null;
+        }
+        var translationsEl = $('<table/>');
+        translationsEl.append(translationsFragment);
         this.deactivateLinks(translationsEl, 'a');
         this.addTranslateContentEvent(translationsEl, 'td.gray>a:first-child');
         this.makeStylesImportant(translationsEl, 'span');
@@ -56,11 +62,16 @@ MultitranService.prototype.parseSpeachPart = function(text){
     return MultitranService.SpeachParts[text]||SpeachParts.UNKNOWN;
 };
 
+MultitranService.prototype._getSpeachPartText = function(lineCell){
+    var children = lineCell.children;
+    return children[1]&&children[1].tagName==='EM'?
+        children[1].textContent:
+        (children[2]&&children[2].tagName==='EM'?children[2].textContent:null);
+}
+
 MultitranService.prototype._isWordDescriptionLine = function(lineCell){
-    return lineCell.children.length>=3 &&
-        lineCell.children[0].tagName==='A' &&
-        lineCell.children[1].tagName==='SPAN' &&
-        lineCell.children[2].tagName==='EM';
+    return this._getSpeachPartText(lineCell) &&
+        lineCell.children[0] && lineCell.children[0].tagName==='A';
 };
 
 MultitranService.prototype.getTranslations = function(inputData){
@@ -84,7 +95,7 @@ MultitranService.prototype.getTranslations = function(inputData){
                         result[currentLemma] = {};
                     }
                     // . get speach part
-                    currentSP = this.parseSpeachPart(tdEl.children[2].textContent);
+                    currentSP = this.parseSpeachPart(this._getSpeachPartText(tdEl));
                     if(!result[currentLemma][currentSP]){
                         result[currentLemma][currentSP] = [];
                     }

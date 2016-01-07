@@ -1,13 +1,24 @@
 Vocabulary.ApplicationRoute = Ember.Route.extend({
 	model: function(){
 		var self = this;
-		ServerData.Languages.forEach(function(item){
-			self.store.push(self.store.normalize('language', item));
+		// . push server injected data into the store
+		// ServerData.Languages.forEach(function(item){
+		// 	self.store.push(self.store.normalize('language', item));
+		// });
+		self.store.pushPayload({
+			languages:ServerData.Languages
 		});
+		self.store.pushPayload({
+			users:[ServerData.User]
+		});
+			// self.store.normalize('user', ServerData.User));
+		// . return curent User as application route model
+		return self.store.find('user', ServerData.User.id);
 	},
 	setupController: function(controller, model){
-		// . retrieve and store data from server side 
-		controller.set('user', ServerData.User);
+		this._super(controller, model);
+
+		// . store CCSRF Token in application controller 
 		controller.set('csrfFormToken', ServerData.CSRFFormToken);
 
 		// . create reactor and register events
@@ -18,14 +29,15 @@ Vocabulary.ApplicationRoute = Ember.Route.extend({
 		// . navigate to language
 		var language;
 		var currentLanguageId = $.cookie('currentLanguage');
-		if(currentLanguageId && currentLanguageId!==ServerData.User.nativeLanguage){
+		var nativeLanguageId = model.get('nativeLanguage');
+		if(currentLanguageId && currentLanguageId!==nativeLanguageId){
 			// . get current language from  cookie if it is NOT native
 			language = this.store.peekAll('language').findBy('id', currentLanguageId);
 		}
 		if(!language){
 			// .get first NOT native
 			language = this.store.peekAll('language').filter(function(item){
-				return item.id!==ServerData.User.nativeLanguage;
+				return item.id!==nativeLanguageId;
 			}).get('firstObject');
 		}
 		this.transitionTo('language', language);

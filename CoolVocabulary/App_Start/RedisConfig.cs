@@ -9,14 +9,11 @@ using System.Configuration;
 namespace CoolVocabulary {
     public static class RedisConfig {
         public static void LoadExamWords() {
-            Redis.DelWords(LanguageType.en, SpeachPartType.noun);
-            Redis.DelWords(LanguageType.en, SpeachPartType.verb);
-            Redis.DelWords(LanguageType.en, SpeachPartType.adjective);
-            Redis.DelWords(LanguageType.en, SpeachPartType.adverb);
-            Redis.DelWords(LanguageType.ru, SpeachPartType.noun);
-            Redis.DelWords(LanguageType.ru, SpeachPartType.verb);
-            Redis.DelWords(LanguageType.ru, SpeachPartType.adjective);
-            Redis.DelWords(LanguageType.ru, SpeachPartType.adverb);
+            foreach (LanguageType languageType in Enum.GetValues(typeof(LanguageType))) {
+                foreach (SpeachPartType speachPartType in Enum.GetValues(typeof(SpeachPartType))) {
+                    Redis.DelWords(languageType, speachPartType);
+                }
+            }
             string dataFilePath = Path.Combine(ConfigurationManager.AppSettings["ExamwordsFolder"], "examwords_en.txt");
             using (StreamReader sr = new StreamReader(dataFilePath)) {
                 while (!sr.EndOfStream) {

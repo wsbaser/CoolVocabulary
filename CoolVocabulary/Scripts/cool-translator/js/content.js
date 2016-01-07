@@ -1,4 +1,4 @@
-window.DEBUG = true;
+window.DEBUG = false;
 window.Dialog = null;
 /***** ctrContent *****************************************************************************************************/
 

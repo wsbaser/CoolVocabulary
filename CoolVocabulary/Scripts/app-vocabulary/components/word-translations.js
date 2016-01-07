@@ -4,7 +4,7 @@ Vocabulary.WordTranslationsComponent = Ember.Component.extend({
 			var self = this;
 			BootstrapDialog.show({
 	            title: 'Confirmation is neccessary',
-	            message: 'Remove translation?',
+	            message: 'Translation will be removed.',
 	            draggable: true,
 	            size: BootstrapDialog.SIZE_SMALL,
 	            buttons: [{

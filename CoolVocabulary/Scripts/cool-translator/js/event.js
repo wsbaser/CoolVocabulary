@@ -1,4 +1,4 @@
-window.DEBUG = true;
+window.DEBUG = false;
 
 function loadLangPair(){
 	var langPair = null;
@@ -31,7 +31,7 @@ function createServer(){
     var linguee = new LingueeService(new LingueeProvider(LingueeConfig()));
     var tfd = new TfdService(new TfdProvider(TfdConfig()));
     var multitran = new MultitranService(new MultitranProvider(MultitranConfig()));
-    var cv = new CVService(new CVProvider(CVConfig()), [ll, abby, google, tfd, linguee]);
+    var cv = new CVService(new CVProvider(CVConfig()), [ll, abby, google, tfd, linguee, multitran]);
     var arr = [ll, abby, google, linguee, tfd, multitran, cv];
     var services = {};
     arr.forEach(function(service){
