@@ -101,7 +101,9 @@ namespace CoolVocabulary.Models {
         [StringValue("German")]
         de = 5,
         [StringValue("Russian")]
-        ru = 6
+        ru = 6,
+        [StringValue("Arabic")]
+        ar = 7
     }
 
     public static class SupportedLanguages {

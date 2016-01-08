@@ -29,7 +29,7 @@ Vocabulary.ApplicationRoute = Ember.Route.extend({
 		// . navigate to language
 		var language;
 		var currentLanguageId = $.cookie('currentLanguage');
-		var nativeLanguageId = model.get('nativeLanguage');
+		var nativeLanguageId = model.get('nativeLanguage.id');
 		if(currentLanguageId && currentLanguageId!==nativeLanguageId){
 			// . get current language from  cookie if it is NOT native
 			language = this.store.peekAll('language').findBy('id', currentLanguageId);

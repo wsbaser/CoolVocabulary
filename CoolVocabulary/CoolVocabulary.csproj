@@ -299,6 +299,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\PublishProfiles\Local.pubxml" />
+    <Content Include="Scripts\app-vocabulary\app\vocabulary-templates.js" />
+    <Content Include="Scripts\app-vocabulary\app\vocabulary.css" />
+    <Content Include="Scripts\app-vocabulary\app\vocabulary.js" />
     <Content Include="Scripts\vendor\bootstrap-dialog.min.js" />
     <Content Include="Scripts\vendor\bootstrap-modal-popover.js" />
     <Content Include="Scripts\vendor\bootstrap-select.min.js" />

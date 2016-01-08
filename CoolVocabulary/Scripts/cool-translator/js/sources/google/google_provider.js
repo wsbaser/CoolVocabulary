@@ -37,7 +37,7 @@ GoogleProvider.prototype.processResponse = function(response) {
         if(arr[1]){
             var translations = arr[1];
             for (var i = translations.length - 1; i >= 0; i--) {
-                var sp = SpeachParts.parseEn(translations[i][0]);
+                var sp = translations[i][0];
                 jsonObject.translations[sp] = $.map(translations[i][2], function (entry) {
                     return {
                         word: entry[0],
@@ -48,7 +48,7 @@ GoogleProvider.prototype.processResponse = function(response) {
             };
         }
         else if(arr[9]){
-            var sp = SpeachParts.parseEn(arr[9][0][0]);
+            var sp = arr[9][0][0];
             jsonObject.translations[sp] = [{
                     word: arr[0][0][0],
                     reverse_translation: null,
@@ -65,7 +65,7 @@ GoogleProvider.prototype.processResponse = function(response) {
         jsonObject.definitions = {};
         var definitions = arr[arr.length-3] || [];
         for (var i = definitions.length - 1; i >= 0; i--) {
-            var sp = SpeachParts.parseEn(definitions[i][0]);
+            var sp = definitions[i][0];
             jsonObject.definitions[sp] = $.map(definitions[i][1], function (item) {
                 return {
                     definition: item[0],

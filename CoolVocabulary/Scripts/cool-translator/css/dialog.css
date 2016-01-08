@@ -38,6 +38,12 @@
     word-wrap: break-word !important;
 }
 
+#ctr_dialog .rtl {
+    direction: rtl !important; 
+    text-align: right !important;
+    unicode-bidi: bidi-override !important;
+}
+
 /* 
   Some sites set styles on tags. And this is a big problem. 
   To preserve our style we should set font style for this tags by ourself
@@ -272,7 +278,7 @@
 
 #ctr_dialog .ctr-input{
     background: #fff !important;
-    padding: 4px 40px !important;
+    padding: 4px 4px 4px 40px !important;
     border: solid 1px #ddd !important;
     -moz-border-radius: 2px !important;
 	-webkit-border-radius: 2px !important;
@@ -513,6 +519,8 @@
 #ctr_dialog .ctr-flag-icon.fr{background-position: -96px 0 !important;}
 #ctr_dialog .ctr-flag-icon.it{background-position: -120px 0 !important;}
 #ctr_dialog .ctr-flag-icon.de{background-position: -144px 0 !important;}
+#ctr_dialog .ctr-flag-icon.ar{background-position: -168px 0 !important;}
+
 
 #ctr_dialog .ctr-source-icon{
   background-image: url('chrome-extension://__MSG_@@extension_id__/images/sprites.png') !important;

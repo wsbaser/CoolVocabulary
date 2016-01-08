@@ -19,8 +19,8 @@ namespace CoolVocabulary
                 "~/Scripts/vendor/bootstrap-dialog.min.js",
                 "~/Scripts/vendor/jquery.scrollTo.min.js",
                 "~/Scripts/vendor/jquery.cookie.js",
-                "~/Scripts/app-vocabulary/app/vocabulary-templates.min.js",
-                "~/Scripts/app-vocabulary/app/vocabulary.min.js"));
+                "~/Scripts/app-vocabulary/app/vocabulary-templates.js",
+                "~/Scripts/app-vocabulary/app/vocabulary.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/vendor/jquery.validate*"));

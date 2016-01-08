@@ -378,6 +378,7 @@ TranslationDialog.prototype.show = function(word) {
     this.inputEl.val(word);
   else
     this.focusInput();
+  this.setLangDirection();
   this.updateSourcesContent();
 };
 
@@ -411,6 +412,20 @@ TranslationDialog.prototype.setLangPair = function(langPair){
   }
 };
 
+TranslationDialog.prototype.setLangDirection = function(){
+  if(this.inputEl){
+    var langPair = this.getLangPair();
+    var RTL_LANGUAGES = ['ar'];
+    var dir = RTL_LANGUAGES.indexOf(langPair.sourceLang)!==-1?'rtl':'ltr';
+    if(RTL_LANGUAGES.indexOf(langPair.sourceLang)!==-1){
+      this.inputEl.addClass('rtl');
+    }
+    else{
+      this.inputEl.removeClass('rtl');
+    }
+  }
+};
+
 TranslationDialog.prototype.initLangSelectors = function(){
   // .initialize Lang Selectors
   var self = this;
@@ -419,9 +434,8 @@ TranslationDialog.prototype.initLangSelectors = function(){
       onLangAccepted: function(){
          self.selectSource(self.sourceWithActiveLink);
          self.updateSourcesContent();
-         var langPair = self.getLangPair();
-         console.log('sourceLang: ' + langPair.sourceLang + ', targetLang: ' + langPair.targetLang);
-         self.reactor.dispatchEvent('langPairChanged', langPair);
+         self.setLangDirection();
+         self.reactor.dispatchEvent('langPairChanged', self.getLangPair());
       },
       onLoseFocus: self.focusInput.bind(self)
   };

@@ -80,8 +80,8 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 		}
 		BootstrapDialog.show({
             title: 'Warning',
-            message: 'You will not be able to add new translations without '+Vocabulary.CT_WEBSTORE_LINK+'. '+
-            	'Though you can learn words from public books.',
+            message: 'You will not be able to add new words without '+Vocabulary.CT_WEBSTORE_LINK+'. '+
+            	'Though, you can learn words from public books.',
             size: BootstrapDialog.SIZE_SMALL,
             buttons: [{
 	                label: 'Install',

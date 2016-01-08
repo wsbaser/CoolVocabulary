@@ -25,7 +25,7 @@ GoogleService.prototype.generateTranslationsCard = function(data){
                 });
             }).join('');
             translationsHtml += strHelper.format(GoogleTemplates.TRANSLATIONS_LIST, {
-                pos: SpeachParts.toStringEn(sp),
+                pos: sp,
                 translationsListHtml: listHtml
             });
         };
@@ -52,7 +52,7 @@ GoogleService.prototype.generateDefinitionsCard = function(data){
                     });
                 }).join('');
                 definitionsHtml += strHelper.format(GoogleTemplates.DEFINITIONS, {
-                    pos: SpeachParts.toStringEn(sp),
+                    pos: sp,
                     definitionsListHtml: listHtml
                 });
             }
@@ -87,6 +87,7 @@ GoogleService.prototype.getTranslations = function(inputData){
     if(responseData && responseData.translations){
         var translations = {};
         $.each(responseData.translations, function(sp, spTranslations){
+            sp = SpeachParts.parseEn(sp);
             translations[sp]=[];
             for (var i = spTranslations.length - 1; i >= 0; i--) {
                 translations[sp].push(spTranslations[i].word);
