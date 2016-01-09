@@ -1,0 +1,42 @@
+Vocabulary.LearningCalendarComponent = Ember.Component.extend({
+	classNames: [ 'learning-calendar', 'container', 'block'],	
+	month: 'January',
+	examinedCount:450,
+	wordsLearnedCount:90,
+	hasStar: false,
+	days: Ember.computed(function(){
+		return [
+			{taskCompleted:true},
+			{taskCompleted:true},
+			{taskCompleted:true},
+			{taskCompleted:true},
+			{taskCompleted:false},
+			{taskCompleted:true},
+			{taskCompleted:true},
+			{taskCompleted:true},
+			{taskCompleted:true},
+			{taskCompleted:true},
+			{taskCompleted:true},
+			{taskCompleted:true},
+			{taskCompleted:true},
+			{taskCompleted:true},
+			{taskCompleted:true},
+			{taskCompleted:false},
+			{taskCompleted:true},
+			{taskCompleted:true},
+			{taskCompleted:true},
+			{taskCompleted:true},
+			{taskCompleted:true},
+			{taskCompleted:true},
+			{taskCompleted:true},
+			{taskCompleted:true},
+			{taskCompleted:true},
+			{taskCompleted:false},
+			{taskCompleted:true},
+			{taskCompleted:true},
+			{taskCompleted:true},
+			{taskCompleted:true},
+			{taskCompleted:false}
+			];
+	})
+});

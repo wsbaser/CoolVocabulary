@@ -1,0 +1,14 @@
+<span class="month-info-wrap">
+	<span class="month">
+		{{month}} - {{examinedCount}}|{{wordsLearnedCount}}
+	</span>
+	{{#if hasStar}}
+		<i class="star-icon"></i>
+	{{/if}}
+</span>
+<span class="days" >
+	{{#each days as |day|}}
+		{{input type="checkbox" disabled="true" checked=day.taskCompleted class="checkbox-custom"}}
+		<label class="checkbox-custom-label"></label>
+	{{/each}}
+</span>

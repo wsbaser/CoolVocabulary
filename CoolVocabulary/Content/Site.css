@@ -11,13 +11,16 @@ body{
 }
 
 #page{
-	box-shadow:  2px 2px 7px 1px rgba(0,0,0,0.2);
-	background: url(/content/images/bg.png) top left repeat #ebeef2;
 	border-left: 1px solid #dcdde1;
 	border-right: 1px solid #dcdde1;
     position: relative;
     top: 0;
     transition: top ease-in 300ms; 
+}
+
+.block{
+    background: url(/content/images/bg.png) top left repeat #ebeef2;
+	box-shadow: 2px 2px 7px 1px rgba(0,0,0,.2);
 }
 
 /* Set padding to keep content from hitting the edges */

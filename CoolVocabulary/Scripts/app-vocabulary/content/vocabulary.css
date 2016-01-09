@@ -1158,3 +1158,77 @@ a:hover .manageIcons .glyphicon {
     left: 120px;
     opacity: 0;
 }
+
+/* LEARNING CALENDAR */
+
+.learning-calendar{
+    height: 22px;
+    margin-bottom: 4px;
+}
+
+.learning-calendar .month-info-wrap{
+	float: right;
+}
+
+.learning-calendar .month{
+    margin-right: 10px;
+    line-height: 22px;
+    color: #aaa;
+    opacity: 0.6;
+    font-style: italic;
+    font-family: monospace;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.learning-calendar .star-icon{
+    width: 18px;
+    height: 18px;
+    margin-top: 1px;
+    vertical-align: top;
+    background-image: url(/content/images/star.png);
+}
+
+.learning-calendar .days{
+    padding-top: 2px;
+    margin-left: 5px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.learning-calendar .days>input[type='checkbox']{
+	margin-right: 5px;
+	vertical-align: top;
+    margin-top: 3px;
+}
+
+.learning-calendar .checkbox-custom{
+    opacity: 0;
+    position: absolute;   
+    display: inline-block;
+    vertical-align: middle;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.learning-calendar .checkbox-custom + .checkbox-custom-label:before{
+    content: '';
+    background: #fff;
+    border: 1px solid #ccc;
+    display: inline-block;
+    vertical-align: top;
+    margin:4px 5px;
+    width: 11px;
+    height: 11px;
+    margin-right: 0px;
+    text-align: center;
+}
+
+.learning-calendar .checkbox-custom:checked + .checkbox-custom-label:before {
+    background: #39b3d7;
+    box-shadow: inset 0 0 0 1px #fff;
+}
+
+.learning-calendar .checkbox-custom[default]{
+	cursor: default;
+}

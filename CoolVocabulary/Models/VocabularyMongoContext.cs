@@ -44,6 +44,9 @@ namespace CoolVocabulary.Models {
             WordTranslations wordTranslations = await collection.Find(filter).SingleOrDefaultAsync();
             if (wordTranslations == null) {
                 await collection.InsertOneAsync(entity);
+            } else {
+                entity.Id = wordTranslations.Id;
+                await collection.ReplaceOneAsync(filter, entity);
             }
         }
     }

@@ -11,7 +11,7 @@
         <h1>Confirm Your New Account</h1>
     </div>
     <div class="page-description">
-        @using (Html.BeginForm("ExternalLoginConfirmation", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form", id = "confirm-form", @class = "clearfix" })) {
+        @using (Html.BeginForm("ExternalLoginConfirmation", "Account", new { ReturnUrl = ViewBag.ReturnUrl, LoginProvider = ViewBag.LoginProvider }, FormMethod.Post, new { role = "form", id = "confirm-form", @class = "clearfix" })) {
             @Html.AntiForgeryToken()
             <div class="openid-confirm-newuser">
                 <p>You are about to create a new account on <span class="make-it-bold">Cool Vocabulary</span> using a login from</p>
