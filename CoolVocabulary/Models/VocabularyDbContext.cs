@@ -27,6 +27,7 @@ namespace CoolVocabulary.Models {
 
         public System.Data.Entity.DbSet<Word> Words { get; set; }
         public System.Data.Entity.DbSet<Book> Books { get; set; }
+        public System.Data.Entity.DbSet<UserBook> UserBooks { get; set; }
         public System.Data.Entity.DbSet<BookWord> BookWords { get; set; }
         public System.Data.Entity.DbSet<Translation> Translations { get; set; }
 

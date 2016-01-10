@@ -43,10 +43,30 @@ namespace CoolVocabulary.Models {
         [Required, MaxLength(100)]
         [Index("UQ_UserID_Name_Language", 2, IsUnique = true)]
         public string Name { get; set; }
+        public bool? IsPublished { get; set; }
+        public string Description { get; set; }
         [Required]
         [Index("UQ_UserID_Name_Language", 3, IsUnique = true)]
         public int Language { get; set; }
         public ICollection<BookWord> BookWords { get; set; }
+        public ApplicationUser User { get; set; }
+    }
+
+    public class UserBook {
+        [Required]
+        public int Id { get; set; }
+        [Required]
+        [Index("UQ_UserID_BookId", 1, IsUnique = true)]
+        public int BookId { get; set; }
+        [Required]
+        [Index("UQ_UserID_BookId", 2, IsUnique = true)]
+        public string UserId { get; set; }
+        public string LearnLevels { get; set; }
+        public string LearnDates { get; set; }
+        public string ExamDates { get; set; }
+        public string FirstPromoteDates { get; set; }
+        public string LastPromoteDates { get; set; }
+        public Book Book { get; set; }
         public ApplicationUser User { get; set; }
     }
 
