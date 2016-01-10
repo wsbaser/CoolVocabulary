@@ -52,14 +52,16 @@ Vocabulary.LanguageRoute = Ember.Route.extend({
 	afterRender: function(){
 		var self = this;
 		$(window).resize(function(){
-			self.setContentHeight();
+			self.actions.adjustHeight().call(self);
 		}.bind(this));
-		self.setContentHeight();
+		self.actions.adjustHeight.call(self);
 	},
-	setContentHeight: function(){
-		var controller = this.controllerFor('language');
-		var menuHeight = $('#logo_mobile:visible').length?50:70;
-		var height = $(window).height()-menuHeight;
-		controller.set('contentHeight', height);
+	actions: {
+		adjustHeight:function(){
+			var controller = this.controllerFor('language');
+			var menuHeight = $('#logo_mobile:visible').length?76:96;
+			var height = $(window).height() - menuHeight;
+			controller.set('contentHeight', Math.max(height, window.page.scrollHeight));
+		}
 	}
 });

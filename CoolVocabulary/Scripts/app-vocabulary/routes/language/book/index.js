@@ -42,5 +42,6 @@ Vocabulary.BookIndexRoute = Ember.Route.extend({
 				event.data.bookWord,
 				event.data.translation);
 		});
+		self.send('adjustHeight');
 	}
 });
