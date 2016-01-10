@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web;
 
 namespace CoolVocabulary.Models {
+#if !DEBUG
     public static class Redis {
         private static ConnectionMultiplexer _connection = ConnectionMultiplexer.Connect("localhost");
         public static IDatabase Db {
@@ -49,4 +50,5 @@ namespace CoolVocabulary.Models {
             return new Tuple<int, int>(bookSize, bookCompleted);
         }
     }
+#endif
 }

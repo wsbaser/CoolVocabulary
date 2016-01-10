@@ -7,6 +7,7 @@ using CoolVocabulary.Models;
 using System.Configuration;
 
 namespace CoolVocabulary {
+#if !DEBUG
     public static class RedisConfig {
         public static void LoadExamWords() {
             foreach (LanguageType languageType in Enum.GetValues(typeof(LanguageType))) {
@@ -30,4 +31,5 @@ namespace CoolVocabulary {
             }
         }
     }
+#endif
 }

@@ -48,7 +48,9 @@ GoogleProvider.prototype.processResponse = function(response) {
             };
         }
         else if(arr[9]){
-            var sp = arr[9][0][0];
+            var sp = SpeachParts.parseEn(arr[9][0][0])===SpeachParts.UNKNOWN?
+                'unknown':
+                arr[9][0][0];
             jsonObject.translations[sp] = [{
                     word: arr[0][0][0],
                     reverse_translation: null,

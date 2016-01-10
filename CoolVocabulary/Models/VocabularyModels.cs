@@ -121,12 +121,15 @@ namespace CoolVocabulary.Models {
         public static List<LanguageDto> All;
     }
 
-    public enum SpeachPartType
-    {
+    public enum SpeachPartType {
         unknown = 0,
         noun = 1,
         verb = 2,
         adjective = 3,
-        adverb = 4
+        adverb = 4,
+        prnoun = 5,
+        preposition = 6,
+        conjunction = 7,
+        interjection = 8
     }
 }

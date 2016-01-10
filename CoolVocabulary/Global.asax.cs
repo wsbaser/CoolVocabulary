@@ -19,7 +19,9 @@ namespace CoolVocabulary {
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+#if !DEBUG
             RedisConfig.LoadExamWords();
+#endif
         }
         protected void Application_Error(object sender, EventArgs e) {
             _logger.Error(Server.GetLastError());

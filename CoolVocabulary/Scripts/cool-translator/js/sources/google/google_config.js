@@ -10,7 +10,7 @@ var GoogleConfig = function() {
             fr: { targets: ['en','es','pt','it','de','ru']},
             it: { targets: ['en','es','pt','fr','de','ru']},
             de: { targets: ['en','es','pt','fr','it','ru']},
-            ru: { targets: ['en','es','pt','fr','it','de']},
+            // ru: { targets: ['en','es','pt','fr','it','de']},
             ar: { targets: ['en']}
         },
         priority: 100,

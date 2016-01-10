@@ -43,7 +43,10 @@ namespace CoolVocabulary.Controllers.api
             var noAggregatedDataBookIds = new List<int>();
             // . get books
             foreach (var book in db.Books.Where(v => v.UserId == user.Id && v.Language == (int)languageType)) {
-                var bookData = Redis.GetBookData(book.Id);
+                Tuple<int, int> bookData = null;
+#if !DEBUG
+                    bookData = Redis.GetBookData(book.Id);
+#endif
                 if (bookData == null) {
                     books.Add(book.Id, new BookDto(book, 0, 0, true));
                     noAggregatedDataBookIds.Add(book.Id);

@@ -138,7 +138,8 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 	adjectives: Ember.computed.filterBy('words', 'speachPart', 3),
 	adverbs: Ember.computed.filter('words', function(item){ 
 		var sp = item.get('speachPart');
-		return sp===4 || sp ===0;
+		// . unknown, adverbs, pronouns, prepositions, conjucntions, interjections
+		return sp>=4 || sp===0;
 	}),
 	addTranslation: function(bookDto, wordDto, bookWordDto, translationDto){
 		function findOrAdd(store, type, data){

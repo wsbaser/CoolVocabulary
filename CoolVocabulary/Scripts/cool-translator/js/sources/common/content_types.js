@@ -31,9 +31,13 @@ SpeachParts.NOUN = 1;
 SpeachParts.VERB = 2;
 SpeachParts.ADJECTIVE = 3;
 SpeachParts.ADVERB = 4;
+SpeachParts.PRONOUN = 5;
+SpeachParts.PREPOSITION = 6;
+SpeachParts.CONJUNCTION = 7;
+SpeachParts.INTERJECTION = 8;
 
 SpeachParts.parseEn = function(sp){
-    switch(sp){
+    switch(sp.toLowerCase()){
         case 'noun':
             return SpeachParts.NOUN;
         case 'verb':
@@ -42,6 +46,14 @@ SpeachParts.parseEn = function(sp){
             return SpeachParts.ADJECTIVE;
         case 'adverb':
             return SpeachParts.ADVERB;
+        case 'pronoun':
+            return SpeachParts.PRONOUN;
+        case 'preposition':
+            return SpeachParts.PREPOSITION;
+		case 'conjunction':
+            return SpeachParts.CONJUNCTION;
+		case 'interjection':
+            return SpeachParts.INTERJECTION;
         default:
             return SpeachParts.UNKNOWN; 
     }
