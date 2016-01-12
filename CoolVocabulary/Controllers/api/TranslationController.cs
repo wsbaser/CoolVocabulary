@@ -13,6 +13,8 @@ using CoolVocabulary.Models;
 using Microsoft.AspNet.Identity;
 using Newtonsoft.Json.Linq;
 using NLog;
+using Microsoft.AspNet.Identity.EntityFramework;
+using CoolVocabulary.Extensions;
 
 namespace CoolVocabulary.Controllers.api
 {
@@ -44,6 +46,9 @@ namespace CoolVocabulary.Controllers.api
                     return BadRequest("Invalid translation language");
                 }
 
+                var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new VocabularyDbContext()));
+                var user = um.FindById(User.Identity.GetUserId());
+
                 // . add word
                 Word word = await db.AddWord(data.word.ToLower(),
                     wordLanguage,
@@ -58,14 +63,17 @@ namespace CoolVocabulary.Controllers.api
                     data.translationWords,
                     data.translationCards);
                 // . if book id is not specified - add translation to 'Cool Translator' book
-                Book book;
+                UserBook userBook;
                 if (data.bookId == 0) {
-                    book = await db.GetCTBook(User.Identity.GetUserId(), wordLanguage);
-                    data.bookId = book.Id;
+                    userBook = await db.GetCTUserBook(User.Identity.GetUserId(), wordLanguage);
+                    data.bookId = userBook.BookId;
                 } else {
-                    book = db.Books.Find(data.bookId);
-                    if (book == null) {
+                    userBook = await db.FindUserBookAsync(user.Id, data.bookId);
+                    if (userBook == null) {
                         return BadRequest("Invalid bookId");
+                    }
+                    if (!userBook.Book.CanBeUpdatedBy(user.Id)) {
+                        return BadRequest("User is not author of the book");
                     }
                 }
 
@@ -78,13 +86,13 @@ namespace CoolVocabulary.Controllers.api
                 Redis.PushWord(translationLanguage, sp, bwt.Item2.Value);
 #endif
                 return CreatedAtRoute("DefaultApi", new { id = bwt.Item2.Id }, new {
-                    book = new BookDto(book),
+                    book = new BookDto(userBook.Book),
                     word = new WordDto(word),
                     bookWord = new BookWordDto(bwt.Item1),
                     translation = new TranslationDto(bwt.Item2)
                 });
             } catch (Exception e) {
-                _logger.Error("Unable to add translation", e);
+                _logger.Error(e, "Unable to add translation");
                 throw;
             }
         }

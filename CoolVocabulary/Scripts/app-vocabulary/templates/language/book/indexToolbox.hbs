@@ -4,25 +4,25 @@
       <i class="edit-icon glyphicon glyphicon-cog color-blue" title="Edit book"></i>
     {{/link-to}}
     <a id="currentBook" href="#" data-toggle="dropdown" role="button" class="overflow-ellipsis">
-      {{model.name}}
+      {{model.book.name}}
       <span class="caret"></span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="currentBook">
-      <li class="dropdown-header">Your books: {{books.length}}</li>
+      <li class="dropdown-header">Your books: {{userBooks.length}}</li>
 
-      {{#each books as |book|}}
+      {{#each userBooks as |userBook|}}
       <li>
-        {{#link-to "book" book.id class="bookLink"}}
+        {{#link-to "book" userBook.id class="bookLink"}}
         <span class="overflow-ellipsis">
-        {{book.name}}
+        {{userBook.book.name}}
         </span>
-        <span class="total pull-right">
-          {{book.wordsCount}}
+{{!--         <span class="total pull-right">
+          {{userBook.book.wordsCount}}
         </span>
         <span class="book-progress pull-right">
           {{book-progress book.wordsCompletedCount book.wordsCount}} 
         </span>
-        {{/link-to}}
+ --}}        {{/link-to}}
       </li>
       {{/each}}
 

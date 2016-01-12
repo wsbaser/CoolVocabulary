@@ -4,11 +4,9 @@ Vocabulary.BookIndexRoute = Ember.Route.extend({
 		this.render('language/book/indexToolbox', { into: "language/book", outlet: 'toolbox' });
 		this.render('language/book/index', { into: "language/book", outlet: 'content' });
 	},
-	afterModel: function(){
-	},
 	setupController: function(controller, model){
 		var self = this;
-		model = this.modelFor('book');
+		model = this.controllerFor('book').get('model');
 	    this._super(controller, model);
 	    controller.initSiteDialog();
 	    Ember.run.schedule('afterRender', this, this.afterRender);

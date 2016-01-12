@@ -1,4 +1,7 @@
-﻿using System;
+﻿using CoolVocabulary.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -26,5 +29,20 @@ namespace CoolVocabulary.Extensions {
                 errors = errors
             };
         }
+
+        public static ApplicationUser GetUser(this Controller controller) {
+            ApplicationUser user = null;
+            if (controller.Request.IsAuthenticated) {
+                var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new VocabularyDbContext()));
+                user = um.FindById(controller.User.Identity.GetUserId());
+            }
+            return user;
+        }
+
+        public static ApplicationUser GetUser(this ApiController controller) {
+            var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new VocabularyDbContext()));
+            return um.FindById(controller.User.Identity.GetUserId());
+        }
+
     }
 }

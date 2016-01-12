@@ -5,22 +5,28 @@ Vocabulary.ApplicationRoute = Ember.Route.extend({
 		// ServerData.Languages.forEach(function(item){
 		// 	self.store.push(self.store.normalize('language', item));
 		// });
-		self.store.pushPayload({
-			languages:ServerData.Languages
-		});
-		self.store.pushPayload({
-			users:[ServerData.User]
-		});
 			// self.store.normalize('user', ServerData.User));
 		// . return curent User as application route model
+		this.pushLanguages(ServerData.Languages);
+		this.pushUser(ServerData.User);
 		return self.store.find('user', ServerData.User.id);
+	},
+	pushLanguages: function(languages){
+		this.store.pushPayload({
+			languages: languages
+		});
+	},
+	pushUser: function(user){
+		this.store.pushPayload({
+			users:[user]
+		});
 	},
 	setupController: function(controller, model){
 		this._super(controller, model);
 
 		// . store CCSRF Token in application controller 
 		controller.set('csrfFormToken', ServerData.CSRFFormToken);
-
+		
 		// . create reactor and register events
 		var reactor = new Reactor();
     	reactor.registerEvent('showBackground');
@@ -39,8 +45,9 @@ Vocabulary.ApplicationRoute = Ember.Route.extend({
 			language = this.store.peekAll('language').filter(function(item){
 				return item.id!==nativeLanguageId;
 			}).get('firstObject');
+			currentLanguageId = language.id;
 		}
-		this.transitionTo('language', language);
+		this.transitionTo('language', currentLanguageId);
   		Ember.run.schedule('afterRender', this, this.afterRender);
 	},
 	afterRender: function(){

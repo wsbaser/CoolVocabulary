@@ -24,94 +24,124 @@ namespace CoolVocabulary.Controllers.api
         private Logger _logger = LogManager.GetCurrentClassLogger();
         private VocabularyDbContext db = new VocabularyDbContext();
 
-        // GET api/Book
-        public async Task<IHttpActionResult> GetBooks(string language, int bookId) {
-            LanguageType languageType;
-            if (!Enum.TryParse<LanguageType>(language, out languageType)) {
-                return BadRequest("Invalid language");
-            }
-            // . get books of current user
-            var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new VocabularyDbContext()));
-            var user = um.FindById(User.Identity.GetUserId());
-            if (user == null)
-                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.Unauthorized));
+//        // GET api/Book
+//        public async Task<IHttpActionResult> GetBooks(string language, int bookId) {
+//            LanguageType languageType;
+//            if (!Enum.TryParse<LanguageType>(language, out languageType)) {
+//                return BadRequest("Invalid language");
+//            }
+//            // . get books of current user
+//            var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new VocabularyDbContext()));
+//            var user = um.FindById(User.Identity.GetUserId());
+//            if (user == null)
+//                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.Unauthorized));
 
-            var books = new Dictionary<int,BookDto>();
-            List<BookWordDto> bookWords=null;
-            List<WordDto> words=null;
-            List<TranslationDto> translations=null;
-            var noAggregatedDataBookIds = new List<int>();
-            // . get books
-            foreach (var book in db.Books.Where(v => v.UserId == user.Id && v.Language == (int)languageType)) {
-                Tuple<int, int> bookData = null;
-#if !DEBUG
-                    bookData = Redis.GetBookData(book.Id);
-#endif
-                if (bookData == null) {
-                    books.Add(book.Id, new BookDto(book, 0, 0, true));
-                    noAggregatedDataBookIds.Add(book.Id);
-                } else {
-                    books.Add(book.Id, new BookDto(book, bookData.Item1, bookData.Item2, false));
-                }
-            }
-            // .get books aggregated data
-            if (books.Count == 0) {
-                if (bookId != 0)
-                    return BadRequest("Invalid bookId");
-                const string FIRST_BOOK_NAME = "Martin Eden";
-                var book = await db.CreateBookAsync(user.Id, languageType, FIRST_BOOK_NAME);
-                books.Add(book.Id, new BookDto(book, 0, 0, true));
-            } else {
-                int currentBookId;
-                if (bookId == 0) {
-                    bookId = GetCurrentBookId();
-                    if (bookId != 0 && books.Values.Any(b => b.id == bookId)) {
-                        currentBookId = bookId;
-                    } else {
-                        currentBookId = books.Keys.First();
-                    }
-                } else {
-                    if (books.Values.Any(b => b.id == bookId)) {
-                        currentBookId = bookId;
-                    } else {
-                        return BadRequest("Invalid bookId");
-                    }
-                }
-                if (!noAggregatedDataBookIds.Contains(currentBookId)) {
-                    noAggregatedDataBookIds.Add(currentBookId);
-                }
-                LoadBookData(noAggregatedDataBookIds, out bookWords, out words, out translations);
-                foreach (BookWordDto bookWord in bookWords) {
-                    books[bookWord.book].bookWords.Add(bookWord.id);
-                }
-            }
-            return Ok(new {
-                emberDataFormat = true,
-                books = books.Values.ToList(),
-                bookWords = bookWords,
-                words = words,
-                translations = translations
-            });
-        }
+//            var userBooksDto = new Dictionary<int,UserBookDto>();
+//            List<BookWordDto> bookWordsDto=null;
+//            List<WordDto> wordsDto=null;
+//            List<TranslationDto> translationsDto=null;
+//            var noAggregatedDataBookIds = new List<int>();
+//            // . get books
+//            List<UserBook> userBooks = db.UserBooks.Include("Book").Where(ub => ub.UserId == user.Id && ub.Book.Language == (int)languageType).ToList();
+//            foreach (UserBook userBook in userBooks) {
+//                Tuple<int, int> bookData = null;
+//#if !DEBUG
+//                    bookData = Redis.GetBookData(book.Id);
+//#endif
+//                if (bookData == null) {
+//                    userBooksDto.Add(userBook.Id, new UserBookDto(userBook, 0, 0, true));
+//                    noAggregatedDataBookIds.Add(userBook.Id);
+//                } else {
+//                    userBooksDto.Add(userBook.Id, new UserBookDto(userBook, bookData.Item1, bookData.Item2, false));
+//                }
+//            }
+//            // .get books aggregated data
+//            if (userBooksDto.Count == 0) {
+//                if (bookId != 0)
+//                    return BadRequest("Invalid bookId");
+//                UserBook userBook = await GetFirstBookAsync(user.Id, languageType);
+//                userBooksDto.Add(userBook.Id, new UserBookDto(userBook, 0, 0, true));
+//            } else {
+//                int currentBookId;
+//                if (bookId == 0) {
+//                    bookId = GetCurrentBookId();
+//                    if (bookId != 0 && userBooksDto.Values.Any(b => b.id == bookId)) {
+//                        currentBookId = bookId;
+//                    } else {
+//                        currentBookId = userBooksDto.Keys.First();
+//                    }
+//                } else {
+//                    if (userBooksDto.Values.Any(b => b.id == bookId)) {
+//                        currentBookId = bookId;
+//                    } else {
+//                        return BadRequest("Invalid bookId");
+//                    }
+//                }
+//                if (!noAggregatedDataBookIds.Contains(currentBookId)) {
+//                    noAggregatedDataBookIds.Add(currentBookId);
+//                }
+//                LoadBookData(noAggregatedDataBookIds, out bookWordsDto, out wordsDto, out translationsDto);
+//                SetUserData(userBooks, bookWordsDto, translationsDto);
+//                foreach (BookWordDto bookWord in bookWordsDto) {
+//                    userBooksDto[bookWord.book].bookWords.Add(bookWord.id);
+//                }
+//            }
+//            return Ok(new {
+//                emberDataFormat = true,
+//                books = userBooksDto.Values.ToList(),
+//                bookWords = bookWordsDto,
+//                words = wordsDto,
+//                translations = translationsDto
+//            });
+//        }
 
-        private void LoadBookData(List<int> bookIds, out List<BookWordDto> bookWords, out List<WordDto> words, out List<TranslationDto> translations) {
-            bookWords = new List<BookWordDto>();
-            words = new List<WordDto>();
-            translations = new List<TranslationDto>();
-            var wordsQuery = db.BookWords.Where(v => bookIds.Contains(v.BookId)).Include("Word").Include("Translations");
-            foreach (var bookWord in wordsQuery) {
-                bookWords.Add(new BookWordDto(bookWord));
-                words.Add(new WordDto(bookWord.Word));
-                translations.AddRange(bookWord.Translations.Select(t => new TranslationDto(t)));
-            }
-        }
+        ///// <summary>
+        ///// User data for book words and translations is stored in JSON fieds of UsedBook object
+        ///// We need to parse that data and inject to BookWord and Translation objects
+        ///// </summary>
+        //private void SetUserData(List<UserBook> userBooks, List<BookWordDto> bookWordsList, List<TranslationDto> translationsList) {
+        //    var bookWords = bookWordsList.ToDictionary(bw => bw.id, bw => bw);
+        //    var translations = translationsList.ToDictionary(t => t.id, t => t);
+        //    var bookUserDataList = userBooks.Select(ub => new {
+        //        bookId = ub.Id,
+        //        LearnLevels = JsonConvert.DeserializeObject<Dictionary<int, int>>(ub.LearnLevels),
+        //        LearnDates = JsonConvert.DeserializeObject<Dictionary<int, DateTime>>(ub.LearnDates),
+        //        ExamDates = JsonConvert.DeserializeObject<Dictionary<int, DateTime>>(ub.ExamDates),
+        //        FirstPromoteDates = JsonConvert.DeserializeObject<Dictionary<int, DateTime>>(ub.FirstPromoteDates),
+        //        LastPromoteDates = JsonConvert.DeserializeObject<Dictionary<int, DateTime>>(ub.LastPromoteDates)
+        //    });
+        //    foreach (var bookUserData in bookUserDataList) {
+        //        BookWordDto bookWordDto = bookWords[bookUserData.bookId];
+        //        bookWordDto.learnedAt = bookUserData.LearnDates[bookUserData.bookId].Ticks;
+        //        foreach (int translationId in bookWordDto.translations) {
+        //            TranslationDto translationDto = translations[translationId];
+        //            translationDto.learnLevel = bookUserData.LearnLevels[translationId];
+        //            translationDto.examinedAt = bookUserData.ExamDates[translationId].Ticks;
+        //            translationDto.fistPromotedAt = bookUserData.FirstPromoteDates[translationId].Ticks;
+        //            translationDto.lastPromotedAt = bookUserData.LastPromoteDates[translationId].Ticks;
+        //        }
+        //    }
+        //}
 
-        private int GetCurrentBookId() {
-            int bookId;
-            if(Int32.TryParse(Request.GetCookie("CurrentBook"), out bookId))
-                return bookId;
-            return 0;
-        }
+
+        //private void LoadBookData(List<int> bookIds, out List<BookWordDto> bookWords, out List<WordDto> words, out List<TranslationDto> translations) {
+        //    bookWords = new List<BookWordDto>();
+        //    words = new List<WordDto>();
+        //    translations = new List<TranslationDto>();
+        //    var wordsQuery = db.BookWords.Where(v => bookIds.Contains(v.BookId)).Include("Word").Include("Translations");
+        //    foreach (var bookWord in wordsQuery) {
+        //        bookWords.Add(new BookWordDto(bookWord));
+        //        words.Add(new WordDto(bookWord.Word));
+        //        translations.AddRange(bookWord.Translations.Select(t => new TranslationDto(t)));
+        //    }
+        //}
+
+        //private int GetCurrentBookId() {
+        //    int bookId;
+        //    if(Int32.TryParse(Request.GetCookie("CurrentBook"), out bookId))
+        //        return bookId;
+        //    return 0;
+        //}
 
         // GET api/Book/5
         public async Task<IHttpActionResult> GetBook(int id) {
@@ -119,14 +149,19 @@ namespace CoolVocabulary.Controllers.api
             if (book == null) {
                 return NotFound();
             }
-            List<BookWordDto> bookWords = null;
-            List<WordDto> words = null;
-            List<TranslationDto> translations = null;
-            LoadBookData(new List<int> { id }, out bookWords, out words, out translations);
+            List<BookWordDto> bookWords = new List<BookWordDto>();
+            List<WordDto> words = new List<WordDto>();
+            List<TranslationDto> translations = new List<TranslationDto>();
+            var wordsQuery = db.BookWords.Where(v => v.BookId == id).Include("Word").Include("Translations");
+            foreach (var bookWord in wordsQuery) {
+                bookWords.Add(new BookWordDto(bookWord));
+                words.Add(new WordDto(bookWord.Word));
+                translations.AddRange(bookWord.Translations.Select(t => new TranslationDto(t)));
+            }
             return Ok(new {
                 emberDataFormat = true,
-                bookWords = bookWords,
                 words = words,
+                bookWords = bookWords,
                 translations = translations
             });
         }
@@ -170,17 +205,15 @@ namespace CoolVocabulary.Controllers.api
                     return BadRequest("Invalid book language");
                 }
                 var userId = User.Identity.GetUserId();
-                Book book = db.Books.SingleOrDefault(b => b.UserId == userId &&
-                    b.Name.ToLower() == bookDto.name.ToLower() &&
-                    b.Language == (int)bookLanguage);
-                if (book != null) {
+                UserBook userBook = await db.FindUserBookAsync(userId, bookDto.name, bookLanguage);
+                if (userBook != null) {
                     ModelState.AddModelError("name", string.Format("You already have book \"{0}\"", bookDto.name));
                 } else {
-                    book = await db.CreateBookAsync(User.Identity.GetUserId(), bookLanguage, bookDto.name);
-                    return CreatedAtRoute("DefaultApi", new { id = book.Id },
+                    userBook = await db.CreateUserBookAsync(User.Identity.GetUserId(), bookLanguage, bookDto.name);
+                    return CreatedAtRoute("DefaultApi", new { id = userBook.Id },
                         new {
                             emberDataFormat = true,
-                            books = new List<dynamic> { new BookDto(book) }
+                            userBooks = new List<dynamic> { new UserBookDto(userBook) }
                         });
                 }
             }

@@ -25,14 +25,21 @@ namespace CoolVocabulary.Migrations
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => new { t.BookId, t.UserId }, unique: true, name: "UQ_UserID_BookId");
 
+
             Sql("INSERT INTO dbo.\"UserBooks\" (\"UserId\",\"BookId\") SELECT \"UserId\",\"Id\" FROM dbo.\"Books\"");
 
             AddColumn("dbo.Books", "IsPublished", c => c.Boolean());
             AddColumn("dbo.Books", "Description", c => c.String());
+            DropColumn("dbo.BookWords", "LearnedAt");
+            DropColumn("dbo.Translations", "LearnLevel");
+            DropColumn("dbo.Translations", "ExaminedAt");
         }
         
         public override void Down()
         {
+            AddColumn("dbo.Translations", "ExaminedAt", c => c.Long(nullable: false));
+            AddColumn("dbo.Translations", "LearnLevel", c => c.Int(nullable: false));
+            AddColumn("dbo.BookWords", "LearnedAt", c => c.Long(nullable: false));
             DropForeignKey("dbo.UserBooks", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.UserBooks", "BookId", "dbo.Books");
             DropIndex("dbo.UserBooks", "UQ_UserID_BookId");

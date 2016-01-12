@@ -6,25 +6,25 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 	language: Ember.computed.alias('languageCtrl.model'),
 	user: Ember.computed.alias('applicationCtrl.model'),
 	nativeLanguage: Ember.computed.alias('applicationCtrl.model.nativeLanguage'),
-	books: Ember.computed('language', function(){
+	userBooks: Ember.computed('language', function(){
 		var language = this.get('language');
-		return this.store.peekAll('book').filterBy('language', language.id);
+		return this.store.peekAll('userBook').filterBy('book.language', language.id);
     }),
 	initSiteDialog: function(){
 		var self = this;
 		var ctAdapter = new CTAdapter();
 		var user = this.get('user');
-		var book = this.get('model');
+		var book = this.get('model.book');
 		var sourceLanguage = book.get('language');
 		var langPairParam = {
 			sourceLang: sourceLanguage,
 			targetLang: user.get('nativeLanguage.id')
 		};
-		var booksParam = this.get('books').map(function(book){ 
+		var booksParam = this.get('userBooks').map(function(userBook){ 
 			return {
-				id: book.id,
+				id: userBook.get('book.id'),
 				language: sourceLanguage, 
-				name: book.get('name').trim()
+				name: userBook.get('book.name').trim()
 			};
 		});
 		var userParam = {
@@ -32,7 +32,7 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 			language: user.get('nativeLanguage.id'),
 			books: booksParam
 		};
-		ctAdapter.initSiteDialog(langPairParam, '#word_input_form', userParam, book.id, function(){
+		ctAdapter.initSiteDialog(langPairParam, '#word_input_form', userParam, book.get('id'), function(){
 			if(!ctAdapter.extensionIsActive){
 				$('#word_input_form').on('submit', self.showInstallCTAlert.bind(self));
 			}
@@ -129,8 +129,8 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
         	});
 		window.event.preventDefault();
 	},
-	words: Ember.computed('model.bookWords.[]', function(){
-		var bookId = this.get('model.id');
+	words: Ember.computed('model.book.bookWords.[]', function(){
+		var bookId = this.get('model.book.id');
 		return this.store.peekAll('bookWord').filterBy('book.id', bookId);
 	}),
 	nouns: Ember.computed.filterBy('words', 'speachPart', 1),

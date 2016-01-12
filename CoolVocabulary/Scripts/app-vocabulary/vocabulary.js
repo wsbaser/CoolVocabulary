@@ -5,7 +5,7 @@ window.Vocabulary = Ember.Application.create({
 
 Vocabulary.Router.map(function(){
   this.route('language', {path:'/:language_id'}, function(){
-    this.route('book', { path: 'book/:book_id', resetNamespace: true }, function(){
+    this.route('book', { path: 'book/:userBook_id', resetNamespace: true }, function(){
       this.route('index', {path:'/'}, function(){
         this.route('wordTranslation', { path:'word/:bookWord_id', resetNamespace: true });
       });

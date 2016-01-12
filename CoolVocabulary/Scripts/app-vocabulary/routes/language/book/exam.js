@@ -84,10 +84,27 @@ Vocabulary.BookExamRoute = Ember.Route.extend({
 		return this.requestExamWords(sessionWords);
 	},
 	afterModel: function(){
+		var self = this;
 		var sessionWords = this.get("sessionWords");
 		if(!sessionWords||!sessionWords.toArray().length){
-			alert('Add words!');
-			this.transitionTo('book');
+			var message;
+			var bookWords = this.modelFor('book').get('bookWords');
+			if(bookWords.length){
+				message = 'No more examinations for today!<br>'+
+					'Our rule is: one word - one daily examination.<br>'+
+					'Come back tommorow please. Or, be a good monkey, and examinate words from other books.';
+			}else{
+				message = 'Nothing to examinate!<br>'+
+					'Add words to the book. It is simple.<br>'+
+					'Or, find a book interesting for you in our collection of published books and examinate words from it.';
+			}
+			BootstrapDialog.alert({
+			    title: 'Warning',
+			    message: message,
+	            callback: function() {
+	            	self.transitionTo('book');
+	            }
+	        });
 		}
 	},
 	getSessionWords: function(bookWords){

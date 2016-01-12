@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
 using CoolVocabulary.Extensions;
+using System.Linq.Expressions;
 
 namespace CoolVocabulary.Models {
     [BsonIgnoreExtraElements]
@@ -82,7 +83,6 @@ namespace CoolVocabulary.Models {
         [Required]
         [Index("UQ_BookID_WordID_SpeachPart", 3, IsUnique = true)]
         public int SpeachPart { get; set; }
-        public long LearnedAt { get; set; }
         public virtual Word Word { get; set; }
         public virtual Book Book { get; set; }
         public ICollection<Translation> Translations { get; set; }
@@ -101,9 +101,6 @@ namespace CoolVocabulary.Models {
         [Required]
         [Index("UQ_Value_Language_BookWordId", 2, IsUnique = true)]
         public int Language { get; set; }
-        [Range(0, 5)]
-        public int LearnLevel { get; set; }
-        public long ExaminedAt { get; set; }
         public virtual BookWord BookWord { get; set; }
     }
 
@@ -128,17 +125,22 @@ namespace CoolVocabulary.Models {
 
     public static class SupportedLanguages {
         static SupportedLanguages() {
-            All = new List<LanguageDto>();
-            var languages = Enum.GetValues(typeof(LanguageType));
-            for (var i = 0; i < languages.Length; i++) {
-                LanguageType language = (LanguageType)languages.GetValue(i);
-                All.Add(new LanguageDto {
+            AllDto = new List<LanguageDto>();
+            All = new List<LanguageType>((IList<LanguageType>)Enum.GetValues(typeof(LanguageType)));
+            for (var i = 0; i < All.Count; i++) {
+                LanguageType language = (LanguageType)All[i];
+                AllDto.Add(new LanguageDto {
                     id = language.ToString(),
                     name = language.GetStringValue()
                 });
             }
         }
-        public static List<LanguageDto> All;
+        public static List<LanguageType> All;
+        public static List<LanguageDto> AllDto;
+
+        internal static LanguageType GetDefault(LanguageType nativeLanguage) {
+            return All.First(l => l != nativeLanguage);
+        }
     }
 
     public enum SpeachPartType {

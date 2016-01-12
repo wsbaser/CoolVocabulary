@@ -1,28 +1,40 @@
 Vocabulary.LanguageIndexRoute = Ember.Route.extend({
-	model: function(){
-		var language = this.modelFor('language');
-		var books = this.store.peekAll('book').filterBy('language', language.id);
-		if(books.get('length')){
-			return books;
+	// model: function(){
+	// 	var language = this.modelFor('language');
+	// 	// var books = this.store.peekAll('userBook').filterBy('book.language', language.id);
+	// 	// return this.store.find('userBook', this.currentBookId);
+	// 	return this.store.query('userBook',{ 
+	// 		language: language.id
+	// 	});
+	// },
+	// afterModel: function(userBooks, transition) {
+	// 	// . get current book id
+	// 	var languageId = this.modelFor('language').id;
+	// 	var currentBookId = $.cookie('currentBook_'+languageId);
+	// 	var userBook;
+	// 	if(currentBookId){
+	// 		userBook = userBooks.findBy('id', currentBookId);
+	// 	}
+	// 	if(!userBook){
+	// 		userBook = userBooks.get('firstObject');
+	// 	}
+	// 	this.transitionTo('book', userBook);
+ //  	}
+  	setupController: function(){
+  		// . get user books
+  		var language = this.modelFor('language');
+		var userBooks = this.store.peekAll('userBook').filterBy('language', language.id);
+
+		// . get current book id
+		var userBook;
+		var currentUserBookId = $.cookie('currentUserBook_' + language.id);
+		if(currentUserBookId){
+			userBook = userBooks.findBy('id', currentUserBookId);
 		}
-		return this.store.query('book', {
-			language: language.id,
-			bookId: 0
-		});
-	},
-	afterModel: function(books, transition) {
-		var book;
-		var languageId = this.modelFor('language').id;
-		var currentBookId = $.cookie('currentBook_'+languageId);
-		if(currentBookId){
-			// . get current book
-			book = books.findBy('id', currentBookId);
+		if(!userBook){
+			currentUserBookId = userBooks.get('firstObject.id');
 		}
-		if(!book){
-			// .get first book
-			book = books.get('firstObject');
-		}
-		this.transitionTo('book', book);
+		this.transitionTo('book', currentUserBookId);
   	}
 });
 

@@ -3,27 +3,28 @@ Vocabulary.BookRoute = Ember.Route.extend({
 		this.render('language/book', { outlet: 'body' });
 	},
 	model: function(params){
-		this.set('id', params.book_id);
+		this.set('id',params.userBook_id);
 		var language = this.modelFor('language');
-		var book = this.store.peekRecord('book', params.book_id);
-		if(!book){
-			return this.store.query('book', {
-				language: language.id,
-				bookId: params.book_id
-			});
-		}else if(book.get('isLoaded')){
-			return book;
+		var userBook = this.store.peekRecord('userBook', params.userBook_id);
+		if(!userBook){
+			this.transitionTo('application');
+		}
+		if(userBook.get('book.loaded')){
+			return userBook;
 		}else{
-			return this.store.findRecord('book', params.book_id);
+			return this.store.query('book', {
+				id: userBook.get('book.id')
+			});
 		}
 	},
 	setupController: function(controller, model){
 		var self = this;
 		model = model && model.id?
 			model:
-			this.store.peekRecord('book', this.get('id'));
+			this.store.peekRecord('userBook', this.get('id'));
+		model.set('book.loaded', true);
 		var languageId = this.modelFor('language').id;
-		$.cookie('currentBook_'+languageId, model.id);
+		$.cookie('currentUserBook_' + languageId, model.id);
 		this._super(controller, model);
 	}
 });

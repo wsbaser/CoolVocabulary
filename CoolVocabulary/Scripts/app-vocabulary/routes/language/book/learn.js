@@ -14,7 +14,8 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 	afterModel: function(model){
 		var sessionWords = this.get("sessionWords");
 		if(!sessionWords || !sessionWords.toArray().length){
-			alert('Add words!');
+			BootstrapDialog.alert('Please add words to your book first!<br>'+
+				'Alternatively, you can find a suitable book in our collection of published books and learn words from it.');
 			this.transitionTo('book');
 		}
 	},

@@ -4,19 +4,23 @@ Vocabulary.LanguageRoute = Ember.Route.extend({
 		this.render('language', { outlet: 'body' });
 	},
 	model: function(params){
-		return this.store.peekAll('language').findBy('id', params.language_id);
-	},
-	afterModel: function(language, transition){
-		if(!language){
+		this.language = this.store.peekAll('language').findBy('id', params.language_id);
+		if(!this.language){
 			// . language not found 
 			this.transitionTo('application');
-		}
-		$.cookie('currentLanguage', language.id);
-		this._super();
+		}		
+		return this.store.query('userBook',{ 
+			language: this.language.id
+		});
 	},
-  	setupController: function(controller, model){
-  		this._super(controller, model);
+  	setupController: function(controller, userBooks){
+  		this._super(controller, this.language);
+		$.cookie('currentLanguage', this.language.id);
+
+		// . setup height adjusting
   		Ember.run.schedule('afterRender', this, this.afterRender);
+
+  		// . setup background
   		var applicationCtrl = this.controllerFor('application');
   		var applicationReactor = applicationCtrl.get('reactor');
   		applicationReactor.addEventListener('showBackground', this.showBackground.bind(this));
@@ -52,16 +56,20 @@ Vocabulary.LanguageRoute = Ember.Route.extend({
 	afterRender: function(){
 		var self = this;
 		$(window).resize(function(){
-			self.actions.adjustHeight().call(self);
-		}.bind(this));
+			self.actions.adjustHeight.call(self);
+		}.bind(self));
 		self.actions.adjustHeight.call(self);
 	},
 	actions: {
-		adjustHeight:function(){
-			var controller = this.controllerFor('language');
-			var menuHeight = $('#logo_mobile:visible').length?76:96;
-			var height = $(window).height() - menuHeight;
-			controller.set('contentHeight', Math.max(height, window.page.scrollHeight));
+		adjustHeight: function(){
+			try{
+				var menuHeight = $('#logo_mobile:visible').length?76:96;
+				var height = $(window).height() - menuHeight;
+				this.controller.set('contentHeight', Math.max(height, window.page.scrollHeight));
+			}
+			catch(error){
+				console.log(this);
+			}
 		}
 	}
 });

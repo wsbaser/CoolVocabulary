@@ -31,24 +31,22 @@ namespace CoolVocabulary.Models {
         public System.Data.Entity.DbSet<BookWord> BookWords { get; set; }
         public System.Data.Entity.DbSet<Translation> Translations { get; set; }
 
-        public async Task<Book> GetCTBook(string userId, LanguageType language)
-        {
+        public async Task<UserBook> GetCTUserBook(string userId, LanguageType language) {
             const string CT_BOOK_NAME = "Cool Translator";
-            var book = await Books.SingleOrDefaultAsync(v =>
-                v.UserId == userId &&
-                v.Language == (int)language &&
-                v.Name == CT_BOOK_NAME);
-            if (book == null)
-            {
-                book = await CreateBookAsync(userId, language, CT_BOOK_NAME);
+            var userBook = await FindUserBookAsync(userId, CT_BOOK_NAME, language);
+            if (userBook == null) {
+                userBook = await CreateUserBookAsync(userId, language, CT_BOOK_NAME);
             }
-            return book;
+            return userBook;
         }
 
-        public async Task<Book> CreateBookAsync(string userId, LanguageType language, string name)
-        {
-            var book = new Book()
-            {
+        public async Task<UserBook> CreateUserBookAsync(string userId, LanguageType language, string name) {
+            Book book = await CreateBookAsync(userId, language, name);
+            return await CreateUserBookForBookAsync(book.Id, userId);
+        }
+
+        private async Task<Book> CreateBookAsync(string userId, LanguageType language, string name) {
+            var book = new Book() {
                 Name = name,
                 UserId = userId,
                 Language = (int)language
@@ -108,8 +106,7 @@ namespace CoolVocabulary.Models {
                 {
                     BookWordId = bookWordEntity.Id,
                     Value = value,
-                    Language = (int)language,
-                    LearnLevel = 0
+                    Language = (int)language
                 };
                 Translations.Add(translationEntity);
                 await SaveChangesAsync();
@@ -128,7 +125,7 @@ namespace CoolVocabulary.Models {
         }
 
         internal async Task CreateFirstBook(string userId, LanguageType language) {
-            var targetBook = await CreateBookAsync(userId, language, "J.London, Martin Eden");
+            var targetBook = await CreateUserBookAsync(userId, language, "J.London, Martin Eden");
             try {
                 await this.Database.ExecuteSqlCommandAsync("exec dbo.CopyBookWords @sourceBookId, @targetBookId",
                     new SqlParameter("@sourceBookId", 1),
@@ -136,6 +133,46 @@ namespace CoolVocabulary.Models {
             } catch (Exception e) {
                 _logger.Error(e, "Error calling dbo.CopyBookWords procedure");
             }
+        }
+
+        internal async Task<UserBook> CreateUserBookForBookAsync(int bookId, string userId) {
+            var userBook = new UserBook() {
+                UserId = userId,
+                BookId = bookId
+            };
+            UserBooks.Add(userBook);
+            await SaveChangesAsync();
+            return userBook;
+        }
+
+        public async Task<UserBook> GetUserBookForBookAsync(int bookId, string userId) {
+            Book book = await Books.FindAsync(bookId);
+            if (book != null && book.CanBeUsedBy(userId)) {
+                return await CreateUserBookForBookAsync(bookId, userId);
+            }
+            return null;
+        }
+
+        internal async Task<UserBook> FindUserBookAsync(string userId, string name, LanguageType language) {
+            return await UserBooks.Include("Book").SingleOrDefaultAsync(b => b.UserId == userId &&
+                b.Book.Name.ToLower() == name.ToLower() &&
+                b.Book.Language == (int)language);
+        }
+
+        internal async Task<UserBook> FindUserBookAsync(string userId, int bookId) {
+            return await UserBooks.Include("Book").SingleOrDefaultAsync(b => b.UserId == userId && b.BookId == bookId);
+        }
+
+        internal async Task<List<UserBook>> GetUserBooksAsync(string userId, LanguageType languageType) {
+            return await UserBooks.Include("Book")
+                .Where(ub => ub.UserId == userId && ub.Book.Language == (int)languageType)
+                .ToListAsync();
+        }
+
+        internal async Task<List<UserBook>> GetUserBooksAsync(string userId) {
+            return await UserBooks.Include("Book")
+                .Where(ub => ub.UserId == userId)
+                .ToListAsync();
         }
     }
 }
