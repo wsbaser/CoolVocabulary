@@ -7,9 +7,9 @@ using CoolVocabulary.Models;
 using System.Configuration;
 
 namespace CoolVocabulary {
-#if !DEBUG
     public static class RedisConfig {
         public static void LoadExamWords() {
+#if !NO_REDIS
             foreach (LanguageType languageType in Enum.GetValues(typeof(LanguageType))) {
                 foreach (SpeachPartType speachPartType in Enum.GetValues(typeof(SpeachPartType))) {
                     Redis.DelWords(languageType, speachPartType);
@@ -29,7 +29,7 @@ namespace CoolVocabulary {
                     Redis.PushWord(LanguageType.ru, sp, translation);
                 }
             }
+#endif
         }
     }
-#endif
 }

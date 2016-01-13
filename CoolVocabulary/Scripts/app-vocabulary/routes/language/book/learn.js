@@ -8,16 +8,24 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 		var userBook = this.controllerFor('book').get('model');
 		this.set('isSingleWord', +params.word_id!==0);
 		var sessionWords = this.getSessionWords(userBook, params.word_id);
-		this.set('sessionWords', sessionWords);
-		return this.requestWordTranslations(sessionWords, 0, 15);
-	},
-	afterModel: function(model){
-		var sessionWords = this.get("sessionWords");
-		if(!sessionWords || !sessionWords.toArray().length){
-			BootstrapDialog.alert('Please add words to your book first!<br>'+
-				'Alternatively, you can find a suitable book in our collection of published books and learn words from it.');
+		if(this.checkSessionWords(sessionWords)){
+			this.set('sessionWords', sessionWords);
+			return this.requestWordTranslations(sessionWords, 0, 15);
+		}
+		else{
 			this.transitionTo('book');
 		}
+	},
+	checkSessionWords: function(sessionWords){
+		if(!sessionWords || !sessionWords.toArray().length){
+			BootstrapDialog.alert({
+			    title: 'Warning',
+			    message: '<b>Please add words to your book first!</b><br><br>'+
+				'Alternatively, you can look up our collection of published books, find a suitable one and learn words from it.'
+	        });
+			return false;
+		}
+		return true;
 	},
 	requestWordTranslations: function(sessionWords, start , count){
 		if(!sessionWords.length){
@@ -56,12 +64,13 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 		}else{
 			var wordsDictionary = {};
 			var wordsArr = [];
+			var learnDates = userBook.get('learnDates');
 			var bookWords = userBook.get('book.bookWords').filterBy('learnCompleted', false)
-			.sort(function(item1, item2){
-				var time1 = item1.get('learnedAt') || 0;
-				var time2 = item2.get('learnedAt') || 0;
-				return time1>time2?1:(time1===time2?0:-1);
-			}).toArray();
+				.sort(function(item1, item2){
+					var time1 = learnDates[item1.id] || 0;
+					var time2 = learnDates[item2.id] || 0;
+					return time1>time2?1:(time1===time2?0:-1);
+				}).toArray();
 			var count=0;
 			for(var i =0; i<bookWords.length&&count<15; i++){
 				word = bookWords[i].get('word');

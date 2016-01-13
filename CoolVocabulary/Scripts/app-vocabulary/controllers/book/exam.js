@@ -26,7 +26,8 @@ Vocabulary.BookExamController = Ember.Controller.extend(Vocabulary.HasActiveObje
 			// . update learn level
 			if(wordToExam.allCorrect()){
 				var learnLevels = userBook.get('learnLevels');
-				learnLevels[translation.id]++;  
+				var level = learnLevels[translation.id] || 0;
+				learnLevels[translation.id] = level+1;
 				translation.get('bookWord').content.notifyPropertyChange('learnLevel');
 			}
 			// . save to db
@@ -34,22 +35,26 @@ Vocabulary.BookExamController = Ember.Controller.extend(Vocabulary.HasActiveObje
 		}
 	},
 	checkForMoreWords: function(){
-		var bookWords = this.get('model.book.bookWords');
 		var DAY = 60*60*24*1000;
 		var now = Date.now();
+		var bookWords = this.get('model.book.bookWords');
+		var learnLevels = this.get('model.learnLevels');
+		var examDates = this.get('model.examDates');
 		var hasMoreWordsToExam = bookWords.any(function(item){
 			var translations = item.get('translations').toArray();
 			for (var i = translations.length - 1; i >= 0; i--) {
-			 	if( translations[i].get('learnLevel')<MAX_LEARN_LEVEL && 
-			 		(now-translations[i].get('examinedAt'))>DAY){
-			 		return true; 
+				var learnLevel = learnLevels[translations[i].id]||0;
+				var examDate = examDates[translations[i].id]||0;  
+			 	if(learnLevel<MAX_LEARN_LEVEL && now-examDate>DAY){
+			 		return true;
 			 	}
 			}
 			return false;
 		});
 		this.set('hasMoreWordsToExam', hasMoreWordsToExam);
+		var learnDates = this.get('model.learnDates');
 		var hasMoreWordsToLearn = bookWords.any(function(item){
-			return !!item.learnedAt;
+			return !learnDates[item.id];
 		});
 		this.set('hasMoreWordsToLearn', hasMoreWordsToLearn);
 	},
@@ -61,9 +66,10 @@ Vocabulary.BookExamController = Ember.Controller.extend(Vocabulary.HasActiveObje
 			}
 		});
 		translationsToPromote = translationsToPromote.uniq();
+		var learnLevels = this.get('model.learnLevels');
 		var dict = {};
 		translationsToPromote.forEach(function(translation){
-			var learnLevel = translation.get('learnLevel');
+			var learnLevel = learnLevels[translation.id];
 			if(!dict[learnLevel]){
 				dict[learnLevel]=1;
 			}
@@ -103,7 +109,7 @@ Vocabulary.BookExamController = Ember.Controller.extend(Vocabulary.HasActiveObje
 			this.send('sessionChanged');
 		},
 		learnMore: function(){
-			this.transitionToRoute('book.learn');			
+			this.transitionToRoute('book.learn', 0);	
 		}
 	}
 });

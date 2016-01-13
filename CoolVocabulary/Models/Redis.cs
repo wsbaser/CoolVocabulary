@@ -7,14 +7,14 @@ using System.Web;
 
 namespace CoolVocabulary.Models {
     public static class Redis {
-#if !DEBUG
+#if !NO_REDIS
         private static ConnectionMultiplexer _connection = ConnectionMultiplexer.Connect("localhost");
         public static IDatabase Db {
             get {
                 return _connection.GetDatabase();
             }
         }
-        
+
         private static string GetListKey(LanguageType language, SpeachPartType speachPart) {
             return language.ToString() + "_" + speachPart.ToString();
         }
@@ -23,21 +23,21 @@ namespace CoolVocabulary.Models {
         public const int MAX_WORDS_LIST_SIZE = 5000;
 
         public static void DelWords(LanguageType language, SpeachPartType speachPart) {
-#if !DEBUG
+#if !NO_REDIS
             string key = GetListKey(language, speachPart);
             Db.KeyDelete(key);
 #endif
         }
 
         public static void PushWord(LanguageType language, SpeachPartType speachPart, string word) {
-#if !DEBUG
+#if !NO_REDIS
             string key = GetListKey(language, speachPart);
             Db.ListLeftPush(key, word);
 #endif
         }
 
         public static async Task<List<string>> GetRandomWordsAsync(LanguageType language, SpeachPartType speachPart, int count) {
-#if !DEBUG
+#if !NO_REDIS
 
             var key = GetListKey(language, speachPart);
             int listSize = (int)(await Db.ListLengthAsync(key));

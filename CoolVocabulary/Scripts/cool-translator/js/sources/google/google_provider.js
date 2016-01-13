@@ -68,7 +68,7 @@ GoogleProvider.prototype.processResponse = function(response) {
         var definitions = arr[arr.length-3] || [];
         for (var i = definitions.length - 1; i >= 0; i--) {
             var sp = definitions[i][0];
-            jsonObject.definitions[sp] = $.map(definitions[i][1], function (item) {
+            var definitions = $.map(definitions[i][1], function (item) {
                 return {
                     definition: item[0],
                     example: item[2]
@@ -76,6 +76,9 @@ GoogleProvider.prototype.processResponse = function(response) {
             }).filter(function(item){
                 return item.definition && item.definition.length>10;
             });
+            if(definitions.length){
+                jsonObject.definitions[sp];
+            }
         };
     }
     catch (e) {
@@ -84,7 +87,6 @@ GoogleProvider.prototype.processResponse = function(response) {
 
     // .EXAMPLES
     try {
-        var examples = 
         jsonObject.examples = $.map(arr[arr.length-2][0], function (item) {
             return item[0];
         }).filter(function(item){

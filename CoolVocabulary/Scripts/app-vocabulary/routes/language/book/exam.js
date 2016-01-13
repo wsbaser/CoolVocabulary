@@ -79,49 +79,54 @@ Vocabulary.BookExamRoute = Ember.Route.extend({
 		else {
 			bookWords = this.modelFor('book').get('book.bookWords');
 		}
-		sessionWords = this.getSessionWords(bookWords);
-		this.set('sessionWords', sessionWords);
-		return this.requestExamWords(sessionWords);
+		var userBook = bookController.get('model');
+		sessionWords = this.getSessionWords(userBook, bookWords);
+		if(this.checkSessionWords(sessionWords)){
+			this.set('sessionWords', sessionWords);
+			return this.requestExamWords(sessionWords);
+		}else{
+			this.transitionTo('book');
+		}
 	},
-	afterModel: function(){
+	checkSessionWords: function(sessionWords){
 		var self = this;
-		var sessionWords = this.get("sessionWords");
 		if(!sessionWords||!sessionWords.toArray().length){
 			var message;
-			var bookWords = this.modelFor('book').get('book.bookWords');
+			var bookWords = this.modelFor('book').get('book.bookWords').toArray();
 			if(bookWords.length){
-				message = 'No more examinations for today!<br>'+
-					'Our rule is: one word - one daily examination.<br>'+
-					'Come back tommorow please. Or, be a good monkey, and examinate words from other books.';
+				message = '<b>No more examinations for today!</b><br><br>'+
+					'You can examinate each word only once a day.<br>'+
+					'Come back tommorow or be a good monkey and examinate words from other books.';
 			}else{
-				message = 'Nothing to examinate!<br>'+
+				message = '<b>Nothing to examinate!</b><br><br>'+
 					'Add words to the book. It is simple.<br>'+
-					'Or, find a book interesting for you in our collection of published books and examinate words from it.';
+					'Or find a book in our collection of published books and examinate words from it.';
 			}
 			BootstrapDialog.alert({
 			    title: 'Warning',
-			    message: message,
-	            callback: function() {
-	            	self.transitionTo('book');
-	            }
+			    message: message
 	        });
+	        return false;
 		}
+		return true;
 	},
-	getSessionWords: function(bookWords){
-		// . get all translations		
+	getSessionWords: function(userBook, bookWords){
+		// . get all translations
+		var learnLevels = userBook.get('learnLevels');
 		var translations = [];
 		bookWords.forEach(function(bookWord){
 			var notCompleted = bookWord.get('translations').filter(function(item){
-				return item.get('learnLevel')<MAX_LEARN_LEVEL;
+				return (learnLevels[item.id]||0)<MAX_LEARN_LEVEL;
 			}).toArray();
 			translations = translations.concat(notCompleted);
 		});
 		// . take 15 translations
 		var DAY = 60*60*24*1000;
 		var now = Date.now();
+		var examDates = userBook.get('examDates');
 		translations = translations.sort(function(item1,item2){ 
-			var examinedAt1 = item1.get('examinedAt') || 0;
-			var examinedAt2 = item2.get('examinedAt') || 0;
+			var examinedAt1 = examDates[item1.id] || 0;
+			var examinedAt2 = examDates[item2.id] || 0;
 			return examinedAt1>examinedAt2?1:(examinedAt1===examinedAt2?0:-1);
 		}).slice(0, SESSION_WORDS_COUNT);
 
@@ -211,7 +216,7 @@ Vocabulary.BookExamRoute = Ember.Route.extend({
 		// . set wordsTranslations
 		this.setWrongTranslations(model.content);
 		// . set model
-		model = this.modelFor('book');
+		model = this.controllerFor('book').get('model');
 		this._super(controller, model);
 		// . set session data
 		var sessionWords = this.get('sessionWords').filterBy('isValid', true);

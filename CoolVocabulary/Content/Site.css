@@ -338,9 +338,12 @@ a[target="_blank"]> i {
     box-shadow: 0 1px 10px rgba(0,0,0,.15);
 }
 
+.bootstrap-dialog .modal-dialog {
+    margin-top: 40px;
+}
+
 .bootstrap-dialog .modal-dialog.modal-sm{
     max-width: 348px;
-    margin-top: 40px;
 }
 
 .bootstrap-dialog .bootstrap-dialog-title{

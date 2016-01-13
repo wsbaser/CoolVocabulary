@@ -24,7 +24,7 @@ Vocabulary.BookRoute = Ember.Route.extend({
 			this.store.peekRecord('userBook', this.get('id'));
 		model.set('book.loaded', true);
 		var languageId = this.modelFor('language').id;
-		$.cookie('currentUserBook_' + languageId, model.id);
+		$.cookie('currentUserBook_' + languageId, model.get('id'));
 		this._super(controller, model);
 	}
 });

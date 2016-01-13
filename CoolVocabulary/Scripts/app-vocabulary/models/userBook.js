@@ -1,11 +1,11 @@
 Vocabulary.UserBook = DS.Model.extend({
   book: DS.belongsTo("book"),
   user: DS.belongsTo("user"),
-	learnLevels: DS.attr("string"),
-	learnDates: DS.attr("string"),
-	examDates: DS.attr("string"),
-	firstPromoteDates: DS.attr("string"),
-	lastPromoteDates: DS.attr("string"),
+	learnLevels: DS.attr(),
+	learnDates: DS.attr(),
+	examDates: DS.attr(),
+	firstPromoteDates: DS.attr(),
+	lastPromoteDates: DS.attr(),
 	inProgressCount: Ember.computed('learnLevels', function(){
 		var learnLevels = this.get('learnLevels');
 		var count=0;

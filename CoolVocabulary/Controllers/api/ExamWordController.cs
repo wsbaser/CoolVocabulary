@@ -16,7 +16,7 @@ namespace CoolVocabulary.Controllers.api {
         private VocabularyDbContext db = new VocabularyDbContext();
 
         private async Task AddRandomWordsAsync(List<dynamic> words, LanguageType language, SpeachPartType speachPart, int count) {
-#if !DEBUG
+#if !NO_REDIS
             List<string> list = await Redis.GetRandomWordsAsync(language, speachPart, count);
             foreach (string word in list) {
                 words.Add(new {

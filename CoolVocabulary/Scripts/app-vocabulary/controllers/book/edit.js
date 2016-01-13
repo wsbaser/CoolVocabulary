@@ -27,10 +27,6 @@ Vocabulary.BookEditController = Ember.Controller.extend({
 							var userBook = self.model; 
 							var book = userBook.get('book');
 							userBook.destroyRecord().then(function(){
-								// book.content.unloadRecord();
-								// console.log(self.store.peekAll('userBook').toArray());
-								// userBook.unloadRecord();
-								// console.log(self.store.peekAll('userBook').toArray());
 								self.transitionToRoute('language.index');
 							});
 						}

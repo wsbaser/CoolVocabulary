@@ -81,10 +81,9 @@ namespace CoolVocabulary.Controllers.api
                 SpeachPartType sp = GetSpeachPart(data.translationWords, data.translationWord);
                 Tuple<BookWord, Translation> bwt = await db.AddTranslation(data.bookId, word.Id, data.translationWord, translationLanguage, sp);
 
-#if !DEBUG
                 Redis.PushWord(wordLanguage, sp, word.Value);
                 Redis.PushWord(translationLanguage, sp, bwt.Item2.Value);
-#endif
+
                 var userBookDto = new UserBookDto(userBook);
                 return CreatedAtRoute("DefaultApi", new { id = bwt.Item2.Id }, new {
                     userBook = userBookDto,

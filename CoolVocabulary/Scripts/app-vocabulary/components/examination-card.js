@@ -2,6 +2,12 @@ Vocabulary.ExaminationCardComponent = Ember.Component.extend({
 	classNames: ['examination-card', 'light-shadow'],	
 	actions: {
 		select: function(translation){
+			if(this.get('isSelected')){
+				// . multiple select is forbidden
+				return;
+			}
+			this.set('isSelected', true);
+
 			var wordToExam = this.get('wordToExam');
 			var selectedWord = translation.get('word');
 			var correctWord = wordToExam.get('targetWord');

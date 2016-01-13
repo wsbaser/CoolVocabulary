@@ -13,22 +13,20 @@
 		{{/each}}
 	</div>
 	<hr class="splitter"/>
-	<div class="header">
-		{{#if hasMoreWords}}
-			You have more translations to examine.
-		{{else}}
-			All translations in the book are exmined.							
-		{{/if}}
-	</div>
+	{{#unless hasMoreWordsToExam}}
+		<div class="header">
+				All translations in the book are examined.
+		</div>
+	{{/unless}}
 	<div class="actions">
 		{{#link-to 'book'}}
 			<button id="later_btn" class="btn btn-default overflow-ellipsis">Back to "{{bookName}}"</button>
 		{{/link-to}}
 		{{#if hasMoreWordsToLearn}}
-			<button {{action 'learnMore'}} id="learn_btn" class="btn btn-success">Learn</button>
+			<button {{action 'learnMore'}} id="learn_btn" class="btn btn-success">Learn More</button>
 		{{/if}}
 		{{#if hasMoreWordsToExam}}
-			<button {{action 'examMore'}} id="examine_btn" class="btn btn-warning">Examine</button>
+			<button {{action 'examMore'}} id="examine_btn" class="btn btn-warning">Examine More</button>
 		{{/if}}
 	</div>
 </div>
