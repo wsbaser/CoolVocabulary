@@ -21,13 +21,16 @@ Vocabulary.LanguageIndexRoute = Ember.Route.extend({
 	// 	this.transitionTo('book', userBook);
  //  	}
   	setupController: function(){
-  		// . get user books
-  		var language = this.modelFor('language');
-		var userBooks = this.store.peekAll('userBook').filterBy('language', language.id);
+  		// . get user books for current language
+  		var languageId = this.controllerFor('language').get('model.id');
+  		var user = this.modelFor('application');
+  		var userBooks = user.get('userBooks').filter(function(userBook){
+			return userBook.get('book.language')===languageId; 
+		});
 
 		// . get current book id
 		var userBook;
-		var currentUserBookId = $.cookie('currentUserBook_' + language.id);
+		var currentUserBookId = $.cookie('currentUserBook_' + languageId);
 		if(currentUserBookId){
 			userBook = userBooks.findBy('id', currentUserBookId);
 		}

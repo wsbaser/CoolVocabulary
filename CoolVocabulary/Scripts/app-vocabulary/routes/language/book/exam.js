@@ -77,7 +77,7 @@ Vocabulary.BookExamRoute = Ember.Route.extend({
 			});
 		}
 		else {
-			bookWords = this.modelFor('book').get('bookWords');
+			bookWords = this.modelFor('book').get('book.bookWords');
 		}
 		sessionWords = this.getSessionWords(bookWords);
 		this.set('sessionWords', sessionWords);
@@ -88,7 +88,7 @@ Vocabulary.BookExamRoute = Ember.Route.extend({
 		var sessionWords = this.get("sessionWords");
 		if(!sessionWords||!sessionWords.toArray().length){
 			var message;
-			var bookWords = this.modelFor('book').get('bookWords');
+			var bookWords = this.modelFor('book').get('book.bookWords');
 			if(bookWords.length){
 				message = 'No more examinations for today!<br>'+
 					'Our rule is: one word - one daily examination.<br>'+
@@ -211,7 +211,7 @@ Vocabulary.BookExamRoute = Ember.Route.extend({
 		// . set wordsTranslations
 		this.setWrongTranslations(model.content);
 		// . set model
-		model = this.controllerFor('book').get('model');
+		model = this.modelFor('book');
 		this._super(controller, model);
 		// . set session data
 		var sessionWords = this.get('sessionWords').filterBy('isValid', true);

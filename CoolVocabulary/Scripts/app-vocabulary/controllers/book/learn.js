@@ -205,10 +205,13 @@ Vocabulary.BookLearnController = Ember.Controller.extend(Vocabulary.HasActiveObj
 	},
 	updateLearnStatus: function(wordToLearn){
 		wordToLearn.set('isLearned', true);
+		var userBook = this.get('model');
+		var learnDates = userBook.get('learnDates');
 		wordToLearn.get('bookWords').forEach(function(bookWord){
-			bookWord.set('learnedAt', Date.now());
-			bookWord.save();
+			learnDates[bookWord.id] = Date.now();
 		});
+		userBook.notifyPropertyChange('learnDates');
+		userBook.save();
 	},
 	actions: {
 		nextWord: function(){

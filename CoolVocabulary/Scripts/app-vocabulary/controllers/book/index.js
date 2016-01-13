@@ -6,10 +6,17 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 	language: Ember.computed.alias('languageCtrl.model'),
 	user: Ember.computed.alias('applicationCtrl.model'),
 	nativeLanguage: Ember.computed.alias('applicationCtrl.model.nativeLanguage'),
-	userBooks: Ember.computed('language', function(){
-		var language = this.get('language');
-		return this.store.peekAll('userBook').filterBy('book.language', language.id);
-    }),
+	userBooks: Ember.computed('user.userBooks.[]', 'language', function(){
+		var userBooks = this.get('user.userBooks');
+		var languageId = this.get('language.id');
+		return userBooks.filter(function(userBook){
+			return userBook.get('book.language')===languageId; 
+		});
+	}),
+	// Ember.computed('language', function(){
+	// 	var language = this.get('language');
+	// 	return this.store.peekAll('userBook').filterBy('book.language', language.id);
+ //    }),
 	initSiteDialog: function(){
 		var self = this;
 		var ctAdapter = new CTAdapter();
@@ -129,10 +136,11 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
         	});
 		window.event.preventDefault();
 	},
-	words: Ember.computed('model.book.bookWords.[]', function(){
-		var bookId = this.get('model.book.id');
-		return this.store.peekAll('bookWord').filterBy('book.id', bookId);
-	}),
+	words: Ember.computed.alias('model.book.bookWords'), 
+	// 	function(){
+	// 	var bookId = this.get('model.book.id');
+	// 	return this.store.peekAll('bookWord').filterBy('book.id', bookId);
+	// }),
 	nouns: Ember.computed.filterBy('words', 'speachPart', 1),
 	verbs: Ember.computed.filterBy('words', 'speachPart', 2),
 	adjectives: Ember.computed.filterBy('words', 'speachPart', 3),

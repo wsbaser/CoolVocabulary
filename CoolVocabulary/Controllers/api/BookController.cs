@@ -210,33 +210,16 @@ namespace CoolVocabulary.Controllers.api
                     ModelState.AddModelError("name", string.Format("You already have book \"{0}\"", bookDto.name));
                 } else {
                     userBook = await db.CreateUserBookAsync(User.Identity.GetUserId(), bookLanguage, bookDto.name);
+                    var userBookDto = new UserBookDto(userBook);
                     return CreatedAtRoute("DefaultApi", new { id = userBook.Id },
                         new {
                             emberDataFormat = true,
-                            userBooks = new List<dynamic> { new UserBookDto(userBook) }
+                            books = new List<dynamic> { userBookDto.BookDto },
+                            userBooks = new List<dynamic> { userBookDto }
                         });
                 }
             }
             return new EmberDSErrorsResult(this);
-        }
-
-        // DELETE api/Book/5
-        [ResponseType(typeof(Book))]
-        public async Task<IHttpActionResult> DeleteBook(int id) {
-            try {
-                Book book = await db.Books.FindAsync(id);
-                if (book == null) {
-                    return NotFound();
-                }
-
-                db.Books.Remove(book);
-                await db.SaveChangesAsync();
-
-                return Ok(book);
-            } catch (Exception e) {
-                _logger.Error("Can not delete book", e);
-                throw;
-            }
         }
 
         protected override void Dispose(bool disposing)

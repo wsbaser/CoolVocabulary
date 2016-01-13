@@ -85,8 +85,10 @@ namespace CoolVocabulary.Controllers.api
                 Redis.PushWord(wordLanguage, sp, word.Value);
                 Redis.PushWord(translationLanguage, sp, bwt.Item2.Value);
 #endif
+                var userBookDto = new UserBookDto(userBook);
                 return CreatedAtRoute("DefaultApi", new { id = bwt.Item2.Id }, new {
-                    book = new BookDto(userBook.Book),
+                    userBook = userBookDto,
+                    book = userBookDto.BookDto,
                     word = new WordDto(word),
                     bookWord = new BookWordDto(bwt.Item1),
                     translation = new TranslationDto(bwt.Item2)

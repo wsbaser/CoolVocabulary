@@ -43,44 +43,43 @@ namespace CoolVocabulary.Models {
 
     public class BookDto {
         public int id { get; set; }
-        public string userId { get; set; }
+        public string user { get; set; }
         [Required, MaxLength(100)]
         public string name { get; set; }
         [Required, MaxLength(2)]
         public string language { get; set; }
+        public int? userBook;
         public List<int> bookWords;
 
         public BookDto() { }
-        public BookDto(Book book) {
+        public BookDto(Book book, int userBookId=0) {
             this.id = book.Id;
-            this.userId = book.UserId;
+            this.user = book.UserId;
             this.name = book.Name;
             this.language = ((LanguageType)book.Language).ToString();
+            this.userBook = userBookId;
             this.bookWords = new List<int>();
         }
     }
 
     public class UserBookDto {
         public UserBookDto() { }
-        public UserBookDto(UserBook userBook)
-            : this(userBook, 0, 0, false) {
-        }
-        public UserBookDto(UserBook userBook, int wordsCount, int wordsCompleted, bool isLoaded) {
-            this.BookDto = new BookDto(userBook.Book);
+        public UserBookDto(UserBook userBook) {
             this.id = userBook.Id;
-            this.userId = userBook.UserId;
+            this.user = userBook.UserId;
             this.book = userBook.Book.Id;
             this.learnLevels = userBook.LearnLevels;
             this.learnDates = userBook.LearnDates;
             this.examDates = userBook.ExamDates;
             this.firstPromoteDates = userBook.FirstPromoteDates;
             this.lastPromoteDates = userBook.LastPromoteDates;
+            this.BookDto = new BookDto(userBook.Book, id);
         }
         [NonSerialized]
         public BookDto BookDto;
         public int id { get; set; }
         public int book { get; set; }
-        public string userId { get; set; }
+        public string user { get; set; }
         public string learnLevels { get; set; }
         public string learnDates { get; set; }
         public string examDates { get; set; }

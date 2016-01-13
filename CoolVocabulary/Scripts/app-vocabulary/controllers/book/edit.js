@@ -2,8 +2,8 @@ Vocabulary.BookEditController = Ember.Controller.extend({
 	actions: {
 		save: function(){
 			var self = this;
-			this.model.save().then(function(savedBook){
-				self.transitionToRoute('book', savedBook.get('id'));
+			this.model.get('book').save().then(function(savedBook){
+				self.transitionToRoute('book', savedBook.get('userBook.id'));
 			});
 		},
 		cancel: function(){
@@ -19,12 +19,18 @@ Vocabulary.BookEditController = Ember.Controller.extend({
 	            buttons: [{
 						label: 'Cancel',
 						cssClass: 'modal-cancel',
-		                action: function(dialog) {dialog.close();}
+		                action: function(dialog) { dialog.close(); }
 	            	},{
 		                label: 'OK',
 		                action: function(dialog){
 							dialog.close();
-							self.model.destroyRecord().then(function(){
+							var userBook = self.model; 
+							var book = userBook.get('book');
+							userBook.destroyRecord().then(function(){
+								// book.content.unloadRecord();
+								// console.log(self.store.peekAll('userBook').toArray());
+								// userBook.unloadRecord();
+								// console.log(self.store.peekAll('userBook').toArray());
 								self.transitionToRoute('language.index');
 							});
 						}

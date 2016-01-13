@@ -21,10 +21,10 @@ Vocabulary.LanguageRoute = Ember.Route.extend({
   		Ember.run.schedule('afterRender', this, this.afterRender);
 
   		// . setup background
-  		var applicationCtrl = this.controllerFor('application');
-  		var applicationReactor = applicationCtrl.get('reactor');
-  		applicationReactor.addEventListener('showBackground', this.showBackground.bind(this));
-		setTimeout(this.activateBackground.bind(this), 10000);
+  // 		var applicationCtrl = this.controllerFor('application');
+  // 		var applicationReactor = applicationCtrl.get('reactor');
+  // 		applicationReactor.addEventListener('showBackground', this.showBackground.bind(this));
+		// setTimeout(this.activateBackground.bind(this), 10000);		
   	},
   	activateBackground: function(){
   		var self = this;

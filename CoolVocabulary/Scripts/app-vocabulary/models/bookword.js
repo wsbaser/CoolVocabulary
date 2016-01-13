@@ -5,16 +5,21 @@ Vocabulary.BookWord = DS.Model.extend({
     learnedAt: DS.attr("number"),
     translations: DS.hasMany("translation"),
     learnLevel: Ember.computed("translations.[]", function(){
-    	var level = MAX_LEARN_LEVEL;
-		this.get('translations').forEach(function(item){
-			var translationLevel = item.get('learnLevel') || 0;
-			if(translationLevel<level){
-				level = translationLevel;
-			}
-		});
+    	var level=0;
+    	var learnLevels = this.get('book.userBook.learnLevels');
+    	if(learnLevels){
+			level = MAX_LEARN_LEVEL;
+			this.get('translations').forEach(function(item){
+				var translationLevel = learnLevels[item.id] || 0;
+				if(translationLevel<level){
+					level = translationLevel;
+				}
+			});
+    	}
 		return level;
     }),
 	learnCompleted: Ember.computed('learnLevel', function(){
-		return this.get('learnLevel')===MAX_LEARN_LEVEL;
+		var learnLevel = this.get('learnLevel')||0; 
+		return learnLevel===MAX_LEARN_LEVEL;
 	})
 });

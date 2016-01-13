@@ -174,5 +174,6 @@ namespace CoolVocabulary.Models {
                 .Where(ub => ub.UserId == userId)
                 .ToListAsync();
         }
+
     }
 }

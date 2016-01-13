@@ -5,9 +5,9 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 	},
 	sessionWords: null,
 	model: function(params){
-		var book = this.controllerFor('book').get('model');
+		var userBook = this.controllerFor('book').get('model');
 		this.set('isSingleWord', +params.word_id!==0);
-		var sessionWords = this.getSessionWords(book, params.word_id);
+		var sessionWords = this.getSessionWords(userBook, params.word_id);
 		this.set('sessionWords', sessionWords);
 		return this.requestWordTranslations(sessionWords, 0, 15);
 	},
@@ -43,10 +43,10 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 			dict[wt.record.get('word')].setWordTranslations(wt.record);
 		});
 	},
-	getSessionWords: function(book, wordId){
+	getSessionWords: function(userBook, wordId){
 		var word, wordToLearn;
 		if(+wordId){
-			var bookWord = book.get('bookWords').filterBy('word.id', wordId)[0];
+			var bookWord = userBook.get('book.bookWords').filterBy('word.id', wordId)[0];
 			word = bookWord.get('word');
 			return [Vocabulary.WordToLearn.create({ 
 					word:  word.content || word,
@@ -56,7 +56,7 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 		}else{
 			var wordsDictionary = {};
 			var wordsArr = [];
-			var bookWords = book.get('bookWords').filterBy('learnCompleted', false)
+			var bookWords = userBook.get('book.bookWords').filterBy('learnCompleted', false)
 			.sort(function(item1, item2){
 				var time1 = item1.get('learnedAt') || 0;
 				var time2 = item2.get('learnedAt') || 0;

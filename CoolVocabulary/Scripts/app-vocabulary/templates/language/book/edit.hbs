@@ -1,12 +1,12 @@
 <div class="centered-container">
     <div class="centered-ui">
         <div class="centered-header">
-            Edit book {{model.name}}
+            Edit book {{model.book.name}}
         </div>
         <div class="form-container">
             <form {{action "save" on="submit"}} class="clearfix">
                 <label for="Name">Name</label>
-                {{focus-input value=model.name id="Name" name="Name"  type="text" required="true" placeholder="Type in book name"}}
+                {{focus-input value=model.book.name id="Name" name="Name"  type="text" required="true" placeholder="Type in book name"}}
                 <div class="validation-summary">{{validationError}}</div>
                 <input type="button" {{action "cancel"}} value="Cancel"/>
                 {{input type="submit" class="pull-right" value="Save"}}

@@ -3,5 +3,6 @@ Vocabulary.Book = DS.Model.extend({
     user: DS.attr("string"),
     language: DS.attr("string"),
     loaded: DS.attr("boolean"),
-    bookWords: DS.hasMany("bookWord")
+    bookWords: DS.hasMany("bookWord"),
+    userBook: DS.belongsTo('userBook')
 });

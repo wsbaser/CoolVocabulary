@@ -16,21 +16,25 @@ Vocabulary.BookExamController = Ember.Controller.extend(Vocabulary.HasActiveObje
 	},
 	updateExaminationStatus: function(wordToExam){
 		wordToExam.set('isExamined', true);
-		var translation = wordToExam.get('translation');
 		if(wordToExam.allExamined()){
-			translation.set('examinedAt', Date.now());
-		}
-		if(wordToExam.allCorrect()){
-			translation.incrementProperty('learnLevel');
-			translation.get('bookWord').content.notifyPropertyChange('learnLevel');
-			// /translation.get('bookWord').content.updateLearnLevel();
-		}
-		if(translation.get('hasDirtyAttributes')){
+			var translation = wordToExam.get('translation');			
+			var userBook = this.get('model');
+			// . update exam date
+			var examDates = userBook.get('examDates'); 
+			examDates[translation.id] = Date.now();
+			userBook.notifyPropertyChange('examDates');
+			// . update learn level
+			if(wordToExam.allCorrect()){
+				var learnLevels = userBook.get('learnLevels');
+				learnLevels[translation.id]++;  
+				translation.get('bookWord').content.notifyPropertyChange('learnLevel');
+			}
+			// . save to db
 			translation.save();
 		}
 	},
 	checkForMoreWords: function(){
-		var bookWords = this.get('model.bookWords');
+		var bookWords = this.get('model.book.bookWords');
 		var DAY = 60*60*24*1000;
 		var now = Date.now();
 		var hasMoreWordsToExam = bookWords.any(function(item){

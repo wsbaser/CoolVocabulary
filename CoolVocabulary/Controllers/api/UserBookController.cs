@@ -7,9 +7,15 @@ using System.Web.Http;
 using System.Threading.Tasks;
 using CoolVocabulary.Models;
 using CoolVocabulary.Extensions;
+using System.Web.Http.Description;
+using NLog;
+using Microsoft.AspNet.Identity;
+using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace CoolVocabulary.Controllers.api {
     public class UserBookController : ApiController {
+        private Logger _logger = LogManager.GetCurrentClassLogger();
         private VocabularyDbContext db = new VocabularyDbContext();
 
         // GET api/Book
@@ -60,6 +66,35 @@ namespace CoolVocabulary.Controllers.api {
             }
             const string FIRST_BOOK_NAME = "My First Book";
             return await db.CreateUserBookAsync(userId, languageType, FIRST_BOOK_NAME);
+        }
+
+        // DELETE api/Book/5
+        [ResponseType(typeof(Book))]
+        public async Task<IHttpActionResult> DeleteBook(int id) {
+            try {
+                string userId = User.Identity.GetUserId();
+                UserBook userBook = await db.UserBooks.Include("Book").FirstOrDefaultAsync(ub=>ub.Id==id);
+                if (userBook == null) {
+                    return NotFound();
+                }
+                if(userBook.UserId!=userId){
+                    return BadRequest("User does not own the book.");
+                }
+
+                if (userBook.Book.CanBeUpdatedBy(userId)) {
+                    db.Books.Remove(userBook.Book);
+                    // . all user books will be deleted cascadely
+                } else {
+                    // . remove only user book
+                    db.UserBooks.Remove(userBook);
+                }
+
+                await db.SaveChangesAsync();
+                return Ok(userBook);
+            } catch (Exception e) {
+                _logger.Error("Can not delete user book", e);
+                throw;
+            }
         }
     }
 }

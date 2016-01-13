@@ -16,10 +16,12 @@
         <span class="overflow-ellipsis">
         {{userBook.book.name}}
         </span>
-{{!--         <span class="total pull-right">
-          {{userBook.book.wordsCount}}
-        </span>
-        <span class="book-progress pull-right">
+        {{#if userBook.inProgressCount}}
+          <span class="total pull-right">
+            {{userBook.inProgressCount}}
+          </span>
+        {{/if}}
+{{!--         <span class="book-progress pull-right">
           {{book-progress book.wordsCompletedCount book.wordsCount}} 
         </span>
  --}}        {{/link-to}}
