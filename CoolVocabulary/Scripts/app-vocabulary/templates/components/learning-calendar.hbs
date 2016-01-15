@@ -8,7 +8,9 @@
 </span>
 <span class="days" >
 	{{#each days as |day|}}
-		{{input type="checkbox" disabled="true" checked=day.taskCompleted class="checkbox-custom"}}
-		<label class="checkbox-custom-label"></label>
+		<span class="day {{if day.taskFailed "failed"}}">
+			{{input type="checkbox" disabled="true" checked=day.taskCompleted class="checkbox-custom"}}
+			<label class="checkbox-custom-label"></label>
+		</span>
 	{{/each}}
 </span>

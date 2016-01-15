@@ -6,17 +6,7 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 	language: Ember.computed.alias('languageCtrl.model'),
 	user: Ember.computed.alias('applicationCtrl.model'),
 	nativeLanguage: Ember.computed.alias('applicationCtrl.model.nativeLanguage'),
-	userBooks: Ember.computed('user.userBooks.[]', 'language', function(){
-		var userBooks = this.get('user.userBooks');
-		var languageId = this.get('language.id');
-		return userBooks.filter(function(userBook){
-			return userBook.get('book.language')===languageId; 
-		});
-	}),
-	// Ember.computed('language', function(){
-	// 	var language = this.get('language');
-	// 	return this.store.peekAll('userBook').filterBy('book.language', language.id);
- //    }),
+	userBooks: Ember.computed.alias('languageCtrl.userBooks'),
 	initSiteDialog: function(){
 		var self = this;
 		var ctAdapter = new CTAdapter();

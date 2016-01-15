@@ -1199,7 +1199,7 @@ a:hover .manageIcons .glyphicon {
     vertical-align: top;
 }
 
-.learning-calendar .days>input[type='checkbox']{
+.learning-calendar .days input[type='checkbox']{
 	margin-right: 5px;
 	vertical-align: top;
     margin-top: 3px;
@@ -1212,6 +1212,10 @@ a:hover .manageIcons .glyphicon {
     vertical-align: middle;
     margin: 5px;
     cursor: pointer;
+}
+
+.learning-calendar .failed .checkbox-custom + .checkbox-custom-label:before{
+    background: #e3e3e3;
 }
 
 .learning-calendar .checkbox-custom + .checkbox-custom-label:before{
