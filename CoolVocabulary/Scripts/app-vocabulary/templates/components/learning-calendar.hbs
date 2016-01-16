@@ -8,9 +8,21 @@
 </span>
 <span class="days" >
 	{{#each days as |day|}}
-		<span class="day {{if day.taskFailed "failed"}}">
-			{{input type="checkbox" disabled="true" checked=day.taskCompleted class="checkbox-custom"}}
-			<label class="checkbox-custom-label"></label>
-		</span>
+		{{#if day.hasDE }}
+			{{#link-to 'book.exam' class="day today de-not-completed"}}
+				<span class="day-status"></span>
+				<span class="caption">DAILY EXAMINATION</span>	
+			{{/link-to}}
+		{{else}}		
+			<span class="day {{if day.isToday "today"}} {{if day.deFailed "de-failed"}} {{if day.deCompleted "de-completed"}}">
+				<span class="day-status"></span>
+				{{#if day.isToday }}
+					<span class="caption">{{day.date}}</span>
+				{{/if}}
+{{!-- 
+				{{input type="checkbox" disabled="true" checked=day.deCompleted class="checkbox-custom"}}
+				<label class="checkbox-custom-label"></label> --}}
+			</span>
+		{{/if}}
 	{{/each}}
 </span>

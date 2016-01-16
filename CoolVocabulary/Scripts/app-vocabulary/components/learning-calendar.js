@@ -1,7 +1,8 @@
+var DAILY_PROMOTES_PLAN = 15;
 Vocabulary.LearningCalendarComponent = Ember.Component.extend({
 	classNames: [ 'learning-calendar', 'container', 'block'],	
 	month: Ember.computed(function(){
-		return new Date().toLocaleString('en-us', { month: "long" });
+		return new Date().toLocaleString('en-us', { month: "long" }).toUpperCase();
 	}),
 	days: Ember.computed('userBooks.[]', function(){		
 		var days = Ember.A();
@@ -16,19 +17,26 @@ Vocabulary.LearningCalendarComponent = Ember.Component.extend({
 		var userBooks = this.get('userBooks');
 		for(var i=1; i<=daysInThisMonth; i++){
 			day.setDate(i);
-			var taskCompleted = this.getIsTaskCompleted(userBooks, day);
-			var taskFailed = i<todayDate && !taskCompleted;
+			var promotesCount = this.getPromotesCount(userBooks, day);
+			var deCompleted = promotesCount >= DAILY_PROMOTES_PLAN;
+			var isToday = i===todayDate;
+			var isHistory = i<todayDate; 
 			days.pushObject(Ember.Object.create({
-				taskCompleted: taskCompleted,
-				taskFailed: taskFailed
+				date: i,
+				isToday: isToday,
+				hasDE: isToday && !deCompleted,
+				deFailed: isHistory && !deCompleted,
+				deCompleted: deCompleted,
+				promotesCount: promotesCount,
+				promotesLeftCount: DAILY_PROMOTES_PLAN-promotesCount
 			}));
 		}
 
 		return days;
 	}),
-	getIsTaskCompleted: function(userBooks, day){
+	getPromotesCount: function(userBooks, day){
 		// . calculate amount of translations with lastPromotedDate equal to the specific day
-		var todayPromotesCount = 0;
+		var promotesCount = 0;
 		userBooks.forEach(function(userBook){
 			var lastPromoteDates = userBook.get('lastPromoteDates'); 
 			for(var translationId in lastPromoteDates){
@@ -36,10 +44,10 @@ Vocabulary.LearningCalendarComponent = Ember.Component.extend({
 				if( promoteDate.getYear()===day.getYear() && 
 					promoteDate.getMonth()===day.getMonth() &&
 					promoteDate.getDate()===day.getDate()){
-					todayPromotesCount++;
+					promotesCount++;
 				}
 			}
 		});
-		return todayPromotesCount>=15;
+		return promotesCount;
 	}
 });
