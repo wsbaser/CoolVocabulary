@@ -5,9 +5,17 @@ function CVService(provider, services){
     $.each(services, function(i, service){
         this.services[service.config.id] = service;
     }.bind(this));
+    this.reactor = new Reactor();
+    this.reactor.registerEvent(CVService.CHECK_AUTH_END);
 }
 
+CVService.CHECK_AUTH_END = 'authend';
+
 /* protected methods */
+
+CVService.prototype.addEventListener = function(eventType, handler){
+    this.reactor.addEventListener(eventType, handler)
+};
 
 CVService.prototype.getPronunciation = function(inputData, method){
     return this.services.tfd.getPronunciation(inputData);
@@ -120,7 +128,18 @@ CVService.prototype.getBooks = function(language){
 };
 
 CVService.prototype.checkAuthentication = function(){
-    return this.provider.checkAuthentication();
+    var self = this;
+    var deferred = $.Deferred();
+    this.provider.checkAuthentication().done(function(user){
+        self.user = user;
+        self.reactor.dispatchEvent(CVService.CHECK_AUTH_END);
+        deferred.resolve(user);
+    }).fail(function(error){
+        self.user = null;
+        self.reactor.dispatchEvent(CVService.CHECK_AUTH_END);        
+        deferred.reject(error);
+    });
+    return deferred.promise();
 };
 
 CVService.prototype.login = function(username, password){

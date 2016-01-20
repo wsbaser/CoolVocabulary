@@ -6,6 +6,7 @@ Vocabulary.UserBook = DS.Model.extend({
 	examDates: DS.attr(),
 	firstPromoteDates: DS.attr(),
 	lastPromoteDates: DS.attr(),
+  translations: DS.attr(),
 	inProgressCount: Ember.computed('learnLevels', function(){
 		var learnLevels = this.get('learnLevels');
 		var count=0;
@@ -27,6 +28,7 @@ Vocabulary.UserBookSerializer = DS.RESTSerializer.extend({
     json.examDates = JSON.stringify(json.examDates);
     json.firstPromoteDates = JSON.stringify(json.firstPromoteDates);
     json.lastPromoteDates = JSON.stringify(json.lastPromoteDates);
+    json.translations = JSON.stringify(json.translations);
     return json;
   },
   normalize: function(modelClass, resourceHash) {
@@ -35,6 +37,7 @@ Vocabulary.UserBookSerializer = DS.RESTSerializer.extend({
     resourceHash.examDates = JSON.parse(resourceHash.examDates)||{};
     resourceHash.firstPromoteDates = JSON.parse(resourceHash.firstPromoteDates)||{};
     resourceHash.lastPromoteDates = JSON.parse(resourceHash.lastPromoteDates)||{};
+    resourceHash.translations = JSON.parse(resourceHash.translations)||{};
     return this._super(modelClass, resourceHash);
   }
 });

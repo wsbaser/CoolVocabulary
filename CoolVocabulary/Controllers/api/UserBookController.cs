@@ -10,13 +10,18 @@ using CoolVocabulary.Extensions;
 using System.Web.Http.Description;
 using NLog;
 using Microsoft.AspNet.Identity;
-using System.Threading.Tasks;
 using System.Data.Entity;
 
 namespace CoolVocabulary.Controllers.api {
     public class UserBookController : ApiController {
         private Logger _logger = LogManager.GetCurrentClassLogger();
-        private VocabularyDbContext db = new VocabularyDbContext();
+        private VocabularyDbContext db;
+        private Repository repo;
+
+        public UserBookController() {
+            db = new VocabularyDbContext();
+            repo = new Repository(db);
+        }
 
         // GET api/Book
         public async Task<IHttpActionResult> GetUserBooks(string language) {
@@ -34,50 +39,37 @@ namespace CoolVocabulary.Controllers.api {
             // . get user books
             List<UserBookDto> userBooks = Redis.GetUserBooks(user);
             if (userBooks == null) {
-                userBooks = (await db.GetUserBooksAsync(user.Id, languageType))
-                    .Select(ub => new UserBookDto(ub)).ToList();
+                userBooks = await db.GetUserBooksDtoAsync(user.Id, languageType);
                 if (userBooks.Count != 0) {
                     Redis.SaveUserBooks(userBooks);
                 } else {
-                    UserBook firstBook = await GetFirstBookAsync(user.Id, languageType);
+                    UserBook firstBook = await db.GetFirstBookAsync(user.Id, languageType);
                     userBooks.Add(new UserBookDto(firstBook));
                 }
             }
+
+            // . get month statistic for the current language
+            var monthStatistic = await repo.GetMonthStatisticAsync(user.Id, languageType);
 
             return Ok(new {
                 emberDataFormat = true,
                 books = userBooks.Select(ub => ub.BookDto).ToList(),
                 userBooks = userBooks,
+                monthStatistics = new List<MonthStatisticDto>() { monthStatistic }
             });
         }
 
-        private async Task<UserBook> GetFirstBookAsync(string userId, LanguageType languageType) {
-            int firstBookId = -1;
-            UserBook userBook;
-            switch (languageType) {
-                case LanguageType.en:
-                    firstBookId = 4;
-                    break;
-            }
-            if (firstBookId != -1) {
-                userBook = await db.GetUserBookForBookAsync(firstBookId, userId);
-                if (userBook != null)
-                    return userBook;
-            }
-            const string FIRST_BOOK_NAME = "My First Book";
-            return await db.CreateUserBookAsync(userId, languageType, FIRST_BOOK_NAME);
-        }
 
         // DELETE api/Book/5
         [ResponseType(typeof(Book))]
         public async Task<IHttpActionResult> DeleteBook(int id) {
             try {
                 string userId = User.Identity.GetUserId();
-                UserBook userBook = await db.UserBooks.Include("Book").FirstOrDefaultAsync(ub=>ub.Id==id);
+                UserBook userBook = await db.UserBooks.Include("Book").FirstOrDefaultAsync(ub => ub.Id == id);
                 if (userBook == null) {
                     return NotFound();
                 }
-                if(userBook.UserId!=userId){
+                if (userBook.UserId != userId) {
                     return BadRequest("User does not own the book.");
                 }
 

@@ -1,23 +1,46 @@
 Vocabulary.BookLearnRoute = Ember.Route.extend({
 	renderTemplate: function(){
-		this.render('language/book/learnToolbox', { into:'language/book', outlet: 'toolbox'});
-		this.render('language/book/learn', { into:'language/book', outlet: 'content'});
+		// . do not render anything here
 	},
-	sessionWords: null,
 	model: function(params){
-		var userBook = this.controllerFor('book').get('model');
-		this.set('isSingleWord', +params.word_id!==0);
-		var sessionWords = this.getSessionWords(userBook, params.word_id);
-		if(this.checkSessionWords(sessionWords)){
-			this.set('sessionWords', sessionWords);
-			return this.requestWordTranslations(sessionWords, 0, 15);
+		var bookCtrl = this.controllerFor('book');
+		if(+params.word_id){
+			this.isSingleWord = true;
+			return getSessionBookWordsForWordId(bookCtrl, +params.word_id);
 		}
 		else{
-			this.transitionTo('book');
+			var sessionBookWords = this.getSessionBookWords(bookCtrl);
+			if(this.checkSessionBookWords(sessionBookWords)){
+				return sessionBookWords;
+			}
+			else{
+				this.transitionTo('book');
+			}
 		}
 	},
-	checkSessionWords: function(sessionWords){
-		if(!sessionWords || !sessionWords.toArray().length){
+	getSessionBookWordsForWord: function(userBook, wordId){
+		return bookCtrl.get('model.book.bookWords').filterBy('word.id', wordId);
+	},
+	getSessionBookWords: function(){
+		var bookWords = bookCtrl.getActiveBookWordsSortedByLearnDates();
+		var sessionBookWords = [];
+		var sessionWordIds = [];
+		for(var i =0; i<bookWords.length; i++){
+			var wordId = bookWords[i].get('word.id');
+			if(sessionWordIds.indexOf(wordId)===-1){
+				if(sessionWordIds.length<15){
+					sessionWordIds.push(wordId);
+					sessionBookWords.push(bookWords[i]);
+				}
+			}
+			else{
+				sessionBookWords.push(bookWords[i]);
+			}
+		}
+		return sessionBookWords;
+	},
+	checkSessionBookWords: function(sessionBookWords){
+		if(!sessionBookWords || !sessionBookWords.toArray().length){
 			BootstrapDialog.alert({
 			    title: 'Warning',
 			    message: '<b>Please add words to your book first!</b><br><br>'+
@@ -26,6 +49,41 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 			return false;
 		}
 		return true;
+	},
+	setupController: function(controller, model){
+		controller.set('isSingleWord', this.isSingleWord);
+		this._super(controller, model);
+	}
+});
+
+Vocabulary.BookLearnIndexRoute = Ember.Route.extend({
+	renderTemplate: function(){
+		this.render('language/book/learnToolbox', { outlet: 'toolbox'});
+		this.render('language/book/learn', { outlet: 'content'});
+	},
+	model: function(){
+		var sessionBookWords = thid.modelFor('book.learn');
+		this.sessionWords = this.getSessionWords(sessionBookWords);
+		return this.requestWordTranslations(this.sessionWords, 0, SESSION_WORDS_COUNT);
+	},
+	getSessionWords: function(sessionBookWords){
+		var wordsDictionary = {};
+		sessionBookWords.forEach(function(bookWord){
+			var wordId = bookWord.get('word.id');
+			if(!wordsDictionary[wordId]){
+				wordsDictionary[wordId] = Vocabulary.WordToLearn.create({ 
+					word: word,
+					bookWords: Ember.A(),
+					cards: Ember.A()
+				});
+			}
+			wordsDictionary[wordId].addBookWord(bookWords[i]);
+		});
+		var wordsArr = [];
+		for(var key in wordsDictionary){
+			wordsArr.push(wordsDictionary[key]);
+		}
+		return wordsArr.shuffle();
 	},
 	requestWordTranslations: function(sessionWords, start , count){
 		if(!sessionWords.length){
@@ -41,9 +99,8 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 			targetLanguage: applicationCtrl.get('model.nativeLanguage.id') 
 		});
 	},
-	setWordTranslations: function(wordTranslations){
+	setWordTranslations: function(sessionWords, wordTranslations){
 		var dict = {};
-		var sessionWords = this.get('sessionWords');
 		sessionWords.forEach(function(wtl){
 			dict[wtl.get('word.value')] = wtl;
 		});
@@ -51,77 +108,13 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 			dict[wt.record.get('word')].setWordTranslations(wt.record);
 		});
 	},
-	getSessionWords: function(userBook, wordId){
-		var word, wordToLearn;
-		if(+wordId){
-			var bookWord = userBook.get('book.bookWords').filterBy('word.id', wordId)[0];
-			word = bookWord.get('word');
-			return [Vocabulary.WordToLearn.create({ 
-					word:  word.content || word,
-					bookWords: [bookWord],
-					cards: Ember.A()
-				})];
-		}else{
-			var wordsDictionary = {};
-			var wordsArr = [];
-			var learnDates = userBook.get('learnDates');
-			var bookWords = userBook.get('book.bookWords').filterBy('learnCompleted', false)
-				.sort(function(item1, item2){
-					var time1 = learnDates[item1.id] || 0;
-					var time2 = learnDates[item2.id] || 0;
-					return time1>time2?1:(time1===time2?0:-1);
-				}).toArray();
-			var count=0;
-			for(var i =0; i<bookWords.length&&count<15; i++){
-				word = bookWords[i].get('word');
-				var id = word.get('id');
-				wordToLearn = wordsDictionary[id];
-				if(!wordToLearn){
-					wordToLearn = wordsDictionary[id] = Vocabulary.WordToLearn.create({ 
-						word: word.content || word,
-						bookWords: Ember.A(),
-						cards: Ember.A()
-					});
-					count++;
-				}
-				wordToLearn.addBookWord(bookWords[i]);
-			}
-			for(var key in wordsDictionary){
-				wordsArr.push(wordsDictionary[key]);
-			}
-			return wordsArr.shuffle();
-		}
-	},
 	setupController: function(controller, model){
-		// . set wordsTranslations
-		this.setWordTranslations(model.content);
-		controller.set('isSingleWord', this.get('isSingleWord'));
-		// . set model
-		model = this.controllerFor('book').get('model');
-		this._super(controller, model);
-		// . set session data
-		var sessionWords = this.get("sessionWords");
-		controller.setupSession(sessionWords);
-		// . request for additional word translations
-		// if(sessionWords.length>3){
-		// 	this.requestWordTranslations(sessionWords, 3, 12).then(function(data){
-		// 		this.setWordTranslations(data.content);
-		// 	}.bind(this));
-		// }
-
+		this.setWordTranslations(this.sessionWords, model);
+		this._super(controller, this.sessionWords);
+		controller.setupSession(this.sessionWords);
 	    Ember.run.schedule('afterRender', this, this.afterRender);
 	},
 	afterRender: function(){
-		this.controller.get('activeWord').playSound();
-		
-   	//    	$('body').on('mousewheel', function(event){
-			// if(event.originalEvent.wheelDeltaY<0) {
-			// 	$('#learning-cards-shadow').scrollTo('+=300px', 300);
-			// 	$('#learning-cards').scrollTo('+=300px', 300);
-			// } else {
-			// 	$('#learning-cards-shadow').scrollTo('-=300px', 300);
-			// 	$('#learning-cards').scrollTo('-=300px', 300);
-			// }
-   //    	});
+		this.controller.get('activeWord').playSound();		
 	}
 });

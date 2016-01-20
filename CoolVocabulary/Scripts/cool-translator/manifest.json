@@ -42,13 +42,15 @@
       "js/sources/source.js",
       "js/sources/services_connection.js",
       "js/sources/vocabulary.js",
+      "js/sources/lang_detector.js",
       "js/dialog.js",
       "js/messagetypes.js",
       "js/content.js"
       ],
     "css": [
-      "css/login_form.css",
+      "css/common.css",
       "css/dialog.css",
+      "css/login_form.css",
       "js/sources/abby/abby_style.css",
       "js/sources/google/google_style.css",
       "js/sources/linguee/linguee_style.css",
@@ -69,8 +71,13 @@
     "images/ll/sound.png",
     "images/ll/marker.png",
     "images/ll/blank.gif",
-    "images/abby_icons.png"],
+    "images/abby_icons.png",
+    "images/bg.png"],
   "externally_connectable": {
     "matches": [ "http://localhost:13189/*", "http://localhost/*", "http://coolvocabulary.com/*" ]
+  },
+  "browser_action": {
+    "default_icon": "images/icon48.png",
+    "default_popup": "popup_login.html"
   }
 }

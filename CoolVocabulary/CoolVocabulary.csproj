@@ -245,6 +245,7 @@
     <Compile Include="Custom\AjaxAuthorize.cs" />
     <Compile Include="Custom\ValidateHttpAntiForgeryTokenAttribute.cs" />
     <Compile Include="Extensions\ControllerExtensions.cs" />
+    <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\HttpRequestExtensions.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />

@@ -150,7 +150,7 @@ namespace CoolVocabulary.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded) {
                     await SignInAsync(user, true);
-                    await db.CreateFirstBook(user.Id, nativeLanguage);
+                    await db.CreateFirstBookAsync(user.Id, nativeLanguage);
                     return RedirectToAction("Vocabulary", "Home");
                 } else {
                     AddErrors(result);
@@ -367,7 +367,7 @@ namespace CoolVocabulary.Controllers
                         result = await UserManager.AddLoginAsync(user.Id, info.Login);
                         if (result.Succeeded) {
                             await SignInAsync(user, true);
-                            await db.CreateFirstBook(user.Id, nativeLanguage);
+                            await db.CreateFirstBookAsync(user.Id, nativeLanguage);
                             if (string.IsNullOrEmpty(returnUrl))
                                 return RedirectToAction("Vocabulary", "Home");
                             else

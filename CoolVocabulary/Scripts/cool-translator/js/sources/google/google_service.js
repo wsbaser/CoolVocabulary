@@ -98,6 +98,10 @@ GoogleService.prototype.getTranslations = function(inputData){
     return result;
 };
 
+GoogleService.prototype.detectLanguage = function(word){
+    return this.provider.detectLanguage(word);
+};
+
 //===== GoogleTemplates ================================================================================================
 GoogleTemplates = {};
 

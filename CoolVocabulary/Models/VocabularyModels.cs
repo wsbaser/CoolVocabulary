@@ -19,6 +19,26 @@ namespace CoolVocabulary.Models {
         public string TranslationCards { get; set; }
     }
 
+    public class MonthStatistic {
+        [Required]
+        public Int32 Id { get; set; }
+        [Required]
+        [Index("UQ_UserId_Date_Language", 1, IsUnique = true)]
+        public string UserId { get; set; }
+        [Required]
+        [Index("UQ_UserId_Date_Language", 2, IsUnique = true)]
+        public UInt16 Year { get; set; }
+        [Required]
+        [Index("UQ_UserId_Date_Language", 3, IsUnique = true)]
+        public byte Month { get; set; }
+        [Required]
+        [Index("UQ_UserId_Date_Language", 4, IsUnique = true)]
+        public byte Language { get; set; }
+        [Required]
+        public UInt16 Plan { get; set; }
+        public UInt16 Done { get; set; }
+    }
+
     public class Word {
         [Required]
         public int Id { get; set; }
@@ -32,6 +52,7 @@ namespace CoolVocabulary.Models {
         public string Pronunciation { get; set; }
         public string SoundUrls { get; set; }
         public string PictureUrls { get; set; }
+        public ICollection<BookWord> BookWords { get; set; }
     }
 
     public class Book {
@@ -48,7 +69,7 @@ namespace CoolVocabulary.Models {
         public string Description { get; set; }
         [Required]
         [Index("UQ_UserID_Name_Language", 3, IsUnique = true)]
-        public int Language { get; set; }
+        public byte Language { get; set; }
         public ICollection<BookWord> BookWords { get; set; }
         public ApplicationUser User { get; set; }
     }
@@ -100,7 +121,7 @@ namespace CoolVocabulary.Models {
         public string Value { get; set; }
         [Required]
         [Index("UQ_Value_Language_BookWordId", 2, IsUnique = true)]
-        public int Language { get; set; }
+        public byte Language { get; set; }
         public virtual BookWord BookWord { get; set; }
     }
 

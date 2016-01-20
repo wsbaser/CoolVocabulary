@@ -3,7 +3,7 @@ function LoginForm(containerElementSelector) {
     this.containerElementSelector = containerElementSelector;
 };
 
-LoginForm.BTN_CAPTION_LOGIN = 'Login';
+LoginForm.BTN_CAPTION_LOGIN = 'Sing In';
 LoginForm.BTN_CAPTION_WAIT = 'Please wait...';
 
 LoginForm.TEMPLATE = 
@@ -27,7 +27,7 @@ LoginForm.TEMPLATE =
                     </div>\
                 </li>\
                 <li style="text-align:center !important; width:100% !important;">\
-                <input type="submit" value="Login" class="blue-button blurred"/></li>\
+                <input type="submit" value="Sign In" class="blue-button blurred"/></li>\
                 <li class="or-container">\
                   <hr class="or-hr">\
                   <div id="or">or</div>\
@@ -38,6 +38,10 @@ LoginForm.TEMPLATE =
                       <div class="text"><span>Google</span></div>\
                       <br class="cbt">\
                   </button>\
+                </li>\
+                <li class="ctr-signUp-wrap">\
+                    Don\'t have an account?\
+                    <a class="ctr-signUp" target="_blank" href="http://coolvocabulary.com/account/Register">Sing Up</a>\
                 </li>\
             </ul>\
         </form>\

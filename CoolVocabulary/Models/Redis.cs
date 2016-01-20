@@ -65,5 +65,9 @@ namespace CoolVocabulary.Models {
 
         internal static void SaveUserBooks(List<UserBookDto> userBooks) {
         }
+
+        public static MonthStatisticDto GetMonthStatistic(string userId, LanguageType languageType) {
+            return null;
+        }
     }
 }

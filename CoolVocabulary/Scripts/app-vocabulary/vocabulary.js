@@ -14,6 +14,11 @@ Vocabulary.Router.map(function(){
       this.route('edit');
     });
     this.route('createBook', { resetNamespace: true });
+    this.route('DE', { path:'DE' }, function(){
+      this.route('index');  // . this one is for the examination
+      this.route('learn');  // . this one is for the case when we do not have translations "in progress"
+                            // . and we should learn them first
+    });
   });
 });
 

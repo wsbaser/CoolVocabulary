@@ -45,11 +45,9 @@ DictionaryProvider.prototype.requestPage = function(urlTemplate, requestData, re
     xhr.open('GET', translateUrl, true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.send();
-
     xhr.onreadystatechange = function() {
       if (xhr.readyState != 4) return;
       if (xhr.status != 200) {
-        console.log(translateUrl)
         self.rejectWithStatusCode(deferred, xhr);
       } else {
         self.resolveWithJQueryElement(deferred, xhr.responseText, responseSelector);

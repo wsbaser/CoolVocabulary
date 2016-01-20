@@ -10,7 +10,7 @@ var GoogleConfig = function() {
             fr: { targets: ['en','es','pt','it','de','ru']},
             it: { targets: ['en','es','pt','fr','de','ru']},
             de: { targets: ['en','es','pt','fr','it','ru']},
-            // ru: { targets: ['en','es','pt','fr','it','de']},
+            ru: { targets: ['en','es','pt','fr','it','de']},
             ar: { targets: ['en']}
         },
         priority: 100,
@@ -19,7 +19,8 @@ var GoogleConfig = function() {
             templatesDir:rootDir
         },
         ajax: {
-            translate: "https://translate.google.ru/translate_a/single?client=t&sl={sourceLang}&tl={targetLang}&hl=en&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&dt=at&ie=UTF-8&oe=UTF-8&source=btn&srcrom=1&ssel=0&tsel=0&kc=0&tk={tk}&q={word}"
+            translate: "https://translate.google.com/translate_a/single?client=gtx&sl={sourceLang}&tl={targetLang}&hl=en&dj=1&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&dt=at&ie=UTF-8&oe=UTF-8&source=btn&srcrom=1&ssel=0&tsel=0&kc=0&q={word}",
+            detectLanguage: "https://translate.googleapis.com/translate_a/single?client=gtx&q={word}&sl=auto&dj=1"
         },
         contentTypes: [ContentTypes.TRANSLATIONS, ContentTypes.DEFINITIONS, ContentTypes.EXAMPLES]
     };

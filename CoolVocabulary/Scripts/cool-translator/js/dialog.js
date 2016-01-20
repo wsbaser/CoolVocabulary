@@ -9,6 +9,9 @@ var TranslationDialogFactory =   (function(){
     initVocabulary: function(connection){
       return new Vocabulary(CVConfig(), connection);
     },
+    initLangDetector: function(connection){
+      return new LangDetector(GoogleConfig(), connection);
+    },
     initSources: function(connection, vocabulary){
       var arr = 
         [this.createLLSource(connection, vocabulary),
@@ -97,17 +100,19 @@ var TranslationDialogFactory =   (function(){
     create: function(){
       var connection = this.initConnection();
       var vocabulary = this.initVocabulary(connection);
+      var langDetector = this.initLangDetector(connection);
       var sources = this.initSources(connection, vocabulary);
-      return new TranslationDialog(sources, vocabulary);
+      return new TranslationDialog(sources, vocabulary, langDetector);
     }
   };
 })();
 
 /***** TranslationDialog *****************************************************************************************************/
 
-function TranslationDialog(allSources, vocabulary){
+function TranslationDialog(allSources, vocabulary, langDetector){
     this.allSources = allSources;
     this.vocabulary = vocabulary;
+    this.langDetector = langDetector;
     this.sourceLangSelector=null;
     this.targetLangSelector=null;
     this.langSwitcher = null;
@@ -129,9 +134,10 @@ function TranslationDialog(allSources, vocabulary){
     this.isActive = false;
 
     this.reactor = new Reactor();
-    this.reactor.registerEvent('langPairChanged');
+    this.reactor.registerEvent(TranslationDialog.LANG_PAIR_CHANGED);
 };
 
+TranslationDialog.LANG_PAIR_CHANGED =  'langPairChanged';
 TranslationDialog.ACTIVE_CLASS = 'ctr-active';
 
 TranslationDialog.TEMPLATE = 
@@ -231,21 +237,57 @@ TranslationDialog.prototype.selectPrevSource = function() {
 TranslationDialog.prototype.updateSourcesContent = function(force) {
   if(!this.isActive)
     return;
+  var self = this;
   // . do not update content if data not changed and current tab is loading
   var inputData = this.getInputData();
   if (!inputData.word)
     return;
   if (isInputDataEqual(inputData,this.lastRequestData) && !force)
       return;
- this.hideLoginForm();
- this.lastRequestData = inputData;
+  this.hideLoginForm();
+  this.lastRequestData = inputData;
+  this.showLoadingForAll(inputData);
+  this.langDetector.detect(inputData.word, function(promise){
+    promise.done(function(languages){
+      if(languages){
+          if(languages.indexOf(inputData.sourceLang)==-1){
+            if(languages.indexOf(inputData.targetLang)!=-1){
+              self.langSwitcher.switch();
+              return;
+            }
+            else{
+              // . show correct languages to user
+              self.showCorrectLanguages(languages);
+            }
+          }
+      }
+      self.loadAll(inputData);
+    }).fail(function(){
+      self.loadAll(inputData);
+    });
+  });
+
+  // . but show only active
+  this.blurInput();
+};
+
+TranslationDialog.prototype.showCorrectLanguages = function(languages){
+  // . NOT IMPLEMENTED
+};
+
+TranslationDialog.prototype.showLoadingForAll = function(inputData){
   // . load data for all sources simultaneously
   $.each(this.sources, function (key, source) {
       source.loadAndShow(inputData);
   });
-  // . but show only active
-  this.blurInput();
-};
+}
+
+TranslationDialog.prototype.loadAll = function(inputData){
+  // . load data for all sources simultaneously
+  $.each(this.sources, function (key, source) {
+      source.loadAndShow(inputData);
+  });
+}
 
 TranslationDialog.prototype.getLangPair = function(){
   return {
@@ -302,7 +344,9 @@ TranslationDialog.prototype.create = function () {
     return;
   }
   // . create element from HTML and add to DOM
-  $('body').append(TranslationDialog.TEMPLATE);
+  var ctrRootEl = $('<div id="ctr_root"/>');
+  ctrRootEl.append(TranslationDialog.TEMPLATE);
+  $('body').append(ctrRootEl);
   // . retrieve links to DOM elements
   this.el = $('#ctr_dialog');
   this.sourceLinksEl = $('#ctr_sources');
@@ -435,7 +479,7 @@ TranslationDialog.prototype.initLangSelectors = function(){
          self.selectSource(self.sourceWithActiveLink);
          self.updateSourcesContent();
          self.setLangDirection();
-         self.reactor.dispatchEvent('langPairChanged', self.getLangPair());
+         self.reactor.dispatchEvent(TranslationDialog.LANG_PAIR_CHANGED, self.getLangPair());
       },
       onLoseFocus: self.focusInput.bind(self)
   };

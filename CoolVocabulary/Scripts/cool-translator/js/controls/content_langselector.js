@@ -197,6 +197,9 @@ function LangSwitcher(selector1, selector2){
             selector1.freezeEvents=false;
             selector2.freezeEvents=false;
             selector2.setSelectedLang(lang1, flagEl1);
+            if(callback){
+                callback();
+            }
         }.bind(this),550);
     };
 }

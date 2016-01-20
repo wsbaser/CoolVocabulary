@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using CoolVocabulary.Extensions;
 using System.Data.SqlClient;
 using NLog;
+using CoolVocabulary.Extensions;
 
 namespace CoolVocabulary.Models {
     public class VocabularyDbContext : IdentityDbContext<ApplicationUser> {
@@ -30,6 +31,7 @@ namespace CoolVocabulary.Models {
         public System.Data.Entity.DbSet<UserBook> UserBooks { get; set; }
         public System.Data.Entity.DbSet<BookWord> BookWords { get; set; }
         public System.Data.Entity.DbSet<Translation> Translations { get; set; }
+        public System.Data.Entity.DbSet<MonthStatistic> MonthStatistics { get; set; }
 
         public async Task<UserBook> GetCTUserBook(string userId, LanguageType language) {
             const string CT_BOOK_NAME = "Cool Translator";
@@ -49,7 +51,7 @@ namespace CoolVocabulary.Models {
             var book = new Book() {
                 Name = name,
                 UserId = userId,
-                Language = (int)language
+                Language = (byte)language
             };
             Books.Add(book);
             await SaveChangesAsync();
@@ -73,40 +75,33 @@ namespace CoolVocabulary.Models {
         }
 
 
-        public async Task<Tuple<BookWord, Translation>> AddTranslation(int bookID, int wordID, string value, LanguageType language, SpeachPartType speachPart)
-        {
+        public async Task<Tuple<BookWord, Translation>> AddTranslation(int bookID, int wordID, string value, LanguageType language, SpeachPartType speachPart) {
             // . search for BookWord
             BookWord bookWordEntity = await BookWords.Include("Translations").SingleOrDefaultAsync(bw =>
                 bw.BookId == bookID &&
                 bw.WordId == wordID &&
                 bw.SpeachPart == (int)speachPart);
             Translation translationEntity = null;
-            if (bookWordEntity == null)
-            {
+            if (bookWordEntity == null) {
                 // . create BookWord if not exists
-                bookWordEntity = new BookWord
-                {
+                bookWordEntity = new BookWord {
                     BookId = bookID,
                     WordId = wordID,
                     SpeachPart = (int)speachPart
                 };
                 BookWords.Add(bookWordEntity);
                 await SaveChangesAsync();
-            }
-            else
-            {
+            } else {
                 // . search for Translation
                 translationEntity = bookWordEntity.Translations.SingleOrDefault(t => t.Value == value &&
                     t.Language == (int)language);
             }
             // . add Translation if not exists
-            if (translationEntity == null)
-            {
-                translationEntity = new Translation
-                {
+            if (translationEntity == null) {
+                translationEntity = new Translation {
                     BookWordId = bookWordEntity.Id,
                     Value = value,
-                    Language = (int)language
+                    Language = (byte)language
                 };
                 Translations.Add(translationEntity);
                 await SaveChangesAsync();
@@ -124,16 +119,37 @@ namespace CoolVocabulary.Models {
             return await Translations.Where(w => range.Contains(w.Id)).ToListAsync();
         }
 
-        internal async Task CreateFirstBook(string userId, LanguageType language) {
-            var targetBook = await CreateUserBookAsync(userId, language, "J.London, Martin Eden");
-            try {
-                await this.Database.ExecuteSqlCommandAsync("exec dbo.CopyBookWords @sourceBookId, @targetBookId",
-                    new SqlParameter("@sourceBookId", 1),
-                    new SqlParameter("@targetBookId", targetBook.Id));
-            } catch (Exception e) {
-                _logger.Error(e, "Error calling dbo.CopyBookWords procedure");
+        public async Task<UserBook> GetFirstBookAsync(string userId, LanguageType languageType) {
+            int firstBookId = -1;
+            UserBook userBook;
+            switch (languageType) {
+                case LanguageType.en:
+                    firstBookId = 4;
+                    break;
             }
+            if (firstBookId != -1) {
+                userBook = await GetUserBookForBookAsync(firstBookId, userId);
+                if (userBook != null)
+                    return userBook;
+            }
+            return await CreateFirstBookAsync(userId, languageType);
         }
+
+        public async Task<UserBook> CreateFirstBookAsync(string userId, LanguageType languageType) {
+            const string FIRST_BOOK_NAME = "My First Book";
+            return await CreateUserBookAsync(userId, languageType, FIRST_BOOK_NAME);
+        }
+
+        //internal async Task CreateFirstBook(string userId, LanguageType language) {
+        //    var targetBook = await CreateUserBookAsync(userId, language, "J.London, Martin Eden");
+        //    try {
+        //        await this.Database.ExecuteSqlCommandAsync("exec dbo.CopyBookWords @sourceBookId, @targetBookId",
+        //            new SqlParameter("@sourceBookId", 1),
+        //            new SqlParameter("@targetBookId", targetBook.Id));
+        //    } catch (Exception e) {
+        //        _logger.Error(e, "Error calling dbo.CopyBookWords procedure");
+        //    }
+        //}
 
         internal async Task<UserBook> CreateUserBookForBookAsync(int bookId, string userId) {
             var userBook = new UserBook() {
@@ -154,7 +170,7 @@ namespace CoolVocabulary.Models {
         }
 
         internal async Task<UserBook> FindUserBookAsync(string userId, string name, LanguageType language) {
-            return await UserBooks.Include("Book").SingleOrDefaultAsync(b => b.UserId == userId &&
+            return await UserBooks.Include("Book").AsNoTracking().SingleOrDefaultAsync(b => b.UserId == userId &&
                 b.Book.Name.ToLower() == name.ToLower() &&
                 b.Book.Language == (int)language);
         }
@@ -166,7 +182,37 @@ namespace CoolVocabulary.Models {
         internal async Task<List<UserBook>> GetUserBooksAsync(string userId, LanguageType languageType) {
             return await UserBooks.Include("Book")
                 .Where(ub => ub.UserId == userId && ub.Book.Language == (int)languageType)
-                .ToListAsync();
+                .AsNoTracking().ToListAsync();
+        }
+
+        internal async Task<List<UserBookDto>> GetUserBooksDtoAsync(string userId, LanguageType languageType) {
+            // . Select user books(BookDto included) with bookWord
+            var data = await UserBooks.Where(ub => ub.UserId == userId && ub.Book.Language == (int)languageType)
+                .Join(Books, ub => ub.BookId, b => b.Id, (ub, b) => new {
+                    userBook = ub,
+                    book = b
+                })
+                .Join(BookWords, ubb => ubb.book.Id, bw => bw.BookId, (ubb, bw) => new {
+                    userBook = ubb.userBook,
+                    book = ubb.book,
+                    bookWord = bw
+                }).Join(Translations, ubbbw => ubbbw.bookWord.Id, t => t.BookWordId, (ubbwb, t) => new {
+                    userBook = ubbwb.userBook,
+                    book = ubbwb.book,
+                    bookWord = ubbwb.bookWord,
+                    translation = t
+                }).ToListAsync();
+
+            var userBooksDtoDict = data.DistinctBy(d => d.userBook)
+                .Select(d => new UserBookDto(d.userBook, d.book))
+                .ToDictionary(ub => ub.id, ub => ub);
+
+            foreach (var d in data) {
+                var userBookDto = userBooksDtoDict[d.userBook.Id];
+                userBookDto.AddTranslation(d.bookWord.Id, d.translation.Id);
+            }
+
+            return userBooksDtoDict.Values.ToList<UserBookDto>();
         }
 
         internal async Task<List<UserBook>> GetUserBooksAsync(string userId) {
@@ -175,5 +221,48 @@ namespace CoolVocabulary.Models {
                 .ToListAsync();
         }
 
+        internal async Task<dynamic> Get_TranslationsBookWordsWords_DtoAsync(IEnumerable<int> translationIds) {
+            var data = await Translations.Where(t => translationIds.Contains(t.Id))
+                .Join(BookWords, t => t.BookWordId, bw => bw.Id, (t, bw) => new { translation = t, bookWord = bw })
+                .Join(Words, tbw => tbw.bookWord.WordId, w => w.Id, (tbw, w) => new {
+                    translation = tbw.translation,
+                    bookWord = tbw.bookWord,
+                    word = w
+                })
+                .AsNoTracking().ToListAsync();
+            return new {
+                words = data.Select(d => d.word).Distinct().Select(w => new WordDto(w)),
+                bookWords = data.Select(d => d.bookWord).Distinct().Select(bw => new BookWordDto(bw)),
+                translations = data.Select(d => d.translation).Distinct().Select(t => new TranslationDto(t))
+            };
+        }
+
+        internal async Task<MonthStatistic> GetThisMonthStatisticAsync(string userId, LanguageType languageType) {
+            var year = DateTime.Today.Year;
+            var month = DateTime.Today.Month;
+            return await MonthStatistics.SingleOrDefaultAsync(ms => ms.UserId == userId &&
+                ms.Year == year &&
+                ms.Month == month);
+        }
+
+        internal Task<MonthStatistic> CreateMonthStatisticAsync(string userId, LanguageType languageType, object plan) {
+            throw new NotImplementedException();
+        }
+
+        internal async Task<dynamic> Get_BookWordsWordsTranslations_DtoAsync(IEnumerable<int> bookWordIds) {
+            var data = await BookWords.Where(t => bookWordIds.Contains(t.Id))
+                .Join(Words, bw => bw.WordId, w => w.Id, (bw, w) => new { bookWord = bw, word = w })
+                .Join(Translations, bww => bww.bookWord.Id, t => t.BookWordId, (bww, t) => new {
+                    translation = t,
+                    bookWord = bww.bookWord,
+                    word = bww.word
+                })
+                .AsNoTracking().ToListAsync();
+            return new {
+                words = data.Select(d => d.word).Distinct().Select(w => new WordDto(w)),
+                bookWords = data.Select(d => d.bookWord).Distinct().Select(bw => new BookWordDto(bw)),
+                translations = data.Select(d => d.translation).Distinct().Select(t => new TranslationDto(t))
+            };
+        }
     }
 }

@@ -24,24 +24,41 @@ function saveLangPair(langPair){
 
 /* Message listener */
 
+var Services = {};
+Services.ll = new LLService(new LLProvider(LLConfig()))
+Services.abby = new AbbyService(new AbbyProvider(AbbyConfig()));
+Services.google = new GoogleService(new GoogleProvider(GoogleConfig()));
+Services.linguee = new LingueeService(new LingueeProvider(LingueeConfig()));
+Services.tfd = new TfdService(new TfdProvider(TfdConfig()));
+Services.multitran = new MultitranService(new MultitranProvider(MultitranConfig()));
+Services.cv = new CVService(new CVProvider(CVConfig()), [Services.ll, Services.abby, Services.google, Services.tfd, Services.linguee, Services.multitran]);
+
 function createServer(){
-    var ll = new LLService(new LLProvider(LLConfig()))
-    var abby = new AbbyService(new AbbyProvider(AbbyConfig()));
-    var google = new GoogleService(new GoogleProvider(GoogleConfig()));
-    var linguee = new LingueeService(new LingueeProvider(LingueeConfig()));
-    var tfd = new TfdService(new TfdProvider(TfdConfig()));
-    var multitran = new MultitranService(new MultitranProvider(MultitranConfig()));
-    var cv = new CVService(new CVProvider(CVConfig()), [ll, abby, google, tfd, linguee, multitran]);
-    var arr = [ll, abby, google, linguee, tfd, multitran, cv];
     var services = {};
-    arr.forEach(function(service){
-        services[service.config.id] = service;
-    });
-    return new DictionaryServicesServer(services);
+    for(var key in Services){
+        if(Services.hasOwnProperty(key)){
+            services[Services[key].config.id]=Services[key];
+        }
+    }
+    return new DictionaryServicesServer(Services);
 };
 
 var server = createServer();
 server.startListening();
+
+Services.cv.checkAuthentication();
+Services.cv.addEventListener(CVService.CHECK_AUTH_END, updateBadge);
+
+function updateBadge(){
+    if(Services.cv.user){
+        chrome.browserAction.setPopup({popup:'popup_de.html'});
+        chrome.browserAction.setBadgeText({text:'>'});
+    }
+    else{
+        chrome.browserAction.setPopup({popup:'popup_login.html'});
+        chrome.browserAction.setBadgeText({text:''});
+    }
+};
 
 chrome.runtime.onMessage.addListener(
   function(message, sender, callback) {
@@ -77,10 +94,6 @@ chrome.runtime.onMessageExternal.addListener(function(request, sender, sendRespo
                 user: request.user 
             });
         }
-        // chrome.tabs.query(null, function(tabs){
-        //     tabs.forEach(function(tab){
-        //     });
-        // });        
     }
 });
 

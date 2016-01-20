@@ -1,96 +1,43 @@
-// . amount of wrong translations for one exam card
-var WRONG_TRANSLATIONS_COUNT = 4;
-var SESSION_WORDS_COUNT = 15;
-
-Vocabulary.WordToExam = Ember.Object.extend({
-	speachPart: Ember.computed.alias('translation.bookWord.speachPart'),
-	init: function(){
- 		if(this.get('isStraight')){
-			this.set('sourceWord', this.get('translation.bookWord.word.value'));
-			this.set('targetWord', this.get('translation.value'));
-			this.set('sourceLanguage', this.get('translation.bookWord.word.language'));
-			this.set('targetLanguage', this.get('translation.language'));
- 		}
- 		else{
-			this.set('sourceWord', this.get('translation.value'));
-			this.set('targetWord', this.get('translation.bookWord.word.value'));
-			this.set('sourceLanguage', this.get('translation.language'));
-			this.set('targetLanguage', this.get('translation.bookWord.word.language'));
- 		}
-	},
-	statusChanged: Ember.observer('isActive','isExamined', function(){
-		return Ember.run.once(this,'setIsHighlighted');
-	}),
-	setIsHighlighted: function(){
-		this.set('isHighlighted', this.get('isActive') || this.get('isExamined'));
-	},
-	setWrongTranslations: function(wrongTranslations){
-		// . set wordTranslations property
-		if(wrongTranslations && wrongTranslations.length){
-			this.set('wrongTranslations', wrongTranslations);
-			this.set('isValid', true);	
-		}
-	},
-	translations: Ember.computed('wrongTranslations', function(){
-		// . clone wrongTranslations array
-		var translations = this.get('wrongTranslations').map(function(item){
-			return Ember.Object.create({
-				word: item.get('word')
-			});
-		});
-		// . correct translation
-		translations.push(Ember.Object.create({
-			word: this.get('targetWord')
-		}));
-		// . shuffle and return
-		return translations.shuffle();
-	}),
-	link: function(wordToLearn){
-		this.set('bro', wordToLearn);
-		wordToLearn.set('bro', this);
-	},
-	allCorrect: function(){
-		return this.get('isMistake')===false && this.get('bro.isMistake')===false;
-	},
-	allExamined: function(){
-		return this.get('isExamined') && this.get('bro.isExamined');
-	}
-});
-
-Vocabulary.BookExamRoute = Ember.Route.extend({
+Vocabulary.BookExamRoute = Ember.Route.extend(Vocabulary.ExamRouteBase, {
 	renderTemplate: function(){
-		this.render('language/book/examToolbox', { into: 'language/book', outlet: 'toolbox'} );
-		this.render('language/book/exam', { into: 'language/book', outlet: 'content'} );
+		// . do not render anything here
 	},
-	sessionWords: null,
 	model: function(){
-		var sessionWords;
+		var languageCtrl = this.controllerFor('language');
 		var bookController = this.controllerFor('book');
+		var userBook = bookController.get('model');
 		var learnSessionWords = bookController.get('learnSessionWords');
-		var bookWords = [];
 		if(learnSessionWords){
 			bookController.set('learnSessionWords', null);
-			learnSessionWords.forEach(function(item){
-				item.get('bookWords').forEach(function(bookWord){
-					bookWords.push(bookWord);
-				});
-			});
+			return this.getSessionTranslationsForLearnSessionWords(languageCtrl, learnSessionWords, userBook);
 		}
 		else {
-			bookWords = this.modelFor('book').get('book.bookWords');
-		}
-		var userBook = bookController.get('model');
-		sessionWords = this.getSessionWords(userBook, bookWords);
-		if(this.checkSessionWords(sessionWords)){
-			this.set('sessionWords', sessionWords);
-			return this.requestExamWords(sessionWords);
-		}else{
-			this.transitionTo('book');
+			var sessionTranslations = this.getSessionTranslations(languageCtrl, userBook);
+			if(this.checkSessionTranslations(sessionTranslations)){
+				return sessionTranslations;
+			}else{
+				this.transitionTo('book');
+			}
 		}
 	},
-	checkSessionWords: function(sessionWords){
+	getSessionTranslationsForLearnSessionWords: function(languageCtrl, learnSessionWords, userBook){
+		var translationIds = [];
+		learnSessionWords.forEach(function(sessionWord){
+			sessionWord.get('bookWords').forEach(function(bookWord){
+				bookWord.get('translations').forEach(function(translation){
+					translations.push(translation.get('id'));
+				});
+			});
+		});
+		return languageCtrl.getSessionTranslations(translationIds, userBook);
+	},
+	getSessionTranslations: function(languageCtrl, userBook){
+		var active = languageCtrl.getActiveTranslations(userBook);
+		return languageCtrl.getSessionTranslations(active.inProgress, userBook);
+	},
+	checkSessionTranslations: function(sessionTranslations){
 		var self = this;
-		if(!sessionWords||!sessionWords.toArray().length){
+		if(!sessionTranslations||!sessionTranslations.toArray().length){
 			var message;
 			var bookWords = this.modelFor('book').get('book.bookWords').toArray();
 			if(bookWords.length){
@@ -109,27 +56,20 @@ Vocabulary.BookExamRoute = Ember.Route.extend({
 	        return false;
 		}
 		return true;
-	},
-	getSessionWords: function(userBook, bookWords){
-		// . get all translations
-		var learnLevels = userBook.get('learnLevels');
-		var translations = [];
-		bookWords.forEach(function(bookWord){
-			var notCompleted = bookWord.get('translations').filter(function(item){
-				return (learnLevels[item.id]||0)<MAX_LEARN_LEVEL;
-			}).toArray();
-			translations = translations.concat(notCompleted);
-		});
-		// . take 15 translations
-		var DAY = 60*60*24*1000;
-		var now = Date.now();
-		var examDates = userBook.get('examDates');
-		translations = translations.sort(function(item1,item2){ 
-			var examinedAt1 = examDates[item1.id] || 0;
-			var examinedAt2 = examDates[item2.id] || 0;
-			return examinedAt1>examinedAt2?1:(examinedAt1===examinedAt2?0:-1);
-		}).slice(0, SESSION_WORDS_COUNT);
+	}
+});
 
+Vocabulary.BookExamIdexRoute = Ember.Route.extend({
+	renderTemplate: function(){
+		this.render('language/book/examToolbox', { into: 'language/book', outlet: 'toolbox'} );
+		this.render('language/book/exam', { into: 'language/book', outlet: 'content'} );
+	},	
+	model: function(){
+		var sessionTranslations = thid.modelFor('book.exam');
+		this.sessionWords = this.getSessionWordsForTranslations(sessionTranslations);
+		return this.requestExamWords(sessionWords);
+	},
+	getSessionWordsForTranslations: function(translations){
 		// . generate session words
 		var straight = Ember.A();
 		var backward = Ember.A();
@@ -146,13 +86,9 @@ Vocabulary.BookExamRoute = Ember.Route.extend({
 			straight.push(w1);
 			backward.push(w2);
 		});
-
 		return straight.shuffle().sortBy('speachPart').concat(backward.shuffle().sortBy('speachPart'));
 	},
 	requestExamWords: function(sessionWords){
-		if(!sessionWords.length){
-			return null;
-		}
 		var sourceLanguage = sessionWords[0].sourceLanguage;
 		var targetLanguage = sessionWords[0].targetLanguage;
 		// . count number of nouns, verbs, adjectives, adverbs
@@ -187,10 +123,9 @@ Vocabulary.BookExamRoute = Ember.Route.extend({
 			adjectivesCount: adjectivesCount*WRONG_TRANSLATIONS_COUNT,
 			adverbsCount: adverbsCount*WRONG_TRANSLATIONS_COUNT });
 	},
-	setWrongTranslations: function(examWords){
+	setWrongTranslations: function(sessionWords, examWords){
 		var self = this;
-		var sessionWords = this.get('sessionWords');
-		examWords = examWords.sort(function() { return 0.5 - Math.random(); });
+		examWords.shuffle();
 		sessionWords.forEach(function(item){
 			var excludeList = item.get('translation.bookWord.translations')
 				.map(function(translation){ return translation.get('value'); });
@@ -213,21 +148,10 @@ Vocabulary.BookExamRoute = Ember.Route.extend({
 		return result;
 	},
 	setupController: function(controller, model){
-		// . set wordsTranslations
-		this.setWrongTranslations(model.content);
-		// . set model
-		model = this.controllerFor('book').get('model');
-		this._super(controller, model);
-		// . set session data
-		var sessionWords = this.get('sessionWords').filterBy('isValid', true);
-		controller.set('sessionWords', sessionWords);
-		// . set active word
+		this.setWrongTranslations(this.sessionWords, model);
+		var validSessionWords = this.sessionWords.filterBy('isValid', true);		
+		this._super(controller, validSessionWords);
 		controller.activateFirstWord();
-		
-	    Ember.run.schedule('afterRender', this, this.afterRender);
-	},
-	afterRender: function(){
-	// . bind touch events here
 	},
 	actions: {
 		sessionChanged: function(){

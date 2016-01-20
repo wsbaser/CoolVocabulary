@@ -52,7 +52,7 @@ namespace CoolVocabulary.Models {
         public List<int> bookWords;
 
         public BookDto() { }
-        public BookDto(Book book, int userBookId=0) {
+        public BookDto(Book book, int userBookId = 0) {
             this.id = book.Id;
             this.user = book.UserId;
             this.name = book.Name;
@@ -64,7 +64,10 @@ namespace CoolVocabulary.Models {
 
     public class UserBookDto {
         public UserBookDto() { }
-        public UserBookDto(UserBook userBook) {
+        public UserBookDto(UserBook userBook)
+            : this(userBook, userBook.Book) {
+        }
+        public UserBookDto(UserBook userBook, Book book) {
             this.id = userBook.Id;
             this.user = userBook.UserId;
             this.book = userBook.Book.Id;
@@ -73,7 +76,8 @@ namespace CoolVocabulary.Models {
             this.examDates = userBook.ExamDates;
             this.firstPromoteDates = userBook.FirstPromoteDates;
             this.lastPromoteDates = userBook.LastPromoteDates;
-            this.BookDto = new BookDto(userBook.Book, id);
+            this.BookDto = new BookDto(book, id);
+            this.translations = new Dictionary<int, List<int>>();
         }
         [NonSerialized]
         public BookDto BookDto;
@@ -85,6 +89,14 @@ namespace CoolVocabulary.Models {
         public string examDates { get; set; }
         public string firstPromoteDates { get; set; }
         public string lastPromoteDates { get; set; }
+        public Dictionary<int, List<int>> translations { get; set; }
+        public void AddTranslation(int bookWordId, int translationId) {
+            if (!translations.ContainsKey(bookWordId)) {
+                translations.Add(bookWordId, new List<int>());
+            }
+            var ids = translations[bookWordId];
+            ids.Add(translationId);
+        }
     }
 
     public class BookWordDto {
@@ -127,7 +139,7 @@ namespace CoolVocabulary.Models {
         public string value { get; set; }
         [Required, MaxLength(2)]
         public string language { get; set; }
-        [Required,Range(0, 5)]
+        [Required, Range(0, 5)]
         public int learnLevel { get; set; }
         [Required]
         public long examinedAt { get; set; }
@@ -144,8 +156,28 @@ namespace CoolVocabulary.Models {
                 Id = id,
                 BookWordId = bookWord,
                 Value = value,
-                Language = (int)languageType,
+                Language = (byte)languageType,
             };
         }
+    }
+
+    public class MonthStatisticDto {
+        public MonthStatisticDto() { }
+        public MonthStatisticDto(MonthStatistic statistic) {
+            id = statistic.Id;
+            user = statistic.UserId;
+            year = statistic.Year;
+            month = statistic.Month;
+            language = ((LanguageType)statistic.Language).ToString();
+            plan = statistic.Plan;
+            done = statistic.Done;
+        }
+        public Int32 id { get; set; }
+        public string user { get; set; }
+        public UInt16 year { get; set; }
+        public byte month { get; set; }
+        public string language { get; set; }
+        public UInt16 plan { get; set; }
+        public UInt16 done { get; set; }
     }
 }

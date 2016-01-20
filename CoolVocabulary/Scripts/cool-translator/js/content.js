@@ -10,7 +10,7 @@ ctrContent.init = function () {
     ctrContent.bindEventHandlers();
     ctrContent.addInstalledMarker();
     Dialog = TranslationDialogFactory.create();
-    Dialog.addEventListener('langPairChanged', ctrContent.onLangPairChanged);
+    Dialog.addEventListener(TranslationDialog.LANG_PAIR_CHANGED, ctrContent.onLangPairChanged);
     ctrContent.loadInitializationData(function(data){
         Dialog.setLangPair(data.langPair);
     });
@@ -57,7 +57,7 @@ ctrContent.showDialogForCurrentSelection = function (inputElement, force) {
     if (inputElement && inputElement.getAttribute && inputElement.getAttribute('type') === 'password')
         return;
     var word = ctrContent.getSelectedText(inputElement);
-    if(/^\D+$/g.test(word) && word.split(' ').length<3){
+    if(/^\D+$/g.test(word) && word.split(' ').length<=3){
         Dialog.showForExtension(word);
     }else if(force){
         Dialog.showForExtension();        
@@ -111,7 +111,7 @@ ctrContent.handlers.keyDown = function(e) {
         if(Dialog.isInputFocused() || langSelectorIsActive){
             if (isCommandKeyPressed) {
                 if (e.keyCode === 13) {                                     // Ctrl + Enter
-                    Dialog.langSwitcher.switch(Dialog.focusInput());
+                    Dialog.langSwitcher.switch(Dialog.focusInput.bind(Dialog));
                     return cancelEvent(e);
                 }
                 if (e.keyCode === 37) {                                     // Ctrl + Left
