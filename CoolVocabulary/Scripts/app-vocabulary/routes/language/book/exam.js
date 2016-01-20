@@ -29,11 +29,13 @@ Vocabulary.BookExamRoute = Ember.Route.extend(Vocabulary.ExamRouteBase, {
 				});
 			});
 		});
-		return languageCtrl.getSessionTranslations(translationIds, userBook);
+		var sessionTranslationIds = languageCtrl.getSessionTranslations(translationIds, userBook);
+		return languageCtrl.getTranslationsFromStore(sessionTranslationIds);
 	},
 	getSessionTranslations: function(languageCtrl, userBook){
 		var active = languageCtrl.getActiveTranslations(userBook);
-		return languageCtrl.getSessionTranslations(active.inProgress, userBook);
+		var sessionTranslationIds = languageCtrl.getSessionTranslations(active.inProgress, userBook);
+		return languageCtrl.getTranslationsFromStore(sessionTranslationIds);
 	},
 	checkSessionTranslations: function(sessionTranslations){
 		var self = this;

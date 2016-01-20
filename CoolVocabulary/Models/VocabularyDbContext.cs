@@ -31,7 +31,7 @@ namespace CoolVocabulary.Models {
         public System.Data.Entity.DbSet<UserBook> UserBooks { get; set; }
         public System.Data.Entity.DbSet<BookWord> BookWords { get; set; }
         public System.Data.Entity.DbSet<Translation> Translations { get; set; }
-        public System.Data.Entity.DbSet<MonthStatistic> MonthStatistics { get; set; }
+        public System.Data.Entity.DbSet<MonthPlan> MonthPlans { get; set; }
 
         public async Task<UserBook> GetCTUserBook(string userId, LanguageType language) {
             const string CT_BOOK_NAME = "Cool Translator";
@@ -237,16 +237,32 @@ namespace CoolVocabulary.Models {
             };
         }
 
-        internal async Task<MonthStatistic> GetThisMonthStatisticAsync(string userId, LanguageType languageType) {
+        internal async Task<MonthPlan> GetThisMonthPlanAsync(string userId, LanguageType languageType) {
             var year = DateTime.Today.Year;
             var month = DateTime.Today.Month;
-            return await MonthStatistics.SingleOrDefaultAsync(ms => ms.UserId == userId &&
-                ms.Year == year &&
-                ms.Month == month);
+            MonthPlan monthStatistic = null; ;
+            try {
+                monthStatistic = await MonthPlans.SingleOrDefaultAsync(ms => ms.UserId == userId &&
+                    ms.Year == year &&
+                    ms.Month == month &&
+                    ms.Language == (int)languageType);
+            }catch(Exception e){
+                _logger.Error(e);
+            }
+            return monthStatistic;
         }
 
-        internal Task<MonthStatistic> CreateMonthStatisticAsync(string userId, LanguageType languageType, object plan) {
-            throw new NotImplementedException();
+        internal async Task<MonthPlan> CreateMonthPlanAsync(string userId, LanguageType languageType, int planedCount) {
+            var plan = new MonthPlan() {
+                UserId = userId,
+                Year = DateTime.Today.Year,
+                Month = DateTime.Today.Month,
+                Language = (int)languageType,
+                PlanedCount = planedCount
+            };
+            MonthPlans.Add(plan);
+            await SaveChangesAsync();
+            return plan;
         }
 
         internal async Task<dynamic> Get_BookWordsWordsTranslations_DtoAsync(IEnumerable<int> bookWordIds) {

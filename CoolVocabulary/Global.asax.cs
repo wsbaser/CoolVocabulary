@@ -21,6 +21,7 @@ namespace CoolVocabulary {
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             RedisConfig.LoadExamWords();
         }
+
         protected void Application_Error(object sender, EventArgs e) {
             _logger.Error(Server.GetLastError());
         }

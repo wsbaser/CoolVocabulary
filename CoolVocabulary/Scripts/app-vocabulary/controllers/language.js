@@ -16,11 +16,11 @@ Vocabulary.LanguageController = Ember.Controller.extend({
 			return userBook.get('book.language')===languageId; 
 		});
 	}),
-	thisMonthStatistic: Ember.computed('model', function(){
+	thisMonthPlan: Ember.computed('model', function(){
 		var today = Date.now();
 		var year = today.getYear();
 		var month = today.getMonth();
-		return this.get('user.monthStatistics').find(function(statistic){ 
+		return this.get('user.monthPlans').find(function(statistic){ 
 			return statistic.get('year')===year && statistic.get('month')===month;
 		});
 	}),
@@ -120,7 +120,7 @@ Vocabulary.LanguageController = Ember.Controller.extend({
 			return ids.indexOf(item.get('id'))!==-1;
 		});
 	},
-	getSessionTransaltions: function(ids, userBook){
+	getSessionTranslations: function(ids, userBook){
 		ids = languageCtrl.sortTranslationsByExamDate(ids, userBook);
 		var sessionTranslationIds = ids.slice(0, SESSION_WORDS_COUNT); 
 		return languageCtrl.getTranslationsFromStore(sessionTranslationIds);

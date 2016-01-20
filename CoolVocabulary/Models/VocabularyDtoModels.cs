@@ -74,8 +74,7 @@ namespace CoolVocabulary.Models {
             this.learnLevels = userBook.LearnLevels;
             this.learnDates = userBook.LearnDates;
             this.examDates = userBook.ExamDates;
-            this.firstPromoteDates = userBook.FirstPromoteDates;
-            this.lastPromoteDates = userBook.LastPromoteDates;
+            this.promoteDates = userBook.PromoteDates;
             this.BookDto = new BookDto(book, id);
             this.translations = new Dictionary<int, List<int>>();
         }
@@ -87,8 +86,7 @@ namespace CoolVocabulary.Models {
         public string learnLevels { get; set; }
         public string learnDates { get; set; }
         public string examDates { get; set; }
-        public string firstPromoteDates { get; set; }
-        public string lastPromoteDates { get; set; }
+        public string promoteDates { get; set; }
         public Dictionary<int, List<int>> translations { get; set; }
         public void AddTranslation(int bookWordId, int translationId) {
             if (!translations.ContainsKey(bookWordId)) {
@@ -161,23 +159,23 @@ namespace CoolVocabulary.Models {
         }
     }
 
-    public class MonthStatisticDto {
-        public MonthStatisticDto() { }
-        public MonthStatisticDto(MonthStatistic statistic) {
-            id = statistic.Id;
-            user = statistic.UserId;
-            year = statistic.Year;
-            month = statistic.Month;
-            language = ((LanguageType)statistic.Language).ToString();
-            plan = statistic.Plan;
-            done = statistic.Done;
+    public class MonthPlanDto {
+        public MonthPlanDto() { }
+        public MonthPlanDto(MonthPlan plan) {
+            id = plan.Id;
+            user = plan.UserId;
+            year = plan.Year;
+            month = plan.Month;
+            language = ((LanguageType)plan.Language).ToString();
+            planedCount = plan.PlanedCount;
+            learnedCount = plan.LearnedCount??0;
         }
         public Int32 id { get; set; }
         public string user { get; set; }
-        public UInt16 year { get; set; }
-        public byte month { get; set; }
+        public int year { get; set; }
+        public int month { get; set; }
         public string language { get; set; }
-        public UInt16 plan { get; set; }
-        public UInt16 done { get; set; }
+        public int planedCount { get; set; }
+        public int learnedCount { get; set; }
     }
 }

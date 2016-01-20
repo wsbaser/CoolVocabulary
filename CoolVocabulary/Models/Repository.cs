@@ -11,21 +11,23 @@ namespace CoolVocabulary.Models {
             this._db = db;
         }
 
-        internal async Task<MonthStatisticDto> GetMonthStatisticAsync(string userId, LanguageType languageType) {
-            MonthStatisticDto statisticDto = Redis.GetMonthStatistic(userId, languageType);
+        internal async Task<MonthPlanDto> GetMonthPlanDtoAsync(string userId, LanguageType languageType) {
+            MonthPlanDto statisticDto = Redis.GetMonthPlan(userId, languageType);
             if (statisticDto == null) {
-                MonthStatistic statistic = await _db.GetThisMonthStatisticAsync(userId, languageType);
-                if (statistic == null) {
-                    var plan = CalculateMonthPlan(userId, languageType);
-                    statistic = await _db.CreateMonthStatisticAsync(userId, languageType, plan);
+                MonthPlan monthPlan = await _db.GetThisMonthPlanAsync(userId, languageType);
+                if (monthPlan == null) {
+                    int planedCount = CalculateMonthPlan(userId, languageType);
+                    monthPlan = await _db.CreateMonthPlanAsync(userId, languageType, planedCount);
                 }
-                statisticDto = new MonthStatisticDto(statistic);
+                statisticDto = new MonthPlanDto(monthPlan);
             }
             return statisticDto;
         }
 
-        private object CalculateMonthPlan(string userId, LanguageType languageType) {
-            throw new NotImplementedException();
+        private UInt16 CalculateMonthPlan(string userId, LanguageType languageType) {
+            var daysInMonth = DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month);
+            const int PLAN_PER_DAY = 3;
+            return (UInt16)(PLAN_PER_DAY * daysInMonth);
         }
     }
 }

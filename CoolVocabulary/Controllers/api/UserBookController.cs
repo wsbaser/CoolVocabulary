@@ -37,25 +37,25 @@ namespace CoolVocabulary.Controllers.api {
                 throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.Unauthorized));
 
             // . get user books
-            List<UserBookDto> userBooks = Redis.GetUserBooks(user);
-            if (userBooks == null) {
-                userBooks = await db.GetUserBooksDtoAsync(user.Id, languageType);
-                if (userBooks.Count != 0) {
-                    Redis.SaveUserBooks(userBooks);
+            List<UserBookDto> userBooksDto = Redis.GetUserBooks(user);
+            if (userBooksDto == null) {
+                userBooksDto = await db.GetUserBooksDtoAsync(user.Id, languageType);
+                if (userBooksDto.Count != 0) {
+                    Redis.SaveUserBooks(userBooksDto);
                 } else {
                     UserBook firstBook = await db.GetFirstBookAsync(user.Id, languageType);
-                    userBooks.Add(new UserBookDto(firstBook));
+                    userBooksDto.Add(new UserBookDto(firstBook));
                 }
             }
 
             // . get month statistic for the current language
-            var monthStatistic = await repo.GetMonthStatisticAsync(user.Id, languageType);
+            var monthPlanDto = await repo.GetMonthPlanDtoAsync(user.Id, languageType);
 
             return Ok(new {
                 emberDataFormat = true,
-                books = userBooks.Select(ub => ub.BookDto).ToList(),
-                userBooks = userBooks,
-                monthStatistics = new List<MonthStatisticDto>() { monthStatistic }
+                books = userBooksDto.Select(ub => ub.BookDto).ToList(),
+                userBooks = userBooksDto,
+                monthPlans = new List<MonthPlanDto>() { monthPlanDto }
             });
         }
 

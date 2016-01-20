@@ -1,4 +1,4 @@
-Vocabulary.MonthStatistic = DS.Model.extend({
+Vocabulary.MonthPlan = DS.Model.extend({
 	user: DS.belongsTo("user"),
     year: DS.attr("number"),
     month: DS.attr("number"),

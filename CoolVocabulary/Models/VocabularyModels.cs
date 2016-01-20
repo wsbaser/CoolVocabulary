@@ -19,7 +19,7 @@ namespace CoolVocabulary.Models {
         public string TranslationCards { get; set; }
     }
 
-    public class MonthStatistic {
+    public class MonthPlan {
         [Required]
         public Int32 Id { get; set; }
         [Required]
@@ -27,16 +27,16 @@ namespace CoolVocabulary.Models {
         public string UserId { get; set; }
         [Required]
         [Index("UQ_UserId_Date_Language", 2, IsUnique = true)]
-        public UInt16 Year { get; set; }
+        public int Year { get; set; }
         [Required]
         [Index("UQ_UserId_Date_Language", 3, IsUnique = true)]
-        public byte Month { get; set; }
+        public int Month { get; set; }
         [Required]
         [Index("UQ_UserId_Date_Language", 4, IsUnique = true)]
-        public byte Language { get; set; }
+        public int Language { get; set; }
         [Required]
-        public UInt16 Plan { get; set; }
-        public UInt16 Done { get; set; }
+        public int PlanedCount { get; set; }
+        public int? LearnedCount { get; set; }
     }
 
     public class Word {
@@ -86,8 +86,7 @@ namespace CoolVocabulary.Models {
         public string LearnLevels { get; set; }
         public string LearnDates { get; set; }
         public string ExamDates { get; set; }
-        public string FirstPromoteDates { get; set; }
-        public string LastPromoteDates { get; set; }
+        public string PromoteDates { get; set; }
         public Book Book { get; set; }
         public ApplicationUser User { get; set; }
     }

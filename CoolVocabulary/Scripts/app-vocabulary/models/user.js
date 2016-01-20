@@ -2,5 +2,5 @@ Vocabulary.User = DS.Model.extend({
 	displayName: DS.attr("string"),
 	nativeLanguage: DS.belongsTo("language"),
 	userBooks: DS.hasMany('userBook'),
-	monthStatistics: DS.hasMany('monthStatistic')
+	monthPlans: DS.hasMany('monthPlan')
 });

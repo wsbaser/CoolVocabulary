@@ -257,14 +257,15 @@
     <Compile Include="Migrations\201512271716548_Initial.Designer.cs">
       <DependentUpon>201512271716548_Initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201601102134190_UserBook.cs" />
-    <Compile Include="Migrations\201601102134190_UserBook.Designer.cs">
-      <DependentUpon>201601102134190_UserBook.cs</DependentUpon>
+    <Compile Include="Migrations\201601202214303_UserBook.cs" />
+    <Compile Include="Migrations\201601202214303_UserBook.Designer.cs">
+      <DependentUpon>201601202214303_UserBook.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Redis.cs" />
+    <Compile Include="Models\Repository.cs" />
     <Compile Include="Models\VocabularyBindingModels.cs" />
     <Compile Include="Models\VocabularyDbContext.cs" />
     <Compile Include="Models\VocabularyDtoModels.cs" />
@@ -387,8 +388,8 @@
     <EmbeddedResource Include="Migrations\201512271716548_Initial.resx">
       <DependentUpon>201512271716548_Initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201601102134190_UserBook.resx">
-      <DependentUpon>201601102134190_UserBook.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201601202214303_UserBook.resx">
+      <DependentUpon>201601202214303_UserBook.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
