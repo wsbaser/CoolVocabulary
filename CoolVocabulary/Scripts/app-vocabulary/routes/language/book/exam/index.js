@@ -1,12 +1,19 @@
-Vocabulary.BookExamIdexRoute = Ember.Route.extend({
+Vocabulary.BookExamIndexRoute = Ember.Route.extend({
 	renderTemplate: function(){
 		this.render('language/book/examToolbox', { into: 'language/book', outlet: 'toolbox'} );
 		this.render('language/book/exam', { into: 'language/book', outlet: 'content'} );
 	},
+	parentName: 'book.exam',
+	parentCtrl: Ember.computed(function(){
+		return this.controllerFor(this.get('parentName'));
+	}),
+	parentModel: Ember.computed(function(){
+		return this.modelFor(this.get('parentName'));
+	}),
 	model: function(){
-		var sessionTranslations = thid.modelFor('book.exam');
+		var sessionTranslations = this.get('parentModel');
 		this.sessionWords = this.getSessionWordsForTranslations(sessionTranslations);
-		return this.requestExamWords(sessionWords);
+		return this.requestExamWords(this.sessionWords);
 	},
 	getSessionWordsForTranslations: function(translations){
 		// . generate session words
@@ -87,9 +94,10 @@ Vocabulary.BookExamIdexRoute = Ember.Route.extend({
 		return result;
 	},
 	setupController: function(controller, model){
-		this.setWrongTranslations(this.sessionWords, model);
-		var validSessionWords = this.sessionWords.filterBy('isValid', true);		
+		this.setWrongTranslations(this.sessionWords, model.content);
+		var validSessionWords = this.sessionWords.filterBy('isValid', true);
 		this._super(controller, validSessionWords);
+		controller.set('parentCtrl', this.get('parentCtrl'));
 		controller.activateFirstWord();
 	},
 	actions: {

@@ -4,9 +4,9 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 	},
 	model: function(params){
 		var bookCtrl = this.controllerFor('book');
-		if(+params.word_id){
-			this.isSingleWord = true;
-			return this.getSessionBookWordsForWord(bookCtrl, +params.word_id);
+		this.isSingleWord =  +params.word_id!==0;
+		if(this.isSingleWord){
+			return this.getSessionBookWordsForWord(bookCtrl, params.word_id);
 		}
 		else{
 			var sessionBookWords = this.getSessionBookWords(bookCtrl);
@@ -18,7 +18,7 @@ Vocabulary.BookLearnRoute = Ember.Route.extend({
 			}
 		}
 	},
-	getSessionBookWordsForWord: function(userBook, wordId){
+	getSessionBookWordsForWord: function(bookCtrl, wordId){
 		return bookCtrl.get('model.book.bookWords').filterBy('word.id', wordId);
 	},
 	getSessionBookWords: function(bookCtrl){

@@ -9,7 +9,7 @@
 						{{examination-card wordToExam=wordToExam onSelect=(action "nextWord")}}
 					{{/each}}
 					{{#if isSummary}}
-						{{examination-summary-card hasMoreWordsToExam=hasMoreWordsToExam hasMoreWordsToLearn=hasMoreWordsToLearn  bookName=model.book.name promotes=promotes onExamMore=(action "changeSession") onLearnMore=(action "learnMore") }}
+						{{examination-summary-card hasMoreWordsToExam=hasMoreWordsToExam hasMoreWordsToLearn=hasMoreWordsToLearn  bookName=options.userBook.book.name promotes=promotes onExamMore=(action "changeSession") onLearnMore=(action "learnMore") }}
 					{{/if}}
 				</div>
 			</div>

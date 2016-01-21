@@ -39,7 +39,7 @@ Vocabulary.BookLearnIndexController = Ember.Controller.extend(Vocabulary.HasActi
 			if(this.get('isScrolling') || this.get('isSummary')){
 				return;
 			}
-			if(this.get('isSingleWord')){
+			if(this.get('options.isSingleWord')){
 				this.transitionToRoute('book');
 			}
 			else{

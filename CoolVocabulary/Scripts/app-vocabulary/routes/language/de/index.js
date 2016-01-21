@@ -1,3 +1,3 @@
-Vocabulary.LanguageDEIndexRoute = Vocabulary.BookExamIdexRoute.extend(Vocabulary.ExamRouteBase, {
+Vocabulary.LanguageDEIndexRoute = Vocabulary.BookExamIndexRoute.extend({
 	parentName: 'language.DE'
 });

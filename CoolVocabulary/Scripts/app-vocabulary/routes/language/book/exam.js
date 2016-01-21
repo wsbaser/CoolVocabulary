@@ -24,7 +24,7 @@ Vocabulary.BookExamRoute = Ember.Route.extend(Vocabulary.ExamRouteBase, {
 		learnSessionWords.forEach(function(sessionWord){
 			sessionWord.get('bookWords').forEach(function(bookWord){
 				bookWord.get('translations').forEach(function(translation){
-					translations.push(translation.get('id'));
+					translationIds.push(translation.get('id'));
 				});
 			});
 		});
@@ -57,5 +57,11 @@ Vocabulary.BookExamRoute = Ember.Route.extend(Vocabulary.ExamRouteBase, {
 	        return false;
 		}
 		return true;
+	},
+	setupController: function(controller, model){
+		controller.set('options', Ember.Object.create({
+			userBook: this.controllerFor('book').get('model')
+		}));
+		this._super(controller, model);
 	}
 });

@@ -35,11 +35,12 @@ Vocabulary.LanguageController = Ember.Controller.extend({
 		});
 	}),
 	getAllActiveTranslations: function(){
+		var self = this;
 		var inProgress = [];
 		var waiting = [];
 		var userBooks = this.get('userBooks');
 		userBooks.forEach(function(userBook){
-			var activeTranslations = this.getActiveTranslations(userBook);
+			var activeTranslations = self.getActiveTranslations(userBook);
 			inProgress = inProgress.concat(activeTranslations.inProgress);
 			waiting = waiting.concat(activeTranslations.waiting);
 		});
@@ -116,13 +117,12 @@ Vocabulary.LanguageController = Ember.Controller.extend({
 		});
 	},
 	getTranslationsFromStore: function(ids){
-		this.store.peekAll('translation').filter(function(item){
+		return this.store.peekAll('translation').filter(function(item){
 			return ids.indexOf(item.get('id'))!==-1;
 		});
 	},
 	getSessionTranslations: function(ids, userBook){
-		ids = languageCtrl.sortTranslationsByExamDate(ids, userBook);
-		var sessionTranslationIds = ids.slice(0, SESSION_WORDS_COUNT); 
-		return languageCtrl.getTranslationsFromStore(sessionTranslationIds);
+		ids = this.sortTranslationsByExamDate(ids, userBook);
+		return ids.slice(0, SESSION_WORDS_COUNT); 
 	}
 });

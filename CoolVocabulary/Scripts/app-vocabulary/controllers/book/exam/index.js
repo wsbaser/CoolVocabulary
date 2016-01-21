@@ -1,6 +1,7 @@
 var MAX_LEARN_LEVEL = 5;
 Vocabulary.BookExamIndexController = Ember.Controller.extend(Vocabulary.HasActiveObject, {
-	collection: Ember.computed.alias('sessionWords'),
+	languageCtrl: Ember.inject.controller('language'),
+	collection: Ember.computed.alias('model'),
 	activeWord: Ember.computed.alias('activeObject'),
 	activateFirstWord: function(){
 		this.activateFirstObject();
@@ -18,7 +19,7 @@ Vocabulary.BookExamIndexController = Ember.Controller.extend(Vocabulary.HasActiv
 		wordToExam.set('isExamined', true);
 		if(wordToExam.allExamined()){
 			var translation = wordToExam.get('translation');			
-			var userBook = this.get('model');
+			var userBook = translation.get('bookWord.book.userBook');
 			// . update exam date
 			var examDates = userBook.get('examDates'); 
 			examDates[translation.id] = Date.now();
@@ -35,32 +36,39 @@ Vocabulary.BookExamIndexController = Ember.Controller.extend(Vocabulary.HasActiv
 		}
 	},
 	checkForMoreWords: function(){
-		var DAY = 60*60*24*1000;
-		var now = Date.now();
-		var bookWords = this.get('model.book.bookWords');
-		var learnLevels = this.get('model.learnLevels');
-		var examDates = this.get('model.examDates');
-		var hasMoreWordsToExam = bookWords.any(function(item){
-			var translations = item.get('translations').toArray();
-			for (var i = translations.length - 1; i >= 0; i--) {
-				var learnLevel = learnLevels[translations[i].id]||0;
-				var examDate = examDates[translations[i].id]||0;  
-			 	if(learnLevel<MAX_LEARN_LEVEL && now-examDate>DAY){
-			 		return true;
-			 	}
-			}
-			return false;
-		});
-		this.set('hasMoreWordsToExam', hasMoreWordsToExam);
-		var learnDates = this.get('model.learnDates');
-		var hasMoreWordsToLearn = bookWords.any(function(item){
-			return !learnDates[item.id];
-		});
-		this.set('hasMoreWordsToLearn', hasMoreWordsToLearn);
+		var languageCtrl = this.get('languageCtrl');
+		var userBook = this.get('options.userBook'); 
+		var active = userBook?
+			languageCtrl.getActiveTranslations(userBook):
+			languageCtrl.getAllActiveTranslations();
+
+		// var DAY = 60*60*24*1000;
+		// var now = Date.now();
+		// var bookWords = this.get('model.book.bookWords');
+		// var learnLevels = this.get('model.learnLevels');
+		// var examDates = this.get('model.examDates');
+		// var hasMoreWordsToExam = bookWords.any(function(item){
+		// 	var translations = item.get('translations').toArray();
+		// 	for (var i = translations.length - 1; i >= 0; i--) {
+		// 		var learnLevel = learnLevels[translations[i].id]||0;
+		// 		var examDate = examDates[translations[i].id]||0;  
+		// 	 	if(learnLevel<MAX_LEARN_LEVEL && now-examDate>DAY){
+		// 	 		return true;
+		// 	 	}
+		// 	}
+		// 	return false;
+		// });
+
+		this.set('hasMoreWordsToExam', !!active.inProgress.length);
+		// var learnDates = this.get('model.learnDates');
+		// var hasMoreWordsToLearn = bookWords.any(function(item){
+		// 	return !learnDates[item.id];
+		// });
+		this.set('hasMoreWordsToLearn', !!active.waiting.length);
 	},
 	checkForPromotes: function(){
 		var translationsToPromote = Ember.A();
-		this.get('sessionWords').forEach(function(wordToLearn){
+		this.get('model').forEach(function(wordToLearn){
 			if(wordToLearn.allCorrect()){
 				translationsToPromote.pushObject(wordToLearn.get('translation'));
 			}
