@@ -11,6 +11,7 @@ using System.Web.Http.Description;
 using NLog;
 using Microsoft.AspNet.Identity;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 
 namespace CoolVocabulary.Controllers.api {
     public class UserBookController : ApiController {
@@ -87,6 +88,35 @@ namespace CoolVocabulary.Controllers.api {
                 _logger.Error("Can not delete user book", e);
                 throw;
             }
+        }
+
+        // PUT api/UserBook/5
+        public async Task<IHttpActionResult> PutUserBook(int id, UserBookDto userBookDto) {
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
+            }
+
+            var userBook = db.UserBooks.Find(id);
+            userBookDto.Update(userBook);
+            //userBook.Name = bookDto.name;
+            //db.Entry(userBook.ToBookEntity()).State = EntityState.Modified;
+
+            try {
+                await db.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException) {
+                if (!UserBookExists(id)) {
+                    return NotFound();
+                } else {
+                    throw;
+                }
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        private bool UserBookExists(int id) {
+            return db.UserBooks.Count(e => e.Id == id) > 0;
         }
     }
 }

@@ -20,21 +20,24 @@ Vocabulary.UserBook = DS.Model.extend({
 });
 
 Vocabulary.UserBookSerializer = DS.RESTSerializer.extend({
-  // serialize: function(snapshot, options) {
-  //   var json = this._super.apply(this, arguments);
-  //   json.learnLevels = JSON.stringify(json.learnLevels);
-  //   json.learnDates = JSON.stringify(json.learnDates);
-  //   json.examDates = JSON.stringify(json.examDates);
-  //   json.promoteDates = JSON.stringify(json.promoteDates);
-  //   json.translations = JSON.stringify(json.translations);
-  //   return json;
-  // },
+  serialize: function(snapshot, options) {
+    var json = this._super.apply(this, arguments);
+    json.learnLevels = JSON.stringify(json.learnLevels);
+    json.learnDates = JSON.stringify(json.learnDates);
+    json.examDates = JSON.stringify(json.examDates);
+    json.promoteDates = JSON.stringify(json.promoteDates);
+    //json.translations = json.translations;
+    return json;
+  },
+  serializeIntoHash: function(hash, typeClass, snapshot, options){
+    Object.assign(hash, this.serialize(snapshot, options));
+  },
   normalize: function(modelClass, resourceHash) {
-    resourceHash.learnLevels = resourceHash.learnLevels||{};
-    resourceHash.learnDates = resourceHash.learnDates||{};
-    resourceHash.examDates = resourceHash.examDates||{};
-    resourceHash.promoteDates = resourceHash.promoteDates||{};
-    resourceHash.translations = resourceHash.translations||{};
+    resourceHash.learnLevels = JSON.parse(resourceHash.learnLevels||'{}');
+    resourceHash.learnDates = JSON.parse(resourceHash.learnDates||'{}');
+    resourceHash.examDates = JSON.parse(resourceHash.examDates||'{}');
+    resourceHash.promoteDates = JSON.parse(resourceHash.promoteDates||'{}');
+    //resourceHash.translations = resourceHash.translations;
     return this._super(modelClass, resourceHash);
   }
 });

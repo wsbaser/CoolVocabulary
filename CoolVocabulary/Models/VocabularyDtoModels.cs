@@ -70,7 +70,7 @@ namespace CoolVocabulary.Models {
         public UserBookDto(UserBook userBook, Book book) {
             this.id = userBook.Id;
             this.user = userBook.UserId;
-            this.book = userBook.Book.Id;
+            this.book = userBook.BookId;
             this.learnLevels = userBook.LearnLevels;
             this.learnDates = userBook.LearnDates;
             this.examDates = userBook.ExamDates;
@@ -94,6 +94,15 @@ namespace CoolVocabulary.Models {
             }
             var ids = translations[bookWordId];
             ids.Add(translationId);
+        }
+
+        internal void Update(UserBook userBook) {
+            userBook.BookId = book;
+            userBook.UserId = user;
+            userBook.LearnLevels = learnLevels;
+            userBook.LearnDates = learnDates;
+            userBook.ExamDates = examDates;
+            userBook.PromoteDates = promoteDates;
         }
     }
 

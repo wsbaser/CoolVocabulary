@@ -111,12 +111,12 @@ namespace CoolVocabulary.Models {
 
         public async Task<List<Word>> GetWords(List<string> ids) {
             var range = ids.ToIntList();
-            return await Words.Where(w => range.Contains(w.Id)).ToListAsync();
+            return await Words.Where(w => range.Contains(w.Id)).AsNoTracking().ToListAsync();
         }
 
         public async Task<List<Translation>> GetTranslations(List<string> ids) {
             var range = ids.ToIntList();
-            return await Translations.Where(w => range.Contains(w.Id)).ToListAsync();
+            return await Translations.Where(w => range.Contains(w.Id)).AsNoTracking().ToListAsync();
         }
 
         public async Task<UserBook> GetFirstBookAsync(string userId, LanguageType languageType) {
@@ -201,9 +201,9 @@ namespace CoolVocabulary.Models {
                     book = ubbwb.book,
                     bookWord = ubbwb.bookWord,
                     translation = t
-                }).ToListAsync();
+                }).AsNoTracking().ToListAsync();
 
-            var userBooksDtoDict = data.DistinctBy(d => d.userBook)
+            var userBooksDtoDict = data.DistinctBy(d => d.userBook.Id)
                 .Select(d => new UserBookDto(d.userBook, d.book))
                 .ToDictionary(ub => ub.id, ub => ub);
 
@@ -218,7 +218,7 @@ namespace CoolVocabulary.Models {
         internal async Task<List<UserBook>> GetUserBooksAsync(string userId) {
             return await UserBooks.Include("Book")
                 .Where(ub => ub.UserId == userId)
-                .ToListAsync();
+                .AsNoTracking().ToListAsync();
         }
 
         internal async Task<dynamic> Get_TranslationsBookWordsWords_DtoAsync(IEnumerable<int> translationIds) {
