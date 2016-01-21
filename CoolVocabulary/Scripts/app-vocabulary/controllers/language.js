@@ -17,13 +17,67 @@ Vocabulary.LanguageController = Ember.Controller.extend({
 		});
 	}),
 	thisMonthPlan: Ember.computed('model', function(){
-		var today = Date.now();
-		var year = today.getYear();
-		var month = today.getMonth();
+		var today = new Date();
+		var year = today.getFullYear();
+		var month = today.getMonth()+1;
 		return this.get('user.monthPlans').find(function(statistic){ 
 			return statistic.get('year')===year && statistic.get('month')===month;
 		});
 	}),
+	hasTranslationsForDE: Ember.computed('userBooks', function(){
+		var active = this.getAllActiveTranslations();
+		return active.inProgress.length || active.waiting.length;
+	}),
+	days: Ember.computed('userBooks.[]', function(){		
+		var days = Ember.A();
+		var hasTranslationsForDE = this.get('hasTranslationsForDE');
+
+		// . what day is it and how much days in this month
+		var today = new Date();
+		var day = new Date(today.getYear(),today.getMonth(),0);
+		var daysInThisMonth = day.getDate();
+		var todayDate = today.getDate();
+
+		// . calculate task completeness
+		var userBooks = this.get('userBooks');
+		for(var i=1; i<=daysInThisMonth; i++){
+			day.setDate(i);
+			var promotesCount = this.getPromotesCount(userBooks, day);
+			var deCompleted = promotesCount >= DAILY_PROMOTES_PLAN;
+			var isToday = i===todayDate;
+			var isHistory = i<todayDate;
+			days.pushObject(Ember.Object.create({
+				date: i,
+				isToday: isToday,
+				hasDE: isToday && !deCompleted && hasTranslationsForDE,
+				deFailed: isHistory && !deCompleted,
+				deCompleted: deCompleted,
+				promotesCount: promotesCount,
+				promotesLeftCount: DAILY_PROMOTES_PLAN-promotesCount
+			}));
+		}
+
+		return days;
+	}),
+	getPromotesCount: function(userBooks, day){
+		// . calculate amount of translations with lastPromotedDate equal to the specific day
+		var promotesCount = 0;
+		userBooks.forEach(function(userBook){
+			var promoteDates = userBook.get('promoteDates'); 
+			for(var translationId in promoteDates){
+				var arr = promoteDates[translationId];
+				for (var i = arr.length - 1; i >= 0; i--) {
+					var promoteDate = new Date(promoteDates[translationId]);
+					if( promoteDate.getYear()===day.getYear() && 
+						promoteDate.getMonth()===day.getMonth() &&
+						promoteDate.getDate()===day.getDate()){
+						promotesCount++;
+					}
+				}
+			}
+		});
+		return promotesCount;
+	},
 	examDatesAll: Ember.computed(function(){
 		var examDatesAll = {};
 		var userBooks = this.get('userBooks');

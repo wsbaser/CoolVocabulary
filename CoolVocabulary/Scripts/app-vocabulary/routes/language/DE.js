@@ -4,13 +4,31 @@ Vocabulary.LanguageDERoute = Ember.Route.extend({
 	},
 	model: function(){
 		var languageCtrl = this.controllerFor('language');
-		return this.getSessionItems(languageCtrl);
+		var sessionItems = this.getSessionItems(languageCtrl);
+		if(this.checkSessionItems(sessionItems)){
+			return sessionItems;
+		}
+		else{
+			this.translationTo('book');
+		}
+	},
+	checkSessionItems: function(sessionItems){
+		if(!sessionItems || !sessionItems.length){
+			var transitionToLearn = this.get('transitionToLearn');
+			BootstrapDialog.alert({
+			    title: 'Warning',
+			    message: '<b>No translations to examine!</b><br><br>'+
+					'Add new translations in your book or find a public book.'
+			});
+			return false;
+		}
+		return true;
 	},
 	requestTranslations: function(ids){
-		this.store.query('translation', { ids:ids });
+		return this.store.query('translation', { ids:ids });
 	},
 	requestBookWords: function(ids){
-		this.store.query('bookWord', { ids:ids });
+		return this.store.query('bookWord', { ids:ids });
 	},
 	getSessionBookWords: function(languageCtrl, waitingTranslationsIds){
 		var waitingBookWordIds = languageCtrl.getBookWordsForTranslations(waitingTranslationsIds);
@@ -29,7 +47,7 @@ Vocabulary.LanguageDERoute = Ember.Route.extend({
 		}
 	},
 	getSessionTranslations: function(languageCtrl, translationsInProgressIds){
-		var sessionTranslationIds = languageCtrl.getSessionTranslations(translationsInProgressIds, userBook);
+		var sessionTranslationIds = languageCtrl.getSessionTranslations(translationsInProgressIds);
 		var sessionTranslations = languageCtrl.getTranslationsFromStore(sessionTranslationIds);
 
 		// . request translations from server if necessary
@@ -54,14 +72,10 @@ Vocabulary.LanguageDERoute = Ember.Route.extend({
 			this.set('transitionToLearn', true);
 			return this.getSessionBookWords(languageCtrl, active.waiting);
 		}
-		else{
-			if(!active.inProgress.length){
-				alert('No translations to examine.');
-				this.transitionToRoute('language.book');
-			}else{
-				return this.getSessionTranslations(languageCtrl, active.inProgress);
-			}
+		else if(active.inProgress.length){
+			return this.getSessionTranslations(languageCtrl, active.inProgress);
 		}
+		return null;
 	},
 	setupController: function(controller, model){
 		this._super(controller, model);

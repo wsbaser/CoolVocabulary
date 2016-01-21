@@ -3,6 +3,6 @@ Vocabulary.MonthPlan = DS.Model.extend({
     year: DS.attr("number"),
     month: DS.attr("number"),
     language: DS.belongsTo("language"),
-    plan: DS.attr("number"),
-    done: DS.attr("number")
+    planedCount: DS.attr("number"),
+    leanedCount: DS.attr("number")
 });

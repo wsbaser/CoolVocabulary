@@ -15,10 +15,10 @@
 			{{/link-to}}
 		{{else}}		
 			<span class="day {{if day.isToday "today"}} {{if day.deFailed "de-failed"}} {{if day.deCompleted "de-completed"}}">
-				<span class="day-status"></span>
 				{{#if day.isToday }}
-					<span class="caption">{{day.date}}</span>
+					<span class="date">{{day.date}}</span>
 				{{/if}}
+				<span class="day-status"></span>
 {{!-- 
 				{{input type="checkbox" disabled="true" checked=day.deCompleted class="checkbox-custom"}}
 				<label class="checkbox-custom-label"></label> --}}

@@ -28,7 +28,14 @@ Vocabulary.BookExamIndexController = Ember.Controller.extend(Vocabulary.HasActiv
 			if(wordToExam.allCorrect()){
 				var learnLevels = userBook.get('learnLevels');
 				var level = learnLevels[translation.id] || 0;
-				learnLevels[translation.id] = level+1;
+				level++;
+				learnLevels[translation.id] = level;
+				var promoteDates = userBook.get('promoteDates');
+				if(!promoteDates[translation.id]){
+					promoteDates[translation.id] = [];
+				}
+				var arr = promoteDates[translation.id];
+				arr[level] = Date.now();
 				translation.get('bookWord').content.notifyPropertyChange('learnLevel');
 			}
 			// . save to db
