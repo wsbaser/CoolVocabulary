@@ -5,7 +5,15 @@
 	<div class="actions">
 		<button tabIndex="11" {{action 'examine'}} id="examine_btn" class="btn btn-warning">Examine</button>
 		{{#link-to 'book'}}
-			<button tabIndex="12" id="later_btn" class="btn btn-default overflow-ellipsis">Back to "{{bookName}}"</button>
+			{{#if bookName}}
+				<button tabIndex="12" id="later_btn" class="btn btn-default overflow-ellipsis">
+					Back to "{{bookName}}"
+				</button>
+			{{else}}
+				<button tabIndex="12" id="later_btn" class="btn btn-default overflow-ellipsis">
+					Finish
+				</button>
+			{{/if}}
 		{{/link-to}}
 	</div>
 </div>

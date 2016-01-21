@@ -8,7 +8,7 @@
 			<tt>[Right]</tt> &mdash; next card
 		</div>
 		<div class="hotkey-hint">
-			<tt>[Enter]</tt> &mdash;{{#if isSingleWord}}back to "{{model.name}}"{{else}}next word{{/if}}
+			<tt>[Enter]</tt> &mdash;{{#if options.isSingleWord}}back to "{{model.name}}"{{else}}next word{{/if}}
 		</div>
 		<div class="hotkey-hint">
 			<tt>[Space]</tt> &mdash; listen pronunciation
@@ -19,16 +19,16 @@
 	    	<div id="top-block"></div>
 	    	<div id="magnifier-block">
 	    		<div id="learning-cards" class="fill-absolute">
-					{{#each sessionWords as |wordToLearn|}}
+					{{#each model as |wordToLearn|}}
 						{{learning-card wordToLearn=wordToLearn}}
 					{{/each}}
-					{{#unless isSingleWord}}
-						{{learning-summary-card bookName=model.book.name onExamine=(action "examine") }}
+					{{#unless options.isSingleWord}}
+						{{learning-summary-card  bookName=options.userBook.book.name onExamine=(action "examine") }}
 					{{/unless}}
 				</div>
 				{{#unless isSummary}}
 					<button {{action 'nextWord'}} id="next_word" class="btn btn-success btn-xs">
-						{{#if isSingleWord}}Book{{else}}Next{{/if}} 
+						{{#if options.isSingleWord}}Book{{else}}Next{{/if}} 
 					</button>
 				{{/unless}}
 			</div>

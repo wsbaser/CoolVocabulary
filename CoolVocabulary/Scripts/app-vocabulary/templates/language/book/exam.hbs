@@ -5,7 +5,7 @@
 	    	<div id="top-block"></div>
 	    	<div id="magnifier-block">
 	    		<div id="learning-cards" class="fill-absolute">
-	    			{{#each sessionWords as |wordToExam|}}
+	    			{{#each model as |wordToExam|}}
 						{{examination-card wordToExam=wordToExam onSelect=(action "nextWord")}}
 					{{/each}}
 					{{#if isSummary}}
@@ -17,7 +17,7 @@
 	    </div>
 		<div id="learning-cards-shadow" class="fill-absolute">
 			<div class="learning-card" style="background: transparent;"></div>
-			{{#each sessionWords as |wordToExam|}}
+			{{#each model as |wordToExam|}}
 				{{examination-card wordToExam=wordToExam}}
 			{{/each}}
 			<div class="learning-card" style="background: transparent;"></div>

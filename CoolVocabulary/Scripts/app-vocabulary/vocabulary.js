@@ -9,7 +9,7 @@ Vocabulary.Router.map(function(){
       this.route('index', {path:'/'}, function(){
         this.route('wordTranslation', { path:'word/:bookWord_id', resetNamespace: true });
       });
-      this.route('learn', {path:'/learn/:word_id'});
+      this.route('learn', {path:'/learn/:word_id'},function(){});
       this.route('exam');
       this.route('edit');
     });
