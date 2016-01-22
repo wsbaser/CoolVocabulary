@@ -57,8 +57,7 @@ namespace CoolVocabulary.Controllers.api
                     return BadRequest("Invalid translation language");
                 }
 
-                var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new VocabularyDbContext()));
-                var user = um.FindById(User.Identity.GetUserId());
+                var user = this.GetUser();
 
                 // . add word
                 Word word = await db.AddWord(data.word.ToLower(),

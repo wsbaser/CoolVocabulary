@@ -34,7 +34,8 @@ Vocabulary.LanguageDERoute = Ember.Route.extend({
 		var waitingBookWordIds = languageCtrl.getBookWordsForTranslations(waitingTranslationsIds);
 		waitingBookWordIds.shuffle();
 		var waitingBookWords = languageCtrl.getBookWordsFromStore(waitingBookWordIds);
-		if(waitingBookWords.length>=SESSION_WORDS_COUNT){
+		if(waitingBookWords.length>=SESSION_WORDS_COUNT ||
+			waitingBookWords.length===waitingBookWordIds.length){
 			return waitingBookWords.slice(0, SESSION_WORDS_COUNT);
 		}
 		else{
@@ -51,7 +52,8 @@ Vocabulary.LanguageDERoute = Ember.Route.extend({
 		var sessionTranslations = languageCtrl.getTranslationsFromStore(sessionTranslationIds);
 
 		// . request translations from server if necessary
-		if(sessionTranslations.length===SESSION_WORDS_COUNT){
+		if(sessionTranslations.length===SESSION_WORDS_COUNT ||
+			sessionTranslations.length===sessionTranslationIds.length){
 			return sessionTranslations;
 		}else{
 			// var loadedTranslationIds = sessionTranslations.map(function(translation){
@@ -77,12 +79,16 @@ Vocabulary.LanguageDERoute = Ember.Route.extend({
 		}
 		return null;
 	},
-	setupController: function(controller, model){
-		this._super(controller, model);
+	afterModel: function(){
 		if(this.get('transitionToLearn')){
-			this.transitionToLearn('language.DE.learn');
+			this.transitionTo('language.DE.learn');
 		}else{
 			// . transition to "index" by default
+		}
+	},
+	actions:{
+		error: function(){
+			alert('DE error');
 		}
 	}
 });

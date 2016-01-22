@@ -1222,7 +1222,9 @@ a:hover .manageIcons .glyphicon {
 
 .learning-calendar .today{
 	padding: 0 5px;
-	background: #d8d8ff;
+	background: #E0EAEA;
+	border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
 }
 
 .learning-calendar .today.de-not-completed{
@@ -1243,10 +1245,7 @@ a:hover .manageIcons .glyphicon {
     margin-left: 2px;
 }
 
-.learning-calendar .today.de-completed .caption{
-	font-size: 10px;
+.learning-calendar .today.de-not-completed .caption{
     line-height: 23px;
-    color: #aaa;
-    display: inline-block;
-    margin-left: -2px;
+    color: #fff;
 }

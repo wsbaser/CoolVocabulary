@@ -1,4 +1,4 @@
-Vocabulary.BookExamRoute = Ember.Route.extend(Vocabulary.ExamRouteBase, {
+Vocabulary.BookExamRoute = Ember.Route.extend({
 	renderTemplate: function(){
 		// . do not render anything here
 	},

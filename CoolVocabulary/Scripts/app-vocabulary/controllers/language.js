@@ -24,9 +24,9 @@ Vocabulary.LanguageController = Ember.Controller.extend({
 			return statistic.get('year')===year && statistic.get('month')===month;
 		});
 	}),
-	hasTranslationsForDE: Ember.computed('userBooks', function(){
+	hasTranslationsForDE: Ember.computed('userBooks.[]', function(){
 		var active = this.getAllActiveTranslations();
-		return active.inProgress.length || active.waiting.length;
+		return !!active.inProgress.length || !!active.waiting.length;
 	}),
 	days: Ember.computed('userBooks.[]', function(){		
 		var days = Ember.A();
@@ -34,8 +34,8 @@ Vocabulary.LanguageController = Ember.Controller.extend({
 
 		// . what day is it and how much days in this month
 		var today = new Date();
-		var day = new Date(today.getYear(),today.getMonth(),0);
-		var daysInThisMonth = day.getDate();
+		var day = new Date();
+		var daysInThisMonth = new Date(today.getFullYear(),today.getMonth(),0).getDate();
 		var todayDate = today.getDate();
 
 		// . calculate task completeness
@@ -67,11 +67,13 @@ Vocabulary.LanguageController = Ember.Controller.extend({
 			for(var translationId in promoteDates){
 				var arr = promoteDates[translationId];
 				for (var i = arr.length - 1; i >= 0; i--) {
-					var promoteDate = new Date(promoteDates[translationId]);
-					if( promoteDate.getYear()===day.getYear() && 
-						promoteDate.getMonth()===day.getMonth() &&
-						promoteDate.getDate()===day.getDate()){
-						promotesCount++;
+					if(promoteDates[translationId][i]){
+						var promoteDate = new Date(promoteDates[translationId][i]);
+						if( promoteDate.getFullYear()===day.getFullYear() && 
+							promoteDate.getMonth()===day.getMonth() &&
+							promoteDate.getDate()===day.getDate()){
+							promotesCount++;
+						}
 					}
 				}
 			}
@@ -87,6 +89,7 @@ Vocabulary.LanguageController = Ember.Controller.extend({
 				examDatesAll[translationId] = examDates[translationId];
 			}
 		});
+		return examDatesAll;
 	}),
 	getAllActiveTranslations: function(){
 		var self = this;
@@ -111,7 +114,7 @@ Vocabulary.LanguageController = Ember.Controller.extend({
 
 		var DAY = 60*60*24*1000;
 		var now = Date.now();
-		var notExaminedTodayFilter = function(id){ return (now-examDates[id])>DAY;  };
+		var notExaminedTodayFilter = function(id){ return (now-(examDates[id]||0))>DAY;  };
 		var notCompletedFilter = function(id){ return (learnLevels[id]||0)<MAX_LEARN_LEVEL; };
 		var canBeExaminedFilter = function(id){ return notExaminedTodayFilter(id)&&notCompletedFilter(id); };
 		var inProgress = [];
@@ -166,13 +169,13 @@ Vocabulary.LanguageController = Ember.Controller.extend({
 		return bookWordIds;
 	},
 	getBookWordsFromStore: function(ids){
-		this.store.peekAll('bookWord').filter(function(item){
-			return ids.indexOf(item.get('id'))!==-1;
+		return this.store.peekAll('bookWord').filter(function(item){
+			return ids.indexOf(item.get('id'))!==-1 || ids.indexOf(+item.get('id'))!==-1;
 		});
 	},
 	getTranslationsFromStore: function(ids){
 		return this.store.peekAll('translation').filter(function(item){
-			return ids.indexOf(item.get('id'))!==-1;
+			return ids.indexOf(item.get('id'))!==-1 || ids.indexOf(+item.get('id'))!==-1;
 		});
 	},
 	getSessionTranslations: function(ids, userBook){

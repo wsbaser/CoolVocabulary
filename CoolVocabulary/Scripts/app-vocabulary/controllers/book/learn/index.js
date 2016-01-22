@@ -33,6 +33,8 @@ Vocabulary.BookLearnIndexController = Ember.Controller.extend(Vocabulary.HasActi
 		});
 		userBook.notifyPropertyChange('learnDates');
 		userBook.content.save();
+		// . recalculate days
+		this.get('languageCtrl').notifyPropertyChange('days');
 	},
 	actions: {
 		nextWord: function(){
@@ -74,3 +76,5 @@ Vocabulary.BookLearnIndexController = Ember.Controller.extend(Vocabulary.HasActi
 		}
 	}
 });
+
+Vocabulary.LanguageDELearnController = Vocabulary.BookLearnIndexController;

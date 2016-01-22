@@ -24,22 +24,27 @@ Vocabulary.BookExamIndexController = Ember.Controller.extend(Vocabulary.HasActiv
 			var examDates = userBook.get('examDates'); 
 			examDates[translation.id] = Date.now();
 			userBook.notifyPropertyChange('examDates');
-			// . update learn level
 			if(wordToExam.allCorrect()){
+				// . update learn level
 				var learnLevels = userBook.get('learnLevels');
 				var level = learnLevels[translation.id] || 0;
 				level++;
 				learnLevels[translation.id] = level;
+				userBook.notifyPropertyChange('learnLevels');
+				// . update promote date
 				var promoteDates = userBook.get('promoteDates');
 				if(!promoteDates[translation.id]){
 					promoteDates[translation.id] = [];
 				}
 				var arr = promoteDates[translation.id];
 				arr[level] = Date.now();
+				userBook.notifyPropertyChange('promoteDates');
 				translation.get('bookWord').content.notifyPropertyChange('learnLevel');
 			}
-			// . save to db
-			translation.save();
+			userBook.content.save();
+
+			// . recalculate days
+			this.get('languageCtrl').notifyPropertyChange('days');
 		}
 	},
 	checkForMoreWords: function(){
@@ -84,7 +89,9 @@ Vocabulary.BookExamIndexController = Ember.Controller.extend(Vocabulary.HasActiv
 		var learnLevels = this.get('model.learnLevels');
 		var dict = {};
 		translationsToPromote.forEach(function(translation){
-			var learnLevel = learnLevels[translation.id];
+			var userBook = translation.get('bookWord.book.userBook');
+			var learnLevels = userBook.get('learnLevels'); 
+			var learnLevel = learnLevels[translation.id]||0;
 			if(!dict[learnLevel]){
 				dict[learnLevel]=1;
 			}
@@ -128,3 +135,5 @@ Vocabulary.BookExamIndexController = Ember.Controller.extend(Vocabulary.HasActiv
 		}
 	}
 });
+
+Vocabulary.LanguageDEIndexController = Vocabulary.BookExamIndexController;
