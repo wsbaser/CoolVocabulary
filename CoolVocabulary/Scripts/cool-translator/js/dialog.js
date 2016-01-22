@@ -246,26 +246,33 @@ TranslationDialog.prototype.updateSourcesContent = function(force) {
       return;
   this.hideLoginForm();
   this.lastRequestData = inputData;
-  this.showLoadingForAll(inputData);
-  this.langDetector.detect(inputData.word, function(promise){
-    promise.done(function(languages){
-      if(languages){
-          if(languages.indexOf(inputData.sourceLang)==-1){
-            if(languages.indexOf(inputData.targetLang)!=-1){
-              self.langSwitcher.switch();
-              return;
+
+  if(this.isExtension){
+    // . detect language
+    this.showLoadingForAll(inputData);
+    this.langDetector.detect(inputData.word, function(promise){
+      promise.done(function(languages){
+        if(languages){
+            if(languages.indexOf(inputData.sourceLang)==-1){
+              if(languages.indexOf(inputData.targetLang)!=-1){
+                self.langSwitcher.switch();
+                return;
+              }
+              else{
+                // . show correct languages to user
+                self.showCorrectLanguages(languages);
+              }
             }
-            else{
-              // . show correct languages to user
-              self.showCorrectLanguages(languages);
-            }
-          }
-      }
-      self.loadAll(inputData);
-    }).fail(function(){
-      self.loadAll(inputData);
+        }
+        self.loadAll(inputData);
+      }).fail(function(){
+        self.loadAll(inputData);
+      });
     });
-  });
+  }
+  else{
+    self.loadAll(inputData);
+  }
 
   // . but show only active
   this.blurInput();

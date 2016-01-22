@@ -99,12 +99,14 @@ SourceTab.prototype.createNavigationEl = function(){
 };
 
 SourceTab.prototype.showLoading = function(data,sourceName) {
-    this.isLoading = true;
-    this.loadingEl.find('.ctr-word').html(data.word);
-    this.loadingEl.find('.ctr-sourceName').html(sourceName);
-    this.navigationEl.removeClass(SourceTab.ACTIVE_CLASS);
-    this.rootEl.empty();
-    this.rootEl.append(this.loadingEl);
+    if(!this.isLoading){
+        this.isLoading = true;
+        this.loadingEl.find('.ctr-word').html(data.word);
+        this.loadingEl.find('.ctr-sourceName').html(sourceName);
+        this.navigationEl.removeClass(SourceTab.ACTIVE_CLASS);
+        this.rootEl.empty();
+        this.rootEl.append(this.loadingEl);
+    }
 };
 SourceTab.prototype.hideLoading = function(data,sourceName) {
     this.isLoading = false;

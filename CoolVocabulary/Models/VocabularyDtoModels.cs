@@ -76,7 +76,7 @@ namespace CoolVocabulary.Models {
             this.examDates = userBook.ExamDates;
             this.promoteDates = userBook.PromoteDates;
             this.BookDto = new BookDto(book, id);
-            this.translations = new Dictionary<int, List<int>>();
+            this.translations = new Dictionary<string, List<int>>();
         }
         [NonSerialized]
         public BookDto BookDto;
@@ -87,12 +87,13 @@ namespace CoolVocabulary.Models {
         public string learnDates { get; set; }
         public string examDates { get; set; }
         public string promoteDates { get; set; }
-        public Dictionary<int, List<int>> translations { get; set; }
+        public Dictionary<string, List<int>> translations { get; set; }
         public void AddTranslation(int bookWordId, int translationId) {
-            if (!translations.ContainsKey(bookWordId)) {
-                translations.Add(bookWordId, new List<int>());
+            var sTranslationId = translationId.ToString();
+            if (!translations.ContainsKey(sTranslationId)) {
+                translations.Add(sTranslationId, new List<int>());
             }
-            var ids = translations[bookWordId];
+            var ids = translations[sTranslationId];
             ids.Add(translationId);
         }
 

@@ -21,7 +21,12 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 			return {
 				id: userBook.get('book.id'),
 				language: sourceLanguage, 
-				name: userBook.get('book.name').trim()
+				name: userBook.get('book.name').trim(),
+				learnLevels: userBook.get('learnLevels'),
+				learnDates: userBook.get('learnDates'),
+				examDates: userBook.get('examDates'),
+				promoteDates: userBook.get('promoteDates'),
+				translations: userBook.get('translations')
 			};
 		});
 		var userParam = {

@@ -38,29 +38,37 @@ namespace CoolVocabulary.Controllers
         // GET: /Account/IsAuthenticated
         [AllowAnonymous]
         [HttpPost]
-        public JsonResult CheckAuthentication() {
+        public async Task<JsonResult> CheckAuthentication() {
             if (User.Identity.IsAuthenticated) {
-                return Json(this.GetUserCTData());
+                return Json(await this.GetUserCTData());
             }
             return Json(new { isAuthenticated = false });
         }
 
-        public dynamic GetUserCTData() {
+        public async Task<dynamic> GetUserCTData() {
             var userId = User.Identity.GetUserId();
             var user = UserManager.FindById(userId);
-            return GetUserCTData(user);
+            return await GetUserCTDataAsync(user);
         }
-        public dynamic GetUserCTData(ApplicationUser user) {
-            dynamic books = db.Books.Where(b => b.UserId == user.Id).Select(b => new {
-                id = b.Id,
-                name = b.Name,
-                language = ((LanguageType)b.Language).ToString()
+
+        public async Task<dynamic> GetUserCTDataAsync(ApplicationUser user) {
+            var userBooksDto = await db.GetUserBooksDtoAsync(user.Id, null);
+            dynamic books = userBooksDto.Select(ub => new {
+                id = ub.book,
+                name = ub.BookDto.name,
+                language = ub.BookDto.language,
+                learnLevels = ub.learnLevels,
+                learnDates = ub.learnDates,
+                examDates = ub.examDates,
+                promoteDates = ub.promoteDates,
+                translations = ub.translations
             }).ToList();
             return new {
                 isAuthenticated = true,
                 user = new {
                     id = user.Id,
                     name = user.DisplayName,
+                    language = user.NativeLanguage.ToString(),
                     books = books
                 }
             };
@@ -82,7 +90,7 @@ namespace CoolVocabulary.Controllers
                 var user = await UserManager.FindAsync(model.Email, model.Password);
                 if (user != null) {
                     await SignInAsync( user, true);
-                    return Json(GetUserCTData(user));
+                    return Json(await GetUserCTDataAsync(user));
                 }
             }
 

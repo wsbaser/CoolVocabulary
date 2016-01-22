@@ -220,3 +220,21 @@
   75% {left:100%;}
   100% {left:100%;}
 }
+
+/***** FLAGS ********************************************************************************************************/
+
+#ctr_root .ctr-flag-icon{
+    width: 24px !important;
+    height: 24px !important;
+    display: inline-block !important;
+    background-image: url('chrome-extension://__MSG_@@extension_id__/images/flags.png') !important;
+}
+
+#ctr_root .ctr-flag-icon.ru{background-position: 0 0 !important;}
+#ctr_root .ctr-flag-icon.en{background-position: -24px 0 !important;}
+#ctr_root .ctr-flag-icon.es{background-position: -48px 0 !important;}
+#ctr_root .ctr-flag-icon.pt{background-position: -72px 0 !important;}
+#ctr_root .ctr-flag-icon.fr{background-position: -96px 0 !important;}
+#ctr_root .ctr-flag-icon.it{background-position: -120px 0 !important;}
+#ctr_root .ctr-flag-icon.de{background-position: -144px 0 !important;}
+#ctr_root .ctr-flag-icon.ar{background-position: -168px 0 !important;}

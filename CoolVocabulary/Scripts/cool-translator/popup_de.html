@@ -2,9 +2,56 @@
 <html lang="en">
 <head>
     <title>Cool Translator Popup</title>
-	<link rel="stylesheet" href="css/popup.css">
-	<script src="js/popup.js"></script>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/popup.css">
+    <style>
+		#ctr_root .ctr-lang-card{
+			margin-bottom: 5px !important;
+			padding: 10px 20px !important;
+			width: 300px !important;
+		}
+		#ctr_root .ctr-lang-card:last-child{
+			margin-bottom: 0px !important;			
+		}
+
+		#ctr_root .ctr-DE-status{
+		    margin: 10px 0 5px !important;
+    		text-align: center !important;
+		}
+
+		#ctr_root .ctr-DE-link{
+			background: #ed9c28 !important;
+			line-height: 22px !important;
+			color: #fff !important;
+			text-decoration: none !important;
+			padding: 0 25px !important;
+		}
+
+		#ctr_root .ctr-flag-icon{
+			vertical-align: top !important;
+			margin-right: 8px !important;
+		}
+
+		#ctr_root .ctr-lang-name{
+			font-size: 14px !important;
+			line-height: 24px !important;
+		}
+
+		#ctr_root .ctr-DE-completed{
+			font-size: 14px !important;
+			color: #aaa !important;
+		}
+
+    </style>
+	<script src="js/lib/jquery-1.10.2.min.js"></script>
+	<script src="js/popup/de_calculator.js"></script>
+	<script src="js/popup/popup_de.js"></script>
 </head>
-<body>
+<body class="ctr-blueBg">
+	<div class="ctr-popup-header">
+		<a target="_blank" href="http://coolvocabulary.com"></a>
+	</div>
+	<div id="ctr_root">
+	</div>
 </body>
 </html>

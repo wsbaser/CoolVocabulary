@@ -185,9 +185,10 @@ namespace CoolVocabulary.Models {
                 .AsNoTracking().ToListAsync();
         }
 
-        internal async Task<List<UserBookDto>> GetUserBooksDtoAsync(string userId, LanguageType languageType) {
+        internal async Task<List<UserBookDto>> GetUserBooksDtoAsync(string userId, LanguageType? languageType) {
             // . Select user books(BookDto included) with bookWord
-            var data = await UserBooks.Where(ub => ub.UserId == userId && ub.Book.Language == (int)languageType)
+            var languageId = languageType == null ? -1 : (int)languageType;
+            var data = await UserBooks.Where(ub => ub.UserId == userId && (languageId == -1 || ub.Book.Language == languageId))
                 .Join(Books, ub => ub.BookId, b => b.Id, (ub, b) => new {
                     userBook = ub,
                     book = b

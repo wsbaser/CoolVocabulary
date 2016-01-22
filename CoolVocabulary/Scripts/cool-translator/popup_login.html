@@ -4,46 +4,22 @@
     <title>Cool Translator Popup</title>
 	<link rel="stylesheet" href="css/common.css">
 	<link rel="stylesheet" href="css/login_form.css">
+	<link rel="stylesheet" href="css/popup.css">
 	<style>
-		body{
-			margin: 0;
-			padding: 15px;
-			padding-top: 0;
-		}
-		.ctr-blueBg{
-		  background: linear-gradient(to top,#87e0fd 0,#53cbf1 40%,#05abe0 100%) !important;
-		}
-		.ctr-loginPopup-header{
-			text-align: right;
-			font-size: 16px;
-			padding: 8px 0 10px;
-		}
-		.ctr-loginPopup-header a{
-			color: #fff;
-			text-decoration: none;
-			margin: 0 5px;
-		}
-		.ctr-loginPopup-header a:hover{
-			text-decoration: underline;			
-		}
-		#ctr_root{
-			background: #fff !important;
-		}
-		#ctr_root.ctr-block{
-			box-shadow: 2px 2px 7px 1px rgba(0,0,0,.2) !important;
-		    background: url(/images/bg.png) top left repeat #ebeef2 !important;
+		#ctr_root {
+		    background: #fff !important;
 		}
 	</style>
 	<script src="js/lib/jquery-1.10.2.min.js"></script>
 	<script src="js/utils.js"></script>	
-	<script src="js/popup_login.js"></script>
+	<script src="js/popup/popup_login.js"></script>
 	<script src="js/sources/services_connection.js"></script>
 	<script src="js/sources/cv/cv_config.js"></script>
 	<script src="js/sources/vocabulary.js"></script>
 	<script src="js/controls/login_form.js"></script>
 </head>
 <body class="ctr-blueBg">
-	<div class="ctr-loginPopup-header">
+	<div class="ctr-popup-header">
 		<a target="_blank" href="http://coolvocabulary.com">
 			coolvocabulary.com
 		</a>

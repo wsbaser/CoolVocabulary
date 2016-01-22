@@ -130,10 +130,10 @@ CVService.prototype.getBooks = function(language){
 CVService.prototype.checkAuthentication = function(){
     var self = this;
     var deferred = $.Deferred();
-    this.provider.checkAuthentication().done(function(user){
-        self.user = user;
+    this.provider.checkAuthentication().done(function(data){
+        self.user = data.user;
         self.reactor.dispatchEvent(CVService.CHECK_AUTH_END);
-        deferred.resolve(user);
+        deferred.resolve(data);
     }).fail(function(error){
         self.user = null;
         self.reactor.dispatchEvent(CVService.CHECK_AUTH_END);        
