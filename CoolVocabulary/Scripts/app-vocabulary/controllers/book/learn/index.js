@@ -35,6 +35,7 @@ Vocabulary.BookLearnIndexController = Ember.Controller.extend(Vocabulary.HasActi
 		userBook.content.save();
 		// . recalculate days
 		this.get('languageCtrl').notifyPropertyChange('days');
+		this.get('languageCtrl').updateLanguageBooksInCT();
 	},
 	actions: {
 		nextWord: function(){

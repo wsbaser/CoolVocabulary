@@ -7,9 +7,12 @@ function CVService(provider, services){
     }.bind(this));
     this.reactor = new Reactor();
     this.reactor.registerEvent(CVService.CHECK_AUTH_END);
+    this.reactor.registerEvent(CVService.USER_DATA_UPDATED);
+    this.deCalculator = new DECalculator();
 }
 
 CVService.CHECK_AUTH_END = 'authend';
+CVService.USER_DATA_UPDATED = 'userdataupdated';
 
 /* protected methods */
 
@@ -108,6 +111,7 @@ CVService.prototype.getTranslations = function(inputData, translation, activeSou
 /* public methods */
 
 CVService.prototype.addTranslation = function(inputData, translation, sourceId, bookId){
+    var self = this;
     var translationData = {
         word: inputData.word,
         wordLanguage: inputData.sourceLang,
@@ -120,7 +124,9 @@ CVService.prototype.addTranslation = function(inputData, translation, sourceId, 
         translationWords: this.getTranslations(inputData, translation, sourceId),
         translationCards: this.getTranslationCards(inputData)
     };
-    return this.provider.addTranslation(translationData);
+    return this.provider.addTranslation(translationData).done(function(data){
+        self.addTranslationToBook(data.book, data.translation);
+    });
 };
 
 CVService.prototype.getBooks = function(language){
@@ -129,23 +135,108 @@ CVService.prototype.getBooks = function(language){
 
 CVService.prototype.checkAuthentication = function(){
     var self = this;
-    var deferred = $.Deferred();
-    this.provider.checkAuthentication().done(function(data){
-        self.user = data.user;
-        self.reactor.dispatchEvent(CVService.CHECK_AUTH_END);
-        deferred.resolve(data);
-    }).fail(function(error){
-        self.user = null;
-        self.reactor.dispatchEvent(CVService.CHECK_AUTH_END);        
-        deferred.reject(error);
+    return this.provider.checkAuthentication().done(function(data){
+        self.setUser(data.user, data.languages);
+    }).fail(function(){
+        self.setUser(null);
     });
-    return deferred.promise();
 };
 
 CVService.prototype.login = function(username, password){
-    var promise = this.provider.login(username,password);
-    promise.done(function(){
-        localStorage.isCVAuthenticated = true;
+    var self = this;
+    return this.provider.login(username,password).done(function(data){
+        self.setUser(data.user, data.languages);
+    }).fail(function(){
+        self.setUser(null);
     });
-    return promise;
-}
+};
+
+CVService.prototype.setUser = function(user, languages){
+    this.user = this.aggregateUserData(user, languages);
+    localStorage.isCVAuthenticated = user!==null;
+    this.reactor.dispatchEvent(CVService.CHECK_AUTH_END);
+};
+
+CVService.prototype.updateLanguageBooks = function(language, books){
+    this.user.languages[language].books = books;
+
+    this.aggregateTranslationsData(this.user.languages);
+    user.hasUncompletedDE = this.hasAnyUncompletedDE(languages);
+    this.reactor.dispatchEvent(CVService.USER_DATA_UPDATED);
+};
+
+CVService.prototype.addTranslationToBook = function(bookDto, bookWordDto, translationDto){
+    var language = book.language;
+    var books = this.user.languages[language].books;
+    var book = books.filter(function(book){ return book.id===bookDto.id; })[0];
+    if(!book.translations[bookWordDto.id]){
+        book.translations[bookWordDto.id] = [];
+    }
+    book.translations[bookWordDto.id].push(translationDto.id);
+
+    this.aggregateTranslationsData(this.user.languages);
+    user.hasUncompletedDE = this.hasAnyUncompletedDE(languages);
+    this.reactor.dispatchEvent(CVService.USER_DATA_UPDATED);    
+};
+
+CVService.prototype.aggregateBooksByLanguage = function(books, languages){
+    var languagesData = {};
+    // . aggregate books by language
+    books.forEach(function(book){
+        if(!languagesData[book.language]){
+            languagesData[book.language] = {books:[]};
+        }
+        languagesData[book.language].books.push(book);
+    });
+    for (var i = languages.length - 1; i >= 0; i--) {
+        var language = languages[i];
+        if(languagesData[language.id]){
+            languagesData[language.id].languageName = language.name;
+        }
+    };
+    return languagesData;
+};
+
+CVService.prototype.aggregateTranslationsData = function(languages){
+    // . calculate translations existance for each language
+    for(var language in languages){
+        languages[language].hasTranslations = this.booksHasTranslations(languages[language].books);
+    }
+
+    // . calculate DE status
+    for(var language in languages){
+        languages[language].hasDE = this.deCalculator.hasDE(languages[language].books);
+        languages[language].DENotCompleted = this.deCalculator.DENotCompleted(languages[language].books);
+    }
+};
+
+CVService.prototype.hasAnyUncompletedDE = function(languages){
+    for(var language in languages){
+        if(languages[language].hasDE && languages[language].DENotCompleted){
+            return true;
+        }
+    }
+    return false;
+};
+
+CVService.prototype.aggregateUserData = function(user, languages){
+    if(user===null){
+        return null;
+    }
+    var languagesData = this.aggregateBooksByLanguage(user.books, languages);
+
+    this.aggregateTranslationsData(languagesData);
+    user.languagesData = languagesData;
+    user.hasUncompletedDE = this.hasAnyUncompletedDE(languagesData);
+    delete user.books;
+    return user;
+};
+
+CVService.prototype.booksHasTranslations = function(books){
+    for (var i = books.length - 1; i >= 0; i--) {
+        if(Object.keys(books[i].translations).length){
+            return true;
+        }
+    };
+    return false;
+};

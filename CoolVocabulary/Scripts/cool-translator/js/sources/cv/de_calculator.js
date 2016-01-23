@@ -56,9 +56,9 @@ DECalculator.prototype.getActiveTranslations = function(userBook){
 	var learnDates = userBook.learnDates||{};
 	var examDates = userBook.examDates||{};
 
-	var DAY = 60*60*24*1000;
-	var now = Date.now();
-	var notExaminedTodayFilter = function(id){ return (now-(examDates[id]||0))>DAY;  };
+	var now = new Date();
+	var todayStartTime = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+	var notExaminedTodayFilter = function(id){ return (examDates[id]||0)<todayStartTime; };
 	var notCompletedFilter = function(id){ return (learnLevels[id]||0)<DECalculator.MAX_LEARN_LEVEL; };
 	var canBeExaminedFilter = function(id){ return notExaminedTodayFilter(id)&&notCompletedFilter(id); };
 	var inProgress = [];

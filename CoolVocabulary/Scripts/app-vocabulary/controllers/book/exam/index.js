@@ -45,6 +45,7 @@ Vocabulary.BookExamIndexController = Ember.Controller.extend(Vocabulary.HasActiv
 
 			// . recalculate days
 			this.get('languageCtrl').notifyPropertyChange('days');
+			this.get('languageCtrl').updateLanguageBooksInCT();
 		}
 	},
 	checkForMoreWords: function(){

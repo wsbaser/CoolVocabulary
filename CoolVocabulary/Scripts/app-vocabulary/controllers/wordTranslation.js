@@ -1,4 +1,5 @@
 Vocabulary.WordTranslationController = Ember.Controller.extend({
+	languageCtrl: Ember.inject.controller('language'),
 	actions: {
 		remove: function(){
 			var self = this;
@@ -16,7 +17,12 @@ Vocabulary.WordTranslationController = Ember.Controller.extend({
 		                action: function(dialog) {
 							dialog.close();
 							self.transitionToRoute('book');
-							self.get('model').destroyRecord();
+							self.get('model').destroyRecord().then(function(){
+								self.get('languageCtrl').updateLanguageBooksInCT();
+								self.get('languageCtrl').notifyPropertyChange('days');
+							}, function(error){
+								console.error(error);
+							});
 						}
 	            	}],
 	        	onhidden: function(){
@@ -40,10 +46,17 @@ Vocabulary.WordTranslationController = Ember.Controller.extend({
 		translationRemoved: function(){
 			if(this.get('model.translations').toArray().length){
 				this.actions.hideWordDetails.call(this);
+				self.get('languageCtrl').updateLanguageBooksInCT();
+				self.get('languageCtrl').notifyPropertyChange('days');
 			}
 			else{
 				this.transitionToRoute('book');
-				this.get('model').destroyRecord();				
+				this.get('model').destroyRecord().then(function(){
+					self.get('languageCtrl').updateLanguageBooksInCT();
+					self.get('languageCtrl').notifyPropertyChange('days');
+				}, function(error){
+					console.error(error);
+				});
 			}
 		},
 		saveMousePosition: function(event){

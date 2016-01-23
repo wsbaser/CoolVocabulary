@@ -1,4 +1,5 @@
 Vocabulary.BookEditController = Ember.Controller.extend({
+	languageCtrl: Ember.inject.controller('language'),
 	actions: {
 		save: function(){
 			var self = this;
@@ -27,7 +28,10 @@ Vocabulary.BookEditController = Ember.Controller.extend({
 							var userBook = self.model; 
 							var book = userBook.get('book');
 							userBook.destroyRecord().then(function(){
+								self.get('languageCtrl').updateLanguageBooksInCT();
 								self.transitionToRoute('language.index');
+							}, function(error){
+								console.log(error);
 							});
 						}
 	            	}]

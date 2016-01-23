@@ -1,4 +1,8 @@
 Vocabulary.LanguageController = Ember.Controller.extend({
+	init: function(){
+		this.set('CTAdapter', new CTAdapter());
+		this._super();
+	},
 	applicationCtrl: Ember.inject.controller('application'),
 	user: Ember.computed.alias('applicationCtrl.model'),
 	languages: Ember.computed('model', function(){
@@ -112,9 +116,9 @@ Vocabulary.LanguageController = Ember.Controller.extend({
 		var learnDates = userBook.get('learnDates');
 		var examDates = userBook.get('examDates');
 
-		var DAY = 60*60*24*1000;
-		var now = Date.now();
-		var notExaminedTodayFilter = function(id){ return (now-(examDates[id]||0))>DAY;  };
+		var now = new Date();
+		var todayStartTime = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+		var notExaminedTodayFilter = function(id){ return (examDates[id]||0)<todayStartTime; };
 		var notCompletedFilter = function(id){ return (learnLevels[id]||0)<MAX_LEARN_LEVEL; };
 		var canBeExaminedFilter = function(id){ return notExaminedTodayFilter(id)&&notCompletedFilter(id); };
 		var inProgress = [];
@@ -181,5 +185,56 @@ Vocabulary.LanguageController = Ember.Controller.extend({
 	getSessionTranslations: function(ids, userBook){
 		ids = this.sortTranslationsByExamDate(ids, userBook);
 		return ids.slice(0, SESSION_WORDS_COUNT); 
+	},
+	initCT: function(userBook){
+		var self = this;
+		var ctAdapter = this.get('CTAdapter');
+		var user = this.get('user');
+		var book = userBook.get('book');
+
+		var langPairParam = {
+			sourceLang: book.get('language'),
+			targetLang: user.get('nativeLanguage.id')
+		};
+		var booksParam = this.getLanguageBooksForCT();
+		var userParam = {
+			name: user.get('displayName'),
+			language: langPairParam.targetLang,
+			books: booksParam
+		};
+		var languagesParam = this.getLanguagesForCT();
+		ctAdapter.initSiteDialog(langPairParam, '#word_input_form', userParam,  languagesParam, book.get('id'), function(){
+			if(!ctAdapter.extensionIsActive){
+				$('#word_input_form').on('submit', self.showInstallCTAlert.bind(self));
+			}
+		});
+	},
+	getLanguagesForCT: function(){
+		return this.store.peekAll('language').map(function(language){
+				return { 
+					id: language.get('id'),
+					name: language.get('name')
+				};
+			});
+	},
+	getLanguageBooksForCT: function(){
+		return this.get('userBooks').map(function(userBook){ 
+			return {
+				id: userBook.get('book.id'),
+				language: userBook.get('book.language'), 
+				name: userBook.get('book.name').trim(),
+				learnLevels: userBook.get('learnLevels'),
+				learnDates: userBook.get('learnDates'),
+				examDates: userBook.get('examDates'),
+				promoteDates: userBook.get('promoteDates'),
+				translations: userBook.get('translations')
+			};
+		});
+	},
+	updateLanguageBooksInCT: function(){
+		var ctAdapter = this.get('CTAdapter');
+		var languageParam = this.get('model.id');
+		var booksParam = this.getLanguageBooksForCT();
+		ctAdapter.updateLanguageBooks(languageParam, booksParam);
 	}
 });

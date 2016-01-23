@@ -17,6 +17,8 @@ Vocabulary.WordTranslationsComponent = Ember.Component.extend({
 							dialog.close();
 							translation.destroyRecord().then(function(){
 								self.get('onTranslationRemoved')();
+							}, function(error){
+								console.error(error);
 							});
 						}
 					}],

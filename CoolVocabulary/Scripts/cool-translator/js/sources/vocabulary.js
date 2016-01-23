@@ -51,6 +51,7 @@ Vocabulary.prototype.addTranslation = function(inputData, translation, serviceId
                     type: 'addTranslation',
                     book: response.book,
                     word: response.word,
+                    userBook: response.userBook,
                     bookWord: response.bookWord,
                     translation: response.translation }, self.config.siteOrigin);
             }

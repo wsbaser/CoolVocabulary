@@ -48,11 +48,17 @@ server.startListening();
 
 Services.cv.checkAuthentication();
 Services.cv.addEventListener(CVService.CHECK_AUTH_END, updateBadge);
+Services.cv.addEventListener(CVService.USER_DATA_UPDATED, updateBadge);
 
 function updateBadge(){
-    if(Services.cv.user){
+    var user = Services.cv.user;
+    if(user){
         chrome.browserAction.setPopup({popup:'popup_de.html'});
-        chrome.browserAction.setBadgeText({text:'>'});
+        if(user.hasUncompletedDE){
+            chrome.browserAction.setBadgeText({text:'>'});
+        }else{
+            chrome.browserAction.setBadgeText({text:''});
+        }
     }
     else{
         chrome.browserAction.setPopup({popup:'popup_login.html'});
@@ -78,22 +84,29 @@ chrome.runtime.onMessage.addListener(
 });
 
 chrome.runtime.onMessageExternal.addListener(function(request, sender, sendResponse) {
-    if(request.initDialog){
-        chrome.tabs.sendMessage(sender.tab.id, {
-            type: MessageTypes.InitSiteDialog,
-            langPair: request.initDialog.langPair,
-            attachBlockSelector: request.initDialog.attachBlockSelector,
-            bookId: request.initDialog.bookId,
-            user: request.initDialog.user
-        });
-        sendResponse(true);
-    }else if(request.type===MessageTypes.OAuthSuccess){
-        if(sender.tab.openerTabId){
-            chrome.tabs.sendMessage(sender.tab.openerTabId, {
-                type: MessageTypes.OAuthSuccess,
-                user: request.user 
+    switch(request.type){
+        case MessageTypes.InitSiteDialog:
+            chrome.tabs.sendMessage(sender.tab.id, {
+                type: MessageTypes.InitSiteDialog,
+                langPair: request.data.langPair,
+                attachBlockSelector: request.data.attachBlockSelector,
+                bookId: request.data.bookId,
+                user: request.data.user
             });
-        }
+            Services.cv.setUser(request.data.user, request.data.languages);
+            sendResponse(true);
+            break;
+        case MessageTypes.OAuthSuccess:
+            if(sender.tab.openerTabId){
+                chrome.tabs.sendMessage(sender.tab.openerTabId, {
+                    type: MessageTypes.OAuthSuccess,
+                    user: request.user 
+                });
+            }
+            break;
+        case MessageTypes.UpdateLanguageBooks:
+            Services.cv.updateLanguageBooks(request.data.language, request.data.books);
+            break;
     }
 });
 

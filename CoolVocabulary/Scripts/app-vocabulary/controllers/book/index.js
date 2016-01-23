@@ -1,5 +1,5 @@
-Vocabulary.CT_WEBSTORE_URL = 'https://chrome.google.com/webstore/detail/cifbpdjhjkopeekabdgfjgmcbcgloioi';
-Vocabulary.CT_WEBSTORE_LINK = '<a target="_blank" href='+Vocabulary.CT_WEBSTORE_URL+'>Cool Translator</a>';
+Vocabulary.CT_WEBSTORE_LINK = '<a target="_blank" href='+CTAdapter.CT_WEBSTORE_URL+'>Cool Translator</a>';
+
 Vocabulary.BookIndexController = Ember.Controller.extend({
 	applicationCtrl: Ember.inject.controller('application'),
 	languageCtrl: Ember.inject.controller('language'),
@@ -7,46 +7,13 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 	user: Ember.computed.alias('applicationCtrl.model'),
 	nativeLanguage: Ember.computed.alias('applicationCtrl.model.nativeLanguage'),
 	userBooks: Ember.computed.alias('languageCtrl.userBooks'),
-	initSiteDialog: function(){
-		var self = this;
-		var ctAdapter = new CTAdapter();
-		var user = this.get('user');
-		var book = this.get('model.book');
-		var sourceLanguage = book.get('language');
-		var langPairParam = {
-			sourceLang: sourceLanguage,
-			targetLang: user.get('nativeLanguage.id')
-		};
-		var booksParam = this.get('userBooks').map(function(userBook){ 
-			return {
-				id: userBook.get('book.id'),
-				language: sourceLanguage, 
-				name: userBook.get('book.name').trim(),
-				learnLevels: userBook.get('learnLevels'),
-				learnDates: userBook.get('learnDates'),
-				examDates: userBook.get('examDates'),
-				promoteDates: userBook.get('promoteDates'),
-				translations: userBook.get('translations')
-			};
-		});
-		var userParam = {
-			name: user.get('displayName'),
-			language: user.get('nativeLanguage.id'),
-			books: booksParam
-		};
-		ctAdapter.initSiteDialog(langPairParam, '#word_input_form', userParam, book.get('id'), function(){
-			if(!ctAdapter.extensionIsActive){
-				$('#word_input_form').on('submit', self.showInstallCTAlert.bind(self));
-			}
-		});
-	},
 	installCT: function(){
 		var self = this;
 		var progressDialog = BootstrapDialog.show({
             title: 'Cool Translator installation',
             message: 'Please, wait while '+Vocabulary.CT_WEBSTORE_LINK+' is being installed...',
             size: BootstrapDialog.SIZE_SMALL});
-		chrome.webstore.install(Vocabulary.CT_WEBSTORE_URL, function(){
+		chrome.webstore.install(ctAdapter.CT_WEBSTORE_URL, function(){
 			progressDialog.close();
 			BootstrapDialog.show({
 	            title: 'Cool Translator activation',

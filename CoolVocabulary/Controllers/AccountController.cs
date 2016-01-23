@@ -65,10 +65,11 @@ namespace CoolVocabulary.Controllers
             }).ToList();
             return new {
                 isAuthenticated = true,
+                languages = SupportedLanguages.AllDto,
                 user = new {
                     id = user.Id,
                     name = user.DisplayName,
-                    language = user.NativeLanguage.ToString(),
+                    language = ((LanguageType)user.NativeLanguage).ToString(),
                     books = books
                 }
             };

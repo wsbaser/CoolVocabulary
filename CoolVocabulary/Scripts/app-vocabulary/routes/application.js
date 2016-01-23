@@ -9,7 +9,7 @@ Vocabulary.ApplicationRoute = Ember.Route.extend({
 		// . return curent User as application route model
 		this.pushLanguages(ServerData.Languages);
 		this.pushUser(ServerData.User);
-		return self.store.find('user', ServerData.User.id);
+		return self.store.peekRecord('user', ServerData.User.id);
 	},
 	pushLanguages: function(languages){
 		this.store.pushPayload({
