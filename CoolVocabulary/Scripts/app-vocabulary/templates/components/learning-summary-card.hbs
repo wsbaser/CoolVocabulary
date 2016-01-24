@@ -1,19 +1,21 @@
 <div class="summary-card light-shadow">
 	<div class="header">
-		And that was the last one. Do you want to examine your knowledge?
+		And that was the last one. Do you want to examine translations?
 	</div>
 	<div class="actions">
 		<button tabIndex="11" {{action 'examine'}} id="examine_btn" class="btn btn-warning">Examine</button>
-		{{#link-to 'language'}}
-			{{#if bookName}}
+		{{#if bookName}}
+			{{#link-to 'book'}}
 				<button tabIndex="12" id="later_btn" class="btn btn-default overflow-ellipsis">
 					Back to "{{bookName}}"
 				</button>
-			{{else}}
+			{{/link-to}}
+		{{else}}
+			{{#link-to 'language'}}
 				<button tabIndex="12" id="later_btn" class="btn btn-default overflow-ellipsis">
 					Finish
 				</button>
-			{{/if}}
-		{{/link-to}}
+			{{/link-to}}
+		{{/if}}
 	</div>
 </div>

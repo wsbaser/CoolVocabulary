@@ -28,13 +28,13 @@ Vocabulary.LanguageController = Ember.Controller.extend({
 			return statistic.get('year')===year && statistic.get('month')===month;
 		});
 	}),
-	hasTranslationsForDE: Ember.computed('userBooks.[]', function(){
+	hasTranslationsForDE: function(){
 		var active = this.getAllActiveTranslations();
 		return !!active.inProgress.length || !!active.waiting.length;
-	}),
+	},
 	days: Ember.computed('userBooks.[]', function(){		
 		var days = Ember.A();
-		var hasTranslationsForDE = this.get('hasTranslationsForDE');
+		var hasTranslationsForDE = this.hasTranslationsForDE();
 
 		// . what day is it and how much days in this month
 		var today = new Date();

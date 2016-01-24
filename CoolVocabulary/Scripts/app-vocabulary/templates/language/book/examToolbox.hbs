@@ -1,11 +1,13 @@
 <div class="col-xs-4">
-	{{#link-to 'language' id="currentBook" tabIndex="10" class="overflow-ellipsis"}}
-		{{#if options.userBook}}
+	{{#if options.userBook}}
+		{{#link-to 'book' id="currentBook" tabIndex="10" class="overflow-ellipsis"}}
 			{{options.userBook.book.name}}
-		{{else}}
+		{{/link-to}}
+	{{else}}
+		{{#link-to 'language' id="currentBook" tabIndex="10" class="overflow-ellipsis"}}
 			Book
-		{{/if}}
-	{{/link-to}}
+		{{/link-to}}
+	{{/if}}
 </div>
 <div class="col-xs-8 text-right">
 	<nav class="words-nav flex-centered">

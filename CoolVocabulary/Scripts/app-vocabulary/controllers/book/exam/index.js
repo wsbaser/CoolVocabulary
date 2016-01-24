@@ -1,6 +1,10 @@
 var MAX_LEARN_LEVEL = 5;
 Vocabulary.BookExamIndexController = Ember.Controller.extend(Vocabulary.HasActiveObject, {
 	languageCtrl: Ember.inject.controller('language'),
+	options: Ember.computed.alias('parentCtrl.options'),
+	isSingleBook: Ember.computed('options', function(){
+		return !!this.get('options.userBook');
+	}),
 	collection: Ember.computed.alias('model'),
 	activeWord: Ember.computed.alias('activeObject'),
 	activateFirstWord: function(){
@@ -132,12 +136,7 @@ Vocabulary.BookExamIndexController = Ember.Controller.extend(Vocabulary.HasActiv
 			this.send('sessionChanged');
 		},
 		learnMore: function(){
-			if(this.get('options.userBook')){
-				this.transitionToRoute('book.learn', 0);
-			}
-			else{
-				this.transitionToRoute('language.DE');
-			}
+			this.transitionToRoute('book.learn', 0);
 		}
 	}
 });

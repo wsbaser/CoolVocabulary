@@ -7,7 +7,6 @@ Vocabulary.LanguageDERoute = Ember.Route.extend({
 		var languageCtrl = this.controllerFor('language');
 		var learnSessionWords = languageCtrl.get('learnSessionWords');
 		if(learnSessionWords){
-			this.controller.set('learnSessionWords', null);
 			return languageCtrl.getSessionTranslationsForLearnSessionWords(learnSessionWords);
 		}else{
 			var sessionItems = this.getSessionItems(languageCtrl);

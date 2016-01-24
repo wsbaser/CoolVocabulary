@@ -7,7 +7,6 @@ Vocabulary.BookExamRoute = Ember.Route.extend({
 		var languageCtrl = this.controllerFor('language');
 		var learnSessionWords = languageCtrl.get('learnSessionWords');
 		if(learnSessionWords){
-			languageCtrl.set('learnSessionWords', null);
 			return languageCtrl.getSessionTranslationsForLearnSessionWords(learnSessionWords, this.userBook);
 		}
 		else {
@@ -48,7 +47,7 @@ Vocabulary.BookExamRoute = Ember.Route.extend({
 	},
 	setupController: function(controller, model){
 		controller.set('options', Ember.Object.create({
-			userBook: this.controllerFor('book').get('model')
+			userBook: this.userBook
 		}));
 		this._super(controller, model);
 	},

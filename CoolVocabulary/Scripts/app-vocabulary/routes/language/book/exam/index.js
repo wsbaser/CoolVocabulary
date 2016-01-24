@@ -5,6 +5,7 @@ Vocabulary.BookExamIndexRoute = Ember.Route.extend({
 	},
 	parentName: 'book.exam',
 	model: function(){
+		this.controllerFor('language').set('learnSessionWords', null);
 		var sessionTranslations = this.modelFor(this.get('parentName'));
 		this.sessionWords = this.getSessionWordsForTranslations(sessionTranslations);
 		return this.requestExamWords(this.sessionWords);
