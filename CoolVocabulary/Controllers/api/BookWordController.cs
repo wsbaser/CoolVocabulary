@@ -27,7 +27,7 @@ namespace CoolVocabulary.Controllers.api
         }
 
         // GET api/BookWord
-        public async Task<IHttpActionResult> GetTranslations([FromUri]List<string> ids) {
+        public async Task<IHttpActionResult> GetBookWords([FromUri]List<string> ids) {
             var data = await db.Get_BookWordsWordsTranslations_DtoAsync(ids.Select(int.Parse));
             return Ok(new {
                 emberDataFormat = true,

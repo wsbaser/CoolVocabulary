@@ -89,11 +89,11 @@ namespace CoolVocabulary.Models {
         public string promoteDates { get; set; }
         public Dictionary<string, List<int>> translations { get; set; }
         public void AddTranslation(int bookWordId, int translationId) {
-            var sTranslationId = translationId.ToString();
-            if (!translations.ContainsKey(sTranslationId)) {
-                translations.Add(sTranslationId, new List<int>());
+            var sBookWordId = bookWordId.ToString();
+            if (!translations.ContainsKey(sBookWordId)) {
+                translations.Add(sBookWordId, new List<int>());
             }
-            var ids = translations[sTranslationId];
+            var ids = translations[sBookWordId];
             ids.Add(translationId);
         }
 

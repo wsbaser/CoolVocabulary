@@ -19,7 +19,7 @@
 		</div>
 	{{/unless}}
 	<div class="actions">
-		{{#link-to 'book'}}
+		{{#link-to 'language'}}
 			{{#if bookName}}
 				<button id="later_btn" class="btn btn-default overflow-ellipsis">
 					Back to "{{bookName}}"
@@ -30,7 +30,7 @@
 				</button>
 			{{/if}}
 		{{/link-to}}
-		{{#if hasMoreWordsToLearn}}
+		{{#if showLearnMore}}
 			<button {{action 'learnMore'}} id="learn_btn" class="btn btn-success">Learn More</button>
 		{{/if}}
 		{{#if hasMoreWordsToExam}}

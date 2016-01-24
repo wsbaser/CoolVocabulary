@@ -63,5 +63,10 @@ Vocabulary.BookExamRoute = Ember.Route.extend({
 			userBook: this.controllerFor('book').get('model')
 		}));
 		this._super(controller, model);
+	},
+	actions: {
+		sessionChanged: function(){
+    		this.refresh();
+  		}
 	}
 });

@@ -6,6 +6,9 @@ Vocabulary.ExaminationSummaryCardComponent = Ember.Component.extend({
 		});
 		return total;
 	}),
+	showLearnMore: Ember.computed('bookName', 'hasMoreWordsToLearn', function(){
+		return this.get('hasMoreWordsToLearn') && this.get('bookName'); 
+	}),
 	actions:{
 		examMore: function(){
 			this.get('onExamMore')();

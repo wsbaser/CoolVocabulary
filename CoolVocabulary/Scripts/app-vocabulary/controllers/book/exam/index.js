@@ -132,7 +132,12 @@ Vocabulary.BookExamIndexController = Ember.Controller.extend(Vocabulary.HasActiv
 			this.send('sessionChanged');
 		},
 		learnMore: function(){
-			this.transitionToRoute('book.learn', 0);	
+			if(this.get('options.userBook')){
+				this.transitionToRoute('book.learn', 0);
+			}
+			else{
+				this.transitionToRoute('language.DE');
+			}
 		}
 	}
 });

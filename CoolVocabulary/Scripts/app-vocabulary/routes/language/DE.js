@@ -3,13 +3,14 @@ Vocabulary.LanguageDERoute = Ember.Route.extend({
 		this.render('language/book', { outlet: 'body' });
 	},
 	model: function(){
+		this.set('transitionToLearn', false);
 		var languageCtrl = this.controllerFor('language');
 		var sessionItems = this.getSessionItems(languageCtrl);
 		if(this.checkSessionItems(sessionItems)){
 			return sessionItems;
 		}
 		else{
-			this.translationTo('book');
+			this.transitionTo('book');
 		}
 	},
 	checkSessionItems: function(sessionItems){
@@ -89,6 +90,9 @@ Vocabulary.LanguageDERoute = Ember.Route.extend({
 	actions:{
 		error: function(){
 			alert('DE error');
-		}
+		},
+		sessionChanged: function(){
+    		this.refresh();
+  		}
 	}
 });
