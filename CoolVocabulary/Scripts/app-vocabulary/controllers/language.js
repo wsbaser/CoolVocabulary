@@ -186,6 +186,18 @@ Vocabulary.LanguageController = Ember.Controller.extend({
 		ids = this.sortTranslationsByExamDate(ids, userBook);
 		return ids.slice(0, SESSION_WORDS_COUNT); 
 	},
+	getSessionTranslationsForLearnSessionWords: function(learnSessionWords, userBook){
+		var translationIds = [];
+		learnSessionWords.forEach(function(sessionWord){
+			sessionWord.get('bookWords').forEach(function(bookWord){
+				bookWord.get('translations').forEach(function(translation){
+					translationIds.push(translation.get('id'));
+				});
+			});
+		});
+		var sessionTranslationIds = this.getSessionTranslations(translationIds, userBook);
+		return this.getTranslationsFromStore(sessionTranslationIds);
+	},
 	initCT: function(userBook){
 		var self = this;
 		var ctAdapter = this.get('CTAdapter');

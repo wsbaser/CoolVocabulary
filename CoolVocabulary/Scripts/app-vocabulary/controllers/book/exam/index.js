@@ -142,4 +142,4 @@ Vocabulary.BookExamIndexController = Ember.Controller.extend(Vocabulary.HasActiv
 	}
 });
 
-Vocabulary.LanguageDEIndexController = Vocabulary.BookExamIndexController;
+Vocabulary.LanguageDEExamController = Vocabulary.BookExamIndexController;

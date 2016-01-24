@@ -8,7 +8,7 @@ Vocabulary.BookExamRoute = Ember.Route.extend({
 		var learnSessionWords = languageCtrl.get('learnSessionWords');
 		if(learnSessionWords){
 			languageCtrl.set('learnSessionWords', null);
-			return this.getSessionTranslationsForLearnSessionWords(languageCtrl, learnSessionWords, this.userBook);
+			return languageCtrl.getSessionTranslationsForLearnSessionWords(learnSessionWords, this.userBook);
 		}
 		else {
 			var sessionTranslations = this.getSessionTranslations(languageCtrl, this.userBook);
@@ -18,18 +18,6 @@ Vocabulary.BookExamRoute = Ember.Route.extend({
 				this.transitionTo('book');
 			}
 		}
-	},
-	getSessionTranslationsForLearnSessionWords: function(languageCtrl, learnSessionWords, userBook){
-		var translationIds = [];
-		learnSessionWords.forEach(function(sessionWord){
-			sessionWord.get('bookWords').forEach(function(bookWord){
-				bookWord.get('translations').forEach(function(translation){
-					translationIds.push(translation.get('id'));
-				});
-			});
-		});
-		var sessionTranslationIds = languageCtrl.getSessionTranslations(translationIds, userBook);
-		return languageCtrl.getTranslationsFromStore(sessionTranslationIds);
 	},
 	getSessionTranslations: function(languageCtrl, userBook){
 		var active = languageCtrl.getActiveTranslations(userBook);

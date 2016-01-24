@@ -4,14 +4,8 @@ Vocabulary.BookLearnIndexRoute = Ember.Route.extend({
 		this.render('language/book/learn', { into: 'language/book', outlet: 'content'});
 	},
 	parentName: 'book.learn',
-	parentCtrl: Ember.computed(function(){
-		return this.controllerFor(this.get('parentName'));
-	}),
-	parentModel: Ember.computed(function(){
-		return this.modelFor(this.get('parentName'));
-	}),
 	model: function(){
-		var sessionBookWords = this.get('parentModel');
+		var sessionBookWords = this.modelFor(this.get('parentName'));
 		this.sessionWords = this.getSessionWords(sessionBookWords);
 		return this.requestWordTranslations(this.sessionWords, 0, SESSION_WORDS_COUNT);
 	},
@@ -61,7 +55,7 @@ Vocabulary.BookLearnIndexRoute = Ember.Route.extend({
 	setupController: function(controller, model){
 		this.setWordTranslations(this.sessionWords, model.toArray());
 		this._super(controller, this.sessionWords);
-		controller.set('parentCtrl', this.get('parentCtrl'));
+		controller.set('parentCtrl', this.controllerFor(this.get('parentName')));
 		controller.setupSession();
 	    Ember.run.schedule('afterRender', this, this.afterRender);
 	},

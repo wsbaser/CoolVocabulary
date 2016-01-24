@@ -4,14 +4,8 @@ Vocabulary.BookExamIndexRoute = Ember.Route.extend({
 		this.render('language/book/exam', { into: 'language/book', outlet: 'content'} );
 	},
 	parentName: 'book.exam',
-	parentCtrl: Ember.computed(function(){
-		return this.controllerFor(this.get('parentName'));
-	}),
-	parentModel: Ember.computed(function(){
-		return this.modelFor(this.get('parentName'));
-	}),
 	model: function(){
-		var sessionTranslations = this.get('parentModel');
+		var sessionTranslations = this.modelFor(this.get('parentName'));
 		this.sessionWords = this.getSessionWordsForTranslations(sessionTranslations);
 		return this.requestExamWords(this.sessionWords);
 	},
@@ -97,7 +91,7 @@ Vocabulary.BookExamIndexRoute = Ember.Route.extend({
 		this.setWrongTranslations(this.sessionWords, model.content);
 		var validSessionWords = this.sessionWords.filterBy('isValid', true);
 		this._super(controller, validSessionWords);
-		controller.set('parentCtrl', this.get('parentCtrl'));
+		controller.set('parentCtrl', this.controllerFor(this.get('parentName')));
 		controller.activateFirstWord();
 	}
 });

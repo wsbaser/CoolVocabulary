@@ -5,12 +5,18 @@ Vocabulary.LanguageDERoute = Ember.Route.extend({
 	model: function(){
 		this.set('transitionToLearn', false);
 		var languageCtrl = this.controllerFor('language');
-		var sessionItems = this.getSessionItems(languageCtrl);
-		if(this.checkSessionItems(sessionItems)){
-			return sessionItems;
-		}
-		else{
-			this.transitionTo('book');
+		var learnSessionWords = languageCtrl.get('learnSessionWords');
+		if(learnSessionWords){
+			this.controller.set('learnSessionWords', null);
+			return languageCtrl.getSessionTranslationsForLearnSessionWords(learnSessionWords);
+		}else{
+			var sessionItems = this.getSessionItems(languageCtrl);
+			if(this.checkSessionItems(sessionItems)){
+				return sessionItems;
+			}
+			else{
+				this.transitionTo('book');
+			}
 		}
 	},
 	checkSessionItems: function(sessionItems){
@@ -84,7 +90,7 @@ Vocabulary.LanguageDERoute = Ember.Route.extend({
 		if(this.get('transitionToLearn')){
 			this.transitionTo('language.DE.learn');
 		}else{
-			// . transition to "index" by default
+			this.transitionTo('language.DE.exam');
 		}
 	},
 	actions:{

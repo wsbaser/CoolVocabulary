@@ -13,6 +13,9 @@ Vocabulary.BookLearnIndexController = Ember.Controller.extend(Vocabulary.HasActi
 		this.activateFirstObject();
 	},
 	options: Ember.computed.alias('parentCtrl.options'),
+	isSingleBook: Ember.computed('options', function(){
+		return !!this.get('options.userBook');
+	}),
 	// . HasActiveObject mixin support 
 	collection: Ember.computed.alias('model'),
 	activeWord: Ember.computed.alias('activeObject'),
@@ -73,7 +76,12 @@ Vocabulary.BookLearnIndexController = Ember.Controller.extend(Vocabulary.HasActi
 		},
 		examine: function(){
 			this.get('languageCtrl').set('learnSessionWords', this.get('model'));
-			this.transitionToRoute('book.exam');
+			if(this.get('isSingleBook')){
+				this.transitionToRoute('book.exam');
+			}
+			else{
+				this.send('sessionChanged');
+			}
 		}
 	}
 });
