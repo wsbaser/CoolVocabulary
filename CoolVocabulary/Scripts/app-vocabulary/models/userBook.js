@@ -16,7 +16,21 @@ Vocabulary.UserBook = DS.Model.extend({
 			}
 		}
 		return count;
-	})
+	}),
+  getBookWordToTranslations: function(){
+    if(this.get('book.loaded')){
+      var result = {};
+      this.get('book.bookWords').forEach(function(bookWord){
+        var translationIds = bookWord.get('translations')
+          .map(function(translation){return translation.get('id');});
+        result[bookWord.get('id')] = translationIds; 
+      });
+      return result;
+    }
+    else{
+      return this.get('translations');      
+    }
+  }
 });
 
 Vocabulary.UserBookSerializer = DS.RESTSerializer.extend({

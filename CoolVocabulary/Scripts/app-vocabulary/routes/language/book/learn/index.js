@@ -13,10 +13,12 @@ Vocabulary.BookLearnIndexRoute = Ember.Route.extend({
 		var wordsDictionary = {};
 		sessionBookWords.forEach(function(bookWord){
 			var word =  bookWord.get('word');
+			var userBook = bookWord.get('book.userBook');
 			var wordId = word.get('id');
 			if(!wordsDictionary[wordId]){
 				wordsDictionary[wordId] = Vocabulary.WordToLearn.create({ 
 					word: word,
+					userBook: userBook,
 					bookWords: Ember.A(),
 					cards: Ember.A()
 				});

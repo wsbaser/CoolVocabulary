@@ -7,6 +7,16 @@ function CTAdapter(){
 
 CTAdapter.CT_WEBSTORE_URL = 'https://chrome.google.com/webstore/detail/cifbpdjhjkopeekabdgfjgmcbcgloioi';
 
+CTAdapter.prototype.logout = function(language, books){
+	var self = this;
+	if(window.chrome){
+		var MESSAGE_TYPE = "logout";
+		chrome.runtime.sendMessage(this.extensionId, {
+			type: MESSAGE_TYPE
+		});
+	}
+};
+
 CTAdapter.prototype.updateLanguageBooks = function(language, books){
 	var self = this;
 	if(window.chrome){

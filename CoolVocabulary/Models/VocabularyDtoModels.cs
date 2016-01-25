@@ -114,14 +114,12 @@ namespace CoolVocabulary.Models {
             this.book = bookWord.BookId;
             this.word = bookWord.WordId;
             this.speachPart = bookWord.SpeachPart;
-            this.translations = bookWord.Translations.Select(t => t.Id).ToList();
         }
         public int id { get; set; }
         public int book { get; set; }
         public int word { get; set; }
         [Required]
         public int speachPart { get; set; }
-        public List<int> translations { get; set; }
 
         public BookWord ToEntity() {
             return new BookWord() {

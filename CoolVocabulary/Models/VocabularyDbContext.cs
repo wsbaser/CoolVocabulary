@@ -53,8 +53,12 @@ namespace CoolVocabulary.Models {
                 UserId = userId,
                 Language = (byte)language
             };
-            Books.Add(book);
-            await SaveChangesAsync();
+            try {
+                Books.Add(book);
+                await SaveChangesAsync();
+            }catch(Exception e){
+                _logger.Error(e);
+            }
             return book;
         }
 
@@ -192,23 +196,23 @@ namespace CoolVocabulary.Models {
                 .Join(Books, ub => ub.BookId, b => b.Id, (ub, b) => new {
                     userBook = ub,
                     book = b
-                })
-                .Join(BookWords, ubb => ubb.book.Id, bw => bw.BookId, (ubb, bw) => new {
-                    userBook = ubb.userBook,
-                    book = ubb.book,
-                    bookWord = bw
-                }).Join(Translations, ubbbw => ubbbw.bookWord.Id, t => t.BookWordId, (ubbwb, t) => new {
-                    userBook = ubbwb.userBook,
-                    book = ubbwb.book,
-                    bookWord = ubbwb.bookWord,
-                    translation = t
                 }).AsNoTracking().ToListAsync();
-
             var userBooksDtoDict = data.DistinctBy(d => d.userBook.Id)
                 .Select(d => new UserBookDto(d.userBook, d.book))
                 .ToDictionary(ub => ub.id, ub => ub);
 
-            foreach (var d in data) {
+            List<int> userBookIds = userBooksDtoDict.Keys.ToList(); 
+            var translationsData = await UserBooks.Where(ub=>userBookIds.Contains(ub.Id))
+                .Join(BookWords, ub => ub.BookId, bw => bw.BookId, (ub, bw) => new {
+                    userBook = ub,
+                    bookWord = bw
+                }).Join(Translations, ubbbw => ubbbw.bookWord.Id, t => t.BookWordId, (ubbwb, t) => new {
+                    userBook = ubbwb.userBook,
+                    bookWord = ubbwb.bookWord,
+                    translation = t
+                }).AsNoTracking().ToListAsync();
+
+            foreach (var d in translationsData) {
                 var userBookDto = userBooksDtoDict[d.userBook.Id];
                 userBookDto.AddTranslation(d.bookWord.Id, d.translation.Id);
             }

@@ -23,7 +23,7 @@ Vocabulary.BookRoute = Ember.Route.extend({
 			model:
 			this.store.peekRecord('userBook', this.get('id'));
 		model.set('book.loaded', true);
-		var languageId = this.modelFor('language').id;
+		var languageId = this.controllerFor('language').get('model.id');
 		$.cookie('currentUserBook_' + languageId, model.get('id'));
 		this._super(controller, model);
 	}

@@ -19,36 +19,36 @@ namespace CoolVocabulary.Controllers.api
         private VocabularyDbContext db = new VocabularyDbContext();
 
         // GET api/BookWord
-        public dynamic GetBookWords(int bookId) {
-            var bookWords = db.BookWords.Where(v => v.BookId == bookId).Include("Word").ToList();
-            dynamic bookWordsDto = bookWords.Select(bw => new BookWordDto(bw)).ToList();
-            dynamic wordsDto = bookWords.Select(bw => new WordDto(bw.Word)).ToList();
-            return new { emberDataFormat = true, bookWords = bookWordsDto, words = wordsDto };
-        }
+        //public dynamic GetBookWords(int bookId) {
+        //    var bookWords = db.BookWords.Where(v => v.BookId == bookId).Include("Word").ToList();
+        //    dynamic bookWordsDto = bookWords.Select(bw => new BookWordDto(bw)).ToList();
+        //    dynamic wordsDto = bookWords.Select(bw => new WordDto(bw.Word)).ToList();
+        //    return new { emberDataFormat = true, bookWords = bookWordsDto, words = wordsDto };
+        //}
 
         // GET api/BookWord
         public async Task<IHttpActionResult> GetBookWords([FromUri]List<string> ids) {
             var data = await db.Get_BookWordsWordsTranslations_DtoAsync(ids.Select(int.Parse));
             return Ok(new {
                 emberDataFormat = true,
-                words = data.Words,
-                bookWords = data.BookWords,
-                translations = data.Translations
+                words = data.words,
+                bookWords = data.bookWords,
+                translations = data.translations
             });
         }
 
         // GET api/BookWord/5
-        [ResponseType(typeof(BookWord))]
-        public async Task<IHttpActionResult> GetBookWord(int id)
-        {
-            BookWord bookword = await db.BookWords.FindAsync(id);
-            if (bookword == null)
-            {
-                return NotFound();
-            }
+        //[ResponseType(typeof(BookWord))]
+        //public async Task<IHttpActionResult> GetBookWord(int id)
+        //{
+        //    BookWord bookword = await db.BookWords.FindAsync(id);
+        //    if (bookword == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return Ok(bookword);
-        }
+        //    return Ok(bookword);
+        //}
 
         // PUT api/BookWord/5
         public async Task<IHttpActionResult> PutBookWord(int id, BookWordDto bookWordDto) {

@@ -111,7 +111,7 @@ Vocabulary.LanguageController = Ember.Controller.extend({
 		};
 	},
 	getActiveTranslations: function(userBook){
-		var bookWordToTranlsations = userBook.get('translations');
+		var bookWordToTranlsations = userBook.getBookWordToTranslations();
 		var learnLevels = userBook.get('learnLevels');
 		var learnDates = userBook.get('learnDates');
 		var examDates = userBook.get('examDates');
@@ -162,7 +162,7 @@ Vocabulary.LanguageController = Ember.Controller.extend({
 			return false;
 		};
 		userBooks.forEach(function(userBook){
-			var bookWordToTranslations = userBook.get('translations');
+			var bookWordToTranslations = userBook.getBookWordToTranslations();
 			for(var bookWordId in bookWordToTranslations){
 				if(bookWordIds.indexOf(bookWordId)===-1 && 
 					containsAny(bookWordToTranslations[bookWordId], translationIds)){
@@ -210,6 +210,7 @@ Vocabulary.LanguageController = Ember.Controller.extend({
 		};
 		var booksParam = this.getLanguageBooksForCT();
 		var userParam = {
+			id: user.get('id'),
 			name: user.get('displayName'),
 			language: langPairParam.targetLang,
 			books: booksParam

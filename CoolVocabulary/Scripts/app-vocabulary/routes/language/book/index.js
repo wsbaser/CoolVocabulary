@@ -38,7 +38,9 @@ Vocabulary.BookIndexRoute = Ember.Route.extend({
 				event.data.type!=='addTranslation'){
 				return;
 			}
-			self.get('controller').addTranslation(event.data.book,
+			self.get('controller').addTranslation(
+				event.data.userBook,
+				event.data.book,
 				event.data.word,
 				event.data.bookWord,
 				event.data.translation);

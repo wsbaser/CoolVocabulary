@@ -107,6 +107,9 @@ chrome.runtime.onMessageExternal.addListener(function(request, sender, sendRespo
         case MessageTypes.UpdateLanguageBooks:
             Services.cv.updateLanguageBooks(request.data.language, request.data.books);
             break;
+        case MessageTypes.Logout:
+            Services.cv.setUser(null);
+            break;
     }
 });
 

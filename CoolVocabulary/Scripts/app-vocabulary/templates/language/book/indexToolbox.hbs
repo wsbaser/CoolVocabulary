@@ -10,7 +10,7 @@
     <ul class="dropdown-menu" aria-labelledby="currentBook">
       <li class="dropdown-header">Your books: {{userBooks.length}}</li>
 
-      {{#each userBooks as |userBook|}}
+      {{#each sortedUserBooks as |userBook|}}
       <li>
         {{#link-to "book" userBook.id class="bookLink"}}
         <span class="overflow-ellipsis">

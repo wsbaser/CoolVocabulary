@@ -29,7 +29,7 @@ Vocabulary.BookLearnIndexController = Ember.Controller.extend(Vocabulary.HasActi
 	},
 	updateLearnStatus: function(wordToLearn){
 		wordToLearn.set('isLearned', true);
-		var userBook = wordToLearn.get('bookWords.firstObject.book.userBook');
+		var userBook = wordToLearn.get('userBook');
 		var learnDates = userBook.get('learnDates');
 		wordToLearn.get('bookWords').forEach(function(bookWord){
 			learnDates[bookWord.id] = Date.now();

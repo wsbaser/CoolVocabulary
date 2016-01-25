@@ -26,19 +26,19 @@ namespace CoolVocabulary.Controllers.api
         private VocabularyMongoContext mongoDb = new VocabularyMongoContext();
 
         // GET api/Translation
-        public IQueryable<Translation> GetTranslations()
-        {
-            return db.Translations;
-        }
+        //public IQueryable<Translation> GetTranslations()
+        //{
+        //    return db.Translations;
+        //}
 
         // GET api/Translation
         public async Task<IHttpActionResult> GetTranslations([FromUri]List<string> ids) {
             var data = await db.Get_TranslationsBookWordsWords_DtoAsync(ids.Select(int.Parse));
             return Ok(new {
                 emberDataFormat = true,
-                words = data.Words,
-                bookWords = data.BookWords,
-                translations = data.Translations
+                words = data.words,
+                bookWords = data.bookWords,
+                translations = data.translations
             });
         }
 

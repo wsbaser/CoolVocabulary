@@ -41,7 +41,7 @@
 								<form action="/account/LogOff" class="hidden" id="logoutForm" method="post">
 								    <input type="hidden" name="__RequestVerificationToken" value="{{csrfFormToken}}">
                                 </form>
-				                <a tabindex="-1" href="javascript:document.getElementById('logoutForm').submit()" class="logout-link">
+				                <a tabindex="-1" {{action "logout"}} class="logout-link">
 			                        <i class="glyphicon glyphicon-off"></i>
 			                        Log Out
 			                    </a>

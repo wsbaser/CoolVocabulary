@@ -30,8 +30,8 @@ Vocabulary.BookExamIndexRoute = Ember.Route.extend({
 		return straight.shuffle().sortBy('speachPart').concat(backward.shuffle().sortBy('speachPart'));
 	},
 	requestExamWords: function(sessionWords){
-		var sourceLanguage = sessionWords[0].sourceLanguage;
-		var targetLanguage = sessionWords[0].targetLanguage;
+		var sourceLanguage = this.controllerFor('language').get('model.id');
+		var targetLanguage = this.controllerFor('application').get('model.nativeLanguage.id');
 		// . count number of nouns, verbs, adjectives, adverbs
 		var nounsCount, verbsCount, adjectivesCount, adverbsCount;
 		nounsCount = verbsCount = adjectivesCount = adverbsCount = 0;

@@ -61,5 +61,10 @@ Vocabulary.ApplicationRoute = Ember.Route.extend({
 			var reactor = applicationCtrl.get('reactor');
 			reactor.dispatchEvent('showBackground');
 		}
+	},
+	actions:{
+		logout: function(){
+			document.logoutForm.submit();
+		}
 	}
 });

@@ -7,6 +7,8 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 	user: Ember.computed.alias('applicationCtrl.model'),
 	nativeLanguage: Ember.computed.alias('applicationCtrl.model.nativeLanguage'),
 	userBooks: Ember.computed.alias('languageCtrl.userBooks'),
+	userBooksSorting: ['inProgressCount:desc'],
+	sortedUserBooks: Ember.computed.sort('userBooks','userBooksSorting'),
 	installCT: function(){
 		var self = this;
 		var progressDialog = BootstrapDialog.show({
@@ -111,7 +113,15 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 		// . unknown, adverbs, pronouns, prepositions, conjucntions, interjections
 		return sp>=4 || sp===0;
 	}),
-	addTranslation: function(bookDto, wordDto, bookWordDto, translationDto){
+	addTranslation: function(userBookDto, bookDto, wordDto, bookWordDto, translationDto){
+		// function updateUserBookTranslations(store, userBookId, bookWordId, translationId){
+		// 	var userBook = store.peekRecord('userBook', userBookId);
+		//     var translations = userBook.get('translations');
+		//     if(!translations[bookWordId]){
+		//         translations[bookWordId] = [];
+		//     }
+		//     translations[bookWordId].push(translationId);
+		// }
 		function findOrAdd(store, type, data){
 			var record = store.peekRecord(type, data.id);
 			if(!record){
@@ -119,10 +129,12 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 			}
 			return record;
 		}
+		findOrAdd(this.store, 'userBook', userBookDto);
 		findOrAdd(this.store, 'book', bookDto);
 		findOrAdd(this.store, 'word', wordDto);
 		findOrAdd(this.store, 'translation', translationDto);
 		findOrAdd(this.store, 'bookWord', bookWordDto);
+		// updateUserBookTranslations(this.store, userBookDto.id, bookWordDto.id, translationDto.id);
 
 		// . recalculate days
 		this.get('languageCtrl').notifyPropertyChange('days');
