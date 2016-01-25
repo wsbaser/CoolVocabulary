@@ -1,8 +1,4 @@
 Vocabulary.LanguageController = Ember.Controller.extend({
-	init: function(){
-		this.set('CTAdapter', new CTAdapter());
-		this._super();
-	},
 	applicationCtrl: Ember.inject.controller('application'),
 	user: Ember.computed.alias('applicationCtrl.model'),
 	languages: Ember.computed('model', function(){
@@ -200,7 +196,7 @@ Vocabulary.LanguageController = Ember.Controller.extend({
 	},
 	initCT: function(userBook){
 		var self = this;
-		var ctAdapter = this.get('CTAdapter');
+		var ctAdapter = this.get('applicationCtrl.CTAdapter');
 		var user = this.get('user');
 		var book = userBook.get('book');
 
@@ -245,7 +241,7 @@ Vocabulary.LanguageController = Ember.Controller.extend({
 		});
 	},
 	updateLanguageBooksInCT: function(){
-		var ctAdapter = this.get('CTAdapter');
+		var ctAdapter = this.get('applicationCtrl.CTAdapter');
 		var languageParam = this.get('model.id');
 		var booksParam = this.getLanguageBooksForCT();
 		ctAdapter.updateLanguageBooks(languageParam, booksParam);

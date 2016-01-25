@@ -64,6 +64,8 @@ Vocabulary.ApplicationRoute = Ember.Route.extend({
 	},
 	actions:{
 		logout: function(){
+			var ctAdapter = this.controller.get('CTAdapter');
+			ctAdapter.logout();
 			document.logoutForm.submit();
 		}
 	}

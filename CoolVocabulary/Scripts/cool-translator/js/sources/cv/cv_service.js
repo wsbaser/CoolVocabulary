@@ -221,16 +221,34 @@ CVService.prototype.aggregateBooksByLanguage = function(books, languages){
     return languagesData;
 };
 
+
+CVService.prototype.parseBookJsonFields = function(languages){
+    function tryParseJson(value){
+        return value?
+            (typeof value==='string'? JSON.parse(value) : value)
+            :{};
+    };
+    for(var language in languages){
+        var books = languages[language].books;
+        books.forEach(function(book){
+            book.learnLevels = tryParseJson(book.learnLevels);
+            book.learnDates = tryParseJson(book.learnDates);
+            book.examDates = tryParseJson(book.examDates);
+            book.promoteDates = tryParseJson(book.promoteDates);
+        });
+    }
+};
+
 CVService.prototype.aggregateTranslationsData = function(languages){
+    this.parseBookJsonFields(languages);
+
     // . calculate translations existance for each language
     for(var language in languages){
         languages[language].hasTranslations = this.booksHasTranslations(languages[language].books);
-    }
-
-    // . calculate DE status
-    for(var language in languages){
-        languages[language].hasDE = this.deCalculator.hasDE(languages[language].books);
-        languages[language].DENotCompleted = this.deCalculator.DENotCompleted(languages[language].books);
+        if(languages[language].hasTranslations){
+            languages[language].hasDE = this.deCalculator.hasDE(languages[language].books);
+            languages[language].DENotCompleted = this.deCalculator.DENotCompleted(languages[language].books);
+        }
     }
 };
 
