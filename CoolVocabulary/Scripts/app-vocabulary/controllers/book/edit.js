@@ -29,7 +29,12 @@ Vocabulary.BookEditController = Ember.Controller.extend({
 							var book = userBook.get('book');
 							userBook.destroyRecord().then(function(){
 								self.get('languageCtrl').updateLanguageBooksInCT();
-								self.transitionToRoute('language.index');
+								if(self.get('languageCtrl.userBooks').length){
+									self.transitionToRoute('language');
+								}
+								else{
+									window.location = "/";
+								}
 							}, function(error){
 								console.log(error);
 							});

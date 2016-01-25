@@ -6,9 +6,8 @@ Vocabulary.LanguageRoute = Ember.Route.extend({
 	model: function(params){
 		this.language = this.store.peekAll('language').findBy('id', params.language_id);
 		if(!this.language){
-			// . language not found 
-			this.transitionTo('application');
-		}		
+			window.location="/";
+		}
 		return this.store.query('userBook',{ 
 			language: this.language.id
 		});
