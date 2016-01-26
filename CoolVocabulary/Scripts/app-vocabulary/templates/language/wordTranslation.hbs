@@ -1,5 +1,5 @@
 {{word-details-events onMouseMove=(action "saveMousePosition")}}
-<div tabIndex="1" id="word_details_popover" class="light-shadow fadeout">
+<div id="word_details_popover" class="light-shadow fadeout">
    	<div class="popover-content clearfix">
    		{{word-pictures word=model.word}}
    		<div class="word-info">
@@ -16,9 +16,9 @@
       {{word-translations showRemoveButton=true translations=model.translations speachPart=model.speachPart onTranslationRemoved=(action "translationRemoved") onModalHidden=(action "hideWordDetails")}}
       <hr class="splitter"/>
       <div class="actions-block">
-        <span {{action "remove"}} class="glyphicon glyphicon-trash btn-sm color-grey" title="Remove word from book"></span>
+        <span {{action "remove"}} tabindex="38" class="glyphicon glyphicon-trash btn-sm color-grey" title="Remove word from book"></span>
         {{!-- <span {{action "move"}} class="glyphicon glyphicon glyphicon-transfer btn-sm color-grey" title="Move to another book"></span> --}}
-        {{#link-to "book.learn" model.word.id class="pull-right"}}
+        {{#link-to "book.learn" model.word.id tabindex=39 class="pull-right"}}
           <button class="btn btn-xs btn-success" type="button">
         		<span class="glyphicon glyphicon-book"></span>
         		Learn

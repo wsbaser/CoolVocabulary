@@ -2,7 +2,7 @@
 <div class="topbar navbar navbar-inverse">
     <div class="container">
         <div class="navbar-header visible-xs">
-            <a tabIndex="-1" href="/"><img id="logo_mobile" src="/content/images/icon48.png" alt="Cool Vocabulary" /></a>
+            <a tabindex="-1" href="/"><img id="logo_mobile" src="/content/images/icon48.png" alt="Cool Vocabulary" /></a>
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -11,17 +11,17 @@
         </div>
         <div class="topbar-navitems navbar-collapse collapse">
             <div class="topbar-menu-links">
-                <a tabIndex="-1" href="/" class="hidden-xs"><img id="logo" src="/content/images/icon48.png" alt="Cool Vocabulary" /></a>
+                <a tabindex="-1" href="/" class="hidden-xs"><img id="logo" src="/content/images/icon48.png" alt="Cool Vocabulary" /></a>
                 <ul class="nav navbar-nav">
-                    <li><a tabIndex="-1" href="/CoolTranslator">Cool Translator</a></li>
+                    <li><a tabindex="-1" href="/CoolTranslator">Cool Translator</a></li>
                     <li>
-                        <a tabIndex="-1" target="_blank" href="http://babbel.com">
+                        <a tabindex="-1" target="_blank" href="http://babbel.com">
                             <i class="glyphicon glyphicon-chevron-right"></i>
                             Babbel.com
                         </a>
                     </li>
                     <li>
-                        <a tabIndex="-1" target="_blank" href="http://duolingo.com">
+                        <a tabindex="-1" target="_blank" href="http://duolingo.com">
                             <i class="glyphicon glyphicon-chevron-right"></i>
                             Duolingo.com
                         </a>
@@ -32,7 +32,7 @@
 			    <ul class="nav navbar-nav navbar-right">
             		{{outlet 'menu'}}
  			 		<li class="dropdown">
-			            <a tabIndex="9" id="userName" class="dropdown-toggle" data-toggle="dropdown" href="#">
+			            <a tabindex="9" id="userName" class="dropdown-toggle" data-toggle="dropdown" href="#">
 			                {{model.displayName}}
 			                <b class="caret"></b>
 			            </a>
@@ -41,7 +41,7 @@
 								<form action="/account/LogOff" class="hidden" id="logoutForm" method="post">
 								    <input type="hidden" name="__RequestVerificationToken" value="{{csrfFormToken}}">
                                 </form>
-				                <a tabindex="-1" {{action "logout"}} class="logout-link">
+				                <a tabindex="9" {{action "logout"}} class="logout-link">
 			                        <i class="glyphicon glyphicon-off"></i>
 			                        Log Out
 			                    </a>

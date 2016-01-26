@@ -1,9 +1,9 @@
 <div id="bookContainer" class="col-xs-6 col-md-3 col-lg-4" >
   <div id="currentBookDropdown" class="dropdown">
-    {{#link-to "book.edit" model}}
+    {{#link-to "book.edit" model tabindex=20}}
       <i class="edit-icon glyphicon glyphicon-cog color-blue" title="Edit book"></i>
     {{/link-to}}
-    <a id="currentBook" href="#" data-toggle="dropdown" role="button" class="overflow-ellipsis">
+    <a id="currentBook" href="#" tabindex="21" data-toggle="dropdown" role="button" class="overflow-ellipsis">
       {{model.book.name}}
       <span class="caret"></span>
     </a>
@@ -12,7 +12,7 @@
 
       {{#each sortedUserBooks as |userBook|}}
       <li>
-        {{#link-to "book" userBook.id class="bookLink"}}
+        {{#link-to "book" userBook.id tabindex=21 class="bookLink"}}
         <span class="overflow-ellipsis">
         {{userBook.book.name}}
         </span>
@@ -30,7 +30,7 @@
 
       <li role="separator" class="divider"></li>
       <li>
-        {{#link-to "createBook" class="addBookLink"}}
+        {{#link-to "createBook" tabindex=21 class="addBookLink"}}
           <span class="glyphicon glyphicon-plus" style="margin-right:10px; color:#5bc0de;" aria-hidden="true"></span>
           Add Book
         {{/link-to}}
@@ -44,9 +44,9 @@
 
 <div class="hidden-xs hidden-sm col-md-6 col-lg-6">
 	<form id="word_input_form" class="input-group">
-    <input placeholder="Enter {{language.lowerName}} word here..." type="text" class="form-control input-sm">
+    <input placeholder="Enter {{language.lowerName}} word here..."  tabindex="22" type="text" class="form-control input-sm">
   	<span class="input-group-btn">
-    	<button class="btn btn-sm btn-info" type="submit" >
+    	<button class="btn btn-sm btn-info" tabindex="23" type="submit" >
     		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
     	</button>
   	</span>
@@ -54,14 +54,14 @@
 </div>
 
 <div class="col-xs-6 col-md-3 col-lg-2">
-  {{#link-to "book.exam" model class="exam-link pull-right"}}
-  <button class="btn btn-sm btn-warning" type="button">
+  {{#link-to "book.exam" model tabindex=25 class="exam-link pull-right"}}
+  <button class="btn btn-sm btn-warning" tabindex="-1" type="button">
     <span class="glyphicon glyphicon-check"></span>
     EXAM
   </button>
   {{/link-to}}
-  {{#link-to "book.learn" 0 class="learn-link pull-right"}}
-  <button class="btn btn-sm btn-success" type="button">
+  {{#link-to "book.learn" 0 tabindex=24 class="learn-link pull-right"}}
+  <button class="btn btn-sm btn-success" tabindex="-1" type="button">
     <span class="glyphicon glyphicon-book"></span>
     LEARN
   </button>
