@@ -29,5 +29,32 @@ namespace CoolVocabulary.Models {
             const int PLAN_PER_DAY = 3;
             return (UInt16)(PLAN_PER_DAY * daysInMonth);
         }
+
+        public async Task<dynamic> GetUserCTDataAsync(ApplicationUser user) {
+            var userBooksDto = await _db.GetUserBooksDtoAsync(user.Id, null);
+            dynamic books = userBooksDto.Select(ub => new {
+                id = ub.book,
+                userBookId = ub.id,
+                userId = ub.user,
+                authorId = ub.BookDto.user,
+                name = ub.BookDto.name,
+                language = ub.BookDto.language,
+                learnLevels = ub.learnLevels,
+                learnDates = ub.learnDates,
+                examDates = ub.examDates,
+                promoteDates = ub.promoteDates,
+                translations = ub.translations
+            }).ToList();
+            return new {
+                isAuthenticated = true,
+                languages = SupportedLanguages.AllDto,
+                user = new {
+                    id = user.Id,
+                    name = user.DisplayName,
+                    language = ((LanguageType)user.NativeLanguage).ToString(),
+                    books = books
+                }
+            };
+        }
     }
 }

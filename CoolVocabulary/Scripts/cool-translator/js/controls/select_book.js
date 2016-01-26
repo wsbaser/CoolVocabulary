@@ -67,6 +67,7 @@ SelectBook.prototype.show = function(books, word, translation, loginCallback) {
     this.loginCallback = loginCallback;
     this.el.find('.header>.pair').text(word+' - '+translation);
     this.books.forEach(function(item){
+
         self.listEl.append('<li>' + item.name + '</li>');
     });
     this._bindEvents();

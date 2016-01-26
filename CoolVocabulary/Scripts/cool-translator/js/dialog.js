@@ -1,34 +1,45 @@
-/***** TranslationDialogFactory **********************************************************************************************/
-var TranslationDialogFactory =   (function(){
+/***** ServiceProvider **********************************************************************************************/
+var ServiceProvider =   (function(){
   return {
-    initConnection: function(){
-      var connection = new ServicesConnection("services_connection");
-      connection.open();
-      return connection;
+    getConnection: function(){
+      if(!this.connection){
+        this.connection = new ServicesConnection("services_connection");
+        this.connection.open();
+      }
+      return this.connection;
     },
-    initVocabulary: function(connection){
-      return new Vocabulary(CVConfig(), connection);
+    getVocabulary: function(connection){
+      if(!this.vocabulary){
+        this.vocabulary = new Vocabulary(CVConfig(), connection);
+      }
+      return this.vocabulary;
     },
-    initLangDetector: function(connection){
-      return new LangDetector(GoogleConfig(), connection);
+    getLangDetector: function(connection){
+      if(!this.langDetector){
+        this.langDetector = new LangDetector(GoogleConfig(), connection);
+      }
+      return this.langDetector;
     },
-    initSources: function(connection, vocabulary){
-      var arr = 
-        [this.createLLSource(connection, vocabulary),
-        this.createAbbySource(connection, vocabulary),
-        this.createGoogleSource(connection, vocabulary),
-        this.createLingueeSource(connection, vocabulary),
-        this.createTfdSource(connection),
-        this.createMultitranSource(connection, vocabulary)];
-      arr.sort(function (a, b) {
-          return a.config.priority > b.config.priority ? -1 : 1;
-      });
-      var allSources = {};
-      $(arr).each(function(i, source) {
-        source.init();
-        allSources[source.config.id] = source;
-      });
-      return allSources;
+    getSources: function(connection, vocabulary){
+      if(!this.sources){
+        var self = this;
+        var arr = 
+          [this.createLLSource(connection, vocabulary),
+          this.createAbbySource(connection, vocabulary),
+          this.createGoogleSource(connection, vocabulary),
+          this.createLingueeSource(connection, vocabulary),
+          this.createTfdSource(connection),
+          this.createMultitranSource(connection, vocabulary)];
+        arr.sort(function (a, b) {
+            return a.config.priority > b.config.priority ? -1 : 1;
+        });
+        this.sources = {};
+        arr.forEach(function(source){
+          source.init();
+          self.sources[source.config.id] = source;
+        });
+      }
+      return this.sources;
     },
     createMultitranSource: function(connection, vocabulary){
       var tabs = [];
@@ -97,12 +108,15 @@ var TranslationDialogFactory =   (function(){
       var service = new DictionaryServiceProxy(serviceConfig, connection);
       return new Source(service, tabs);
     },
-    create: function(){
-      var connection = this.initConnection();
-      var vocabulary = this.initVocabulary(connection);
-      var langDetector = this.initLangDetector(connection);
-      var sources = this.initSources(connection, vocabulary);
-      return new TranslationDialog(sources, vocabulary, langDetector);
+    getDialog: function(){
+      if(!this.dialog){
+        var connection = this.getConnection();
+        var vocabulary = this.getVocabulary(connection);
+        var langDetector = this.getLangDetector(connection);
+        var sources = this.getSources(connection, vocabulary);
+        this.dialog = new TranslationDialog(sources, vocabulary, langDetector);
+      }
+      return this.dialog;
     }
   };
 })();
@@ -539,8 +553,11 @@ TranslationDialog.prototype.showSelectBook = function(inputData, translation, ca
   if(this.vocabulary.bookRemembered){
     callback();
   }else{
+    function canBeUpdated(book){
+      return book.userId===book.authorId;
+    }
     var books = this.vocabulary.user.books.filter(function(item){
-        return item.language===inputData.sourceLang;
+        return item.language===inputData.sourceLang && canBeUpdated(item);
     });
     if(books.length){
       this.selectBook.show(books, inputData.word, translation, function(bookId, remember){

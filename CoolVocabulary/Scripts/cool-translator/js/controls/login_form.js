@@ -83,9 +83,10 @@ LoginForm.prototype._bindEvents = function() {
 LoginForm.prototype._onOAuthLogin = function(){
     var self = this;
     this.service.oauthLogin().done(function(){ 
-        self.hide();
-        if(self.loginCallback){
-            self.loginCallback();
+        if(self.hide()){
+            if(self.loginCallback){
+                self.loginCallback();
+            }
         }
     })
     .fail(function(error){
@@ -153,7 +154,9 @@ LoginForm.prototype.show = function (service, loginCallback) {
 LoginForm.prototype.hide = function(){
     if(this.isVisible()){
         this.containerEl.hide();
+        return true;
     }
+    return false;
 };
 
 LoginForm.prototype.isVisible = function() {

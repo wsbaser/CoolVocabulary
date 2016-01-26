@@ -152,7 +152,7 @@ CVService.prototype.login = function(username, password){
 };
 
 CVService.prototype.setUser = function(user, languages){
-    if(this.user && this.user.id===user.id){
+    if(this.user && user && this.user.id===user.id){
         return;
     }
     this.user = this.aggregateUserData(user, languages);
@@ -262,7 +262,7 @@ CVService.prototype.hasAnyUncompletedDE = function(languages){
 };
 
 CVService.prototype.aggregateUserData = function(user, languages){
-    if(user===null){
+    if(!user){
         return null;
     }
     var languagesData = this.aggregateBooksByLanguage(user.books, languages);

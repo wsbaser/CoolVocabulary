@@ -15,11 +15,16 @@ DictionaryProvider.prototype.rejectWithStatusCode = function(deferred,xhr){
 };
 
 DictionaryProvider.prototype.rejectWithResponseText = function(deferred,xhr){
-    if(xhr.status===500){
-        this.rejectWithStatusCode(deferred, xhr);
-    }
-    else{
-        deferred.reject(xhr.responseText);
+    switch(xhr.status){
+        case 500:
+            this.rejectWithStatusCode(deferred, xhr);
+            break;
+        case 0:
+            deferred.reject('No Internet :((');            
+            break;
+        default:
+            deferred.reject(xhr.responseText);
+            break;
     }
 };
 

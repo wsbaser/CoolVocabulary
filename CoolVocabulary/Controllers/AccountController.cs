@@ -16,6 +16,7 @@ namespace CoolVocabulary.Controllers
     public class AccountController : Controller
     {
         VocabularyDbContext db;
+        Repository repo;
         public AccountController()
             : this(new VocabularyDbContext()) {
         }
@@ -23,6 +24,7 @@ namespace CoolVocabulary.Controllers
         public AccountController(VocabularyDbContext db)
             : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db))) {
             this.db = db;
+            repo = new Repository(db);
         }
 
         public AccountController(UserManager<ApplicationUser> userManager)
@@ -40,40 +42,11 @@ namespace CoolVocabulary.Controllers
         [HttpPost]
         public async Task<JsonResult> CheckAuthentication() {
             if (User.Identity.IsAuthenticated) {
-                return Json(await this.GetUserCTData());
+                return Json(await this.GetUserCTDataAsync());
             }
             return Json(new { isAuthenticated = false });
         }
 
-        public async Task<dynamic> GetUserCTData() {
-            var userId = User.Identity.GetUserId();
-            var user = UserManager.FindById(userId);
-            return await GetUserCTDataAsync(user);
-        }
-
-        public async Task<dynamic> GetUserCTDataAsync(ApplicationUser user) {
-            var userBooksDto = await db.GetUserBooksDtoAsync(user.Id, null);
-            dynamic books = userBooksDto.Select(ub => new {
-                id = ub.book,
-                name = ub.BookDto.name,
-                language = ub.BookDto.language,
-                learnLevels = ub.learnLevels,
-                learnDates = ub.learnDates,
-                examDates = ub.examDates,
-                promoteDates = ub.promoteDates,
-                translations = ub.translations
-            }).ToList();
-            return new {
-                isAuthenticated = true,
-                languages = SupportedLanguages.AllDto,
-                user = new {
-                    id = user.Id,
-                    name = user.DisplayName,
-                    language = ((LanguageType)user.NativeLanguage).ToString(),
-                    books = books
-                }
-            };
-        }
 
         //
         // GET: /Account/Login
@@ -91,12 +64,19 @@ namespace CoolVocabulary.Controllers
                 var user = await UserManager.FindAsync(model.Email, model.Password);
                 if (user != null) {
                     await SignInAsync( user, true);
-                    return Json(await GetUserCTDataAsync(user));
+                    return Json(await repo.GetUserCTDataAsync(user));
                 }
             }
 
             return Json(new { error_msg = "Invalid username or password." });
         }
+
+        public async Task<dynamic> GetUserCTDataAsync() {
+            var userId = User.Identity.GetUserId();
+            var user = UserManager.FindById(userId);
+            return await repo.GetUserCTDataAsync(user);
+        }
+
 
         //
         // POST: /Account/Login

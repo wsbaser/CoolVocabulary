@@ -230,6 +230,8 @@ Vocabulary.LanguageController = Ember.Controller.extend({
 		return this.get('userBooks').map(function(userBook){ 
 			return {
 				id: userBook.get('book.id'),
+				userId: userBook.get('user.id'),
+				authorId: userBook.get('book.user'),
 				language: userBook.get('book.language'), 
 				name: userBook.get('book.name').trim(),
 				learnLevels: userBook.get('learnLevels'),

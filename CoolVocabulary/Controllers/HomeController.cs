@@ -12,7 +12,13 @@ using System.Threading.Tasks;
 
 namespace CoolVocabulary.Controllers {
     public class HomeController : Controller {
-        private VocabularyDbContext db = new VocabularyDbContext();
+        private VocabularyDbContext db;
+        private Repository repo;
+
+        public HomeController() {
+            db = new VocabularyDbContext();
+            repo = new Repository(db);
+        }
 
         public ActionResult CoolTranslator() {
             ViewBag.user = this.GetUser();
@@ -38,17 +44,7 @@ namespace CoolVocabulary.Controllers {
         public async Task<ActionResult> CTOAuthSuccess() {
             ApplicationUser user = this.GetUser();
             if (user != null) {
-                List<UserBook> userBooks = await db.GetUserBooksAsync(user.Id);
-                List<Book> booksUserCanUpdate = userBooks.Where(ub => ub.Book.CanBeUpdatedBy(user.Id)).Select(ub => ub.Book).ToList();
-                ViewBag.User = new {
-                    id = user.Id,
-                    name = user.DisplayName,
-                    books = booksUserCanUpdate.Select(b => new {
-                        id = b.Id,
-                        name = b.Name,
-                        language = ((LanguageType)b.Language).ToString()
-                    })
-                };
+                ViewBag.UserData = await repo.GetUserCTDataAsync(user);
                 return View();
             }
             throw new HttpException(400, "OAuth login failed");

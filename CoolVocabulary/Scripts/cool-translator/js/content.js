@@ -9,7 +9,7 @@ ctrContent.langPair = null;
 ctrContent.init = function () {
     ctrContent.bindEventHandlers();
     ctrContent.addInstalledMarker();
-    Dialog = TranslationDialogFactory.create();
+    Dialog = ServiceProvider.getDialog();
     Dialog.addEventListener(TranslationDialog.LANG_PAIR_CHANGED, ctrContent.onLangPairChanged);
     ctrContent.loadInitializationData(function(data){
         Dialog.setLangPair(data.langPair);
@@ -199,6 +199,10 @@ chrome.runtime.onMessage.addListener(
     switch(message.type){
         case MessageTypes.InitSiteDialog:
             ctrContent.initSiteDialog(message.langPair, message.attachBlockSelector, message.bookId, message.user);
+            break;
+        case MessageTypes.OAuthSuccess:
+            var vocabulary = ServiceProvider.getVocabulary();
+            vocabulary.authenticate(message.user);
             break;
         default:
             console.error('Unknown message type:' + message.type);

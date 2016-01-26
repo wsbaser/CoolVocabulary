@@ -37,7 +37,7 @@ function createServer(){
     var services = {};
     for(var key in Services){
         if(Services.hasOwnProperty(key)){
-            services[Services[key].config.id]=Services[key];
+            services[Services[key].config.id] = Services[key];
         }
     }
     return new DictionaryServicesServer(Services);
@@ -96,19 +96,23 @@ chrome.runtime.onMessageExternal.addListener(function(request, sender, sendRespo
             Services.cv.setUser(request.data.user, request.data.languages);
             sendResponse(true);
             break;
-        case MessageTypes.OAuthSuccess:
-            if(sender.tab.openerTabId){
-                chrome.tabs.sendMessage(sender.tab.openerTabId, {
-                    type: MessageTypes.OAuthSuccess,
-                    user: request.user 
-                });
-            }
-            break;
         case MessageTypes.UpdateLanguageBooks:
             Services.cv.updateLanguageBooks(request.data.language, request.data.books);
             break;
         case MessageTypes.Logout:
             Services.cv.setUser(null);
+            break;
+        case MessageTypes.OAuthSuccess:
+            // . send "oauthsuccess" message to all tabs
+            chrome.tabs.query({}, function(tabs) {
+                tabs.forEach(function(tab){
+                    chrome.tabs.sendMessage(tab.id, {
+                        type: MessageTypes.OAuthSuccess,
+                        user: request.data.user
+                    });
+                });
+            });
+            Services.cv.setUser(request.data.user, request.data.languages);
             break;
     }
 });

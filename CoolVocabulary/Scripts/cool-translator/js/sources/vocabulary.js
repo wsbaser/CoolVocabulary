@@ -7,19 +7,28 @@ function Vocabulary(config, connection, supportsBooks){
     this.reactor.registerEvent(Vocabulary.CHECK_AUTH_START);
     this.reactor.registerEvent(Vocabulary.CHECK_AUTH_END);
     this.bookId = 0;
-    this._addOAuthLoginListener();
+    // this._addOAuthLoginListener();
 };
 
 Vocabulary.CHECK_AUTH_START = 'authstart';
 Vocabulary.CHECK_AUTH_END = 'authend';
 
 Vocabulary.prototype.addEventListener = function(eventType, handler){
-	this.reactor.addEventListener(eventType, handler)
+	this.reactor.addEventListener(eventType, handler);
 };
 
 Vocabulary.prototype.authenticate = function(user){
     this.user = user;
     this.reactor.dispatchEvent(Vocabulary.CHECK_AUTH_END);
+    if(this.oauthLoginDeferred){
+        if(this.user){
+            this.oauthLoginDeferred.resolve();
+        }
+        else{
+            this.oauthLoginDeferred.reject();
+        }
+        this.oauthLoginDeferred = null;
+    }
 };
 
 Vocabulary.prototype.checkAuthentication = function(){
@@ -27,11 +36,9 @@ Vocabulary.prototype.checkAuthentication = function(){
 	this.reactor.dispatchEvent(Vocabulary.CHECK_AUTH_START);
     this.makeCall('checkAuthentication', [], function(promise){
         promise.done(function(data){
-            self.user = data.user;
-        	self.reactor.dispatchEvent(Vocabulary.CHECK_AUTH_END);
+            self.authenticate(data.user);
         }).fail(function(){
-            self.user = null;
-            self.reactor.dispatchEvent(Vocabulary.CHECK_AUTH_END);            
+            self.authenticate(null);
         });
     });
 };
@@ -64,11 +71,9 @@ Vocabulary.prototype.login = function(username, password, callback){
 	var self = this;
     this.makeCall('login', [username, password], function(promise){
         promise.done(function(data){
-            self.user = data.user;
-            self.reactor.dispatchEvent(Vocabulary.CHECK_AUTH_END);
+            self.authenticate(data.user);
         }).fail(function(){
-            self.user = null;
-            self.reactor.dispatchEvent(Vocabulary.CHECK_AUTH_END);
+            self.authenticate(null);
         });
         callback(promise);
     }.bind(this));
@@ -82,28 +87,25 @@ Vocabulary.prototype.setBook = function(bookId, remember){
 Vocabulary.prototype.oauthLoginDeferred = null;
 Vocabulary.prototype.oauthLogin = function(){
     var oauthWindow = window.open(this.config.path.CTOAuth,'_blank');
-    oauthWindow.addEventListener('close', function(){
-        console.log('close oauth window');
-    });
     this.oauthLoginDeferred = $.Deferred();
     return this.oauthLoginDeferred.promise();
 };
 
-Vocabulary.prototype._addOAuthLoginListener = function(){
-    var self = this;
-    window.addEventListener('message', function(event){
-        if(event.data.type==='oauthsuccess'){
-            self.user = event.data.user;
-            self.reactor.dispatchEvent(Vocabulary.CHECK_AUTH_END);
-            if(self.oauthLoginDeferred){
-                self.oauthLoginDeferred.resolve();
-            }            
-        }else if(event.data.type==='oautherror'){
-            self.user = null;
-            self.reactor.dispatchEvent(Vocabulary.CHECK_AUTH_END);
-            if(self.oauthLoginDeferred){
-                self.oauthLoginDeferred.reject(event.data.error);
-            }
-        }
-    });
-};
+// Vocabulary.prototype._addOAuthLoginListener = function(){
+//     var self = this;
+//     window.addEventListener('message', function(event){
+//         if(event.data.type==='oauthsuccess'){
+//             self.user = event.data.user;
+//             self.reactor.dispatchEvent(Vocabulary.CHECK_AUTH_END);
+//             if(self.oauthLoginDeferred){
+//                 self.oauthLoginDeferred.resolve();
+//             }            
+//         }else if(event.data.type==='oautherror'){
+//             self.user = null;
+//             self.reactor.dispatchEvent(Vocabulary.CHECK_AUTH_END);
+//             if(self.oauthLoginDeferred){
+//                 self.oauthLoginDeferred.reject(event.data.error);
+//             }
+//         }
+//     });
+// };

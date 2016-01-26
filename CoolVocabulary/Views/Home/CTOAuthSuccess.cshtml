@@ -15,12 +15,33 @@
 </head>
 <body>
     <script>
-        var user = @Html.Raw(Json.Encode(ViewBag.User))
-        window.opener.postMessage({
-            type: 'oauthsuccess',
-            user: user
-        }, '*');
+        var DEBUG = true;
+        function CTAdapter() {
+            this.extensionIsActive = false;
+            this.extensionId = DEBUG ?
+                "eplepheahdinbfhnjjnkhkebfdhenbad" :
+                "cifbpdjhjkopeekabdgfjgmcbcgloioi";
+        }
+
+        CTAdapter.prototype.sendOAuthSuccess = function (user, languages) {
+            var self = this;
+            if (window.chrome) {
+                var MESSAGE_TYPE = "oauthsuccess";
+
+                chrome.runtime.sendMessage(this.extensionId, {
+                    type: MESSAGE_TYPE,
+                    data: {
+                        user: user,
+                        languages: languages
+                    }
+                });
+            }
+        };
+
+        var userData = @Html.Raw(Json.Encode(ViewBag.UserData));
+        var ctAdapter = new CTAdapter();
+        ctAdapter.sendOAuthSuccess(userData.user, userData.languages);
         window.close();
-    </script>    
+    </script>
 </body>
 </html>
