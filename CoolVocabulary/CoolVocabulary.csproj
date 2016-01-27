@@ -288,6 +288,7 @@
     <Content Include="Content\images\bg.png" />
     <Content Include="Content\images\duolingo.ico" />
     <Content Include="Content\images\flags.png" />
+    <Content Include="Content\images\Hint-icon16.png" />
     <Content Include="Content\images\icon48.png" />
     <Content Include="Content\images\prize.jpg" />
     <Content Include="Content\images\Sound-icon16.png" />
