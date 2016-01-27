@@ -9,17 +9,33 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 	userBooks: Ember.computed.alias('languageCtrl.userBooks'),
 	userBooksSorting: ['inProgressCount:desc'],
 	sortedUserBooks: Ember.computed.sort('userBooks','userBooksSorting'),
+	initCT: function(){
+		var self = this;
+		var ctAdapter = this.get('applicationCtrl.CTAdapter');
+		var languageCtrl = this.get('languageCtrl');
+		var langPairParam = languageCtrl.getLangPairForCT();
+		var userParam = languageCtrl.getUserForCT();
+		var languagesParam = languageCtrl.getLanguagesForCT();
+		var bookId = this.get('model.book.id');
+		ctAdapter.initSiteDialog(langPairParam, '#word_input_form', userParam,  languagesParam, bookId, function(){
+			if(!ctAdapter.extensionIsActive){
+				$('#word_input_form').on('submit', self.showInstallCTAlert.bind(self));
+			}
+		});
+	},
 	installCT: function(){
 		var self = this;
 		var progressDialog = BootstrapDialog.show({
             title: 'Cool Translator installation',
             message: 'Please, wait while '+Vocabulary.CT_WEBSTORE_LINK+' is being installed...',
+            closable: false,
             size: BootstrapDialog.SIZE_SMALL});
-		chrome.webstore.install(ctAdapter.CT_WEBSTORE_URL, function(){
+		chrome.webstore.install(CTAdapter.CT_WEBSTORE_URL, function(){
 			progressDialog.close();
 			BootstrapDialog.show({
 	            title: 'Cool Translator activation',
 	            message: 'Page will be updated to activate '+Vocabulary.CT_WEBSTORE_LINK+'...',
+	            closable: false,
 	            size: BootstrapDialog.SIZE_SMALL});
 			setTimeout(function(){
 				window.location.reload();

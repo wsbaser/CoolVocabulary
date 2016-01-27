@@ -44,6 +44,7 @@ Vocabulary.WordTranslationController = Ember.Controller.extend({
 			this.transitionToRoute('book');
 		},
 		translationRemoved: function(){
+			var self = this;
 			if(this.get('model.translations').toArray().length){
 				this.actions.hideWordDetails.call(this);
 				self.get('languageCtrl').updateLanguageBooksInCT();

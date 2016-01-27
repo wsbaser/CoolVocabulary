@@ -112,7 +112,7 @@ namespace CoolVocabulary.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            ViewBag.SupportedLanguages = SupportedLanguages.All;
+            ViewBag.SupportedLanguages = SupportedLanguages.AllDto;
             return View();
         }
 
@@ -147,7 +147,7 @@ namespace CoolVocabulary.Controllers
             }
 
             // Появление этого сообщения означает наличие ошибки; повторное отображение формы
-            ViewBag.SupportedLanguages = SupportedLanguages.All;
+            ViewBag.SupportedLanguages = SupportedLanguages.AllDto;
             return View(model);
         }
 
@@ -272,8 +272,8 @@ namespace CoolVocabulary.Controllers
                     // If the user does not have an account, then prompt the user to create an account
                     ViewBag.ReturnUrl = returnUrl;
                     ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
-                    ViewBag.SupportedLanguages = SupportedLanguages.All;
-                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email, DisplayName = loginInfo.DefaultUserName });
+                    ViewBag.SupportedLanguages = SupportedLanguages.AllDto;
+                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email, DisplayName = loginInfo.ExternalIdentity.Name});
                 } else {
                     var result = await UserManager.AddLoginAsync(user.Id, loginInfo.Login);
                     if (result.Succeeded) {
@@ -366,7 +366,7 @@ namespace CoolVocabulary.Controllers
                     AddErrors(result);
                 }
             }
-            ViewBag.SupportedLanguages = SupportedLanguages.All;
+            ViewBag.SupportedLanguages = SupportedLanguages.AllDto;
             ViewBag.loginProvider = loginProvider;
             ViewBag.ReturnUrl = returnUrl;
             return View(model);

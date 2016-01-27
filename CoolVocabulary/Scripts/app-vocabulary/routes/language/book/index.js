@@ -9,8 +9,7 @@ Vocabulary.BookIndexRoute = Ember.Route.extend({
 		model = this.controllerFor('book').get('model');
 	    this._super(controller, model);
 	    // . init CT
-	    var languageCtrl = this.controllerFor('language');
-	    languageCtrl.initCT(model);
+	    controller.initCT();
 
 	    Ember.run.schedule('afterRender', this, this.afterRender);
 	},
@@ -21,16 +20,16 @@ Vocabulary.BookIndexRoute = Ember.Route.extend({
 		    placement: 'bottom',
 		    backdrop: true
 		});
-       	$('#target_info_alert').modalPopover({
-		    target: '#current_target_progress',
-		    placement: 'bottom'
-		});
-		$('#current_target_progress>svg').on('mouseover', function(e){
-			$('#target_info_alert').modalPopover('show');
-		});
-		$('#current_target_progress>svg').on('mouseout', function(e){
-			$('#target_info_alert').modalPopover('hide');
-		});
+  //      	$('#target_info_alert').modalPopover({
+		//     target: '#current_target_progress',
+		//     placement: 'bottom'
+		// });
+		// $('#current_target_progress>svg').on('mouseover', function(e){
+		// 	$('#target_info_alert').modalPopover('show');
+		// });
+		// $('#current_target_progress>svg').on('mouseout', function(e){
+		// 	$('#target_info_alert').modalPopover('hide');
+		// });
 
 		// . listen for messages from CoolTranslator
 		window.addEventListener("message", function(event){

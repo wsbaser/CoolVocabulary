@@ -15,20 +15,25 @@ DEPopup.LANG_CARD_TEMPLATE =
 			</div>\
 		</div>';
 
+DEPopup.NO_ANY_TRANSLATIONS_TEMPLATE = 
+    '<div class="ctr-warning-card ctr-block">\
+        <span class="ctr-no-translations">\
+            You do not have any translations at <a href="http://coolvocabulary.com" target="_blank" >coolvocabulary.com</a>\
+        </span>\
+    </div>';
+
 DEPopup.prototype.show = function(user){
     // . set user name
     this.setUserName(user.name);
     // . render lang cards
-    if(Object.keys(user.languagesData).length){
-    	this.renderLangCards(user.languagesData);
-    }
-    else{
-    	this.showNoTranslationWarning();
+    var hasRenderedCards = this.renderLangCards(user.languagesData);
+    if(!hasRenderedCards){
+        this.showNoTranslationWarning();
     }
 };
 
 DEPopup.prototype.showNoTranslationWarning = function(){
-	$('#ctr_root').html('<span class="ctr-no-translations">You have no translations.</span>');
+	$('#ctr_root').html(DEPopup.NO_ANY_TRANSLATIONS_TEMPLATE);
 };
 
 DEPopup.prototype.setUserName = function(name){
@@ -36,12 +41,15 @@ DEPopup.prototype.setUserName = function(name){
 };
 
 DEPopup.prototype.renderLangCards = function(languagesData){
+    var hasRenderedCards = false; 
     for(var language in languagesData){
 		var languageData = languagesData[language];
 		if(languageData.hasTranslations){
+            hasRenderedCards = true;
     		this.renderLangCard(language, languageData);
 		}
     }
+    return hasRenderedCards;
 };
 
 DEPopup.prototype.renderLangCard = function(language, languageData){

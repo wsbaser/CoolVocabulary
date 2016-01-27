@@ -63,7 +63,7 @@ namespace CoolVocabulary.Controllers.api {
                     wordTranslations = result
                 });
             } catch (Exception e) {
-                _logger.Error("Unable to get Word Translations", e);
+                _logger.Error(e, "Unable to get Word Translations");
                 throw;
             }
         }

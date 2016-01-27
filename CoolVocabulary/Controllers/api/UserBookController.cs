@@ -44,7 +44,7 @@ namespace CoolVocabulary.Controllers.api {
                 if (userBooksDto.Count != 0) {
                     Redis.SaveUserBooks(userBooksDto);
                 } else {
-                    UserBook firstBook = await db.GetFirstBookAsync(user.Id, languageType);
+                    UserBook firstBook = await db.CreateFirstBookAsync(user.Id, languageType);
                     userBooksDto.Add(new UserBookDto(firstBook));
                 }
             }
@@ -85,7 +85,7 @@ namespace CoolVocabulary.Controllers.api {
                 await db.SaveChangesAsync();
                 return Ok(userBook);
             } catch (Exception e) {
-                _logger.Error("Can not delete user book", e);
+                _logger.Error(e, "Can not delete user book");
                 throw;
             }
         }

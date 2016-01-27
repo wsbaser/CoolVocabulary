@@ -194,29 +194,22 @@ Vocabulary.LanguageController = Ember.Controller.extend({
 		var sessionTranslationIds = this.getSessionTranslations(translationIds, userBook);
 		return this.getTranslationsFromStore(sessionTranslationIds);
 	},
-	initCT: function(userBook){
-		var self = this;
-		var ctAdapter = this.get('applicationCtrl.CTAdapter');
-		var user = this.get('user');
-		var book = userBook.get('book');
-
-		var langPairParam = {
-			sourceLang: book.get('language'),
-			targetLang: user.get('nativeLanguage.id')
-		};
+	getUserForCT: function(){
 		var booksParam = this.getLanguageBooksForCT();
-		var userParam = {
+		var user = this.get('user');
+		return {
 			id: user.get('id'),
 			name: user.get('displayName'),
-			language: langPairParam.targetLang,
+			language: user.get('nativeLanguage.id'),
 			books: booksParam
 		};
-		var languagesParam = this.getLanguagesForCT();
-		ctAdapter.initSiteDialog(langPairParam, '#word_input_form', userParam,  languagesParam, book.get('id'), function(){
-			if(!ctAdapter.extensionIsActive){
-				$('#word_input_form').on('submit', self.showInstallCTAlert.bind(self));
-			}
-		});
+	},
+	getLangPairForCT: function(){
+		var user = this.get('user');
+		return {
+			sourceLang: this.get('model.id'),
+			targetLang: user.get('nativeLanguage.id')
+		};
 	},
 	getLanguagesForCT: function(){
 		return this.store.peekAll('language').map(function(language){
@@ -238,7 +231,7 @@ Vocabulary.LanguageController = Ember.Controller.extend({
 				learnDates: userBook.get('learnDates'),
 				examDates: userBook.get('examDates'),
 				promoteDates: userBook.get('promoteDates'),
-				translations: userBook.get('translations')
+				translations: userBook.getBookWordToTranslations()
 			};
 		});
 	},

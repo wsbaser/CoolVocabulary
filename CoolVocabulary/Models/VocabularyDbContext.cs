@@ -123,22 +123,6 @@ namespace CoolVocabulary.Models {
             return await Translations.Where(w => range.Contains(w.Id)).AsNoTracking().ToListAsync();
         }
 
-        public async Task<UserBook> GetFirstBookAsync(string userId, LanguageType languageType) {
-            int firstBookId = -1;
-            UserBook userBook;
-            switch (languageType) {
-                case LanguageType.en:
-                    firstBookId = 4;
-                    break;
-            }
-            if (firstBookId != -1) {
-                userBook = await GetUserBookForBookAsync(firstBookId, userId);
-                if (userBook != null)
-                    return userBook;
-            }
-            return await CreateFirstBookAsync(userId, languageType);
-        }
-
         public async Task<UserBook> CreateFirstBookAsync(string userId, LanguageType languageType) {
             const string FIRST_BOOK_NAME = "My First Book";
             return await CreateUserBookAsync(userId, languageType, FIRST_BOOK_NAME);

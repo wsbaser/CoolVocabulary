@@ -254,7 +254,7 @@ CVService.prototype.aggregateTranslationsData = function(languages){
 
 CVService.prototype.hasAnyUncompletedDE = function(languages){
     for(var language in languages){
-        if(languages[language].hasDE && languages[language].DENotCompleted){
+        if(languages[language].hasTranslations && languages[language].hasDE && languages[language].DENotCompleted){
             return true;
         }
     }
