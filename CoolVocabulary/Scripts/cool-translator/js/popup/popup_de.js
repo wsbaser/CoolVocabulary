@@ -1,4 +1,4 @@
-window.DEBUG = true;
+window.DEBUG = false;
 
 function DEPopup(){}
 
@@ -58,16 +58,16 @@ DEPopup.prototype.renderLangCard = function(language, languageData){
     langCardEl.find('.ctr-lang-name').text(languageData.languageName);
 	var langDELink = (DEBUG?'http://localhost:13189/':'http://coolvocabulary.com/')+'#/'+language;
 	langCardEl.find('.ctr-DE-link').attr('href', langDELink);
-    if(languageData.hasDE){
-    	if(languageData.DENotCompleted){
-    		langCardEl.find('.ctr-DE-link').show();
-    	}
-    	else{
-    		langCardEl.find('.ctr-DE-completed').show();
-    	}
+    if(languageData.DENotCompleted){
+        if(languageData.hasDE){
+            langCardEl.find('.ctr-DE-link').show();        
+        }
+        else{
+            langCardEl.find('.ctr-DE-impossible').show();
+        }
     }
-    else {
-    	langCardEl.find('.ctr-DE-impossible').show();
+    else{
+        langCardEl.find('.ctr-DE-completed').show();
     }
 	$('#ctr_root').append(langCardEl);
 };
