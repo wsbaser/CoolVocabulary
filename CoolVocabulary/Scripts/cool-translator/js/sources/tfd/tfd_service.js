@@ -45,7 +45,7 @@ TfdService.prototype.generateThesaurusCard = function(contentEl){
 
 TfdService.prototype.generateDefinitionsCard = function(contentEl){
     var self = this;
-	var definitionEl = contentEl.find('#Definition');
+	var definitionEl = $(contentEl.find('#Definition').outerHTML());
 	this.deactivateLinks(definitionEl, 'a');
     this.addTranslateContentEvent(definitionEl, 'a');
     // . configure pronunciation click event
@@ -58,20 +58,29 @@ TfdService.prototype.generateDefinitionsCard = function(contentEl){
             this.addEventData(pronEl,'click','pron_key', matchGroups[1])
     }.bind(this));
 
+    var verbtableSectionElems = this._getVerbTableSections(definitionEl);
+    verbtableSectionElems.forEach(function(sectionEl){
+        sectionEl.remove();
+    });
+
 	return definitionEl.outerHTML();
 };
 
-TfdService.prototype.generateVerbtableCard = function(contentEl){
+TfdService.prototype._getVerbTableSections = function(contentEl){
     // . collect verb tables and remove them from content
     var verbtableSectionElems = [];
     $.each(contentEl.find('section'), function(i, sectionEl){
         sectionEl = $(sectionEl);
         if (sectionEl.attr('data-src') &&
             sectionEl.attr('data-src').indexOf('VerbTbl') != -1) {
-            sectionEl.remove();
             verbtableSectionElems.push(sectionEl);
         }
     });
+    return verbtableSectionElems; 
+};
+
+TfdService.prototype.generateVerbtableCard = function(contentEl){
+    var verbtableSectionElems = this._getVerbTableSections(contentEl);
 
     // . move verb tables to its own block
     if( verbtableSectionElems.length){
@@ -99,7 +108,7 @@ TfdService.prototype.getPronunciation = function(inputData){
         var definitionsEl = $(card);
         var pronEl = definitionsEl.find('section[data-src="hc_dict"] .pron');
         if(pronEl.length)
-            pronunciation = pronEl.text();
+            pronunciation = pronEl[0].textContent.trim();
     }
     return pronunciation;
 };

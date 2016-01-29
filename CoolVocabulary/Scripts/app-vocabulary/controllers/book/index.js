@@ -159,6 +159,7 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 
 		// . recalculate days
 		this.get('languageCtrl').notifyPropertyChange('days');
+		this.send('adjustHeight');
 	},
 	bookWordsObserver: Ember.observer('model.bookWords.@each.learnLevel', function(){
 		var totalCompletedCount = 0;

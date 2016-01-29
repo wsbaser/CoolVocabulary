@@ -83,7 +83,7 @@ namespace CoolVocabulary.Controllers.api
                         return BadRequest("Invalid bookId");
                     }
                     if (!userBook.Book.CanBeUpdatedBy(user.Id)) {
-                        return BadRequest("User is not author of the book");
+                        return BadRequest(string.Format("User {0} is not author of the book", user.DisplayName));
                     }
                 }
 
