@@ -414,7 +414,6 @@ TranslationDialog.prototype.showForExtension = function(word) {
   this.inputFormEl.showImportant();
   this.isExtension = true;
   this.selectionBackup = selectionHelper.saveSelection();
-  this.vocabulary.checkAuthentication();
   this.show(word);
 };
 
@@ -429,11 +428,11 @@ TranslationDialog.prototype.showForSite = function(langPair, attachBlockSelector
   this.el.addClass('ctr-site');
   this.inputFormEl.hideImportant();
   this.isExtension = false;
-  this.vocabulary.authenticate(user);
   this.show(word);
 };
 
 TranslationDialog.prototype.show = function(word) {
+  this.vocabulary.checkAuthentication();
   if(!this.isActive){
     this.el.removeClass('ctr-hide');
     this.el.addClass('ctr-show');

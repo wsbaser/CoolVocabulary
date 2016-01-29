@@ -26,16 +26,28 @@ Vocabulary.ApplicationRoute = Ember.Route.extend({
 
 		// . store CCSRF Token in application controller 
 		controller.set('csrfFormToken', ServerData.CSRFFormToken);
-		
+
 		// . create reactor and register events
+    	controller.set('reactor', this.initReactor());
+	
+		// . authenticate CT
+	    controller.authenticateCT();
+
+  		Ember.run.schedule('afterRender', this, this.afterRender);
+		
+		// . navigate to language
+		this.navigateToLanguage(model);
+	},
+	initReactor: function(){
 		var reactor = new Reactor();
     	reactor.registerEvent('showBackground');
-    	controller.set('reactor', reactor);
-
-		// . navigate to language
+    	reactor.registerEvent('ctAuthenticationEnd');
+    	return reactor;
+	},
+	navigateToLanguage: function(user){
 		var language;
 		var currentLanguageId = $.cookie('currentLanguage');
-		var nativeLanguageId = model.get('nativeLanguage.id');
+		var nativeLanguageId = user.get('nativeLanguage.id');
 		if(currentLanguageId && currentLanguageId!==nativeLanguageId){
 			// . get current language from  cookie if it is NOT native
 			language = this.store.peekAll('language').findBy('id', currentLanguageId);
@@ -48,7 +60,6 @@ Vocabulary.ApplicationRoute = Ember.Route.extend({
 			currentLanguageId = language.id;
 		}
 		this.transitionTo('language', currentLanguageId);
-  		Ember.run.schedule('afterRender', this, this.afterRender);
 	},
 	afterRender: function(){
 		$('.topbar, .body-wrap').on('click', this.showBackground.bind(this));

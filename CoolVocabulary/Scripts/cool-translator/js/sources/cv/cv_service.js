@@ -138,13 +138,19 @@ CVService.prototype.getBooks = function(language){
     return this.provider.getBooks(language);
 };
 
-CVService.prototype.checkAuthentication = function(){
+CVService.prototype.checkAuthentication = function(forceServerRequest){
     var self = this;
-    return this.provider.checkAuthentication().done(function(data){
-        self.setUser(data.user, data.languages);
-    }).fail(function(){
-        self.setUser(null);
-    });
+    if(this.user && !forceServerRequest){
+        this.getResolvedPromise({
+            user: this.user
+        });
+    }else{
+        return this.provider.checkAuthentication().done(function(data){
+            self.setUser(data.user, data.languages);
+        }).fail(function(){
+            self.setUser(null);
+        });
+    }
 };
 
 CVService.prototype.login = function(username, password){
@@ -157,11 +163,10 @@ CVService.prototype.login = function(username, password){
 };
 
 CVService.prototype.setUser = function(user, languages){
-    if(this.user && user && this.user.id===user.id){
-        return;
-    }
+    // if(this.user && user && this.user.id===user.id){
+    //     return;
+    // }
     this.user = this.aggregateUserData(user, languages);
-    localStorage.isCVAuthenticated = user!==null;
     this.reactor.dispatchEvent(CVService.CHECK_AUTH_END);
 };
 
@@ -210,19 +215,18 @@ CVService.prototype.addLanguageBook = function(userBookDto, bookDto){
 
 CVService.prototype.aggregateBooksByLanguage = function(books, languages){
     var languagesData = {};
-    // . aggregate books by language
-    books.forEach(function(book){
-        if(!languagesData[book.language]){
-            languagesData[book.language] = {books:[]};
-        }
-        languagesData[book.language].books.push(book);
-    });
     for (var i = languages.length - 1; i >= 0; i--) {
         var language = languages[i];
-        if(languagesData[language.id]){
-            languagesData[language.id].languageName = language.name;
-        }
+        languagesData[language.id] = {
+            languageName: language.name,
+            books:[]
+        };
     };
+
+    // . aggregate books by language
+    books.forEach(function(book){
+        languagesData[book.language].books.push(book);
+    });
     return languagesData;
 };
 

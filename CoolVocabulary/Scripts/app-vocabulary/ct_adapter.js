@@ -1,5 +1,5 @@
 function CTAdapter(){
-	this.extensionIsActive = false;
+	this.extensionIsActive = undefined;
 	this.extensionId = DEBUG?
 		"eplepheahdinbfhnjjnkhkebfdhenbad":
 		"cifbpdjhjkopeekabdgfjgmcbcgloioi";
@@ -17,6 +17,42 @@ CTAdapter.prototype.logout = function(language, books){
 	}
 };
 
+CTAdapter.prototype.authenticate = function(user, languages, callback){
+	var self = this;
+	if(window.chrome){
+		var MESSAGE_TYPE = "authenticate";
+		chrome.runtime.sendMessage(this.extensionId, {
+			type: MESSAGE_TYPE,
+			data: {
+				user: user,
+				languages: languages
+			}
+		},
+		function(response) {
+			self.extensionIsActive = !!response;
+			callback();
+		});
+	} else{
+		self.extensionIsActive = false;
+		callback();
+	}
+};
+
+CTAdapter.prototype.initSiteDialog = function(langPair, attachBlockSelector, bookId){
+	var self = this;
+	if(window.chrome){
+		var MESSAGE_TYPE = "initsitedialog";
+		chrome.runtime.sendMessage(this.extensionId, {
+			type: MESSAGE_TYPE,
+			data: {
+				langPair: langPair,
+				attachBlockSelector: attachBlockSelector,
+				bookId: bookId
+			}
+		});
+	}
+};
+
 CTAdapter.prototype.updateLanguageBooks = function(language, books){
 	var self = this;
 	if(window.chrome){
@@ -28,30 +64,5 @@ CTAdapter.prototype.updateLanguageBooks = function(language, books){
 				books: books
 			}
 		});
-	}
-};
-
-CTAdapter.prototype.initSiteDialog = function(langPair, attachBlockSelector, user, languages, bookId, callback){
-	var self = this;
-	if(window.chrome){
-		var MESSAGE_TYPE = "initsitedialog";
-		chrome.runtime.sendMessage(this.extensionId, {
-			type: MESSAGE_TYPE,
-			data: {
-				langPair: langPair,
-				attachBlockSelector: attachBlockSelector,
-				user: user,
-				languages: languages,
-				bookId: bookId
-			}
-		},
-		function(response) {
-			self.extensionIsActive = !!response;
-			callback();
-		});
-	}
-	else{
-		self.extensionIsActive = false;
-		callback();
 	}
 };

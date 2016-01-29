@@ -6,6 +6,12 @@ function DictionaryService(config, provider){
 	this.singleCacheObject = false;
 }
 
+DictionaryService.prototype.getResolvedPromise = function(data){
+	var deferred = $.Deferred();
+	deferred.resolve(data);
+	return deferred.promise();
+};
+
 DictionaryService.prototype.getCardHash = function(requestData, contentType) {
 	var hash = '';
     for (var key in requestData){

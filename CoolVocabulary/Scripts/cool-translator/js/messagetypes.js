@@ -5,3 +5,4 @@ MessageTypes.InitSiteDialog = "initsitedialog";
 MessageTypes.UpdateLanguageBooks = "updatelanguagebooks";
 MessageTypes.Logout = "logout";
 MessageTypes.OAuthSuccess = "oauthsuccess";
+MessageTypes.Authenticate = "authenticate";

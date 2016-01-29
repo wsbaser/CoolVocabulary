@@ -1,4 +1,4 @@
-window.DEBUG = false;
+window.DEBUG = true;
 window.Dialog = null;
 /***** ctrContent *****************************************************************************************************/
 
@@ -172,16 +172,14 @@ ctrContent.showDialogForSite = function(word){
     Dialog.showForSite(ctrContent.dataFromSite.langPair, 
         ctrContent.dataFromSite.attachBlockSelector, 
         word, 
-        ctrContent.dataFromSite.bookId, 
-        ctrContent.dataFromSite.user);
+        ctrContent.dataFromSite.bookId);
 };
 
-ctrContent.initSiteDialog = function(langPair, attachBlockSelector, bookId, user){
+ctrContent.initSiteDialog = function(langPair, attachBlockSelector, bookId){
     ctrContent.dataFromSite = {
         langPair: langPair,
         attachBlockSelector: attachBlockSelector,
-        bookId: bookId,
-        user: user
+        bookId: bookId
     };
     var attachBlockEl = $(attachBlockSelector);
     attachBlockEl.on('submit', function(event){
@@ -198,7 +196,7 @@ chrome.runtime.onMessage.addListener(
   function(message, sender, sendResponse) {
     switch(message.type){
         case MessageTypes.InitSiteDialog:
-            ctrContent.initSiteDialog(message.langPair, message.attachBlockSelector, message.bookId, message.user);
+            ctrContent.initSiteDialog(message.langPair, message.attachBlockSelector, message.bookId);
             break;
         case MessageTypes.OAuthSuccess:
             var vocabulary = ServiceProvider.getVocabulary();

@@ -12,16 +12,21 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 	initCT: function(){
 		var self = this;
 		var ctAdapter = this.get('applicationCtrl.CTAdapter');
-		var languageCtrl = this.get('languageCtrl');
-		var langPairParam = languageCtrl.getLangPairForCT();
-		var userParam = languageCtrl.getUserForCT();
-		var languagesParam = languageCtrl.getLanguagesForCT();
-		var bookId = this.get('model.book.id');
-		ctAdapter.initSiteDialog(langPairParam, '#word_input_form', userParam,  languagesParam, bookId, function(){
-			if(!ctAdapter.extensionIsActive){
-				$('#word_input_form').on('submit', self.showInstallCTAlert.bind(self));
-			}
-		});
+		if(ctAdapter.extensionIsActive===undefined){
+			this.addCTAuthenticationEndEvent();
+		} else if(ctAdapter.extensionIsActive){
+			var languageCtrl = this.get('languageCtrl');
+			var langPairParam = languageCtrl.getLangPairForCT();
+			var bookId = this.get('model.book.id');
+			ctAdapter.initSiteDialog(langPairParam, '#word_input_form', bookId);
+			languageCtrl.updateLanguageBooksInCT();
+		} else{
+			$('#word_input_form').on('submit', self.showInstallCTAlert.bind(self));
+		}
+	},
+	addCTAuthenticationEndEvent: function(){
+		var applicationReactor = this.get('applicationCtrl.reactor');
+  		applicationReactor.addEventListener('ctAuthenticationEnd', this.initCT.bind(this));		
 	},
 	installCT: function(){
 		var self = this;

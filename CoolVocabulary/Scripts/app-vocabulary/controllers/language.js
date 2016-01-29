@@ -194,16 +194,6 @@ Vocabulary.LanguageController = Ember.Controller.extend({
 		var sessionTranslationIds = this.getSessionTranslations(translationIds, userBook);
 		return this.getTranslationsFromStore(sessionTranslationIds);
 	},
-	getUserForCT: function(){
-		var booksParam = this.getLanguageBooksForCT();
-		var user = this.get('user');
-		return {
-			id: user.get('id'),
-			name: user.get('displayName'),
-			language: user.get('nativeLanguage.id'),
-			books: booksParam
-		};
-	},
 	getLangPairForCT: function(){
 		var user = this.get('user');
 		return {
@@ -211,18 +201,11 @@ Vocabulary.LanguageController = Ember.Controller.extend({
 			targetLang: user.get('nativeLanguage.id')
 		};
 	},
-	getLanguagesForCT: function(){
-		return this.store.peekAll('language').map(function(language){
-				return { 
-					id: language.get('id'),
-					name: language.get('name')
-				};
-			});
-	},
 	getLanguageBooksForCT: function(){
 		return this.get('userBooks').map(function(userBook){ 
 			return {
 				id: userBook.get('book.id'),
+				userBookId: userBook.get('id'),
 				userId: userBook.get('user.id'),
 				authorId: userBook.get('book.user'),
 				language: userBook.get('book.language'), 

@@ -1,4 +1,4 @@
-window.DEBUG = false;
+window.DEBUG = true;
 window.onload = function(){
 	var connection = new ServicesConnection("services_connection");
 	connection.open();

@@ -1,4 +1,4 @@
-window.DEBUG = false;
+window.DEBUG = true;
 
 function loadLangPair(){
 	var langPair = null;
@@ -85,16 +85,20 @@ chrome.runtime.onMessage.addListener(
 
 chrome.runtime.onMessageExternal.addListener(function(request, sender, sendResponse) {
     switch(request.type){
+        case MessageTypes.Authenticate:
+            // . set user data
+            Services.cv.setUser(request.data.user, request.data.languages);
+            // . request additional user data
+            Services.cv.checkAuthentication(true);
+            sendResponse(true);
+            break;
         case MessageTypes.InitSiteDialog:
             chrome.tabs.sendMessage(sender.tab.id, {
                 type: MessageTypes.InitSiteDialog,
                 langPair: request.data.langPair,
                 attachBlockSelector: request.data.attachBlockSelector,
-                bookId: request.data.bookId,
-                user: request.data.user
+                bookId: request.data.bookId
             });
-            Services.cv.setUser(request.data.user, request.data.languages);
-            sendResponse(true);
             break;
         case MessageTypes.UpdateLanguageBooks:
             Services.cv.updateLanguageBooks(request.data.language, request.data.books);
