@@ -155,6 +155,10 @@
 }
 
 /* STRUCTURE */
+body>.ember-view{
+	height: 100%;
+}
+
 #background{
 	position: fixed;
 	width: 100%;
@@ -1121,6 +1125,12 @@ a:hover .manageIcons .glyphicon {
     border-radius: 20px
 }
 
+/*.pacman.white>div:first-of-type,.pacman.white>div:nth-child(2){
+    border-top-color: #ed9c28;
+    border-left-color: #ed9c28;
+    border-bottom-color: #ed9c28;
+}
+*/
 .pacman {
     position: relative;
 }
@@ -1160,6 +1170,10 @@ a:hover .manageIcons .glyphicon {
     left: 120px;
     opacity: 0;
 }
+/*
+.pacman.white>div:nth-child(3),.pacman.white>div:nth-child(4),.pacman.white>div:nth-child(5),.pacman.white>div:nth-child(6) {
+	background-color: #ed9c28;
+}*/
 
 /* LEARNING CALENDAR */
 

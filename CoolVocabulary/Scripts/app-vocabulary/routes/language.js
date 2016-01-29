@@ -67,7 +67,7 @@ Vocabulary.LanguageRoute = Ember.Route.extend({
 				this.controller.set('contentHeight', Math.max(height, window.page.scrollHeight));
 			}
 			catch(error){
-				console.log(this);
+				console.error(this);
 			}
 		}
 	}

@@ -23,7 +23,7 @@ Vocabulary.ApplicationRoute = Ember.Route.extend({
 	},
 	setupController: function(controller, model){
 		this._super(controller, model);
-
+		
 		// . store CCSRF Token in application controller 
 		controller.set('csrfFormToken', ServerData.CSRFFormToken);
 
