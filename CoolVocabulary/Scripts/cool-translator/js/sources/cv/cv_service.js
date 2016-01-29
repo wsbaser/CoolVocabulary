@@ -14,6 +14,13 @@ function CVService(provider, services){
 CVService.CHECK_AUTH_END = 'authend';
 CVService.USER_DATA_UPDATED = 'userdataupdated';
 
+CVService.prototype._getResolvedPromise = function(data){
+    var deferred = $.Deferred();
+    deferred.resolve(data);
+    return deferred.promise();
+};
+
+
 /* protected methods */
 
 CVService.prototype.addEventListener = function(eventType, handler){
@@ -141,7 +148,7 @@ CVService.prototype.getBooks = function(language){
 CVService.prototype.checkAuthentication = function(forceServerRequest){
     var self = this;
     if(this.user && !forceServerRequest){
-        this.getResolvedPromise({
+        return this._getResolvedPromise({
             user: this.user
         });
     }else{
