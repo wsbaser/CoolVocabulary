@@ -8,9 +8,15 @@ Vocabulary.LanguageRoute = Ember.Route.extend({
 		if(!this.language){
 			window.location="/";
 		}
-		return this.store.query('userBook',{ 
-			language: this.language.id
-		});
+		var userBooks = this.store.peekAll('userBook').filterBy('book.language', this.language.get('id'));
+		if(userBooks.length){
+		 	return userBooks;
+		}
+		else{
+			return this.store.query('userBook',{ 
+				language: this.language.id
+			});
+		}
 	},
   	setupController: function(controller, userBooks){
   		this._super(controller, this.language);
@@ -64,9 +70,11 @@ Vocabulary.LanguageRoute = Ember.Route.extend({
 			try{
 				var menuHeight = $('#logo_mobile:visible').length?76:96;
 				var height = $(window).height() - menuHeight;
-				this.controller.set('contentHeight', Math.max(height, window.page.scrollHeight));
+				var scrollHeight = window.page? window.page.scrollHeight: 0;
+				this.controller.set('contentHeight', Math.max(height, scrollHeight));
 			}
 			catch(error){
+				console.error(error);
 				console.error(this);
 			}
 		}

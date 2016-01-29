@@ -1,4 +1,4 @@
-window.DEBUG = true;
+window.DEBUG = false;
 
 function loadLangPair(){
 	var langPair = null;
