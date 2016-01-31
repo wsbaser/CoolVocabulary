@@ -421,6 +421,7 @@ TranslationDialog.prototype.showForSite = function(langPair, attachBlockSelector
   this.create();
   this.setLangPair(langPair);
   this.attachBlockEl = $(attachBlockSelector);
+  this.attachBlockEl[0].scrollIntoView();
   this.vocabulary.setBook(bookId, true);
   this.inputEl = this.attachBlockEl.find('input');
   this.attach();
