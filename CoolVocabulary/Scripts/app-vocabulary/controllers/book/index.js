@@ -21,7 +21,10 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 			ctAdapter.initSiteDialog(langPairParam, '#word_input_form', bookId);
 			languageCtrl.updateLanguageBooksInCT();
 		} else{
-			$('#word_input_form').on('submit', self.showInstallCTAlert.bind(self));
+			var handler = ctAdapter.isChrome? 
+				self.showInstallCTAlert:
+				self.showCTUnavailableAlert;
+			$('#word_input_form').on('submit', handler.bind(self));
 		}
 	},
 	addCTAuthenticationEndEvent: function(){
@@ -91,13 +94,12 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
             });
 		self.antiRejectIsShown = true;
 	},
+	showCTUnavailableAlert: function(){
+		BootstrapDialog.alert('It is impossible to add translation in current browser. '+
+			'You need to install Cool Translator extension wich is available in Chrome browser only.');
+	},
 	showInstallCTAlert: function(){
 		var self = this;
-		if(!window.chrome){
-			BootstrapDialog.alert('Impossible to add translation in current browser. '+
-				'You need to install Cool Translator extension wich is available in Chrome browser only.');
-			return;			
-		}
 		BootstrapDialog.show({
             title: 'Confirmation is neccessary',
             message: 'It is neccessary to install Chrome extension '+Vocabulary.CT_WEBSTORE_LINK+'. '+

@@ -3,13 +3,17 @@ function CTAdapter(){
 	this.extensionId = DEBUG?
 		"eplepheahdinbfhnjjnkhkebfdhenbad":
 		"cifbpdjhjkopeekabdgfjgmcbcgloioi";
+	this.isChrome = 
+		window.chrome &&
+		window.chrome.runtime &&
+		window.chrome.runtime.sendMessage;
 }
 
 CTAdapter.CT_WEBSTORE_URL = 'https://chrome.google.com/webstore/detail/cifbpdjhjkopeekabdgfjgmcbcgloioi';
 
 CTAdapter.prototype.logout = function(language, books){
 	var self = this;
-	if(window.chrome){
+	if(this.isChrome){
 		var MESSAGE_TYPE = "logout";
 		chrome.runtime.sendMessage(this.extensionId, {
 			type: MESSAGE_TYPE
@@ -19,7 +23,7 @@ CTAdapter.prototype.logout = function(language, books){
 
 CTAdapter.prototype.authenticate = function(user, languages, callback){
 	var self = this;
-	if(window.chrome){
+	if(this.isChrome){
 		var MESSAGE_TYPE = "authenticate";
 		chrome.runtime.sendMessage(this.extensionId, {
 			type: MESSAGE_TYPE,
@@ -40,7 +44,7 @@ CTAdapter.prototype.authenticate = function(user, languages, callback){
 
 CTAdapter.prototype.initSiteDialog = function(langPair, attachBlockSelector, bookId){
 	var self = this;
-	if(window.chrome){
+	if(this.isChrome){
 		var MESSAGE_TYPE = "initsitedialog";
 		chrome.runtime.sendMessage(this.extensionId, {
 			type: MESSAGE_TYPE,
@@ -55,7 +59,7 @@ CTAdapter.prototype.initSiteDialog = function(langPair, attachBlockSelector, boo
 
 CTAdapter.prototype.updateLanguageBooks = function(language, books){
 	var self = this;
-	if(window.chrome){
+	if(this.isChrome){
 		var MESSAGE_TYPE = "updatelanguagebooks";
 		chrome.runtime.sendMessage(this.extensionId, {
 			type: MESSAGE_TYPE,
