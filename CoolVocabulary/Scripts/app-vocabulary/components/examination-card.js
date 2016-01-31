@@ -28,7 +28,7 @@ Vocabulary.ExaminationCardComponent = Ember.Component.extend({
 			}
 			setTimeout(function(){
 				this.get('onSelect')();
-			}.bind(this), 1000);
+			}.bind(this), 500);
 		}
 	}
 });

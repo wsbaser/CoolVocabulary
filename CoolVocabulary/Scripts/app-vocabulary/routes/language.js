@@ -63,15 +63,24 @@ Vocabulary.LanguageRoute = Ember.Route.extend({
 		$(window).resize(function(){
 			self.actions.adjustHeight.call(self);
 		}.bind(self));
-		self.actions.adjustHeight.call(self);
+		self.actions.adjustHeight.call(self, true);
 	},
 	actions: {
-		adjustHeight: function(){
+		adjustHeight: function(fitViewport){
 			try{
+				fitViewport = fitViewport===undefined?
+					this.get('fitViewport'):
+					fitViewport;
+
 				var menuHeight = $('#logo_mobile:visible').length?76:96;
-				var height = $(window).height() - menuHeight;
-				var scrollHeight = window.page? window.page.scrollHeight: 0;
-				this.controller.set('contentHeight', Math.max(height, scrollHeight));
+				var freeViewportHeight = $(window).height() - menuHeight;
+				var scrollHeight = window.page ? window.page.scrollHeight : 0;
+				var contentHeight = fitViewport ?
+					freeViewportHeight:
+					Math.max(freeViewportHeight, scrollHeight);
+				this.controller.set('contentHeight', contentHeight);
+
+				this.set('fitViewport', fitViewport);
 			}
 			catch(error){
 				console.error(error);

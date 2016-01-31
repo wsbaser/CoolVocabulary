@@ -59,6 +59,7 @@ Vocabulary.BookLearnIndexRoute = Ember.Route.extend({
 		this._super(controller, this.sessionWords);
 		controller.set('parentCtrl', this.controllerFor(this.get('parentName')));
 		controller.setupSession();
+		this.send('adjustHeight', true);
 	    Ember.run.schedule('afterRender', this, this.afterRender);
 	},
 	afterRender: function(){

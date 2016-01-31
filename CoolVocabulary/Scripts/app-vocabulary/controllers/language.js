@@ -223,5 +223,10 @@ Vocabulary.LanguageController = Ember.Controller.extend({
 		var languageParam = this.get('model.id');
 		var booksParam = this.getLanguageBooksForCT();
 		ctAdapter.updateLanguageBooks(languageParam, booksParam);
+	},
+	adjustHeightAfterRender: function(fitViewport){
+		Ember.run.schedule('afterRender', this, function(){
+			this.send('adjustHeight', fitViewport);
+		});
 	}
 });

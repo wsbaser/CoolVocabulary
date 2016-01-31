@@ -10,7 +10,6 @@ Vocabulary.BookIndexRoute = Ember.Route.extend({
 	    this._super(controller, model);
 	    // . init CT
 	    controller.initCT();
-
 	    Ember.run.schedule('afterRender', this, this.afterRender);
 	},
 	afterRender: function(controller){
@@ -44,6 +43,6 @@ Vocabulary.BookIndexRoute = Ember.Route.extend({
 				event.data.bookWord,
 				event.data.translation);
 		});
-		self.send('adjustHeight');
+		self.send('adjustHeight', false);
 	}
 });

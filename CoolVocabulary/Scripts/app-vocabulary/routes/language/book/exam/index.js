@@ -94,5 +94,6 @@ Vocabulary.BookExamIndexRoute = Ember.Route.extend({
 		this._super(controller, validSessionWords);
 		controller.set('parentCtrl', this.controllerFor(this.get('parentName')));
 		controller.activateFirstWord();
+		this.send('adjustHeight', true);
 	}
 });

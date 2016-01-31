@@ -6,15 +6,19 @@ Vocabulary.LearnBatteryHelper = Ember.Helper.helper(function(params, namedParams
 		return Ember.String.htmlSafe('<span class="glyphicon glyphicon-ok"/>');
 	}
 	else{
-		// . generate svg element
 		var svgBody = '';
+		// . generate svg element
 		for (var i = 1 ; i <=5; i++) {
 			var x = (i-1) * 3;
-			var color = (i<=level?
-					"#f55":  // . red
-					"#ccc"); // . grey
-			svgBody += '<rect x="'+ x +'" width="2" height="6" fill="' + color + '" style="opacity:0.6"></rect>';
+			var color = level===-1? 
+				'#39b3d7': 			// . blue
+				(i<=level?
+						"#f55":  	// . red
+						"#ccc"); 	// . grey
+			var style = level===-1 ? 'opacity:0.2' : 'opacity:0.6';
+			svgBody += '<rect x="'+ x +'" width="2" height="6" fill="' + color + '" style="'+style+'"></rect>';
 		}
+
 		return  Ember.String.htmlSafe('<svg class="learn-battery">' + svgBody + '</svg>');
 	}
 });

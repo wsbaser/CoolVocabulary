@@ -76,7 +76,8 @@ Vocabulary.LanguageDERoute = Ember.Route.extend({
 		var active = languageCtrl.getAllActiveTranslations(); 
 
 		// . make a decision whether to learn new or examinate existing translations
-		if(active.inProgress.length<languageCtrl.get('thisMonthPlan.planedCount') && active.waiting.length){
+		var needMoreInProgressWords = active.inProgress.length<languageCtrl.get('thisMonthPlan.planedCount');
+		if( ( needMoreInProgressWords || !active.inProgress.length ) && active.waiting.length){
 			this.set('transitionToLearn', true);
 			return this.getSessionBookWords(languageCtrl, active.waiting);
 		}
