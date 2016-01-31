@@ -8,12 +8,14 @@ Vocabulary.BookIndexRoute = Ember.Route.extend({
 		// . set model
 		model = this.controllerFor('book').get('model');
 	    this._super(controller, model);
-	    // . init CT
-	    controller.initCT();
 	    Ember.run.schedule('afterRender', this, this.afterRender);
 	},
-	afterRender: function(controller){
+	afterRender: function(){
 		var self = this;
+		
+		// . init CT
+	    this.controller.initCT();
+
       	$('#install_ct_alert').modalPopover({
 		    target: '#word_input_form',
 		    placement: 'bottom',

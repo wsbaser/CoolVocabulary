@@ -96,7 +96,7 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 	},
 	showCTUnavailableAlert: function(){
 		BootstrapDialog.alert('It is impossible to add translation in current browser. '+
-			'You need to install Cool Translator extension wich is available in Chrome browser only.');
+			'You need to install Cool Translator extension wich is available only in Google Chrome.');
 	},
 	showInstallCTAlert: function(){
 		var self = this;
