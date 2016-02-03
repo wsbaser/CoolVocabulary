@@ -1,0 +1,310 @@
+#ctr_dialog
+    position: fixed !important
+    left: -999px !important
+    top: -999px !important
+    background: #fff !important
+    border: solid 1px #ccc !important
+    border-radius: 4px !important
+    width: 600px !important
+    max-height: 100% !important
+    overflow: visible !important
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18) !important
+    -moz-border-radius: 3px !important
+    -webkit-border-radius: 3px !important
+    font: normal 13px Arial, Helvetica !important
+    
+
+    &.ctr-extension
+        z-index: 9999999999 !important
+        position: fixed !important
+        left: 50% !important
+        top: 0px !important
+        transform: translate(-50%,-110%)
+
+
+    &.ctr-extension.ctr-show
+        transition: transform .3s !important
+        transform: translate(-50%, 0%) !important
+
+
+    &.ctr-extension.ctr-hide
+        transition: transform .3s !important
+
+
+    &.ctr-site
+        z-index: 1001 !important
+        position: absolute !important
+        display: none !important
+
+
+    &.ctr-site.ctr-show
+        display: block !important
+
+
+    #ctr_notification
+        background: radial-gradient(ellipse at center, #b4df5b 0%,#b4df5b 100%) !important
+        position: absolute !important
+        bottom: 30px
+        right: 20px
+        width: 200px !important
+        border-radius: 3px !important
+        padding: 3px 7px 5px !important
+        font-size: 11px !important
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6) !important
+        opacity: 0.8 !important
+        display: none !important
+        cursor: default !important
+        z-index: 9999999999 !important
+
+
+    //***** NOTIFICATION ***********************************************************************************************
+
+    #ctr_notification
+        &:hover
+            opacity: 1 !important
+
+
+        &.ctr-ntfError
+            background: radial-gradient(ellipse at center, #ff1a00 0%,#ff1a00 100%) !important
+
+
+        .ctr-ntfTitle
+            font-weight: bold !important
+
+        .ctr-ntfBody
+            margin-left: 10px !important
+
+    //***** HEADER ****************************************************************************************************
+
+    input::-webkit-input-placeholder 
+        color: #aaa !important
+
+
+    #ctr_wordInputForm 
+        position: relative
+        display: block !important
+        margin: 0 !important
+        padding: 10px 0 5px 16px  !important
+        /* Set position and background because the form might be overlapped by an image when no translations */
+        position: relative !important
+        z-index: 10 !important
+
+
+    #ctr_wordInputForm *
+    #ctr_sources *
+    #ctr_addtranslation *
+        color: #444 !important
+
+
+    .ctr-input
+        background: #fff !important
+        padding: 4px 4px 4px 40px !important
+        border: solid 1px #ddd !important
+        -moz-border-radius: 2px !important
+    	-webkit-border-radius: 2px !important
+    	border-radius: 2px !important
+        width: 535px !important
+        min-width: 270px !important
+    	font: normal 13px Arial, Helvetica !important
+    	line-height: 16px !important
+
+
+    #ctr_closeBtn 
+        position: absolute !important
+        right: 3px !important
+        top: -2px !important
+        color: #777 !important
+        font-size: 11px !important
+        font-style: italic !important
+    	cursor: pointer !important
+    	z-index: 9999999999 !important
+
+
+    #ctr_info
+        position: absolute !important
+        left: 230px !important
+        top: -2px !important
+        color: #777 !important
+        font-size: 10px !important
+        font-style: italic !important
+    	z-index: 9999999999 !important
+    	display: none !important
+
+
+    #ctr_settings_icon
+        position:absolute !important
+        z-index:9999999 !important
+        width:11px !important
+        height: 11px !important
+        top:1px !important
+        right: 26px !important
+        cursor: pointer !important
+        display: none !important
+        background-image: url('chrome-extension://__MSG_@@extension_id__/images/settings-icon.png') !important
+
+
+    #ctr_header
+        position: relative !important
+
+
+    #ctr_header_bg
+        width: 100% !important
+        height: 100% !important
+        background: transparent radial-gradient(ellipse at center center , rgba(73, 192, 240,0.1) 0%, rgba(44, 175, 227,0.1) 100%) repeat scroll 0% 0% !important
+        position: absolute !important
+
+
+    #ctr_sources 
+        color: #aaa !important
+        height: 26px !important
+        font-size: 11px !important
+        clear: both !important
+        padding: 0 16px !important
+        text-align:center !important
+        position: relative !important
+
+        a.ctr-source-link 
+            margin-right:10px !important
+            opacity: 0.2 !important
+            font-size:10px !important
+            cursor: pointer !important
+            text-decoration:none !important
+            display: inline-block !important
+
+
+        a.ctr-source-link>span 
+            cursor: pointer !important
+
+
+        .ctr-source-icon
+            display: inline-block !important
+            width: 16px !important
+            height: 16px !important
+            margin-top: 4px !important
+            text-decoration: none !important
+
+
+        a.ctr-source-link:hover,
+        a.ctr-source-link.ctr-active 
+            opacity: 1 !important
+
+
+    .ctr-source-icon
+        #ctr_sourcelink_google &    
+            background-position:-16px 0 !important
+        #ctr_sourcelink_abby &
+            background-position:-32px 0 !important
+        #ctr_sourcelink_linguee &
+            background-position:-48px 0 !important
+        #ctr_sourcelink_ll &
+            background-position:-64px 0 !important
+        #ctr_sourcelink_multitran &
+            background-position:-80px 0 !important
+            
+
+    .ctr-hSplitter
+        border-top:1px solid #ddd !important
+
+
+/***** NAVIGATION *****************************************************************************************************/
+
+    .ctr-source-navigation
+        ul
+            list-style: none outside none !important
+            margin: 0 14px !important
+        li
+            float: left !important
+            a
+                text-align:center !important
+                display:block !important
+                text-decoration:none !important
+                background: #eef !important
+                border-bottom: 1px solid #ddd !important
+                border-right: 1px solid #ddd !important
+                margin: 0 1px !important
+                cursor: default !important
+                transition: background-color 150ms !important
+            &.ctr-active a
+                background: #5bc0de !important
+                cursor: pointer !important
+
+            &.ctr-active.ctr-selected a
+                background: #EBE173 !important
+                opacity: 1
+                
+
+            &.ctr-active a:hover
+                background: #EBE173 !important
+                cursor: pointer !important
+                opacity: 1
+        &::after 
+            clear: both !important
+            content: "" !important
+            display: block !important
+            
+    .ctr-source-icon
+        background-image: url('chrome-extension://__MSG_@@extension_id__/images/sprites.png') !important
+
+
+/***** CONTENT ********************************************************************************************************/
+
+    .ctr-source-article
+        position: relative !important
+        overflow-y:auto !important /* article needs scrolling */
+
+
+    .ctr-error-result
+    .ctr-prompts
+    .ctr-tab-loading
+        margin: 20px !important
+        
+    .ctr-tab-loading
+        overflow-x: hidden !important
+        
+
+/****** scrollbar style from http://maxvoltar.com/, http://almaer.com/scrollbar/debug.html ****************************/
+
+    ::-webkit-scrollbar 
+        width: 6px 
+        height: 6px
+
+    ::-webkit-scrollbar-track-piece 
+        background: #fff
+
+
+    ::-webkit-scrollbar-button:start:decrement,
+    ::-webkit-scrollbar-button:end:increment 
+        display: none
+
+
+    ::-webkit-scrollbar-thumb:vertical 
+        height: 25px
+        -webkit-border-radius: 5px
+        background-color: #d5d9df
+
+
+    ::-webkit-scrollbar-thumb:vertical:hover 
+        background-color: #C1C5C9
+
+
+/***** POPOVER ********************************************************************************************************/
+    .popover-container
+        background: rgba(224, 234, 234,0.95) !important
+        height: 100% !important
+        width: 100% !important
+        position: absolute !important
+        z-index: 1000 !important
+        border-top: 1px solid #ddd !important
+
+
+    .popover
+        max-width: 100% !important
+        background: #fff none repeat scroll 0% 0% ! important
+        border-radius: 5px !important
+        box-shadow: rgba(0, 0, 0, 0.5) 2px 2px 7px !important
+        position:relative !important
+        left: 50% !important
+        top: 50% !important
+        transform: translate(-50%,-50%)
+        transition: height 0.3s ease 0s, width 0.3s ease 0s,opacity 0.3s ease 0s !important
+        display: inline-block

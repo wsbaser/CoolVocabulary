@@ -1,0 +1,50 @@
+#ctr_dialog
+    .ctr-lang-selector
+        display: inline-block !important
+        position: absolute !important
+        z-index: 1 !important
+        &.ctr-active
+            .ctr-lang-list
+                background: #fff !important
+            .ctr-selected-lang
+                cursor: auto !important
+            .ctr-lang-list
+                display: block !important
+    .ctr-selected-lang 
+        position: absolute !important
+        top: -1px !important
+        left: 5px !important
+        width: 24px !important
+        height: 24px !important
+        cursor: pointer !important
+        transition: left 500ms cubic-bezier(0.99, -0.19, 0.64, 1.11) !important
+    .ctr-lang-list 
+        display: none !important
+        padding: 24px 0 0 !important
+        margin:0px !important
+        border: 1px solid #ddf !important
+        border-radius: 3px !important
+        li
+            padding: 0 4px !important
+            list-style-type:none !important
+            width:24px !important
+            height:24px !important
+            cursor: pointer !important
+            box-sizing: content-box !important
+            opacity: 0.5 !important
+            &.ctr-selected 
+                background-color: #fff475 !important
+                opacity:1 !important
+
+
+            &:hover 
+                opacity:1 !important
+
+    #sourceLangSelector
+        left: 18px !important
+        top: 12px !important
+
+
+    #targetLangSelector
+        top: 12px !important
+        left: 552px !important

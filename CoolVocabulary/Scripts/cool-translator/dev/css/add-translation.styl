@@ -1,0 +1,126 @@
+#ctr_dialog
+    .ctr-addTransl-block
+        border-radius: 3px !important
+        padding: 1px 0 0 !important
+        height: 23px !important
+    	td
+        	vertical-align: middle !important
+    
+    .ctr-transl-col
+        text-align: center !important
+        padding: 0 10px 0 20px !important
+        width: 100% !important
+
+    .ctr-selectedTransl
+        color: #999 !important
+        width: 100% !important
+        text-overflow: ellipsis !important
+        font-size:11px !important
+        text-align: center !important
+    	&.ctr-hasValue
+        	color: #3f669f !important
+
+    .ctr-button-col
+        padding-right: 10px !important
+
+    .ctr-addIcon
+        display: inline-block !important
+        width: 16px !important
+        height: 16px !important
+        vertical-align:middle !important
+
+    .ctr-button
+        position: relative !important
+        text-align:center !important
+        display: inline-block !important
+        background: #f3f3f3 !important
+        border-radius: 5px !important
+        padding: 2px 0 !important
+        width:100px !important
+        height: 19px !important
+        margin: 0 auto !important
+        box-shadow: 1px 1px 2px 0 #666 !important
+        font-size:11px !important
+        opacity: 0.5 !important
+        cursor: default !important
+        &.ctr-active
+            opacity: 1 !important
+            &:hover
+                background: #eef !important
+                box-shadow: 1px 1px 2px 0 #222 !important
+                cursor: pointer !important
+                
+
+    .ctr-addIcon
+        background: url('chrome-extension://__MSG_@@extension_id__/images/add.png') center no-repeat !important
+
+
+    .ctr-user-col
+        padding-right: 20px !important
+        white-space: nowrap !important
+        cursor: default !important
+        *
+            color: #777 !important
+            font-size: 11px !important
+            white-space: nowrap !important
+
+
+    .ctr-vocabularyIcon
+        background: url(chrome-extension://__MSG_@@extension_id__/images/icon16.png) !important
+        width: 16px !important
+        height: 16px !important
+        display: inline-block !important
+        vertical-align: middle !important
+
+
+    .ctr-translItem
+        border: 1px solid rgba(0,0,0,0) !important
+        &:hover 
+            border: solid 1px #9FC2C9 !important
+            background: rgba(44, 175, 227,0.1) !important
+            cursor: pointer !important
+        &.ctr-selected
+        &.ctr-selected:hover 
+            background-color: #DAE9ED !important
+            border: solid 1px #73BBC9 !important
+        &.ctr-added
+            background: #78de66 none repeat scroll 0 0 !important
+            border: 1px solid #40A82D !important
+
+
+    .ctr-spinnerSmall 
+        text-align: center !important
+        display: none
+        position: absolute !important
+        left: 50% !important
+        top: 50% !important
+        transform: translate(-50%,-50%)
+        &>div 
+            width: 7px !important
+            height: 7px !important
+            background-color: #64c8ef !important
+            border-radius: 100% !important
+            display: inline-block !important
+            -webkit-animation: bouncedelay 1.4s infinite ease-in-out
+            animation: bouncedelay 1.4s infinite ease-in-out
+            /* Prevent first frame from flickering when animation starts */
+            -webkit-animation-fill-mode: both
+            animation-fill-mode: both
+            &:nth-child(0) 
+                animation-delay: -0.32s
+            &:nth-child(1) 
+                animation-delay: -0.16s
+
+@-webkit-keyframes bouncedelay 
+  	0%, 80%, 100%
+  		-webkit-transform: scale(0.0) 
+  	40%  
+  		-webkit-transform: scale(1.0) 
+
+@keyframes bouncedelay 
+ 	0%, 80%, 100% 
+    	transform: scale(0.0)
+    	-webkit-transform: scale(0.0)
+   	40% 
+    	transform: scale(1.0)
+    	-webkit-transform: scale(1.0)

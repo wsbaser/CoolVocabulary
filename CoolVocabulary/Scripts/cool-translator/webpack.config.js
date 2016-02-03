@@ -1,49 +1,22 @@
-// 'use strict';
-
-// const NODE_ENV = process.env.NODE_ENV || 'development';
-// const webpack = require('webpack');
-
-// module.exports = {
-// 	entry: "./home",
-// 	output: {
-// 		filename: "build.js",
-// 		library: 'home'
-// 	},
-// 	watch: NODE_ENV == 'development',
-// 	watchOptions: {
-// 		aggregateTimeout: 100
-// 	},
-// 	devtool: 'cheap-inline-module-source-map',
-// 	plugins: [
-// 		new webpack.EnvironmentPlugin('NODE_ENV')
-// 	],
-// 	module: {
-// 		loaders:[{
-// 			test:/\.js$/,
-// 			loader: 'babel?presets[]=es2015'
-// 		}]
-// 	}
-// }
-
 'use strict';
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
 const webpack = require('webpack');
+const path = require('path');
 
 module.exports = {
-  context: __dirname + '/js',
+  context: path.resolve(__dirname, "./dev"),
   entry: {
-    home: "./home",
-    background: "./background",
-    content: "./content"
-    popupde: "./popup/popup_de",    
-    popuplogin: "./popup/popup_login"
+    background: "./js/background",
+    content: "./js/content",
+    popupde: "./js/popup/de",    
+    popuplogin: "./js/popup/login"
   },
 
   output: {
-    path: __dirname + 'public',
+    path: __dirname + '/public/assets',
     filename: "[name].js",
-    library:  "[name]"
+    library: "[name]"
   },
 
   watch: NODE_ENV == 'development',
@@ -61,13 +34,19 @@ module.exports = {
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: "common"
+    }),
+    new webpack.ProvidePlugin({
+      '$':'jquery' 
     })
   ],
 
-
   resolve: {
     modulesDirectories: ['node_modules'],
-    extensions:         ['', '.js']
+    extensions:         ['', '.js', '.styl'],
+    root: [
+      path.resolve('./dev/js/utils'),
+      path.resolve('./dev/js')
+    ]
   },
 
   resolveLoader: {

@@ -1,0 +1,140 @@
+/* LOGIN FORM */
+
+#ctr_root 
+    .ctr-login-form 
+        height: 190px ! important
+        padding: 10px 15px !important
+
+
+        .login-wrap
+            padding-right: 5px !important
+
+
+        .password-wrap
+            padding-left: 5px !important
+
+
+        .login-wrap
+        .password-wrap
+            display: inline-block !important
+            width: 49% !important
+
+
+        label 
+            display: block !important
+            color: #999 !important
+            font-size: 11px !important
+            width: 100% !important
+
+
+        input:not([type=submit]) 
+            padding: 3px !important
+            margin-right: 10px !important
+            border: 1px solid rgba(0, 0, 0, 0.3) !important
+            border-radius: 3px !important
+            box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 0px 0px rgba(250, 250, 250, 0.5) !important
+            transition: background-color 0.2s
+            width: 100% !important
+
+            &:focus
+                background-color: #fffec9 !important
+
+
+        input[type=submit] 
+            margin-right: 0 !important
+            width: 100% !important
+
+
+    .blurred
+        opacity: 0.8 !important
+
+
+    .blurred:hover
+        opacity: 1 !important  
+
+
+    .ctr-error
+        font-size: 11px !important
+        color:red !important
+        padding: 4px 2px !important
+
+
+    .preferred-login 
+        padding:0 !important
+        cursor: pointer !important
+        background: #e0492f !important
+        border-radius: 3px !important
+        width: 388px !important
+        height: 22px !important
+        display: inline-block !important
+        text-align: center !important
+
+
+        &:focus 
+            outline: none !important
+
+        &.google-login 
+            border: 1px solid #e0492f !important
+
+        .icon-container 
+            display: inline-block !important
+            width: 28px !important
+            height: 100% !important
+            padding: 0 !important
+            float: left !important
+
+        .icon 
+            background: url('http://cdn.sstatic.net/img/openid/universal-login-sprite.png?v=081e7998ef2c') !important
+            display: inline-block !important
+            margin: 3px auto !important
+            width: 16px !important
+            height: 16px !important
+
+        &.google-login .icon 
+            background-position: 0 0 !important
+
+        &.google-login .icon-container 
+            border-right: 1px solid #bf3b24 !important
+            text-align: center !important
+
+        .text 
+            width: 358px !important
+            height: 100% !important
+            display: table !important
+
+            span 
+                display: table-cell !important
+                vertical-align: middle !important
+                text-align: center !important
+                color: #fff !important
+                font-size: 13px !important
+
+    .cbt 
+        clear: both !important
+
+
+    .or-container 
+        text-align: center !important
+        margin: 15px 0 2px !important
+        color: #808080 !important
+        font-variant: small-caps !important
+
+    .or-hr 
+        margin-bottom: -16px !important
+        height: 0 !important
+        border: 0 !important
+        border-top: 1px solid #e6e6e6 !important
+
+    #or 
+        display: inline-block !important
+        position: relative !important
+        padding: 6px !important
+        background-color: #fff !important
+
+    .ctr-signUp-wrap
+        margin-top: 18px !important
+        text-align: center !important
+
+
+    .ctr-signUp
+        color: #428bca !important
