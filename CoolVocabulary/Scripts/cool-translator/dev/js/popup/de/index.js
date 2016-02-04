@@ -1,3 +1,8 @@
+'use strict';
+
+import '../../../styles/common.styl';
+import '../../../styles/popup.styl';
+
 import DEPopup from './de-popup';
 
 window.onload = function() {

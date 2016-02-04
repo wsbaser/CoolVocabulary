@@ -1,10 +1,12 @@
+@import './common.styl'
+
 #ctr_dialog
     .ctr-addTransl-block
         border-radius: 3px !important
         padding: 1px 0 0 !important
         height: 23px !important
-    	td
-        	vertical-align: middle !important
+        td
+            vertical-align: middle !important
     
     .ctr-transl-col
         text-align: center !important
@@ -17,8 +19,8 @@
         text-overflow: ellipsis !important
         font-size:11px !important
         text-align: center !important
-    	&.ctr-hasValue
-        	color: #3f669f !important
+        &.ctr-hasValue
+            color: #3f669f !important
 
     .ctr-button-col
         padding-right: 10px !important
@@ -52,7 +54,7 @@
                 
 
     .ctr-addIcon
-        background: url('chrome-extension://__MSG_@@extension_id__/images/add.png') center no-repeat !important
+        background: url('../images/add.png') center no-repeat !important
 
 
     .ctr-user-col
@@ -66,7 +68,7 @@
 
 
     .ctr-vocabularyIcon
-        background: url(chrome-extension://__MSG_@@extension_id__/images/icon16.png) !important
+        background: url('../images/icon16.png') !important
         width: 16px !important
         height: 16px !important
         display: inline-block !important
@@ -112,15 +114,13 @@
                 animation-delay: -0.16s
 
 @-webkit-keyframes bouncedelay 
-  	0%, 80%, 100%
-  		-webkit-transform: scale(0.0) 
-  	40%  
-  		-webkit-transform: scale(1.0) 
+    0%, 80%, 100%
+        transform: scale(0.0) 
+    40%  
+        transform: scale(1.0) 
 
 @keyframes bouncedelay 
- 	0%, 80%, 100% 
-    	transform: scale(0.0)
-    	-webkit-transform: scale(0.0)
-   	40% 
-    	transform: scale(1.0)
-    	-webkit-transform: scale(1.0)
+    0%, 80%, 100% 
+        transform: scale(0.0)
+    40% 
+        transform: scale(1.0)

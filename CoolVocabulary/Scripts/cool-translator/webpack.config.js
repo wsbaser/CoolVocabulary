@@ -3,6 +3,7 @@
 const NODE_ENV = process.env.NODE_ENV || 'development';
 const webpack = require('webpack');
 const path = require('path');
+let ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   context: path.resolve(__dirname, "./dev"),
@@ -36,8 +37,9 @@ module.exports = {
       name: "common"
     }),
     new webpack.ProvidePlugin({
-      '$':'jquery' 
-    })
+      '$':'jquery-with-plugins' 
+    }),
+    new ExtractTextPlugin('[name].css')
   ],
 
   resolve: {
@@ -59,7 +61,13 @@ module.exports = {
   	loaders:[{
   		test: /\.js$/,
   		loader: 'babel?presets[]=es2015'
-  	}]
+  	},{
+      test:/\.styl$/,
+      loader: ExtractTextPlugin.extract('style','css!stylus?resolve url')
+    },{
+      test:   /\.(png|gif|jpg|svg|ttf|eot|woff|woff2)$/,
+      loader: 'file?name=[path][name].[ext]'
+    }]
   }
 };
 

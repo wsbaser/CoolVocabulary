@@ -1,5 +1,7 @@
 'use strict';
 
+import '../../styles/translation-dialog.styl';
+
 const ACTIVE_CLASS = 'ctr-active';
 const ROOT_CLASS = 'ctr-source-root';
 const ARTICLE_CLASS = 'ctr-source-article';

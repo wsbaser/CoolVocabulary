@@ -45,7 +45,7 @@ export default class AbbyService extends DictionaryService {
             // . configure
             contentEl.find('.js-examples-table-switchbtn').each(function(i, btnEl) {
                 btnEl = $(btnEl);
-                this.addEventData(btnEl, 'click', 'show_example_source', 'this');
+                this.addEventData(btnEl, 'click', 'abbyHandlers.show_example_source', 'this');
             }.bind(this));
             var containerEl = $('<div/>', {
                 'class': 'ctr-examples-container'

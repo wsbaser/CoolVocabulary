@@ -1,5 +1,7 @@
 'use strict';
 
+import '../../styles/add-translation.styl';
+
 const TRANSL_ITEM_CLASS = 'ctr-translItem';
 const TEMPLATE =
 '<div class="ctr-hSplitter"></div>\
@@ -159,7 +161,7 @@ export default class AddTranslationControl{
         return false;
     }
 
-    _forEachTranslationItem = function(action) {
+    _forEachTranslationItem(action) {
         $.each(this.translationsList.rootEl.find(this.translationItemSelector), action);
     }
 

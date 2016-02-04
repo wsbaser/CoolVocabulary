@@ -1,58 +1,73 @@
-function LingueeHandlers(){
-    var gAudio = null ;
-    var gHideSoundFlagsTimer = false;
-    var gIsOverSound = false;
-    function hideSoundFlags() {
-        if (!gIsOverSound) {
+export default class LingueeHandlers{
+    constructor(){
+        this.gAudio = null ;
+        this.gHideSoundFlagsTimer = false;
+        this.gIsOverSound = false;
+        //var preferredMp3Langs = new Array();
+        this.buttonPlaying = $();
+        this.buttonPlayingTime = 0;
+    }
+
+    hideSoundFlags() {
+        if (!this.gIsOverSound) {
             $("#soundFlags").slideUp();
-            buttonPlaying.removeClass("playing").removeClass("loading");
+            this.buttonPlaying.removeClass("playing").removeClass("loading");
         }
     }
-    function clearHideSoundFlagsTimer() {
-        if (gHideSoundFlagsTimer) {
-            clearTimeout(gHideSoundFlagsTimer)
+    
+    clearHideSoundFlagsTimer() {
+        if (this.gHideSoundFlagsTimer) {
+            clearTimeout(this.gHideSoundFlagsTimer)
         }
     }
-    function startHideSoundFlagsTimer() {
-        clearHideSoundFlagsTimer();
-        gHideSoundFlagsTimer = setTimeout(hideSoundFlags, 2000)
+    
+    startHideSoundFlagsTimer() {
+        this.clearHideSoundFlagsTimer();
+        this.gHideSoundFlagsTimer = setTimeout(this.hideSoundFlags.bind(this), 2000)
     }
-    function outSound() {
-        if (gAudio == null ) {
-            startHideSoundFlagsTimer()
+    
+    outSound() {
+        if (this.gAudio == null ) {
+            this.startHideSoundFlagsTimer()
         }
-        gIsOverSound = false
+        this.gIsOverSound = false
     }
-    function overSound() {
-        gIsOverSound = true;
-        clearHideSoundFlagsTimer()
+    
+    overSound() {
+        this.gIsOverSound = true;
+        this.clearHideSoundFlagsTimer()
     }
-    function clearAudio(a) {
-        gAudio = null ;
+    
+    clearAudio(a) {
+        this.gAudio = null ;
         $("#soundFlags li.playing").removeClass("playing");
         if (soundCurrentlyPlaying) {
             soundCurrentlyPlaying.parent().removeClass("playing")
         }
-        buttonPlaying.removeClass("playing").removeClass("loading");
+        this.buttonPlaying.removeClass("playing").removeClass("loading");
         $("#audio-player").remove();
         if (a) {
-            startHideSoundFlagsTimer()
+            this.startHideSoundFlagsTimer()
         }
     }
-    function audioPlayingStarted() {
+    
+    audioPlayingStarted() {
         soundCurrentlyPlaying.parent().addClass("playing")
     }
-    function audioPlayingDidFinish() {
-        clearAudio(true)
+    
+    audioPlayingDidFinish() {
+        this.clearAudio(true);
     }
-    function audioPlayingError() {
-        clearAudio(true)
+    
+    audioPlayingError() {
+        this.clearAudio(true)
     }
-    function playSoundWithAudioPrefix(a) {
+    
+    playSoundWithAudioPrefix(a) {
         a = 'http://linguee.com'+a;
         $("#audio-player").remove();
         $("body").prepend($("<audio id='audio-player'><source src='" + a + ".mp3' type='audio/mpeg'><source src='" + a + ".ogg' type='audio/ogg'></audio>"));
-        gAudio = $("#audio-player").get(0);
+        this.gAudio = $("#audio-player").get(0);
         // if (!(b.play instanceof Function)) {
         //     $(b).append("<object classid='clsid:6BF52A52-394A-11d3-B153-00C04F79FAA6' style='display:none;'><param name='URL' value='" + a + ".mp3' /><param name='uiMode' value='invisible' /></object>");
         //     b = $("#audio-player object").get(0);
@@ -77,15 +92,13 @@ function LingueeHandlers(){
         //     }, 1000);
         //     soundCurrentlyPlaying.parent().addClass("playing")
         // }
-        gAudio.addEventListener('ended', audioPlayingDidFinish);
-        gAudio.addEventListener('playing', audioPlayingStarted);
-        gAudio.addEventListener('error', audioPlayingError);
-        gAudio.play()
+        this.gAudio.addEventListener('ended', this.audioPlayingDidFinish.bind(this));
+        this.gAudio.addEventListener('playing', this.audioPlayingStarted.bind(this));
+        this.gAudio.addEventListener('error', this.audioPlayingError.bind(this));
+        this.gAudio.play()
     }
-    var preferredMp3Langs = new Array();
-    var buttonPlaying = $();
-    var buttonPlayingTime = 0;
-    function mp3LangFromHash(a) {
+    
+    mp3LangFromHash(a) {
         return (typeof a != "undefined") ? a.replace(/\/.*$/, "") : a
     }
     // function preferredHash(e, b, a) {
@@ -103,16 +116,16 @@ function LingueeHandlers(){
     //     return e
     // }
 
-    function play(f, g, b) {
+    play(f, g, b) {
         var e = $(f);
-        clearHideSoundFlagsTimer();
+        this.clearHideSoundFlagsTimer();
         $("#soundFlags").stop(true, false);
-        if (gAudio) {
-            clearAudio(false)
+        if (this.gAudio) {
+            this.clearAudio(false)
         }
         e.removeClass("playing");
         soundCurrentlyPlaying = e;
-        playSoundWithAudioPrefix("/mp3/" + b);
+        this.playSoundWithAudioPrefix("/mp3/" + b);
         // var a = mp3LangFromHash(b);
         // for (var d = 0; d < preferredMp3Langs.length; ) {
         //     if (preferredMp3Langs[d] == a) {
@@ -128,45 +141,46 @@ function LingueeHandlers(){
         // })
     }
 
-    function soundFlags() {
+    soundFlags() {
+        var self = this;
         var a = $("#soundFlags");
         if (a.length == 0) {
             a = $("<div id='soundFlags'>");
             $("#linguee_article").append(a);
-            if (!is_touch_device()) {
+            if (!this.is_touch_device()) {
                 a.mouseenter(function() {
-                    overSound()
+                    self.overSound()
                 });
                 a.mouseleave(function() {
-                    outSound()
+                    self.outSound()
                 })
             }
         }
         return a
     }
 
-    function onPlayRegional(){
-        play(this, 0, this.dataset.soundurl);
+    onPlayRegional(){
+        this.play(this, 0, this.dataset.soundurl);
     }
 
-    function playSound(r, h, q, g, m, f, j) {
+    playSound(r, h, q, g, m, f, j) {
         var w = $(r);
         var a = $(r).hasClass("playing");
-        clearHideSoundFlagsTimer();
+        this.clearHideSoundFlagsTimer();
         $("#soundFlags").stop(true, false);
-        if (buttonPlayingTime == 0 || (new Date().getTime() - buttonPlayingTime) > 1000) {
-            buttonPlaying = $();
+        if (this.buttonPlayingTime == 0 || (new Date().getTime() - this.buttonPlayingTime) > 1000) {
+            this.buttonPlaying = $();
         }
-        if (gAudio) {
-            clearAudio(false);
-            hideSoundFlags();
-            buttonPlaying = $();
+        if (this.gAudio) {
+            this.clearAudio(false);
+            this.hideSoundFlags();
+            this.buttonPlaying = $();
             $(".button_audio.playing").removeClass("playing")
         }
         if (!a) {
-            var u = soundFlags();
+            var u = this.soundFlags();
             var C = h;// preferredHash(h, g, f);
-            var d = mp3LangFromHash(h);
+            var d = this.mp3LangFromHash(h);
             soundCurrentlyPlaying = w;
             if (arguments.length >= 3 && (d == "PT_PT" || d == "PT_BR" || d == "EN_US" || d == "EN_UK")) {
                 //var s = w.closest(".translation.expanded");
@@ -174,16 +188,16 @@ function LingueeHandlers(){
                 var n = -1;
                 var l = -1;
                 var z = "flagsmall";
-                var A = "<ul class='soundFlagsList'><li" + (C == h ? " class='playing'" : "") + "><a data-soundurl='" + h + "'><span class='loudspeaker'></span><span class='" + z + " " + z + "_" + flagCodeFor(mp3LangFromHash(h)) + "'></span>" + q + "</a></li>";
+                var A = "<ul class='soundFlagsList'><li" + (C == h ? " class='playing'" : "") + "><a data-soundurl='" + h + "'><span class='loudspeaker'></span><span class='" + z + " " + z + "_" + this.flagCodeFor(this.mp3LangFromHash(h)) + "'></span>" + q + "</a></li>";
                 if (arguments.length >= 5) {
-                    A += "<li" + (C == g ? " class='playing'" : "") + "><a data-soundurl='" + g + "'><span class='loudspeaker'></span><span class='" + z + " " + z + "_" + flagCodeFor(mp3LangFromHash(g)) + "'></span>" + m + "</a></li>"
+                    A += "<li" + (C == g ? " class='playing'" : "") + "><a data-soundurl='" + g + "'><span class='loudspeaker'></span><span class='" + z + " " + z + "_" + this.flagCodeFor(this.mp3LangFromHash(g)) + "'></span>" + m + "</a></li>"
                 }
                 if (arguments.length >= 7) {
-                    A += "<li" + (C == f ? " class='playing'" : "") + "><a data-soundurl='" + f + "'><span class='loudspeaker'></span><span class='" + z + " " + z + "_" + flagCodeFor(mp3LangFromHash(f)) + "'></span>" + j + "</a></li>"
+                    A += "<li" + (C == f ? " class='playing'" : "") + "><a data-soundurl='" + f + "'><span class='loudspeaker'></span><span class='" + z + " " + z + "_" + this.flagCodeFor(this.mp3LangFromHash(f)) + "'></span>" + j + "</a></li>"
                 }
                 A += "</ul>";
                 u.html(A);
-                u.on('click', 'a', onPlayRegional);
+                u.on('click', 'a', this.onPlayRegional.bind(this));
                 u.find("li").first().addClass("first");
                 // if (s.length > 0) {
                 //     var b = s.find(".button_audio");
@@ -214,12 +228,12 @@ function LingueeHandlers(){
             } else {
                 u.remove()
             }
-            buttonPlaying.addClass("loading");
-            playSoundWithAudioPrefix("/mp3/" + C)
+            this.buttonPlaying.addClass("loading");
+            this.playSoundWithAudioPrefix("/mp3/" + C)
         }
     }
 
-    function flagCodeFor(a) {
+    flagCodeFor(a) {
         if (a == "AE") {
             return "us"
         }
@@ -229,20 +243,13 @@ function LingueeHandlers(){
         return a.toLowerCase()
     }
 
-    function is_touch_device() {
+    is_touch_device() {
         return "ontouchstart" in window || !!(navigator.msMaxTouchPoints);
     }
 
-    function onContentClick(){
+    onContentClick(){
         if (!window.event.target.closest("#soundFlags, a.audio, .button_audio, #appButtonAudio")) {
-            hideSoundFlags();
+            this.hideSoundFlags();
         }
     }
-
-    return {
-        playSound: playSound,
-        onContentClick: onContentClick
-    };
 }
-
-var LingueeHandlers = new LingueeHandlers();

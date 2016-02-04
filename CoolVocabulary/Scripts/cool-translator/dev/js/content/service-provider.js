@@ -12,9 +12,9 @@ import Vocabulary from '../services/vocabulary';
 import LangDetector from '../services/lang-detector';
 import DictionaryServiceProxy from '../services/dictionary-service-proxy';
 
-import Source from './source';
-import SourceTab from './source-tab';
-import TranslationDialog from './translation-dialog';
+import Source from '../controls/source';
+import SourceTab from '../controls/source-tab';
+import TranslationDialog from '../controls/translation-dialog';
 
 export default class ServiceProvider {
   //***** PRIVATE *****************************************************************************************************

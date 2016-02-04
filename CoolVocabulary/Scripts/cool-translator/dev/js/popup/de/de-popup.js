@@ -1,3 +1,5 @@
+'use strict';
+
 const LANG_CARD_TEMPLATE =
     '<div class="ctr-lang-card ctr-block">\
             <div class="ctr-lang-info">\

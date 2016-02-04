@@ -17,7 +17,7 @@ export default class LingueeService extends DictionaryService {
         // . Show translation for word
         this.addTranslateContentEvent(translationsEl, '.tag_lemma>.dictLink');
         this._addPlaySoundEvent(translationsEl, '.audio');
-        self.addEventData(translationsEl, 'click', 'LingueeHandlers.onContentClick');
+        self.addEventData(translationsEl, 'click', 'lingueeHandlers.onContentClick');
 
         // . remove phrases
         translationsEl.find('.example_lines').remove();
@@ -40,7 +40,7 @@ export default class LingueeService extends DictionaryService {
             let onclickFunction = audioEl.attributes['onclick'].value;
             audioEl.removeAttribute('onclick');
             let playSoundArgs = onclickFunction.substring(10, onclickFunction.length - 2).replace('"', '').replace(/"/g, '').split(',');
-            let args = [$(audioEl), 'click', 'LingueeHandlers.playSound'].concat(playSoundArgs);
+            let args = [$(audioEl), 'click', 'lingueeHandlers.playSound'].concat(playSoundArgs);
             self.addEventData.apply(this, args);
         });
     }

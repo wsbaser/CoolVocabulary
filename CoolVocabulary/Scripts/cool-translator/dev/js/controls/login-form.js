@@ -1,5 +1,7 @@
 'use strict';
 
+import '../../styles/login-form.styl';
+
 const BTN_CAPTION_LOGIN = 'Sing In';
 const BTN_CAPTION_WAIT = 'Please wait...';
 const TEMPLATE =

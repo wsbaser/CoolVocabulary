@@ -1,5 +1,10 @@
+'use strict';
+
+import '../../../styles/common.styl';
+import '../../../styles/popup.styl';
+
 import ServicesProvider from '../../content/service-provider';
-import LoginForm from '../../content/controls/login-form';
+import LoginForm from '../../controls/login-form';
 
 window.onload = function(){
 	var servicesProvider = new ServicesProvider();

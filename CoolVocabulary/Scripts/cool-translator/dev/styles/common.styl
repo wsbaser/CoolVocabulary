@@ -97,7 +97,8 @@
     h3
     p
     ul               
-        display: block unicode-bidi: embed 
+        display: block 
+        unicode-bidi: embed
     li               
         display: list-item 
     table            
@@ -110,13 +111,17 @@
     th           
         display: table-cell 
     th               
-        font-weight: bolder text-align: center 
+        font-weight: bolder 
+        text-align: center 
     h1               
-        font-size: 2em margin: .67em 0 
+        font-size: 2em 
+        margin: .67em 0 
     h2               
-        font-size: 1.5em margin: .75em 0 
+        font-size: 1.5em 
+        margin: .75em 0 
     h3               
-        font-size: 1.17em margin: .83em 0 
+        font-size: 1.17em 
+        margin: .83em 0 
     p
     ul
     form             
@@ -149,7 +154,8 @@
     tr               
         vertical-align: inherit 
     br:before        
-        content: "\A" white-space: pre-line 
+        content: "\A" 
+        white-space: pre-line 
 
 /***** COMMON *********************************************************************************************************/
 
@@ -166,7 +172,7 @@
         *zoom: 1
 
     :focus 
-    	outline: 0
+        outline: 0
 
 
     .blue-button
@@ -202,18 +208,21 @@
                 animation-delay: 450ms
 
     @keyframes move 
-        0% left: 0%
-        75% left:100%
-        100% left:100%
+        0% 
+            left: 0%
+        75% 
+            left: 100%
+        100% 
+            left: 100%
 
 
-/***** FLAGS ********************************************************************************************************/
+//***** FLAGS ********************************************************************************************************
 
     .ctr-flag-icon
         width: 24px !important
         height: 24px !important
         display: inline-block !important
-        background-image: url('chrome-extension://__MSG_@@extension_id__/images/flags.png') !important
+        background-image: url('../images/flags.png') !important
         .ru
             background-position: 0 0 !important
         .en 

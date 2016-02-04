@@ -12,7 +12,7 @@ const CARD_TEMPLATE =
                 <img id="lleo_picBig" src="{picUrl}"/>\
             </div>\
             <div id="lleo_inner">\
-                <div id="lleo_sound" title="{soundHint}" style="background-image:url(\'{imagesUrl}/ll/sound.png\') !important;">\
+                <div id="lleo_sound" title="{soundHint}">\
                     <audio id="lleo_player"><source type="audio/mpeg" src="{soundUrl}"></audio>\
                 </div>\
                 <div id="lleo_word">\
@@ -82,7 +82,6 @@ export default class LLService extends DictionaryService {
             resultHint += 'no translation.';
 
         return {
-            imagesUrl: chrome.extension.getURL('/images'),
             inDict: response.inDictionary,
             transItems: this.getTranslationsHtml.call(this, response.translate, inDict), //already escaped
             transcription: response.transcription || '---',
@@ -105,7 +104,7 @@ export default class LLService extends DictionaryService {
         let contentEl = $(strHelper.format(LLService.CARD_TEMPLATE, this.getArticleTemplateData(responseData)));
 
         // .play sound click
-        this.addEventData(contentEl.find('#lleo_sound'), 'click', 'play_sound', 'this');
+        this.addEventData(contentEl.find('#lleo_sound'), 'click', 'llHandlers.play_sound', 'this');
         // .show base form click 
         this.addTranslateContentEvent(contentEl, '#lleo_baseForm');
 

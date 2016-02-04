@@ -1,5 +1,7 @@
 'use strict';
 
+import '../../styles/language-selector.styl';
+
 const SELECTED_CLASS = "ctr-selected";
 const ACTIVE_CLASS = "ctr-active";
 

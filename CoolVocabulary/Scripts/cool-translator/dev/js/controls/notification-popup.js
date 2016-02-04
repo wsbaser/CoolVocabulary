@@ -1,5 +1,7 @@
 'use strict';
 
+import '../../styles/notification-popup.styl';
+
 export default class NotificationPopup{
     constructor(rootElementSelector) {
         this.el = $(rootElementSelector);

@@ -1,5 +1,13 @@
 'use strict';
 
+import '../../styles/translation-dialog.styl';
+
+import LangSelector from './language-selector';
+import LangSwitcher from './language-switcher';
+import LoginForm from './login-form';
+import SelectBook from './select-book';
+import NotificationPopup from './notification-popup';
+
 import Reactor from 'reactor';
 
 const LANG_PAIR_CHANGED = 'langPairChanged';

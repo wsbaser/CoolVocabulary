@@ -1,6 +1,9 @@
 'use strict';
 
+import '../../styles/translation-dialog.styl';
+
 import ContentTypes from '../services/common/content-types';
+import AddTranslation from './add-translation';
 
 const LOADING_CLASS = 'ctr-tab-loading';
 const ACTIVE_CLASS = 'ctr-active';
@@ -25,7 +28,7 @@ export default class SourceTab{
                 throw new Error('Translation item selector not specified.');
             if (!options.vocabulary)
                 throw new Error('vocabulary not specified.');
-            this.addTranslation = new AddTranslationControl(options.serviceProvider);
+            this.addTranslation = new AddTranslation(options.serviceProvider);
         }
     }
 

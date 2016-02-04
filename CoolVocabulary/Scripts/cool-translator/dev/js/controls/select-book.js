@@ -1,5 +1,7 @@
 'use strict';
 
+import '../../styles/select-book.styl';
+
 const TEMPLATE =
     '<div class="popover">\
     <div id="select_book_wrap">\

@@ -51,7 +51,7 @@ export default class TfdService extends DictionaryService {
             pronEl.removeAttr('onclick');
             let matchGroups = /pron_key\((\d*)\)/.exec(onclickValue);
             if (matchGroups)
-                this.addEventData(pronEl, 'click', 'pron_key', matchGroups[1])
+                this.addEventData(pronEl, 'click', 'tfdHandlers.pron_key', matchGroups[1])
         }.bind(this));
 
         let verbtableSectionElems = this._getVerbTableSections(definitionEl);
@@ -90,7 +90,7 @@ export default class TfdService extends DictionaryService {
             $.each(verbTablesEl.find('.verbtables'), function(i, verbtableEl) {
                 verbtableEl = $(verbtableEl);
                 verbtableEl.removeAttr('onchange');
-                this.addEventData(verbtableEl, 'change', 'SelectVT', 'this');
+                this.addEventData(verbtableEl, 'change', 'tfdHandlers.SelectVT', 'this');
             }.bind(this));
 
             return verbTablesEl.outerHTML();
