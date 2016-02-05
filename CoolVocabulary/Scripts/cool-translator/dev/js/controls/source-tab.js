@@ -111,11 +111,10 @@ export default class SourceTab{
                     methodParams[index] = elWithEvent[0];
             });
             elWithEvent.on(eventType, function(e) {
-                let func = window;
-                let arr = method.split('.').forEach(function(name) {
-                    func = func[name];
-                });
-                func.apply(this, methodParams);
+                let [handlersObjName, methodName] = method.split('.');
+                let handlersObj = window[handlersObjName]; 
+                let handlerFunc = handlersObj[methodName]; 
+                handlerFunc.apply(handlersObj, methodParams);
             });
         });
     }

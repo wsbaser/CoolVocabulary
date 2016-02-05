@@ -41,8 +41,8 @@ export default class LingueeHandlers{
     clearAudio(a) {
         this.gAudio = null ;
         $("#soundFlags li.playing").removeClass("playing");
-        if (soundCurrentlyPlaying) {
-            soundCurrentlyPlaying.parent().removeClass("playing")
+        if (this.soundCurrentlyPlaying) {
+            this.soundCurrentlyPlaying.parent().removeClass("playing")
         }
         this.buttonPlaying.removeClass("playing").removeClass("loading");
         $("#audio-player").remove();
@@ -52,7 +52,7 @@ export default class LingueeHandlers{
     }
     
     audioPlayingStarted() {
-        soundCurrentlyPlaying.parent().addClass("playing")
+        this.soundCurrentlyPlaying.parent().addClass("playing")
     }
     
     audioPlayingDidFinish() {
@@ -124,7 +124,7 @@ export default class LingueeHandlers{
             this.clearAudio(false)
         }
         e.removeClass("playing");
-        soundCurrentlyPlaying = e;
+        this.soundCurrentlyPlaying = e;
         this.playSoundWithAudioPrefix("/mp3/" + b);
         // var a = mp3LangFromHash(b);
         // for (var d = 0; d < preferredMp3Langs.length; ) {
@@ -181,7 +181,7 @@ export default class LingueeHandlers{
             var u = this.soundFlags();
             var C = h;// preferredHash(h, g, f);
             var d = this.mp3LangFromHash(h);
-            soundCurrentlyPlaying = w;
+            this.soundCurrentlyPlaying = w;
             if (arguments.length >= 3 && (d == "PT_PT" || d == "PT_BR" || d == "EN_US" || d == "EN_UK")) {
                 //var s = w.closest(".translation.expanded");
                 var B = $("#linguee_article");

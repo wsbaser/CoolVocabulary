@@ -2,8 +2,8 @@
 /*
   Set not inherited styles wich does not intersect with browser styles for specific tags
 */
-#ctr_dialog #ctr_root
-#ctr_dialog *
+#ctr_root
+#ctr_root *
     background: transparent none repeat scroll 0 0 !important
     border: none 0 !important
     border-radius:0 !important
@@ -37,17 +37,12 @@
     white-space: normal !important
     word-spacing: normal !important
     word-wrap: break-word !important
-    
+
+#ctr_root
     .rtl 
         direction: rtl !important 
         text-align: right !important
         unicode-bidi: bidi-override !important
-
-/* 
-  Some sites set styles on tags. And this is a big problem. 
-  To preserve our style we should set font style for this tags by ourself
-*/
-
     div
     span
     a
@@ -72,7 +67,6 @@
     tt
     pre  
         font-family: Arial, Helvetica !important
-
     div
     span
     a
@@ -89,7 +83,6 @@
     input
     option
         font-style: normal !important
-        
     div
     form
     h1
@@ -156,37 +149,23 @@
     br:before        
         content: "\A" 
         white-space: pre-line 
-
-/***** COMMON *********************************************************************************************************/
-
     .cf:before,
     .cf:after 
         content: ""
         display: table
-
-
     .cf:after 
         clear: both
-
     .cf 
         *zoom: 1
-
     :focus 
         outline: 0
-
-
     .blue-button
         background: linear-gradient(to bottom,  #64c8ef 0%,#00a2e2 100%) !important /* W3C */
         color: #fff !important
         padding: 3px 15px !important
         border-radius: 3px !important
-        /*text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.3) !important*/
         cursor: pointer !important
         text-align: center !important    
-
-
-/***** SPINNER ********************************************************************************************************/
-
     .ctr-spinner
         display: none !important
         position: relative !important
@@ -206,36 +185,32 @@
                 animation-delay: 300ms
             &:nth-child(4) 
                 animation-delay: 450ms
-
-    @keyframes move 
+    @keyframes move
         0% 
             left: 0%
         75% 
             left: 100%
         100% 
             left: 100%
-
-
-//***** FLAGS ********************************************************************************************************
-
+            
     .ctr-flag-icon
         width: 24px !important
         height: 24px !important
         display: inline-block !important
         background-image: url('../images/flags.png') !important
-        .ru
+        &.ru
             background-position: 0 0 !important
-        .en 
+        &.en 
             background-position: -24px 0 !important
-        .es 
+        &.es 
             background-position: -48px 0 !important
-        .pt 
+        &.pt 
             background-position: -72px 0 !important
-        .fr 
+        &.fr 
             background-position: -96px 0 !important
-        .it 
+        &.it 
             background-position: -120px 0 !important
-        .de 
+        &.de 
             background-position: -144px 0 !important
-        .ar 
+        &.ar 
             background-position: -168px 0 !important

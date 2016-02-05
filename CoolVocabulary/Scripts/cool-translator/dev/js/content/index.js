@@ -11,18 +11,20 @@ import '../services/tfd/styles.styl';
 import CTContent from './ct-content';
 
 import AbbyHandlers from '../services/abby/handlers';
-import LingueeHandlers from '../services/abby/handlers';
-import LLHandlers from '../services/abby/handlers';
-import TFDHandlers from '../services/abby/handlers';
+import LingueeHandlers from '../services/linguee/handlers';
+import LLHandlers from '../services/ll/handlers';
+import TFDHandlers from '../services/tfd/handlers';
+import CommonHandlers from '../services/common/handlers';
 
 import injectJQueryPlugins from 'jquery-plugins';
 
 injectJQueryPlugins();
 
-let abbyHandlers = new AbbyHandlers();
-let lingueeHandlers = new LingueeHandlers();
-let llHandlers = new LLHandlers();
-let tfdHandlers = new TFDHandlers();
+window.abbyHandlers = new AbbyHandlers();
+window.lingueeHandlers = new LingueeHandlers();
+window.llHandlers = new LLHandlers();
+window.tfdHandlers = new TFDHandlers();
+window.commonHandlers = new CommonHandlers();
 
-let ctContent = new CTContent();
-ctContent.init();
+window.ctContent = new CTContent();
+window.ctContent.init();

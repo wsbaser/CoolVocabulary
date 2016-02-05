@@ -319,7 +319,7 @@ export default class TranslationDialog {
     this.langSwitcher = new LangSwitcher(this.sourceLangSelector, this.targetLangSelector);
   }
 
-  _show(word) {
+  show(word) {
     this.vocabulary.checkAuthentication();
     if (!this.isActive) {
       this.el.removeClass('ctr-hide');
@@ -407,7 +407,7 @@ export default class TranslationDialog {
     this.inputFormEl.showImportant();
     this.isExtension = true;
     this.selectionBackup = SelectionHelper.saveSelection();
-    this._show(word);
+    this.show(word);
   }
 
   showForSite(langPair, attachBlockSelector, word, bookId, user) {
@@ -422,7 +422,7 @@ export default class TranslationDialog {
     this.el.addClass('ctr-site');
     this.inputFormEl.hideImportant();
     this.isExtension = false;
-    this._show(word);
+    this.show(word);
   }
 
   setLangPair(langPair) {

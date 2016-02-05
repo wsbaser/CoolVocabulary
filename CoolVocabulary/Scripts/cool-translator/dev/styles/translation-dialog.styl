@@ -1,6 +1,6 @@
 @import './common.styl'
 
-#ctr_dialog
+#ctr_root #ctr_dialog
     position: fixed !important
     left: -999px !important
     top: -999px !important
@@ -43,8 +43,6 @@
         display: block !important
 
 
-    //***** HEADER ****************************************************************************************************
-
     input::-webkit-input-placeholder 
         color: #aaa !important
 
@@ -54,7 +52,6 @@
         display: block !important
         margin: 0 !important
         padding: 10px 0 5px 16px  !important
-        /* Set position and background because the form might be overlapped by an image when no translations */
         position: relative !important
         z-index: 10 !important
 
@@ -155,27 +152,10 @@
 
         a.ctr-source-link:hover,
         a.ctr-source-link.ctr-active 
-            opacity: 1 !important
-
-
-    .ctr-source-icon
-        #ctr_sourcelink_google &    
-            background-position:-16px 0 !important
-        #ctr_sourcelink_abby &
-            background-position:-32px 0 !important
-        #ctr_sourcelink_linguee &
-            background-position:-48px 0 !important
-        #ctr_sourcelink_ll &
-            background-position:-64px 0 !important
-        #ctr_sourcelink_multitran &
-            background-position:-80px 0 !important
-            
+            opacity: 1 !important            
 
     .ctr-hSplitter
         border-top:1px solid #ddd !important
-
-
-/***** NAVIGATION *****************************************************************************************************/
 
     .ctr-source-navigation
         ul
@@ -194,7 +174,8 @@
                 cursor: default !important
                 transition: background-color 150ms !important
             &.ctr-active a
-                background: #5bc0de !important
+                opacity: 0.85 !important;
+                background: rgb(224, 234, 234) !important;
                 cursor: pointer !important
 
             &.ctr-active.ctr-selected a
@@ -214,9 +195,6 @@
     .ctr-source-icon
         background-image: url('../images/sprites.png') !important
 
-
-/***** CONTENT ********************************************************************************************************/
-
     .ctr-source-article
         position: relative !important
         overflow-y:auto !important /* article needs scrolling */
@@ -230,16 +208,12 @@
     .ctr-tab-loading
         overflow-x: hidden !important
         
-
-/****** scrollbar style from http://maxvoltar.com/, http://almaer.com/scrollbar/debug.html ****************************/
-
     ::-webkit-scrollbar 
         width: 6px 
         height: 6px
 
     ::-webkit-scrollbar-track-piece 
         background: #fff
-
 
     ::-webkit-scrollbar-button:start:decrement,
     ::-webkit-scrollbar-button:end:increment 
@@ -256,7 +230,6 @@
         background-color: #C1C5C9
 
 
-/***** POPOVER ********************************************************************************************************/
     .popover-container
         background: rgba(224, 234, 234,0.95) !important
         height: 100% !important
@@ -277,3 +250,15 @@
         transform: translate(-50%,-50%)
         transition: height 0.3s ease 0s, width 0.3s ease 0s,opacity 0.3s ease 0s !important
         display: inline-block
+        
+.ctr-source-icon
+    #ctr_sourcelink_google &    
+        background-position:-16px 0 !important
+    #ctr_sourcelink_abby &
+        background-position:-32px 0 !important
+    #ctr_sourcelink_linguee &
+        background-position:-48px 0 !important
+    #ctr_sourcelink_ll &
+        background-position:-64px 0 !important
+    #ctr_sourcelink_multitran &
+        background-position:-80px 0 !important

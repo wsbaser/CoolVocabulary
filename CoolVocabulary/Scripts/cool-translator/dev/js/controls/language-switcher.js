@@ -33,7 +33,7 @@ export default class LangSwitcher {
             flagEl2.removeAttribute('style');
             let lang1 = this.selector1.getSelectedLang();
             let lang2 = this.selector2.getSelectedLang();
-            selector1.setSelectedLang(lang2, flagEl2);
+            this.selector1.setSelectedLang(lang2, flagEl2);
             // unfreaze events only for one selector
             // we do not need duplicated events
             this.selector1.freezeEvents = false;

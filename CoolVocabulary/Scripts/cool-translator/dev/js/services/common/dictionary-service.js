@@ -108,7 +108,7 @@ export default class DictionaryService {
 
 	addTranslateContentEvent(rootEl, selector) {
 		rootEl.find(selector).each(function(i, itemEl) {
-			this.addEventData($(itemEl), 'click', 'show_dialog_for_content', 'this');
+			this.addEventData($(itemEl), 'click', 'commonHandlers.show_dialog_for_content', 'this');
 		}.bind(this));
 	}
 
