@@ -4,7 +4,10 @@ import DictionaryService from '../common/dictionary-service';
 import SpeachParts from '../common/speach-parts';
 
 export default class MultitranService extends DictionaryService {
-
+    constructor(provider){
+        super(provider);
+    }
+    
     removeExpandIcon(el) {
         // TODO: add expanding support later
         el.find('.expand_i').remove();

@@ -3,6 +3,10 @@
 import DictionaryService from '../common/dictionary-service';
 
 export default class AbbyService extends DictionaryService {
+    constructor(provider){
+        super(provider);
+    }
+    
     generateTranslationsPrompts(contentEl) {
         console.log('AbbyService.prototype.generateTranslationsPrompts not implemented');
         return null;

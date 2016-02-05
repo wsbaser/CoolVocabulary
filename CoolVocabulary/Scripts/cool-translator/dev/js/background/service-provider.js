@@ -10,43 +10,43 @@ import CVConfig from '../services/cv/config';
 
 import AbbyProvider from '../services/abby/provider';
 import GoogleProvider from '../services/google/provider';
-import LingueeProvider from '../services/abby/provider';
+import LingueeProvider from '../services/linguee/provider';
 import LLProvider from '../services/ll/provider';
-import MultitranProvider from '../services/abby/provider';
+import MultitranProvider from '../services/multitran/provider';
 import TFDProvider from '../services/tfd/provider';
-import CVProvider from '../services/abby/provider';
+import CVProvider from '../services/cv/provider';
 
 import AbbyService from '../services/abby/service';
 import GoogleService from '../services/google/service';
-import LingueeService from '../services/abby/service';
+import LingueeService from '../services/linguee/service';
 import LLService from '../services/ll/service';
-import MultitranService from '../services/abby/service';
+import MultitranService from '../services/multitran/service';
 import TFDService from '../services/tfd/service';
-import CVService from '../services/abby/service';
+import CVService from '../services/cv/service';
 
 export default class ServiceProvider{
 	get ll(){
-		return this.ll||(this.ll = new LLService(new LLProvider(LLConfig)));
+		return this._ll||(this._ll = new LLService(new LLProvider(LLConfig)));
 	}
 
 	get abby(){
-		return this.abby||(this.abby = new AbbyService(new AbbyProvider(AbbyConfig)));
+		return this._abby||(this._abby = new AbbyService(new AbbyProvider(AbbyConfig)));
 	}
 
 	get google(){
-		return this.google||(this.google = new GoogleService(new GoogleProvider(GoogleConfig)));
+		return this._google||(this._google = new GoogleService(new GoogleProvider(GoogleConfig)));
 	}
 
 	get linguee(){
-		return this.linguee || (this.linguee = new LingueeService(new LingueeProvider(LingueeConfig)));
+		return this._linguee || (this._linguee = new LingueeService(new LingueeProvider(LingueeConfig)));
 	}
 
 	get tfd(){
-		return this.tfd || (this.tfd = new TfdService(new TfdProvider(TfdConfig)));
+		return this._tfd || (this._tfd = new TFDService(new TFDProvider(TFDConfig)));
 	}
 
 	get multitran(){
-		return this.multitran ||(this.multitran = new MultitranService(new MultitranProvider(MultitranConfig)));
+		return this._multitran ||(this._multitran = new MultitranService(new MultitranProvider(MultitranConfig)));
 	}
 
 	get dictionaryServices(){
@@ -54,7 +54,7 @@ export default class ServiceProvider{
 	}
 
 	get cv(){
-		return this.cv ||(new CVService(new CVProvider(CVConfig, dictionaryServices)));
+		return this._cv ||(this._cv = new CVService(new CVProvider(CVConfig), this.dictionaryServices));
 	}
 
 	get all(){

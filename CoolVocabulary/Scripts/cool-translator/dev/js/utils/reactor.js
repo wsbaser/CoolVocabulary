@@ -13,9 +13,9 @@ export default class Reactor{
     this.events[eventName] = event;
   }
 
-  dispatchEvent(eventName, eventArgs){
+  dispatchEvent(eventName, ...eventArgs){
     this.events[eventName].callbacks.forEach(function(callback){
-      callback(eventArgs);
+      callback(...eventArgs);
     });
   }
 

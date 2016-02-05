@@ -1,11 +1,16 @@
 'use strict';
 
 import DictionaryProvider from '../common/dictionary-provider';
+import StringHelper from 'string-helper';
 
 export default class GoogleProvider extends DictionaryProvider{
+    constructor(config){
+        super(config);
+    }
+    
     detectLanguage(word) {
         let self = this;
-        let detectUrl = strHelper.format(this.config.ajax.detectLanguage, {
+        let detectUrl = StringHelper.format(this.config.ajax.detectLanguage, {
             word: word
         });
         let deferred = $.Deferred();

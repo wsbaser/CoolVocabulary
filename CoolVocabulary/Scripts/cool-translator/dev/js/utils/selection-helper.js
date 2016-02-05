@@ -24,7 +24,7 @@ export default {
             selection['start'] = inputElement.selectionStart;
             selection['end'] = inputElement.selectionEnd;
         } else {
-            var sel = selectionHelper.getSelection();
+            var sel = this.getSelection();
             selection['type'] = 'simple';
             if (typeof sel.getRangeAt === 'function' && sel.rangeCount > 0) {
                 selection['range'] = sel.getRangeAt(0).cloneRange();
@@ -42,7 +42,7 @@ export default {
                 selection['element'].setSelectionRange(selection['start'], selection['end']);
                 result = true;
             } else if (selection['type'] === 'simple') {
-                var sel = selectionHelper.getSelection();
+                var sel = this.getSelection();
                 if (typeof sel.removeAllRanges === 'function') {
                     try {
                         sel.removeAllRanges(); //sometimes gets exception in IE

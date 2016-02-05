@@ -1,7 +1,6 @@
 'use strict';
 
-const CHECK_AUTH_START = 'authstart';
-const CHECK_AUTH_END = 'authend';
+import Reactor from 'reactor';
 
 export default class Vocabulary{
     constructor(config, connection, supportsBooks){
@@ -10,10 +9,18 @@ export default class Vocabulary{
         this.supportsBooks = supportsBooks;
         this.user = {};
         this.reactor = new Reactor();
-        this.reactor.registerEvent(CHECK_AUTH_START);
-        this.reactor.registerEvent(CHECK_AUTH_END);
+        this.reactor.registerEvent(Vocabulary.CHECK_AUTH_START);
+        this.reactor.registerEvent(Vocabulary.CHECK_AUTH_END);
         this.bookId = 0;
         this.oauthLoginDeferred = null;
+    }
+
+    static get CHECK_AUTH_START(){
+        return 'authstart';
+    }
+
+    static get CHECK_AUTH_END(){
+        return 'authend';
     }
 
     addEventListener(eventType, handler){
@@ -22,7 +29,7 @@ export default class Vocabulary{
 
     authenticate(user){
         this.user = user;
-        this.reactor.dispatchEvent(CHECK_AUTH_END);
+        this.reactor.dispatchEvent(Vocabulary.CHECK_AUTH_END);
         if(this.oauthLoginDeferred){
             if(this.user){
                 this.oauthLoginDeferred.resolve();
@@ -36,7 +43,7 @@ export default class Vocabulary{
 
     checkAuthentication(){
     	let self = this;
-    	this.reactor.dispatchEvent(CHECK_AUTH_START);
+    	this.reactor.dispatchEvent(Vocabulary.CHECK_AUTH_START);
         this.makeCall('checkAuthentication', [], function(promise){
             promise.done(function(data){
                 self.authenticate(data.user);

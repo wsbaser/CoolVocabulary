@@ -2,6 +2,7 @@
 
 import DictionaryService from '../common/dictionary-service';
 import ContentTypes from '../common/content-types';
+import StringHelper from 'string-helper';
 
 const CARD_TEMPLATE =
     '<div class="{soundUrl?lleo_has_sound:} {hasPic?lleo_has_pic:} {context?lleo_has_context:}">\
@@ -34,7 +35,6 @@ export default class LLService extends DictionaryService {
         this.cacheResponseData = true;
     }
 
-
     getTranslationsHtml(translations, inDictionary) {
         // Create translation items, limit by 5 options
         let items = [];
@@ -53,7 +53,7 @@ export default class LLService extends DictionaryService {
                 translations = translations.slice(0, 5);
 
             items = $.map(translations, function(item) {
-                let linkMarker = chrome.extension.getURL('/images/ll/marker.png');
+                let linkMarker = chrome.extension.getURL('assets/images/ll/marker.png');
                 let indexAttr = ' ind="' + (ind++) + '" ';
                 return '<div class="ll-translation-item" ' + indexAttr + '><div class="ll-translation-text" ' + indexAttr + '><img class="ll-translation-marker" src="' + linkMarker + '"/><a href="javascript:void 0" ' + indexAttr + ' >' + item.value + '</a></div><div class="ll-translation-counter">' + item.votes + '</div></div>';
             });
@@ -67,7 +67,7 @@ export default class LLService extends DictionaryService {
         let originalWord = response.inputData.word;
         let baseForm = null;
         if (notEmpty(response.word_forms)) {
-            if (strHelper.trimText(originalWord.toLowerCase()) != strHelper.trimText(response.word_forms[0].word.toLowerCase()))
+            if (StringHelper.trimText(originalWord.toLowerCase()) != StringHelper.trimText(response.word_forms[0].word.toLowerCase()))
                 baseForm = response.word_forms[0].word;
         }
 
@@ -90,7 +90,7 @@ export default class LLService extends DictionaryService {
             soundUrl: response.sound_url || '',
             soundHint: 'Listen',
             hasPic: !!response.pic_url,
-            picUrl: response.pic_url || chrome.extension.getURL('/images/ll/blank.gif'),
+            picUrl: response.pic_url || chrome.extension.getURL('assets/images/ll/blank.gif'),
             context: null,
             wordLink: inDict ? this.config.domain + templatesHelper.formatStr(this.config.path.wordArticle, {
                 originalWord: originalWord.toLocaleLowerCase()
@@ -101,7 +101,7 @@ export default class LLService extends DictionaryService {
     }
 
     generateTranslationsCard(responseData) {
-        let contentEl = $(strHelper.format(LLService.CARD_TEMPLATE, this.getArticleTemplateData(responseData)));
+        let contentEl = $(StringHelper.format(CARD_TEMPLATE, this.getArticleTemplateData(responseData)));
 
         // .play sound click
         this.addEventData(contentEl.find('#lleo_sound'), 'click', 'llHandlers.play_sound', 'this');

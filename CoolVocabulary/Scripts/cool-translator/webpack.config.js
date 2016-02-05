@@ -5,6 +5,9 @@ const webpack = require('webpack');
 const path = require('path');
 let ExtractTextPlugin = require('extract-text-webpack-plugin');
 
+let EXTENSION_ID = NODE_ENV=='development' ? 'ppgnibapoaghkefnghplaanppljbhboo':'cifbpdjhjkopeekabdgfjgmcbcgloioi';
+
+
 module.exports = {
   context: path.resolve(__dirname, "./dev"),
   entry: {
@@ -16,6 +19,7 @@ module.exports = {
 
   output: {
     path: __dirname + '/public/assets',
+    publicPath: 'chrome-extension://'+EXTENSION_ID+'/assets/',
     filename: "[name].js",
     library: "[name]"
   },
@@ -26,7 +30,7 @@ module.exports = {
     aggregateTimeout: 100
   },
 
-  devtool: NODE_ENV == 'development' ? "cheap-inline-module-source-map" : null,
+  //devtool: NODE_ENV == 'development' ? "cheap-inline-module-source-map" : null,
 
   plugins: [
     new webpack.NoErrorsPlugin(),
@@ -37,7 +41,7 @@ module.exports = {
       name: "common"
     }),
     new webpack.ProvidePlugin({
-      '$':'jquery-with-plugins' 
+      '$':'jquery'
     }),
     new ExtractTextPlugin('[name].css')
   ],

@@ -2,7 +2,11 @@
 
 import DictionaryProvider from '../common/dictionary-provider';
 
-export default class LingueeProvider {
+export default class LingueeProvider extends DictionaryProvider {
+	constructor(config){
+		super(config);
+	}
+	
 	requestTranslationsData(requestData) {
 		return this.requestPage(this.config.ajax.translate, requestData, '.innercontent');
 	}

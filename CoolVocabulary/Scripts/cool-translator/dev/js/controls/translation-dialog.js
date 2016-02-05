@@ -7,8 +7,11 @@ import LangSwitcher from './language-switcher';
 import LoginForm from './login-form';
 import SelectBook from './select-book';
 import NotificationPopup from './notification-popup';
-
+import Vocabulary from '../services/vocabulary';
+import AddTranslation from './add-translation';
 import Reactor from 'reactor';
+import SelectionHelper from 'selection-helper';
+import StringHelper from 'string-helper';
 
 const LANG_PAIR_CHANGED = 'langPairChanged';
 const ACTIVE_CLASS = 'ctr-active';
@@ -43,6 +46,7 @@ const TEMPLATE =
 
 export default class TranslationDialog {
   constructor(allSources, vocabulary, langDetector) {
+    var self = this;
     this.allSources = allSources;
     this.vocabulary = vocabulary;
     this.langDetector = langDetector;
@@ -68,6 +72,25 @@ export default class TranslationDialog {
 
     this.reactor = new Reactor();
     this.reactor.registerEvent(LANG_PAIR_CHANGED);
+
+    this.vocabulary.addEventListener(Vocabulary.CHECK_AUTH_END, this._onCheckAuthEnd.bind(this));
+    function bindAddTranslationEvents(tab){
+      if(tab.addTranslation){
+        tab.addTranslation.addEventListener(AddTranslation.SHOW_LOGIN, self.showLoginForm.bind(self));
+        tab.addTranslation.addEventListener(AddTranslation.SHOW_SELECT_BOOK, self.showSelectBook.bind(self));
+        tab.addTranslation.addEventListener(AddTranslation.SHOW_NOTIFICATION, self.showNotification.bind(self));
+        tab.addTranslation.addEventListener(AddTranslation.SHOW_ERROR, self.showError.bind(self));
+      }
+    }
+    for(var id in this.allSources){
+      this.allSources[id].tabs.forEach(bindAddTranslationEvents);
+    }
+  }
+  
+  _onCheckAuthEnd(){
+    if(this.vocabulary.user){
+      this.hideLoginForm();
+    }
   }
 
   _getAllSupportedLangs(allSources) {
@@ -162,6 +185,7 @@ export default class TranslationDialog {
   }
 
   _detectLanguageAndLoadAll(inputData) {
+    let self = this;
     // . detect language
     this._showLoadingForAll(inputData);
     this.langDetector.detect(inputData.word, function(promise) {
@@ -290,8 +314,8 @@ export default class TranslationDialog {
       },
       onLoseFocus: self.focusInput.bind(self)
     };
-    this.sourceLangSelector = new LangSelector('#sourceLangSelector', this.allSupportedLangs, options);
-    this.targetLangSelector = new LangSelector('#targetLangSelector', this.allSupportedLangs, options);
+    this.sourceLangSelector = new LangSelector('#sourceLangSelector', this.allSupportedLangs, this, options);
+    this.targetLangSelector = new LangSelector('#targetLangSelector', this.allSupportedLangs, this, options);
     this.langSwitcher = new LangSwitcher(this.sourceLangSelector, this.targetLangSelector);
   }
 
@@ -317,7 +341,7 @@ export default class TranslationDialog {
       this.el.removeClass('ctr-show');
       this.el.addClass('ctr-hide');
       if (this.selectionBackup) {
-        selectionHelper.restoreSelection(this.selectionBackup);
+        SelectionHelper.restoreSelection(this.selectionBackup);
         this.selectionBackup = null;
       }
       this.inputEl.val('');
@@ -363,7 +387,7 @@ export default class TranslationDialog {
 
   _onMouseDown(e) {
     if (!this.isActive ||
-      $.contains(Dialog.el[0], e.target) ||
+      $.contains(this.el[0], e.target) ||
       (!this.isExtension && $.contains(this.attachBlockEl[0], e.target)))
       return;
     this._hide();
@@ -382,7 +406,7 @@ export default class TranslationDialog {
     this.el.addClass('ctr-extension');
     this.inputFormEl.showImportant();
     this.isExtension = true;
-    this.selectionBackup = selectionHelper.saveSelection();
+    this.selectionBackup = SelectionHelper.saveSelection();
     this._show(word);
   }
 
@@ -427,7 +451,7 @@ export default class TranslationDialog {
   getInputData() {
     let lp = this.getLangPair();
     return {
-      word: strHelper.trimText(this.inputEl.val()),
+      word: StringHelper.trimText(this.inputEl.val()),
       sourceLang: lp.sourceLang,
       targetLang: lp.targetLang
     };
@@ -441,8 +465,8 @@ export default class TranslationDialog {
     this.notificationPopup.show(title, bodyHtml);
   }
 
-  showLoginForm(service, loginCallback) {
-    this.loginForm.show(service, loginCallback);
+  showLoginForm(loginCallback) {
+    this.loginForm.show(this.vocabulary, loginCallback);
   }
 
   hideLoginForm() {
@@ -477,7 +501,7 @@ export default class TranslationDialog {
   }
 
   isInputFocused() {
-    return document.activeElement === Dialog.inputEl[0];
+    return document.activeElement === this.inputEl[0];
   }
 
   focusInput() {

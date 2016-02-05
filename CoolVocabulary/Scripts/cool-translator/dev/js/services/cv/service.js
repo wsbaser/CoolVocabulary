@@ -3,10 +3,7 @@
 import DECalculator from './de-calculator';
 import Reactor from 'reactor';
 
-export const CHECK_AUTH_END = 'authend';
-export const USER_DATA_UPDATED = 'userdataupdated';
-
-export default CVService {
+export default class CVService {
     constructor(provider, services) {
         this.config = provider.config;
         this.provider = provider;
@@ -15,10 +12,21 @@ export default CVService {
             this.services[service.config.id] = service;
         }.bind(this));
         this.reactor = new Reactor();
-        this.reactor.registerEvent(CHECK_AUTH_END);
-        this.reactor.registerEvent(USER_DATA_UPDATED);
+        this.reactor.registerEvent(CVService.CHECK_AUTH_END);
+        this.reactor.registerEvent(CVService.USER_DATA_UPDATED);
         this.deCalculator = new DECalculator();
     }
+
+    //***** STATIC ****************************************************************************************************
+    static get CHECK_AUTH_END(){
+        return 'authend';
+    }
+
+    static get USER_DATA_UPDATED(){
+        return 'userdataupdated';
+    }
+
+    //***** PRIVATE ***************************************************************************************************
 
     _getResolvedPromise(data) {
         var deferred = $.Deferred();
@@ -29,11 +37,11 @@ export default CVService {
     /* protected methods */
 
     addAuthEndListener(handler) {
-        this.reactor.addEventListener(CHECK_AUTH_END, handler)
+        this.reactor.addEventListener(CVService.CHECK_AUTH_END, handler)
     }
 
     addUserDataUpdatedListener(handler) {
-        this.reactor.addEventListener(USER_DATA_UPDATED, handler)
+        this.reactor.addEventListener(CVService.USER_DATA_UPDATED, handler)
     }
 
     getPronunciation(inputData, method) {
@@ -182,7 +190,7 @@ export default CVService {
         //     return;
         // }
         this.user = this.aggregateUserData(user, languages);
-        this.reactor.dispatchEvent(CHECK_AUTH_END);
+        this.reactor.dispatchEvent(CVService.CHECK_AUTH_END);
     }
 
     updateLanguageBooks(language, books) {
@@ -190,7 +198,7 @@ export default CVService {
 
         this.aggregateTranslationsData(this.user.languagesData);
         this.user.hasUncompletedDE = this.hasAnyUncompletedDE(this.user.languagesData);
-        this.reactor.dispatchEvent(USER_DATA_UPDATED);
+        this.reactor.dispatchEvent(CVService.USER_DATA_UPDATED);
     }
 
     addTranslationToBook(userBookDto, bookDto, bookWordDto, translationDto) {
@@ -205,7 +213,7 @@ export default CVService {
 
         this.aggregateTranslationsData(this.user.languagesData);
         this.user.hasUncompletedDE = this.hasAnyUncompletedDE(this.user.languagesData);
-        this.reactor.dispatchEvent(USER_DATA_UPDATED);
+        this.reactor.dispatchEvent(CVService.USER_DATA_UPDATED);
     }
 
     findLanguageBook(language, id) {

@@ -1,6 +1,9 @@
 'use strict';
 
 import '../../styles/add-translation.styl';
+import Reactor from 'reactor';
+import Vocabulary from '../services/vocabulary';
+
 
 const TRANSL_ITEM_CLASS = 'ctr-translItem';
 const TEMPLATE =
@@ -40,19 +43,44 @@ const TEMPLATE =
     </tbody>\
 </table>';
 
-export default class AddTranslationControl{
-    constructor(serviceProvider) {
-        this.vocabulary = serviceProvider.getVocabulary();
-        this.dialog = serviceProvider.getDialog();
+export default class AddTranslation{
+    constructor(vocabulary, translationItemSelector, translationWordSelector) {
+        this.vocabulary = vocabulary;
+        this.translationItemSelector = translationItemSelector;
+        this.translationWordSelector = translationWordSelector;
+
         this.translationsList = null;
-        this.translationItemSelector = null;
         this.isAuthenticated = false;
         this._createEl();
         this.vocabulary.addEventListener(Vocabulary.CHECK_AUTH_START, this._onCheckAuthStart.bind(this));
         this.vocabulary.addEventListener(Vocabulary.CHECK_AUTH_END, this._onCheckAuthEnd.bind(this));
+
+        this.reactor = new Reactor();
+        this.reactor.registerEvent(AddTranslation.SHOW_LOGIN);
+        this.reactor.registerEvent(AddTranslation.SHOW_SELECT_BOOK);
+        this.reactor.registerEvent(AddTranslation.SHOW_NOTIFICATION);
+        this.reactor.registerEvent(AddTranslation.SHOW_ERROR);
     }
 
-    //***** Private ****************************************************************************************************
+    //***** STATIC ****************************************************************************************************
+
+    static get SHOW_LOGIN(){
+        return 'showlogin';
+    }
+
+    static get SHOW_SELECT_BOOK(){
+        return 'showselectbook';
+    }
+
+    static get SHOW_NOTIFICATION(){
+        return 'shownotification';
+    }
+
+    static get SHOW_ERROR(){
+        return 'showerror';
+    }
+
+    //***** PRIVATE ****************************************************************************************************
     _onCheckAuthStart() {
         this._showLoading();
         this.userColEl.hide();
@@ -62,7 +90,6 @@ export default class AddTranslationControl{
         this._hideLoading();
         this.isAuthenticated = !!this.vocabulary.user;
         if (this.isAuthenticated) {
-            this.dialog.hideLoginForm();
             this.userNameEl.text(this.vocabulary.user.name);
             this.userColEl.showImportant();
             this.loginCaptionEl.hide();
@@ -97,7 +124,7 @@ export default class AddTranslationControl{
     }
 
     _showLoginForm(callback) {
-        this.dialog.showLoginForm(this.vocabulary, callback);
+        this.reactor.dispatchEvent(AddTranslation.SHOW_LOGIN, callback);
     }
 
     _showLoading() {
@@ -114,7 +141,7 @@ export default class AddTranslationControl{
         let self = this;
         let inputData = self.translationsList.data;
         let translation = self.selectedTranslationEl.val();
-        this.dialog.showSelectBook(inputData, translation, function() {
+        this.reactor.dispatchEvent(AddTranslation.SHOW_SELECT_BOOK, inputData, translation, function() {
             self._showLoading();
             self.vocabulary.addTranslation(inputData, translation, self.translationsList.serviceId, function(promise) {
                 promise.done(function(response) {
@@ -136,12 +163,13 @@ export default class AddTranslationControl{
     }
 
     _showTranslationAddedNotification(inputData, translation) {
-        this.dialog.showNotification('Translation added',
+        this.reactor.dispatchEvent(AddTranslation.SHOW_NOTIFICATION, 
+            'Translation added',
             inputData.word + ' - ' + translation);
     }
 
     _showAddTranslationError(error_msg) {
-        this.dialog.showError(error_msg);
+        this.reactor.dispatchEvent(AddTranslation.SHOW_ERROR, error_msg);
     }
 
     _selectTranslationItem(e) {
@@ -195,12 +223,10 @@ export default class AddTranslationControl{
 
     //***** PUBLIC ***************************************************************************************************
 
-    init(translationsList, translationItemSelector, translationWordSelector) {
+    init(translationsList) {
+        this.translationsList = translationsList;
         this.setTranslation('');
         let self = this;
-        this.translationsList = translationsList;
-        this.translationItemSelector = translationItemSelector;
-        this.translationWordSelector = translationWordSelector;
         this._forEachTranslationItem(function(i, itemEl) {
             itemEl = $(itemEl);
             itemEl.addClass(TRANSL_ITEM_CLASS);
@@ -220,4 +246,9 @@ export default class AddTranslationControl{
             this.buttonEl.removeClass('ctr-active');
         }
     }
+
+    addEventListener(eventType, handler){
+        this.reactor.addEventListener(eventType, handler);
+    }
+    
 }

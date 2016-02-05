@@ -6,9 +6,9 @@
   "description": "7 languages, 6 supported translation services. Translate words, add words to vocabulary, memorize words at coolvocabulary.com.",
   "content_security_policy": "script-src 'self' ; object-src 'self'",
    "icons": {
-      "16": "images/icon16.png",
-      "48": "images/icon48.png",
-      "128": "images/icon128.png"
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
    },
   "background": {
     "page": "background.html",
@@ -17,67 +17,32 @@
   "content_scripts": [{
     "all_frames": false,
     "js": [
-      "js/lib/jquery-1.10.2.min.js",
-      "js/utils.js",
-      "js/content_utils.js",
-      "js/controls/add_translation.js",
-      "js/controls/content_langselector.js",
-      "js/controls/login_form.js",
-      "js/controls/select_book.js",
-      "js/controls/notification_popup.js",
-      "js/sources/common/content_types.js",
-      "js/sources/common/common_handlers.js",
-      "js/sources/abby/abby_config.js",
-      "js/sources/abby/abby_handlers.js",
-      "js/sources/google/google_config.js",
-      "js/sources/linguee/linguee_config.js",
-      "js/sources/linguee/linguee_handlers.js",
-      "js/sources/ll/ll_config.js",
-      "js/sources/ll/ll_handlers.js",
-      "js/sources/tfd/tfd_config.js",
-      "js/sources/tfd/tfd_handlers.js",
-      "js/sources/multitran/multitran_config.js",
-      "js/sources/cv/cv_config.js",
-      "js/sources/source_tab.js",
-      "js/sources/source.js",
-      "js/sources/services_connection.js",
-      "js/sources/vocabulary.js",
-      "js/sources/lang_detector.js",
-      "js/dialog.js",
-      "js/messagetypes.js",
-      "js/content.js"
+      "assets/common.js",
+      "assets/content.js"
       ],
     "css": [
-      "css/common.css",
-      "css/dialog.css",
-      "css/login_form.css",
-      "js/sources/abby/abby_style.css",
-      "js/sources/google/google_style.css",
-      "js/sources/linguee/linguee_style.css",
-      "js/sources/ll/ll_style.css",
-      "js/sources/tfd/tfd_style.css",
-      "js/sources/multitran/multitran_style.css"
+      "assets/content.css"
     ],
     "matches": [ "<all_urls>" ],
     "run_at": "document_end"
   }],
   "permissions": ["tabs", "<all_urls>"],
   "web_accessible_resources": [
-    "images/icon16.png", 
-    "images/add.png",
-    "images/flags.png",
-    "images/sprites.png",
-    "images/linguee/sprites14.png", 
-    "images/ll/sound.png",
-    "images/ll/marker.png",
-    "images/ll/blank.gif",
-    "images/abby_icons.png",
-    "images/bg.png"],
+    "assets/images/linguee/sprites14.png", 
+    "assets/images/ll/sound.png",
+    "assets/images/ll/marker.png",
+    "assets/images/ll/blank.gif",
+    "assets/images/abby/icons.png",
+    "assets/images/bg.png",
+    "assets/images/icon16.png",
+    "assets/images/add.png",
+    "assets/images/flags.png",
+    "assets/images/sprites.png"],
   "externally_connectable": {
     "matches": [ "http://localhost:13189/*", "http://localhost/*", "http://coolvocabulary.com/*" ]
   },
   "browser_action": {
-    "default_icon": "images/icon48.png",
+    "default_icon": "icons/icon48.png",
     "default_popup": "popup_login.html"
   }
 }

@@ -11,10 +11,11 @@ const SELECTED_CLASS = 'ctr-selected';
 const CONTENT_CLASS = 'ctr-tab-content';
 
 export default class SourceTab{
-    constructor(serviceId, contentType, options) {
+    constructor(serviceId, contentType, addTranslation) {
         this.serviceId = serviceId;
         this.contentType = contentType;
-        this.options = options || {};
+        this.addTranslation = addTranslation;
+
         this.title = ContentTypes.getTitle(this.contentType);
         this.rootEl = $('<div/>');
         this.rootEl.hide();
@@ -23,13 +24,6 @@ export default class SourceTab{
         this.navigationEl = this._createNavigationEl();
         this.hasContent = false;
         this.isLoading = false;
-        if (contentType === ContentTypes.TRANSLATIONS) {
-            if (!options.translationItemSelector)
-                throw new Error('Translation item selector not specified.');
-            if (!options.vocabulary)
-                throw new Error('vocabulary not specified.');
-            this.addTranslation = new AddTranslation(options.serviceProvider);
-        }
     }
 
     init(data, content, error, prompts) {
@@ -43,9 +37,7 @@ export default class SourceTab{
             this._bindDataEvents(this.contentEl);
             this.navigationEl.addClass(ACTIVE_CLASS);
             if (this.contentType === ContentTypes.TRANSLATIONS) {
-                this.addTranslation.init(this,
-                    this.options.translationItemSelector,
-                    this.options.translationWordSelector);
+                this.addTranslation.init(this);
                 this.rootEl.append(this.addTranslation.el);
             }
         } else {
@@ -97,7 +89,7 @@ export default class SourceTab{
 
     _createNavigationEl() {
         let li = $('<li/>', {
-            class: Source.ACTIVE_CLASS
+            class: ACTIVE_CLASS
         });
         let a = $('<a/>', {
             html: this.title

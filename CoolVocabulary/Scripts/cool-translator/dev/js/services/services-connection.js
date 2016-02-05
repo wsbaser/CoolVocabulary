@@ -1,5 +1,7 @@
 'use strict';
 
+import guid from 'guid';
+
 export default class ServicesConnection{
   constructor(name){
     this.name = name;

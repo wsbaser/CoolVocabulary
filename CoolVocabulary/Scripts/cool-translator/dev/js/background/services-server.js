@@ -1,5 +1,7 @@
 'use strict';
 
+import guid from 'guid';
+
 const CONNECTION_NAME = "services_connection";
 
 export default class ServicesServer{
@@ -81,7 +83,7 @@ export default class ServicesServer{
         }.bind(this));
     }
 
-    create(servicesArr){
+    static create(servicesArr){
         var services = {};
         servicesArr.forEach(function(service){
             services[service.config.id] = service;

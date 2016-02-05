@@ -3,6 +3,9 @@
 import DictionaryProvider from '../common/dictionary-provider';
 
 export default class LLProvider extends DictionaryProvider {
+    constructor(config){
+        super(config);
+    }
 
     _isTextTooLong(text) {
         return text.replace(/ |\t|\r|\n/igm, '').length > this.config.maxTextLengthToTranslate;

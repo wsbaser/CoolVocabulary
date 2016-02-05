@@ -3,7 +3,7 @@
 const DAILY_PROMOTES_PLAN = 15;
 const MAX_LEARN_LEVEL = 5;
 
-export default DECalculator {
+export default class DECalculator {
 	DENotCompleted(userBooks) {
 		return this.getPromotesCount(userBooks, new Date()) < DAILY_PROMOTES_PLAN;
 	}

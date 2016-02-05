@@ -6,10 +6,11 @@ const SELECTED_CLASS = "ctr-selected";
 const ACTIVE_CLASS = "ctr-active";
 
 export default class LangSelector{
-    constructor(rootSelector, languages, options) {
+    constructor(rootSelector, languages, dialog, options) {
         this.el = $(rootSelector);
         this.el.addClass('ctr-lang-selector');
         this.languages = languages;
+        this.dialog = dialog;
         this.options = options;
 
         this.selectedIndex = null;
@@ -96,7 +97,7 @@ export default class LangSelector{
     _showList() {
         this.oldSelectedIndex = this.selectedIndex;
         this.langListEl.show();
-        Dialog.inputEl.blur();
+        this.dialog.inputEl.blur();
         this.el.addClass(ACTIVE_CLASS);
         this.isActive = true;
     }

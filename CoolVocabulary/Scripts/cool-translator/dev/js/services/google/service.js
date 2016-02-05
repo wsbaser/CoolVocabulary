@@ -2,6 +2,7 @@
 
 import DictionaryService from '../common/dictionary-service';
 import ContentTypes from '../common/content-types';
+import StringHelper from 'string-helper';
 
 const TRANSLATIONS_HEADER =
     '<div class="gt-cd-t">' +
@@ -62,21 +63,21 @@ export default class GoogleService extends DictionaryService {
                 let spTranslations = data.translations[sp];
                 let listHtml = $.map(spTranslations, function(entry) {
                     let reverseTranslationsHtml = $.map(entry.reverse_translation || [], function(word) {
-                        return strHelper.format(REVERSE_TRANSLATION, {
+                        return StringHelper.format(REVERSE_TRANSLATION, {
                             word: word
                         });
                     }).join(', ');
-                    return strHelper.format(TRANSLATIONS_ITEM, {
+                    return StringHelper.format(TRANSLATIONS_ITEM, {
                         word: entry.word,
                         reverseTranslations: reverseTranslationsHtml
                     });
                 }).join('');
-                translationsHtml += strHelper.format(TRANSLATIONS_LIST, {
+                translationsHtml += StringHelper.format(TRANSLATIONS_LIST, {
                     pos: sp,
                     translationsListHtml: listHtml
                 });
             };
-            let headerHtml = strHelper.format(TRANSLATIONS_HEADER, {
+            let headerHtml = StringHelper.format(TRANSLATIONS_HEADER, {
                 word: data.word
             });
             let contentEl = $('<section/>', {
@@ -95,18 +96,18 @@ export default class GoogleService extends DictionaryService {
                 let spDefinitions = data.definitions[sp];
                 if (spDefinitions.length) {
                     let listHtml = $.map(spDefinitions, function(item) {
-                        return strHelper.format(DEFINITION_ITEM, {
+                        return StringHelper.format(DEFINITION_ITEM, {
                             definition: item.definition,
                             example: item.example || ''
                         });
                     }).join('');
-                    definitionsHtml += strHelper.format(DEFINITIONS, {
+                    definitionsHtml += StringHelper.format(DEFINITIONS, {
                         pos: sp,
                         definitionsListHtml: listHtml
                     });
                 }
             };
-            let headerHtml = strHelper.format(DEFINITIONS_HEADER, {
+            let headerHtml = StringHelper.format(DEFINITIONS_HEADER, {
                 word: data.word
             });
 
@@ -120,11 +121,11 @@ export default class GoogleService extends DictionaryService {
     generateExamplesCard(data) {
         if (data && data.examples.length > 0) {
             let examplesListHtml = $.map(data.examples, function(example) {
-                return strHelper.format(EXAMPLE_ITEM, {
+                return StringHelper.format(EXAMPLE_ITEM, {
                     example: example
                 });
             }).join('');
-            let examplesHtml = strHelper.format(EXAMPLES, {
+            let examplesHtml = StringHelper.format(EXAMPLES, {
                 examplesListHtml: examplesListHtml
             });
             return $('<section/>', {

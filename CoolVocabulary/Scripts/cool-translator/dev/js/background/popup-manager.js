@@ -22,7 +22,7 @@ export default class PopupManager{
     }
 
     init(){
-        servicesProvider.cv.addAuthEndListener(this._updateBadge.bind(this));
-        servicesProvider.cv.addUserDataUpdatedListener(this._updateBadge.bind(this));
+        this.servicesProvider.cv.addAuthEndListener(this._updateBadge.bind(this));
+        this.servicesProvider.cv.addUserDataUpdatedListener(this._updateBadge.bind(this));
     }
 }

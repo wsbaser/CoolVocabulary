@@ -2,6 +2,8 @@
 
 import MessageTypes from '../message-types';
 import ServiceProvider from './service-provider';
+import SelectionHelper from 'selection-helper';
+import StringHelper from 'string-helper'; 
 
 export default class CTContent {
     constructor() {
@@ -16,7 +18,7 @@ export default class CTContent {
         this._addInstalledMarker();
         this._loadInitializationData(function(data) {
             self.dialog.setLangPair(data.langPair);
-            self.dialog.addLangPairChangedListener(this._onLangPairChanged);
+            self.dialog.addLangPairChangedListener(self._onLangPairChanged.bind(self));
         });
         this._listenBackground();
         this._bindEventHandlers();
@@ -63,9 +65,9 @@ export default class CTContent {
                 '' :
                 inputElement.value.substring(inputElement.selectionStart, inputElement.selectionEnd);
         } else {
-            text = selectionHelper.getSelection().toString();
+            text = SelectionHelper.getSelection().toString();
         }
-        return strHelper.trimText(text);
+        return StringHelper.trimText(text);
     }
 
     _showDialogForCurrentSelection(inputElement, force) {
@@ -73,9 +75,9 @@ export default class CTContent {
             return;
         let word = this._getSelectedText(inputElement);
         if (/^\D+$/g.test(word) && word.split(' ').length <= 3) {
-            Dialog.showForExtension(word);
+            this.dialog.showForExtension(word);
         } else if (force) {
-            Dialog.showForExtension();
+            this.dialog.showForExtension();
         }
     };
 
@@ -102,10 +104,10 @@ export default class CTContent {
     }
 
     keyUp(e) {
-        if (!Dialog || !Dialog.isActive)
+        if (!this.dialog || !this.dialog.isActive)
             return;
-        if (e.keyCode == 17 && Dialog.sourceWithActiveLink !== Dialog.activeSource)
-            Dialog.activateSourceWithActiveLink();
+        if (e.keyCode == 17 && this.dialog.sourceWithActiveLink !== this.dialog.activeSource)
+            this.dialog.activateSourceWithActiveLink();
     }
 
     keyDown(e) {
@@ -120,59 +122,59 @@ export default class CTContent {
         let isCommandKeyPressed = ((this.isMac && e.shiftKey && !e.ctrlKey) ||
             (!this.isMac && e.ctrlKey && !e.shiftKey)) && !e.altKey && !e.metaKey;
 
-        if (Dialog && Dialog.isActive && !Dialog.loginForm.isVisible()) {
-            // . Dialog is Visible
-            let langSelectorIsActive = Dialog.sourceLangSelector.isActive || Dialog.targetLangSelector.isActive;
+        if (this.dialog && this.dialog.isActive && !this.dialog.loginForm.isVisible()) {
+            // . this.dialog is Visible
+            let langSelectorIsActive = this.dialog.sourceLangSelector.isActive || this.dialog.targetLangSelector.isActive;
             if (e.keyCode === 27 && !langSelectorIsActive) { // Esc + language selectors are't active
-                Dialog.hide();
+                this.dialog.hide();
                 return cancelEvent(e);
             }
-            if (Dialog.isInputFocused() || langSelectorIsActive) {
+            if (this.dialog.isInputFocused() || langSelectorIsActive) {
                 if (isCommandKeyPressed) {
                     if (e.keyCode === 13) { // Ctrl + Enter
-                        Dialog.langSwitcher.switch(Dialog.focusInput.bind(Dialog));
+                        this.dialog.langSwitcher.switch(this.dialog.focusInput.bind(this.dialog));
                         return cancelEvent(e);
                     }
                     if (e.keyCode === 37) { // Ctrl + Left
-                        Dialog.targetLangSelector.hideList();
-                        Dialog.sourceLangSelector._showList();
+                        this.dialog.targetLangSelector.hideList();
+                        this.dialog.sourceLangSelector._showList();
                         return cancelEvent(e);
                     }
                     if (e.keyCode === 39) { // Ctrl + Right
-                        Dialog.sourceLangSelector.hideList();
-                        Dialog.targetLangSelector._showList();
+                        this.dialog.sourceLangSelector.hideList();
+                        this.dialog.targetLangSelector._showList();
                         return cancelEvent(e);
                     }
                 }
             } else {
                 if (isCommandKeyPressed) {
                     if (e.keyCode === 37) { // Ctrl + Left
-                        Dialog.selectPrevSource();
+                        this.dialog.selectPrevSource();
                         return cancelEvent(e);
                     }
                     if (e.keyCode === 39) { // Ctrl + Right
-                        Dialog.selectNextSource();
+                        this.dialog.selectNextSource();
                         return cancelEvent(e);
                     }
                 }
-                if (Dialog.activeSource) {
+                if (this.dialog.activeSource) {
                     if (e.keyCode === 37) { // Left
-                        Dialog.activeSource.selectPrevNavigationItem();
+                        this.dialog.activeSource.selectPrevNavigationItem();
                         return cancelEvent(e);
                     }
                     if (e.keyCode === 39) { // Right
-                        Dialog.activeSource.selectNextNavigationItem();
+                        this.dialog.activeSource.selectNextNavigationItem();
                         return cancelEvent(e);
                     }
                 }
             }
 
             if (isCommandKeyPressed && e.keyCode === 32) { // Ctrl + Space
-                Dialog.focusInput();
+                this.dialog.focusInput();
                 return cancelEvent(e);
             }
         } else {
-            // Dialog is Hidden
+            // this.dialog is Hidden
             if (isCommandKeyPressed && e.keyCode === 32) { // Ctrl + Space
                 if (this.dataFromSite &&
                     $(this.dataFromSite.attachBlockSelector).length)
@@ -193,7 +195,7 @@ export default class CTContent {
             this.dataFromSite.bookId);
     }
 
-    initSiteDialog(langPair, attachBlockSelector, bookId) {
+    initSiteDalog(langPair, attachBlockSelector, bookId) {
         let self = this;
         this.dataFromSite = {
             langPair: langPair,

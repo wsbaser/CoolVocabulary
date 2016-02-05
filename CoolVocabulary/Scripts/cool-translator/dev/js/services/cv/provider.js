@@ -3,10 +3,10 @@
 import DictionaryProvider from '../common/dictionary-provider';
 
 export default class CVProvider extends DictionaryProvider {
-    constructor(config) {
-        this.config = config;
+    constructor(config){
+        super(config);
     }
-
+    
     _rejectUnauthorized(deferred, xhr) {
         var response = JSON.parse(xhr.getResponseHeader("X-Responded-JSON"));
         if (response && response.status == 401) {

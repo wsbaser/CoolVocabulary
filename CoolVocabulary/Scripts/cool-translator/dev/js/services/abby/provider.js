@@ -4,6 +4,10 @@ import ContentTypes from '../common/content-types';
 import DictionaryProvider from '../common/dictionary-provider';
 
 export default class AbbyProvider extends DictionaryProvider{
+	constructor(config){
+		super(config);
+	}
+	
 	requestTranslations(requestData) {
 	    return this.requestPage(this.config.ajax.translate, requestData, '.l-article');
 	}

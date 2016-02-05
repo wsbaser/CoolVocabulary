@@ -3,12 +3,16 @@
 import '../../../styles/common.styl';
 import '../../../styles/popup.styl';
 
-import ServicesProvider from '../../content/service-provider';
+import CVConfig from '../../services/cv/config';
 import LoginForm from '../../controls/login-form';
+import injectJQueryPlugins from 'jquery-plugins';
+
+injectJQueryPlugins();
 
 window.onload = function(){
-	var servicesProvider = new ServicesProvider();
-	var vocabulary = servicesProvider.getVocabulary();
+    let connection = new ServicesConnection("services_connection");
+    connection.open();
+    let vocabulary = new Vocabulary(CVConfig, connection);
 
     var popupWindow = window;
 	var loginForm = new LoginForm('#ctr_root');

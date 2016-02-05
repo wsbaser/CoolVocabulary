@@ -1,4 +1,5 @@
 'use strict';
+import StringHelper from 'string-helper';
 
 export default class DictionaryService {
 	constructor(provider) {
@@ -29,7 +30,7 @@ export default class DictionaryService {
 	}
 
 	generateCard(contentType, data) {
-		var methodName = 'generate' + strHelper.capitalizeFirstLetter(contentType) + 'Card';
+		var methodName = 'generate' + StringHelper.capitalizeFirstLetter(contentType) + 'Card';
 		var method = this[methodName];
 		if (method == null)
 			throw new Error('Content type not supported');
@@ -38,7 +39,7 @@ export default class DictionaryService {
 
 	/* If service did not recognized word it can provide prompts with similar words */
 	generatePrompts(contentType, data) {
-		var methodName = 'generate' + strHelper.capitalizeFirstLetter(contentType) + 'Prompts';
+		var methodName = 'generate' + StringHelper.capitalizeFirstLetter(contentType) + 'Prompts';
 		var method = this[methodName];
 		if (this[methodName] == null)
 			return null;

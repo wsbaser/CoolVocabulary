@@ -5,6 +5,10 @@ import SpeachParts from '../common/speach-parts';
 import ContentTypes from '../common/content-types';
 
 export default class LingueeService extends DictionaryService {
+    constructor(provider){
+        super(provider);
+    }
+    
     removeExpandIcon(el) {
         // TODO: add expanding support later
         el.find('.expand_i').remove();

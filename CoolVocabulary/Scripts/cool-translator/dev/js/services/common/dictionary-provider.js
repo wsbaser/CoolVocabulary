@@ -1,4 +1,5 @@
 'use strict';
+import StringHelper from 'string-helper';
 
 export default class DictionaryProvider {
     constructor(config) {
@@ -38,7 +39,7 @@ export default class DictionaryProvider {
         let targetLang = this.config.languages[data.targetLang];
         data.sourceLangId = sourceLang && sourceLang.id;
         data.targetLangId = targetLang && targetLang.id;
-        return strHelper.format(url, data);
+        return StringHelper.format(url, data);
     }
 
     requestPage(urlTemplate, requestData, responseSelector) {

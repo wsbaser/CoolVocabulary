@@ -30,11 +30,11 @@ export default class ExtensionContentServer{
         switch(message.type){
             case MessageTypes.LoadInitializationData:
                 callback({
-                    langPair: _loadLangPair()
+                    langPair: this._loadLangPair()
                 });
                 break;
             case MessageTypes.SaveLangPair:
-                _saveLangPair(message.langPair)
+                this._saveLangPair(message.langPair)
                 break;
             default:
                 console.error('Unknown message type:' + message.type);

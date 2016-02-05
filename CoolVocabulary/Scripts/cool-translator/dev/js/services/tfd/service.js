@@ -4,6 +4,10 @@ import DictionaryService from '../common/dictionary-service';
 import ContentTypes from '../common/content-types';
 
 export default class TfdService extends DictionaryService {
+    constructor(provider){
+        super(provider);
+    }
+    
     generatePrompts(contentType, contentEl) {
         if (contentEl.text().indexOf('Word not found') != -1) {
             this._configureNoResultsWarning(contentEl);
