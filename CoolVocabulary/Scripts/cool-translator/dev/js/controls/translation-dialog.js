@@ -271,7 +271,7 @@ export default class TranslationDialog {
     this.loginForm = new LoginForm('.popover-container');
     this.selectBook = new SelectBook('.popover-container');
     this.inputFormEl = $('#ctr_wordInputForm');
-    $('#ctr_closeBtn').bind('click', this._hide);
+    $('#ctr_closeBtn').bind('click', this.hide);
     this.inputFormEl.bind('submit', this._submitInputData.bind(this));
     //$('#ctr_settings_icon').bind('click', this.openSettings);
     $('#ctr_header_bg').show();
@@ -284,7 +284,7 @@ export default class TranslationDialog {
     if (this.langPair) {
       this.setLangPair(this.langPair);
     }
-    $(window).on('resize', this._hide.bind(this));
+    $(window).on('resize', this.hide.bind(this));
     document.addEventListener('mousedown', this._onMouseDown.bind(this));
   }
 
@@ -334,7 +334,7 @@ export default class TranslationDialog {
     this._updateSourcesContent();
   };
 
-  _hide() {
+  hide() {
     let self = this;
     if (this.isActive) {
       this.hideLoginForm();
@@ -397,7 +397,7 @@ export default class TranslationDialog {
       $.contains(this.el[0], e.target) ||
       (!this.isExtension && $.contains(this.attachBlockEl[0], e.target)))
       return;
-    this._hide();
+    this.hide();
     //e.preventDefault();
     //return false;
   }
