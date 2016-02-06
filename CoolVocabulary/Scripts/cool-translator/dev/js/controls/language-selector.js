@@ -62,6 +62,12 @@ export default class LangSelector{
     }
 
     _bindEvents() {
+        function cancelEvent(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        }
+
         // . bind events for hiding
         document.addEventListener('click', function(e) {
             if (!$.contains(this.el[0], e.target))

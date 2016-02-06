@@ -1,7 +1,7 @@
 function CTAdapter(){
 	this.extensionIsActive = undefined;
 	this.extensionId = DEBUG?
-		"eplepheahdinbfhnjjnkhkebfdhenbad":
+		"ppgnibapoaghkefnghplaanppljbhboo":
 		"cifbpdjhjkopeekabdgfjgmcbcgloioi";
 	this.isChrome = 
 		window.chrome &&

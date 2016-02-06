@@ -3,6 +3,7 @@
 import DictionaryService from '../common/dictionary-service';
 import ContentTypes from '../common/content-types';
 import StringHelper from 'string-helper';
+import SpeachParts from '../common/speach-parts';
 
 const TRANSLATIONS_HEADER =
     '<div class="gt-cd-t">' +

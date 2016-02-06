@@ -1,6 +1,7 @@
 'use strict';
 
 import DictionaryService from '../common/dictionary-service';
+import ContentTypes from '../common/content-types';
 import SpeachParts from '../common/speach-parts';
 
 export default class MultitranService extends DictionaryService {

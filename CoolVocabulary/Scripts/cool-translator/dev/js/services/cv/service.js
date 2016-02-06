@@ -2,6 +2,7 @@
 
 import DECalculator from './de-calculator';
 import Reactor from 'reactor';
+import SpeachParts from '../common/speach-parts';
 
 export default class CVService {
     constructor(provider, services) {
@@ -29,7 +30,7 @@ export default class CVService {
     //***** PRIVATE ***************************************************************************************************
 
     _getResolvedPromise(data) {
-        var deferred = $.Deferred();
+        let deferred = $.Deferred();
         deferred.resolve(data);
         return deferred.promise();
     }
@@ -49,7 +50,7 @@ export default class CVService {
     }
     
     getSoundUrls(inputData, translation) {
-        var all = [];
+        let all = [];
         $.each(this.services, function(i, service) {
             all = all.concat(service.getSoundUrls(inputData, translation));
         });
@@ -57,7 +58,7 @@ export default class CVService {
     }
 
     getPictureUrls(inputData) {
-        var all = [];
+        let all = [];
         $.each(this.services, function(i, service) {
             all = all.concat(service.getPictureUrls(inputData));
         });
@@ -65,9 +66,9 @@ export default class CVService {
     }
 
     getTranslationCards(inputData) {
-        var translationCards = {};
+        let translationCards = {};
         $.each(this.services, function(id, service) {
-            var cards = service.getCachedCards(inputData);
+            let cards = service.getCachedCards(inputData);
             if (cards)
                 translationCards[service.config.id] = cards;
         });
@@ -76,9 +77,9 @@ export default class CVService {
 
     getSourceToTranslations(inputData) {
         // . collect ALL translations
-        var sourceToTranslations = {};
+        let sourceToTranslations = {};
         $.each(this.services, function(i, service) {
-            var wordToTranslations = service.getTranslations(inputData);
+            let wordToTranslations = service.getTranslations(inputData);
             if (wordToTranslations) {
                 sourceToTranslations[service.config.id] = wordToTranslations;
             }
@@ -89,9 +90,9 @@ export default class CVService {
     getSourceWord(activeSourceTranslations, translation) {
         // . define the SOURCE WORD
         //   - it is a word for wich we want to add a translation
-        for (var word in activeSourceTranslations) {
-            var translations = activeSourceTranslations[word];
-            for (var sp in translations) {
+        for (let word in activeSourceTranslations) {
+            let translations = activeSourceTranslations[word];
+            for (let sp in translations) {
                 if (translations[sp].indexOf(translation) != -1) {
                     return word;
                 }
@@ -101,34 +102,83 @@ export default class CVService {
     }
 
     getTranslations(sourceToTranslations, sourceWord) {
+        // // . assemble ALL translations for SOURCE WORD from different sources
+        // let allTranslations = {};
+        // let allTranslationsSet = [];
+        // let unknownTranslationsSet = [];
+        // $.each(sourceToTranslations, function(sourceId, wordToTranslations) {
+        //     let sourceWordTranslations = wordToTranslations[sourceWord];
+        //     if (sourceWordTranslations) {
+        //         $.each(sourceWordTranslations, function(speachPart, words) {
+        //             let wordsSet = new Set(words);
+        //             let uniqueSet = new Set([x for (x of wordsSet) if (!allTranslationsSet.has(x))]);
+        //             let wordsSet = new Set(words.concat([...allTranslationsSet]));
+
+        //             if (wordsSet.length) {
+        //                 if (speachPart == SpeachParts.UNKNOWN) {
+        //                     // add to unknown
+        //                     wordsSet = new Set([...wordsSet].concat(unknownTranslationsArr));
+        //                     unknownTranslationsArr = unknownTranslationsArr.concat([...wordsSet]);
+        //                 } else {
+        //                     // remove from unknown
+        //                     unknownTranslationsArr = unknownTranslationsArr.unique(words);
+        //                     allTranslationsSet = new Set([...allTranslationsSet, ...wordsSet]);
+
+        //                     let current = allTranslations[speachPart];                            
+        //                     allTranslations[speachPart] = current ?
+        //                         current.concat([...wordsSet]):
+        //                         [...wordsSet];
+        //                 }
+        //             }
+        //         });
+        //     }
+        // });
+        // if (unknownTranslationsArr.length) {
+        //     allTranslations[SpeachParts.UNKNOWN] = unknownTranslationsSet;
+        // }
+        // return JSON.stringify(allTranslations);
+
+        function unique(a,b) {
+            for(var i=0; i<a.length; ++i) {
+                for(var j=0; j<b.length; ++j) {
+                    if(a[i] === b[j])
+                        a.splice(i, 1);
+                }
+            }
+            return a;
+        };
+
         // . assemble ALL translations for SOURCE WORD from different sources
         var allTranslations = {};
         var allTranslationsArr = [];
         var unknownTranslationsArr = [];
-        $.each(sourceToTranslations, function(sourceId, wordToTranslations) {
+        $.each(sourceToTranslations, function(sourceId, wordToTranslations){
             var sourceWordTranslations = wordToTranslations[sourceWord];
-            if (sourceWordTranslations) {
-                $.each(sourceWordTranslations, function(speachPart, words) {
-                    words = words.unique(allTranslationsArr);
-                    if (words.length) {
-                        if (speachPart == SpeachParts.UNKNOWN) {
-                            // add to unknown
-                            words = words.unique(unknownTranslationsArr);
+            if(sourceWordTranslations){ 
+                $.each(sourceWordTranslations, function(speachPart, words){
+                    words = unique(words, allTranslationsArr);
+                    if(words.length){
+                        if(speachPart==SpeachParts.UNKNOWN){
+                            // . add to unknown arr
+                            words = unique(words, unknownTranslationsArr);
                             unknownTranslationsArr = unknownTranslationsArr.concat(words);
-                        } else {
-                            // remove from unknown
-                            unknownTranslationsArr = unknownTranslationsArr.unique(words);
+                        }
+                        else {
+                            // . remove from unknown arr
+                            unknownTranslationsArr = unique(unknownTranslationsArr, words);
+                            // . add to all arr
                             allTranslationsArr = allTranslationsArr.concat(words);
+                            // . add to speach part arr
                             var current = allTranslations[speachPart];
                             allTranslations[speachPart] = current ?
-                                current.concat(words) :
+                                current.concat(words):
                                 words;
                         }
                     }
                 });
             }
         });
-        if (unknownTranslationsArr.length) {
+        if(unknownTranslationsArr.length){
             allTranslations[SpeachParts.UNKNOWN] = unknownTranslationsArr;
         }
         return JSON.stringify(allTranslations);
@@ -137,10 +187,10 @@ export default class CVService {
     //***** PUBLIC ******************************************************************************************************
 
     addTranslation(inputData, translation, sourceId, bookId) {
-        var self = this;
-        var sourceToTranslations = this.getSourceToTranslations(inputData, translation, sourceId);
-        var sourceWord = this.getSourceWord(sourceToTranslations[sourceId], translation);
-        var translationData = {
+        let self = this;
+        let sourceToTranslations = this.getSourceToTranslations(inputData, translation, sourceId);
+        let sourceWord = this.getSourceWord(sourceToTranslations[sourceId], translation);
+        let translationData = {
             word: sourceWord,
             wordLanguage: inputData.sourceLang,
             wordPronunciation: this.getPronunciation(inputData),
@@ -162,7 +212,7 @@ export default class CVService {
     }
 
     checkAuthentication(forceServerRequest) {
-        var self = this;
+        let self = this;
         if (this.user && !forceServerRequest) {
             return this._getResolvedPromise({
                 user: this.user
@@ -177,7 +227,7 @@ export default class CVService {
     }
 
     login(username, password) {
-        var self = this;
+        let self = this;
         return this.provider.login(username, password).done(function(data) {
             self.setUser(data.user, data.languages);
         }).fail(function() {
@@ -202,7 +252,7 @@ export default class CVService {
     }
 
     addTranslationToBook(userBookDto, bookDto, bookWordDto, translationDto) {
-        var book = this.findLanguageBook(bookDto.language, bookDto.id);
+        let book = this.findLanguageBook(bookDto.language, bookDto.id);
         if (!book) {
             book = this.addLanguageBook(userBookDto, bookDto);
         }
@@ -217,14 +267,14 @@ export default class CVService {
     }
 
     findLanguageBook(language, id) {
-        var books = this.user.languagesData[language].books;
+        let books = this.user.languagesData[language].books;
         return books.filter(function(book) {
             return book.id == id;
         })[0];
     }
 
     addLanguageBook(userBookDto, bookDto) {
-        var book = {
+        let book = {
             id: bookDto.id,
             name: bookDto.name,
             language: bookDto.language,
@@ -239,9 +289,9 @@ export default class CVService {
     }
 
     aggregateBooksByLanguage(books, languages) {
-        var languagesData = {};
-        for (var i = languages.length - 1; i >= 0; i--) {
-            var language = languages[i];
+        let languagesData = {};
+        for (let i = languages.length - 1; i >= 0; i--) {
+            let language = languages[i];
             languagesData[language.id] = {
                 languageName: language.name,
                 books: []
@@ -260,8 +310,8 @@ export default class CVService {
             return value ?
                 (typeof value === 'string' ? JSON.parse(value) : value) : {};
         };
-        for (var language in languages) {
-            var books = languages[language].books;
+        for (let language in languages) {
+            let books = languages[language].books;
             books.forEach(function(book) {
                 book.learnLevels = tryParseJson(book.learnLevels);
                 book.learnDates = tryParseJson(book.learnDates);
@@ -275,7 +325,7 @@ export default class CVService {
         this.parseBookJsonFields(languages);
 
         // . calculate translations existance for each language
-        for (var language in languages) {
+        for (let language in languages) {
             languages[language].hasTranslations = this.booksHasTranslations(languages[language].books);
             if (languages[language].hasTranslations) {
                 languages[language].hasDE = this.deCalculator.hasDE(languages[language].books);
@@ -285,7 +335,7 @@ export default class CVService {
     }
 
     hasAnyUncompletedDE(languages) {
-        for (var language in languages) {
+        for (let language in languages) {
             if (languages[language].hasTranslations && languages[language].hasDE && languages[language].DENotCompleted) {
                 return true;
             }
@@ -297,7 +347,7 @@ export default class CVService {
         if (!user) {
             return null;
         }
-        var languagesData = this.aggregateBooksByLanguage(user.books, languages);
+        let languagesData = this.aggregateBooksByLanguage(user.books, languages);
 
         this.aggregateTranslationsData(languagesData);
         user.languagesData = languagesData;
@@ -307,7 +357,7 @@ export default class CVService {
     }
 
     booksHasTranslations(books) {
-        for (var i = books.length - 1; i >= 0; i--) {
+        for (let i = books.length - 1; i >= 0; i--) {
             if (Object.keys(books[i].translations).length) {
                 return true;
             }

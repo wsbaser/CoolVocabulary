@@ -15,6 +15,7 @@ using Newtonsoft.Json.Linq;
 using NLog;
 using Microsoft.AspNet.Identity.EntityFramework;
 using CoolVocabulary.Extensions;
+using CoolVocabulary.Services;
 
 namespace CoolVocabulary.Controllers.api
 {
@@ -60,7 +61,9 @@ namespace CoolVocabulary.Controllers.api
                 var user = this.GetUser();
 
                 // . add word
-                Word word = await db.AddWord(data.word.ToLower(),
+                SpeachPartType sp = GetSpeachPart(data.translationWords, data.translationWord);
+                LanguageFormatter languageFormatter = new LanguageFormatter(wordLanguage);
+                Word word = await db.AddWord(languageFormatter.FormatWord(data.word, sp),
                     wordLanguage,
                     data.wordPronunciation,
                     data.wordSoundUrls,
@@ -88,7 +91,6 @@ namespace CoolVocabulary.Controllers.api
                 }
 
                 // . add translation
-                SpeachPartType sp = GetSpeachPart(data.translationWords, data.translationWord);
                 Tuple<BookWord, Translation> bwt = await db.AddTranslation(data.bookId, word.Id, data.translationWord, translationLanguage, sp);
 
                 Redis.PushWord(wordLanguage, sp, word.Value);

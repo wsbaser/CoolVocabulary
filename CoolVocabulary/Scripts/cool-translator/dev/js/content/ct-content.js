@@ -195,7 +195,7 @@ export default class CTContent {
             this.dataFromSite.bookId);
     }
 
-    initSiteDalog(langPair, attachBlockSelector, bookId) {
+    initSiteDialog(langPair, attachBlockSelector, bookId) {
         let self = this;
         this.dataFromSite = {
             langPair: langPair,

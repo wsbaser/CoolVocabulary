@@ -335,14 +335,20 @@ export default class TranslationDialog {
   };
 
   _hide() {
+    let self = this;
     if (this.isActive) {
       this.hideLoginForm();
       this.hideSelectBook();
       this.el.removeClass('ctr-show');
       this.el.addClass('ctr-hide');
       if (this.selectionBackup) {
-        SelectionHelper.restoreSelection(this.selectionBackup);
-        this.selectionBackup = null;
+        var word = this.inputEl.val();
+        setTimeout(function(){
+          if(!self.isActive){
+            SelectionHelper.restoreSelection(self.selectionBackup); 
+            self.selectionBackup = null;
+          }
+        },777);
       }
       this.inputEl.val('');
       // . clean up content
@@ -361,8 +367,8 @@ export default class TranslationDialog {
     // .attach to element bottom
     let GAP = 2;
     let rect = this.attachBlockEl[0].getBoundingClientRect();
-    t = rect.top + this.attachBlockEl[0].offsetHeight + GAP;
-    l = rect.left;
+    t = window.scrollY + rect.top + this.attachBlockEl[0].offsetHeight + GAP;
+    l = window.scrollX + rect.left;
     this.el[0].style.setProperty('width', this.attachBlockEl[0].offsetWidth + 'px', 'important');
     this.el[0].style.setProperty('left', l + 'px', 'important');
     this.el[0].style.setProperty('top', t + 'px', 'important');
@@ -372,6 +378,7 @@ export default class TranslationDialog {
     this._updateSourcesContent(true);
     return false;
   }
+
 
 
   //***** HANDLERS ****************************************************************************************************
@@ -391,8 +398,8 @@ export default class TranslationDialog {
       (!this.isExtension && $.contains(this.attachBlockEl[0], e.target)))
       return;
     this._hide();
-    e.preventDefault();
-    return false;
+    //e.preventDefault();
+    //return false;
   }
 
   //***** PUBLIC ******************************************************************************************************
@@ -414,7 +421,7 @@ export default class TranslationDialog {
     this._create();
     this.setLangPair(langPair);
     this.attachBlockEl = $(attachBlockSelector);
-    this.attachBlockEl[0].scrollIntoView();
+    this.attachBlockEl[0].scrollIntoViewIfNeeded();
     this.vocabulary.setBook(bookId, true);
     this.inputEl = this.attachBlockEl.find('input');
     this._attach();
@@ -481,11 +488,12 @@ export default class TranslationDialog {
       function canBeUpdated(book) {
         return book.userId === book.authorId;
       }
-      let books = this.vocabulary.user.books.filter(function(item) {
-        return item.language === inputData.sourceLang && canBeUpdated(item);
+      var languageData = this.vocabulary.user.languagesData[inputData.sourceLang]; 
+      let books = languageData.books.filter(function(item) {
+        return canBeUpdated(item);
       });
       if (books.length) {
-        this.selectBook.show(books, inputData.word, translation, function(bookId, remember) {
+        this.selectBook.show(books, inputData.word, translation, this._getMaxPopoverHeight(), function(bookId, remember) {
           self.vocabulary.setBook(bookId, remember);
           self.hideSelectBook();
           callback();
@@ -494,6 +502,10 @@ export default class TranslationDialog {
         callback();
       }
     }
+  }
+
+  _getMaxPopoverHeight(){
+    return this.el.height() - this.headerEl.height() - 80;
   }
 
   hideSelectBook() {

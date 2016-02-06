@@ -23,7 +23,7 @@ export default class LingueeHandlers{
     
     startHideSoundFlagsTimer() {
         this.clearHideSoundFlagsTimer();
-        this.gHideSoundFlagsTimer = setTimeout(this.hideSoundFlags.bind(this), 2000)
+        this.gHideSoundFlagsTimer = setTimeout(this.hideSoundFlags.bind(this), 20000000)
     }
     
     outSound() {
@@ -160,7 +160,7 @@ export default class LingueeHandlers{
     }
 
     onPlayRegional(){
-        this.play(this, 0, this.dataset.soundurl);
+        this.play(window.event.target, 0, window.event.target.dataset.soundurl);
     }
 
     playSound(r, h, q, g, m, f, j) {

@@ -1,8 +1,8 @@
 'use strict';
 
 import DictionaryService from '../common/dictionary-service';
-import SpeachParts from '../common/speach-parts';
 import ContentTypes from '../common/content-types';
+import SpeachParts from '../common/speach-parts';
 
 export default class LingueeService extends DictionaryService {
     constructor(provider){

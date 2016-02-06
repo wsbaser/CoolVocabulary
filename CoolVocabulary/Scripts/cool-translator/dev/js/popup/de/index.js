@@ -11,5 +11,5 @@ injectJQueryPlugins();
 window.onload = function() {
     let dePopup = new DEPopup();
     let bgWindow = chrome.extension.getBackgroundPage();
-    dePopup.show(bgWindow.ctBackground.servicesProvider.cv.user);
+    dePopup.show(bgWindow.ctBackground.serviceProvider.cv.user);
 };

@@ -6,6 +6,7 @@ const path = require('path');
 let ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 let EXTENSION_ID = NODE_ENV=='development' ? 'ppgnibapoaghkefnghplaanppljbhboo':'cifbpdjhjkopeekabdgfjgmcbcgloioi';
+//let EXTENSION_ID = 'ppgnibapoaghkefnghplaanppljbhboo';
 
 
 module.exports = {
@@ -30,7 +31,7 @@ module.exports = {
     aggregateTimeout: 100
   },
 
-  //devtool: NODE_ENV == 'development' ? "cheap-inline-module-source-map" : null,
+  devtool: NODE_ENV == 'development' ? "cheap-inline-module-source-map" : null,
 
   plugins: [
     new webpack.NoErrorsPlugin(),

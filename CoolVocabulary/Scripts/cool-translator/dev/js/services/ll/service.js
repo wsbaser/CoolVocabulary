@@ -3,6 +3,8 @@
 import DictionaryService from '../common/dictionary-service';
 import ContentTypes from '../common/content-types';
 import StringHelper from 'string-helper';
+import SpeachParts from '../common/speach-parts';
+
 
 const CARD_TEMPLATE =
     '<div class="{soundUrl?lleo_has_sound:} {hasPic?lleo_has_pic:} {context?lleo_has_context:}">\

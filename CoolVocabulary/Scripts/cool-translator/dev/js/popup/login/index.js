@@ -6,6 +6,8 @@ import '../../../styles/popup.styl';
 import CVConfig from '../../services/cv/config';
 import LoginForm from '../../controls/login-form';
 import injectJQueryPlugins from 'jquery-plugins';
+import ServicesConnection from '../../services/services-connection';
+import Vocabulary from '../../services/vocabulary';
 
 injectJQueryPlugins();
 

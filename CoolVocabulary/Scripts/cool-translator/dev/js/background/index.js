@@ -10,5 +10,5 @@ $.ajaxSetup({
     headers: {"X-Requested-With":"XMLHttpRequest"}
 });
 
-let ctBackground = new CTBackground();
-ctBackground.run();
+window.ctBackground = new CTBackground();
+window.ctBackground.run();

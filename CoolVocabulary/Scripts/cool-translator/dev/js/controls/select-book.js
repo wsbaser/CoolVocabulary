@@ -55,26 +55,24 @@ export default class SelectBook{
         this.loginCallback(bookId, remember);
     }
 
-    _adjustListHeight() {
+    _adjustListHeight(maxHeight) {
         this.listEl[0].style.setProperty("overflow", "auto", "important");
-        this.listEl[0].style.maxHeight =
-            (Dialog.el.height() - Dialog.headerEl.height() - 80) + 'px';
+        this.listEl[0].style.maxHeight = maxHeight + 'px';
     }
 
     //***** PUBLIC ****************************************************************************************************
 
-    show(books, word, translation, loginCallback) {
+    show(books, word, translation, maxHeight, loginCallback) {
         let self = this;
         this._createEl();
         this.books = books;
         this.loginCallback = loginCallback;
         this.el.find('.header>.pair').text(word + ' - ' + translation);
         this.books.forEach(function(item) {
-
             self.listEl.append('<li>' + item.name + '</li>');
         });
         this._bindEvents();
-        this._adjustListHeight();
+        this._adjustListHeight(maxHeight);
         this.containerEl.show();
     }
 
