@@ -23,7 +23,7 @@ export default class LingueeHandlers{
     
     startHideSoundFlagsTimer() {
         this.clearHideSoundFlagsTimer();
-        this.gHideSoundFlagsTimer = setTimeout(this.hideSoundFlags.bind(this), 20000000)
+        this.gHideSoundFlagsTimer = setTimeout(this.hideSoundFlags.bind(this), 2000);
     }
     
     outSound() {

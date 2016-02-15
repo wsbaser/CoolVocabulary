@@ -12,19 +12,22 @@ export default class DictionaryProvider {
     }
 
     rejectWithStatusCode(deferred, xhr) {
-        deferred.reject(xhr.statusText + '. Status(' + xhr.status + ')');
+        let statusText = xhr.statusText || 'error';
+        deferred.reject(statusText + '. Status(' + xhr.status + ')');
     }
 
     rejectWithResponseText(deferred, xhr) {
         switch (xhr.status) {
             case 500:
+            case 0:
                 this.rejectWithStatusCode(deferred, xhr);
                 break;
-            case 0:
-                deferred.reject('No Internet :((');
-                break;
             default:
-                deferred.reject(xhr.responseText);
+                if(xhr.responseText){
+                    deferred.reject(xhr.responseText);
+                }else{
+                    this.rejectWithStatusCode(deferred, xhr);
+                }
                 break;
         }
     }

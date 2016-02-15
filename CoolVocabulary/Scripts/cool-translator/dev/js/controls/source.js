@@ -83,7 +83,7 @@ export default class Source {
         return articleEl;
     }
 
-    _showTabsLoading(requestData) {
+    showTabsLoading(requestData) {
         let self = this;
         $.each(this.tabs, function(key, tab) {
             tab.showLoading(requestData, self.config.name);
@@ -142,7 +142,7 @@ export default class Source {
     loadAndShow(requestData) {
         let self = this;
         this.lastRequestData = requestData;
-        this._showTabsLoading(requestData);
+        this.showTabsLoading(requestData);
         // . always show the most important tab by default 
         this.selectTab(0);
         // . get all cards from service at once

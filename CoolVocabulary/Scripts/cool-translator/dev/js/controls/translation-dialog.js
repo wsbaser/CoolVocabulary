@@ -54,6 +54,7 @@ export default class TranslationDialog {
     this.targetLangSelector = null;
     this.langSwitcher = null;
     this.allSupportedLangs = this._getAllSupportedLangs(allSources);
+    this.detectedLanguages = {};
 
     this.el = null;
     this.headerEl = null;
@@ -180,32 +181,73 @@ export default class TranslationDialog {
   _showLoadingForAll(inputData) {
     // . load data for all sources simultaneously
     $.each(this.sources, function(key, source) {
-      source.loadAndShow(inputData);
+      source.showTabsLoading(inputData);
     });
   }
 
   _detectLanguageAndLoadAll(inputData) {
     let self = this;
-    // . detect language
-    this._showLoadingForAll(inputData);
-    this.langDetector.detect(inputData.word, function(promise) {
-      promise.done(function(languages) {
-        if (languages) {
-          if (languages.indexOf(inputData.sourceLang) == -1) {
-            if (languages.indexOf(inputData.targetLang) != -1) {
-              self.langSwitcher.switch();
-              return;
-            } else {
-              // . show correct languages to user
-              self._showDetectedLanguages(languages);
-            }
-          }
-        }
+    var languages = this._getDetectedLanguages(inputData, function(languages) {
+      languages = self._filterSupportedLanguages(languages);
+      if(!self.setDetectedLangPair(inputData, languages)){
         self._loadAll(inputData);
-      }).fail(function() {
-        self._loadAll(inputData);
-      });
+      }
     });
+  }
+
+  _filterSupportedLanguages(languages){
+    return languages.filter(l=> this.allSupportedLangs.indexOf(l)!==-1); 
+  }
+
+  _getDetectedLanguages(inputData, callback){
+    var self = this;
+    var languages = this.detectedLanguages[inputData.word];
+    if(languages){
+      callback(languages);
+    }
+    else{
+      // . detect language
+      this._showLoadingForAll(inputData);
+      this.langDetector.detect(inputData.word, function(promise) {
+        promise.done(function(languages){
+          if(languages && languages.length){
+            self.detectedLanguages[inputData.word] = languages;
+            callback(languages);
+          }
+          else{
+            callback();
+          }
+        }).fail(function() {
+          callback()
+        });
+      });
+    }
+  }
+
+  setDetectedLangPair(inputData, languages){
+    if (languages && languages.length && languages.indexOf(inputData.sourceLang) == -1) {
+      // . languages detected and sourceLang is WRONG
+      if (languages.indexOf(inputData.sourceLang) === -1 &&
+        languages.indexOf(inputData.targetLang) !== -1) {
+        // . SWITCH languages
+        this.langSwitcher.switch();
+        return true;
+      } else {
+        // . sourceLang and targetLang are WRONG
+        if(languages.length===1){
+          // . sourceLang is NOT AMBIGUOUS
+          var langPair = this.createLangPair(languages[0], window.navigator.language);
+          this.setLangPair(langPair);
+          return true;
+        }
+        else{
+          // . sourceLang is AMBIGUOUS
+          //   user should select correct source language
+          this._showDetectedLanguages(languages);
+        }
+      }
+    }
+    return false;
   }
 
   _showDetectedLanguages(languages) {
@@ -331,6 +373,7 @@ export default class TranslationDialog {
     else
       this.focusInput();
     this._setLangDirection();
+    this.languageDetectionInProgress = false;
     this._updateSourcesContent();
   };
 
@@ -363,15 +406,18 @@ export default class TranslationDialog {
   }
 
   _attach() {
-    let l, t;
-    // .attach to element bottom
-    let GAP = 2;
-    let rect = this.attachBlockEl[0].getBoundingClientRect();
-    t = window.scrollY + rect.top + this.attachBlockEl[0].offsetHeight + GAP;
-    l = window.scrollX + rect.left;
-    this.el[0].style.setProperty('width', this.attachBlockEl[0].offsetWidth + 'px', 'important');
-    this.el[0].style.setProperty('left', l + 'px', 'important');
-    this.el[0].style.setProperty('top', t + 'px', 'important');
+    if(this.attachBlockEl.is(":visible")){
+      this.attachBlockEl[0].scrollIntoViewIfNeeded();
+      let l, t;
+      // .attach to element bottom
+      let GAP = 2;
+      let rect = this.attachBlockEl[0].getBoundingClientRect();
+      t = window.scrollY + rect.top + this.attachBlockEl[0].offsetHeight + GAP;
+      l = window.scrollX + rect.left;
+      this.el[0].style.setProperty('width', this.attachBlockEl[0].offsetWidth + 'px', 'important');
+      this.el[0].style.setProperty('left', l + 'px', 'important');
+      this.el[0].style.setProperty('top', t + 'px', 'important');
+    }
   }
 
   _submitInputData() {
@@ -406,7 +452,6 @@ export default class TranslationDialog {
 
   showForExtension(word) {
     this._create();
-    this.vocabulary.setBook(0);
     this.el[0].removeAttribute('style');
     this.inputEl = $('#ctr_wordInput');
     this.el.removeClass('ctr-site');
@@ -421,7 +466,6 @@ export default class TranslationDialog {
     this._create();
     this.setLangPair(langPair);
     this.attachBlockEl = $(attachBlockSelector);
-    this.attachBlockEl[0].scrollIntoViewIfNeeded();
     this.vocabulary.setBook(bookId, true);
     this.inputEl = this.attachBlockEl.find('input');
     this._attach();
@@ -441,9 +485,13 @@ export default class TranslationDialog {
   }
 
   getLangPair() {
+    return this.createLangPair(this.sourceLangSelector.getSelectedLang(),this.targetLangSelector.getSelectedLang());
+  }
+
+  createLangPair(sourceLang, targetLang){
     return {
-      sourceLang: this.sourceLangSelector.getSelectedLang(),
-      targetLang: this.targetLangSelector.getSelectedLang()
+      sourceLang,
+      targetLang
     }
   }
 

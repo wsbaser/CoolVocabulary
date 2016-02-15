@@ -4,10 +4,10 @@ Vocabulary.BookWord = DS.Model.extend({
     speachPart: DS.attr("number"),
     learnedAt: DS.attr("number"),
     translations: DS.hasMany("translation"),
-    learnLevel: Ember.computed("translations.[]", function(){
+    learnLevel: Ember.computed("translations.[]", "book.userBook.learnDates", function(){
     	var learnDates = this.get('book.userBook.learnDates');
     	var bookWordId = this.get('id');
-    	if(learnDates[bookWordId]){
+    	if(learnDates && learnDates[bookWordId]){
 	    	var learnLevels = this.get('book.userBook.learnLevels');
 			var level = MAX_LEARN_LEVEL;
 			this.get('translations').forEach(function(item){

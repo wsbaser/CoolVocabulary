@@ -19,6 +19,7 @@ Vocabulary.Router.map(function(){
       this.route('learn');  
     });
   });
+  this.route('pageNotFound', { path: '/*wildcard' });
 });
 
 Vocabulary.ApplicationAdapter = DS.RESTAdapter.extend({

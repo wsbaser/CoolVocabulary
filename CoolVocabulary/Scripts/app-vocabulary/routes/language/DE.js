@@ -86,7 +86,7 @@ Vocabulary.LanguageDERoute = Ember.Route.extend({
 		}
 		return null;
 	},
-	afterModel: function(){
+	redirect: function(){
 		if(this.get('transitionToLearn')){
 			this.transitionTo('language.DE.learn');
 		}else{

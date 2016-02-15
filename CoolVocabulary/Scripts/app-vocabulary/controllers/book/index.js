@@ -42,7 +42,7 @@ Vocabulary.BookIndexController = Ember.Controller.extend({
 			progressDialog.close();
 			BootstrapDialog.show({
 	            title: 'Cool Translator activation',
-	            message: 'Page will be updated to activate '+Vocabulary.CT_WEBSTORE_LINK+'...',
+	            message: 'Page will be reloaded to activate '+Vocabulary.CT_WEBSTORE_LINK+'...',
 	            closable: false,
 	            size: BootstrapDialog.SIZE_SMALL});
 			setTimeout(function(){

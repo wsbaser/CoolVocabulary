@@ -9,3 +9,5 @@ export default {
 	OAuthSuccess: "oauthsuccess",
 	Authenticate: "authenticate",
 };
+
+//http://kalonix.weebly.com/
