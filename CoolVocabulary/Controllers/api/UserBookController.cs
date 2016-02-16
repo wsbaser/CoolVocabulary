@@ -44,7 +44,7 @@ namespace CoolVocabulary.Controllers.api {
                 if (userBooksDto.Count != 0) {
                     Redis.SaveUserBooks(userBooksDto);
                 } else {
-                    UserBook firstBook = await db.CreateFirstBookAsync(user.Id, languageType);
+                    UserBook firstBook = await db.CreateFirstBookAsync(user, languageType);
                     userBooksDto.Add(new UserBookDto(firstBook));
                 }
             }
