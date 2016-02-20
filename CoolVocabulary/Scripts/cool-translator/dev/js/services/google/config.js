@@ -9,28 +9,31 @@ export default {
     name: "Google Translator",
     languages: {
         en: {
-            targets: ['es', 'pt', 'fr', 'it', 'de', 'ru', 'ar']
+            targets: ['es', 'pt', 'fr', 'it', 'de', 'ru', 'ar', 'pl']
         },
         es: {
-            targets: ['en', 'pt', 'fr', 'it', 'de', 'ru']
+            targets: ['en', 'pt', 'fr', 'it', 'de', 'ru', 'pl']
         },
         pt: {
-            targets: ['en', 'es', 'fr', 'it', 'de', 'ru']
+            targets: ['en', 'es', 'fr', 'it', 'de', 'ru', 'pl']
         },
         fr: {
-            targets: ['en', 'es', 'pt', 'it', 'de', 'ru']
+            targets: ['en', 'es', 'pt', 'it', 'de', 'ru', 'pl']
         },
         it: {
-            targets: ['en', 'es', 'pt', 'fr', 'de', 'ru']
+            targets: ['en', 'es', 'pt', 'fr', 'de', 'ru', 'pl']
         },
         de: {
-            targets: ['en', 'es', 'pt', 'fr', 'it', 'ru']
+            targets: ['en', 'es', 'pt', 'fr', 'it', 'ru', 'pl']
         },
         ru: {
-            targets: ['en', 'es', 'pt', 'fr', 'it', 'de']
+            targets: ['en', 'es', 'pt', 'fr', 'it', 'de', 'pl']
         },
         ar: {
             targets: ['en']
+        },
+        pl: {
+            targets: ['en', 'es', 'pt', 'fr', 'it', 'de', 'ru']
         }
     },
     priority: 100,

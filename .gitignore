@@ -7,7 +7,7 @@ CoolVocabulary/Scripts/app-vocabulary/app/
 CoolVocabulary/Scripts/cool-translator/public/assets
 ConnectionStrings.config
 
-cool-translator.zip
+*.zip
 
 CoolVocabulary.Tests/
 *.sublime-project

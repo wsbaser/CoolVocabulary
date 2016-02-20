@@ -335,6 +335,10 @@ a[target="_blank"]> i {
     background-position: -168px -4px;    
 }
 
+.language-icon.pl {
+    background-position: 0 -28px;
+}
+
 /* MODAL */
 
 .bootstrap-dialog .modal-content {

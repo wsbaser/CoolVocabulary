@@ -140,7 +140,9 @@ namespace CoolVocabulary.Models {
         [StringValue("Russian")]
         ru = 6,
         [StringValue("Arabic")]
-        ar = 7
+        ar = 7,
+        [StringValue("Polish")]
+        pl = 8
     }
 
     public static class SupportedLanguages {
