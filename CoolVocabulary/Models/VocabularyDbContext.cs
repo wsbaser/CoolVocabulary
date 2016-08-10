@@ -125,11 +125,11 @@ namespace CoolVocabulary.Models {
 
         public async Task<UserBook> CreateFirstBookAsync(ApplicationUser user, LanguageType languageType) {
             Book exampleBook = null;
-#if !DEBUG
-            if (((LanguageType)user.NativeLanguage == LanguageType.ru) && languageType == LanguageType.en) {
-                exampleBook = await this.Books.FindAsync(4);
-            }
-#endif
+//#if !DEBUG
+//            if (((LanguageType)user.NativeLanguage == LanguageType.ru) && languageType == LanguageType.en) {
+//                exampleBook = await this.Books.FindAsync(4);
+//            }
+//#endif
             if (exampleBook == null) {
                 const string FIRST_BOOK_NAME = "My First Book";
                 return await CreateUserBookAsync(user.Id, languageType, FIRST_BOOK_NAME);
