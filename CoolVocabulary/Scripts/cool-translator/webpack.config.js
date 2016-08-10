@@ -1,6 +1,7 @@
 'use strict';
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
+console.log('node_env:' + NODE_ENV);
 const webpack = require('webpack');
 const path = require('path');
 let ExtractTextPlugin = require('extract-text-webpack-plugin');

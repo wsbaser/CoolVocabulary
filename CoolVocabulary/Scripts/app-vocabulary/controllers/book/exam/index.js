@@ -129,6 +129,7 @@ Vocabulary.BookExamIndexController = Ember.Controller.extend(Vocabulary.HasActiv
 			else {
 				setTimeout(function(){
 					this.nextObject();
+					this.get('activeWord').playSound();
 				}.bind(this), SCROLL_TIME);
 			}
 		},

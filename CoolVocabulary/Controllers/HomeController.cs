@@ -20,6 +20,10 @@ namespace CoolVocabulary.Controllers {
             repo = new Repository(db);
         }
 
+        public ActionResult LiveTex() {
+            return View();
+        }
+
         public ActionResult CoolTranslator() {
             ViewBag.user = this.GetUser();
             return View();

@@ -18,6 +18,9 @@ Vocabulary.WordToExam = Ember.Object.extend({
 			this.set('targetLanguage', this.get('translation.bookWord.word.language'));
  		}
 	},
+	playSound: function(){
+		this.set('playSoundCounter', Math.random());
+	},
 	statusChanged: Ember.observer('isActive','isExamined', function(){
 		return Ember.run.once(this,'setIsHighlighted');
 	}),

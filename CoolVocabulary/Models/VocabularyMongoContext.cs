@@ -13,9 +13,10 @@ namespace CoolVocabulary.Models {
 
         public VocabularyMongoContext() {
 #if DEBUG
-            _mongoClient = new MongoClient("mongodb://localhost");
+            //_mongoClient = new MongoClient("mongodb://localhost");
+            _mongoClient = new MongoClient("mongodb://146.148.16.140:80");
 #else
-            _mongoClient = new MongoClient("mongodb://10.240.0.2:80");
+            _mongoClient = new MongoClient("mongodb://146.148.16.140:80");
 #endif
         }
 
