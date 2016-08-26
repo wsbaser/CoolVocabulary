@@ -19,7 +19,9 @@ Vocabulary.WordToExam = Ember.Object.extend({
  		}
 	},
 	playSound: function(){
-		this.set('playSoundCounter', Math.random());
+		if(this.get('isStraight')){
+			this.set('playSoundCounter', Math.random());
+		}
 	},
 	statusChanged: Ember.observer('isActive','isExamined', function(){
 		return Ember.run.once(this,'setIsHighlighted');
