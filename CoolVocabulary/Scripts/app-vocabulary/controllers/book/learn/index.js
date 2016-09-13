@@ -1,5 +1,6 @@
 var CARD_HEIGHT = 350;	// . 346 because of margin collapse
 var SCROLL_TIME = 400;	// мс.
+var DELAY_BEFORE_SCROLL = 1000;	// мс.
 
 $.extend($.scrollTo.defaults, {
   axis: 'y',

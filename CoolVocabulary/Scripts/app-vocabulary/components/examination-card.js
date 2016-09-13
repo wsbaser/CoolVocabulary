@@ -1,5 +1,5 @@
 Vocabulary.ExaminationCardComponent = Ember.Component.extend({
-	classNames: ['examination-card', 'light-shadow'],	
+	classNames: ['examination-card', 'light-shadow'],
 	actions: {
 		select: function(translation){
 			if(this.get('isSelected')){

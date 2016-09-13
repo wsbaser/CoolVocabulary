@@ -24,7 +24,7 @@ body{
 }
 
 .block{
-    background: url(/content/images/bg.png) top left repeat #ebeef2;
+    background: #fff;/*url(/content/images/bg.png) top left repeat #ebeef2;*/ 
 	box-shadow: 2px 2px 7px 1px rgba(0,0,0,.2);
 }
 

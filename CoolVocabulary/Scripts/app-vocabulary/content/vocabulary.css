@@ -412,7 +412,8 @@ body.exam{
 .exam #content,
 .learn #toolbox,
 .learn #content{
-	background-color: #ebeef2;
+	background-color: #fff;
+	/*background-color: #ebeef2;*/
 }
 
 .exam #toolbox,

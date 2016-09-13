@@ -71,8 +71,10 @@ Vocabulary.BookExamIndexRoute = Ember.Route.extend({
 			var excludeList = item.get('translation.bookWord.translations')
 				.map(function(translation){ return translation.get('value'); });
 			// . for each word find WRONG_TRANSLATIONS_COUNT wrong translations of the same speach part
+			var speachPart = item.get('speachPart');
+			speachPart = speachPart===SpeachParts.UNKNOWN?SpeachParts.ADVERB:speachPart;
 			var wrongTranslations = self.findWrongTranslaions(examWords, excludeList,
-				item.get('targetLanguage'), item.get('speachPart'), WRONG_TRANSLATIONS_COUNT);
+				item.get('targetLanguage'), speachPart, WRONG_TRANSLATIONS_COUNT);
 			item.setWrongTranslations(wrongTranslations);
 		});
 	},

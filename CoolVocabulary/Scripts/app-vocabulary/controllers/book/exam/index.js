@@ -120,6 +120,19 @@ Vocabulary.BookExamIndexController = Ember.Controller.extend(Vocabulary.HasActiv
 				return;
 			}
 			this.updateExaminationStatus(this.get('activeWord'));
+
+			if(!this.get('activeWord.isStraight')){
+				// play sound after user selected word
+				this.get('activeWord').playSound();
+				setTimeout(function(){
+					this.actions.nextWord1.call(this);
+				}.bind(this), DELAY_BEFORE_SCROLL);
+			}
+			else{
+				this.actions.nextWord1.call(this);
+			}
+		},
+		nextWord1: function(){
 			this.scrollToNextWord();
 			if(this.get('isLastObject')){
 				this.checkForMoreWords();
@@ -129,7 +142,10 @@ Vocabulary.BookExamIndexController = Ember.Controller.extend(Vocabulary.HasActiv
 			else {
 				setTimeout(function(){
 					this.nextObject();
-					this.get('activeWord').playSound();
+					if(this.get('activeWord.isStraight')){
+						// play sound after word is shown
+						this.get('activeWord').playSound();
+					}
 				}.bind(this), SCROLL_TIME);
 			}
 		},
@@ -138,6 +154,9 @@ Vocabulary.BookExamIndexController = Ember.Controller.extend(Vocabulary.HasActiv
 		},
 		learnMore: function(){
 			this.transitionToRoute('book.learn', 0);
+		},
+		playSound: function(){
+			this.get('activeWord').playSound();
 		}
 	}
 });

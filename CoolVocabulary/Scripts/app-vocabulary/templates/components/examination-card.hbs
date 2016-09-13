@@ -1,10 +1,12 @@
 <div class="card-content flex-centered">
 	<div class="source-word">
 		<span class="word">
-		{{wordToExam.sourceWord}}
-		{{#unless isShadow}}
-    		{{word-sound autoPlay=false word=wordToExam.translation.bookWord.word playSoundCounter=wordToExam.playSoundCounter}}
-    	{{/unless}}
+			{{#unless wordToExam.isStraight}}
+				{{wordToExam.sourceWord}}
+			{{/unless}}
+			{{#unless isShadow}}
+		    	{{word-sound autoPlay=false showIcon=wordToExam.isStraight word=wordToExam.translation.bookWord.word playSoundCounter=wordToExam.playSoundCounter}}
+			{{/unless}}
 		</span>
 	</div>
 	<div class="target-words">

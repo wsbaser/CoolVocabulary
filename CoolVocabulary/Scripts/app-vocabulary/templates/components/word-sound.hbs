@@ -1,8 +1,10 @@
 {{#if hasSound}}
-	<span  {{action "play"}} class="word-sound" title="Listen" >
-		<img src="content/images/Sound-icon16.png">
-		<audio>
-    		<source type="audio/mpeg" src="{{sound}}"/>
-    	</audio>
-	</span>
+	{{#if showIcon}}
+		<span  {{action "play"}} class="word-sound" title="Listen" >
+			<img src="content/images/Sound-icon16.png">
+		</span>
+	{{/if}}
+	<audio>
+    	<source type="audio/mpeg" src="{{sound}}"/>
+    </audio>
 {{/if}}
